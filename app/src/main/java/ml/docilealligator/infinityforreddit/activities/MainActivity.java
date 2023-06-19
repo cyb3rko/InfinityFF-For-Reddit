@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -34,14 +33,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.OnApplyWindowInsetsListener;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -792,7 +789,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
                         } else if (stringId == R.string.trending) {
                             intent = new Intent(MainActivity.this, TrendingActivity.class);
                         } else if (stringId == R.string.chat) {
-                            intent = new Intent(MainActivity.this, ChatActivity.class);
+                            intent = new Intent(MainActivity.this, ChatOverviewActivity.class);
                         } else if (stringId == R.string.upvoted) {
                             intent = new Intent(MainActivity.this, AccountPostsActivity.class);
                             intent.putExtra(AccountPostsActivity.EXTRA_USER_WHERE, PostPagingSource.USER_WHERE_UPVOTED);
@@ -949,7 +946,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
 
         loadSubscriptions();
 
-        multiRedditViewModel = new ViewModelProvider(this, new MultiRedditViewModel.Factory(getApplication(),
+        multiRedditViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) new MultiRedditViewModel.Factory(getApplication(),
                 mRedditDataRoomDatabase, mAccountName == null ? "-" : mAccountName))
                 .get(MultiRedditViewModel.class);
 
@@ -965,8 +962,8 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
             }
         });
 
-        subscribedSubredditViewModel = new ViewModelProvider(this,
-                new SubscribedSubredditViewModel.Factory(getApplication(), mRedditDataRoomDatabase, mAccountName == null ? "-" : mAccountName))
+        subscribedSubredditViewModel = new ViewModelProvider((ViewModelStoreOwner) this,
+                (ViewModelProvider.Factory) new SubscribedSubredditViewModel.Factory(getApplication(), mRedditDataRoomDatabase, mAccountName == null ? "-" : mAccountName))
                 .get(SubscribedSubredditViewModel.class);
         subscribedSubredditViewModel.getAllSubscribedSubreddits().observe(this,
                 subscribedSubredditData -> {
@@ -982,8 +979,8 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
             }
         });
 
-        accountViewModel = new ViewModelProvider(this,
-                new AccountViewModel.Factory(mRedditDataRoomDatabase)).get(AccountViewModel.class);
+        accountViewModel = new ViewModelProvider((ViewModelStoreOwner) this,
+                (ViewModelProvider.Factory) new AccountViewModel.Factory(mRedditDataRoomDatabase)).get(AccountViewModel.class);
         accountViewModel.getAccountsExceptCurrentAccountLiveData().observe(this, adapter::changeAccountsDataset);
         accountViewModel.getCurrentAccountLiveData().observe(this, account -> {
             if (account != null) {
