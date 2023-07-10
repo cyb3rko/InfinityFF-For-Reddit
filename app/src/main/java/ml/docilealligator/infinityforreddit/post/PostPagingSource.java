@@ -291,6 +291,7 @@ public class PostPagingSource extends ListenableFuturePagingSource<String, Post>
 
 
             variables.put("advancedConfiguration", advancedConfiguration);
+            variables.put("experienceInputs", experienceInputs);
             variables.put("feedContext", new JSONObject().put("experimentOverrides", new JSONArray()));
 
 
