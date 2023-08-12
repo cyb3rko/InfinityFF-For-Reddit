@@ -5,6 +5,7 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -119,6 +120,7 @@ import ml.docilealligator.infinityforreddit.subreddit.SubredditData;
 import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubredditData;
 import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubredditViewModel;
 import ml.docilealligator.infinityforreddit.subscribeduser.SubscribedUserData;
+import ml.docilealligator.infinityforreddit.ui.SimpleLoginFragment;
 import ml.docilealligator.infinityforreddit.user.FetchUserData;
 import ml.docilealligator.infinityforreddit.user.UserData;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
@@ -234,6 +236,8 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
     private int fabOption;
     private int inboxCount;
 
+    private int mCurrentWallpaperId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ((Infinity) getApplication()).getAppComponent().inject(this);
@@ -260,6 +264,11 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
         EventBus.getDefault().register(this);
 
         applyCustomTheme();
+
+        mCurrentWallpaperId = -1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mCurrentWallpaperId = WallpaperManager.getInstance(this).getWallpaperId(WallpaperManager.FLAG_SYSTEM);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
@@ -1165,6 +1174,7 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mSharedPreferences.edit().putInt(SharedPreferencesUtils.WALLPAPER_ID, mCurrentWallpaperId).commit();
         EventBus.getDefault().unregister(this);
     }
 

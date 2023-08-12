@@ -2,11 +2,13 @@ package ml.docilealligator.infinityforreddit;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -17,6 +19,10 @@ import com.livefront.bridge.SavedStateHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.matrix.android.sdk.api.Matrix;
+import org.matrix.android.sdk.api.MatrixConfiguration;
+import org.matrix.android.sdk.api.crypto.MXCryptoConfig;
+import org.matrix.android.sdk.api.session.Session;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +33,9 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
+
+import java.util.Arrays;
+
 import ml.docilealligator.infinityforreddit.activities.LockScreenActivity;
 import ml.docilealligator.infinityforreddit.broadcastreceivers.NetworkWifiStatusReceiver;
 import ml.docilealligator.infinityforreddit.broadcastreceivers.WallpaperChangeReceiver;
@@ -36,8 +45,11 @@ import ml.docilealligator.infinityforreddit.events.ToggleSecureModeEvent;
 import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
 import ml.docilealligator.infinityforreddit.font.FontFamily;
 import ml.docilealligator.infinityforreddit.font.TitleFontFamily;
+import ml.docilealligator.infinityforreddit.utils.MatrixItemDisplayNameFallbackProviderImpl;
+import ml.docilealligator.infinityforreddit.utils.RoomDisplayNameFallbackProviderImpl;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
+import okhttp3.ConnectionSpec;
 
 public class Infinity extends Application implements LifecycleObserver {
     public Typeface typeface;
@@ -68,6 +80,16 @@ public class Infinity extends Application implements LifecycleObserver {
         appLock = mSecuritySharedPreferences.getBoolean(SharedPreferencesUtils.APP_LOCK, false);
         appLockTimeout = Long.parseLong(mSecuritySharedPreferences.getString(SharedPreferencesUtils.APP_LOCK_TIMEOUT, "600000"));
         isSecureMode = mSecuritySharedPreferences.getBoolean(SharedPreferencesUtils.SECURE_MODE, false);
+
+        Matrix.Companion.initialize(this, getMatrixConfiguration());
+
+        Matrix matrix = Matrix.Companion.getInstance(this);
+        Session lastSession = matrix.authenticationService().getLastAuthenticatedSession();
+        if (lastSession != null) {
+            SessionHolder.INSTANCE.setCurrentSession(lastSession);
+            lastSession.open();
+            lastSession.startSync(true);
+        }
 
         try {
             if (mSharedPreferences.getString(SharedPreferencesUtils.FONT_FAMILY_KEY, FontFamily.Default.name()).equals(FontFamily.Custom.name())) {
@@ -158,6 +180,17 @@ public class Infinity extends Application implements LifecycleObserver {
                 new NetworkWifiStatusReceiver(() -> EventBus.getDefault().post(new ChangeNetworkStatusEvent(Utils.getConnectedNetwork(getApplicationContext()))));
         registerReceiver(mNetworkWifiStatusReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
+        WallpaperChangeReceiver wallpaperChangeReceiver = new WallpaperChangeReceiver(mSharedPreferences);
+
+        int currentWallpaperId = -1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            currentWallpaperId = WallpaperManager.getInstance(this).getWallpaperId(WallpaperManager.FLAG_SYSTEM);
+        }
+        int lastWallpaperId = mSharedPreferences.getInt(SharedPreferencesUtils.WALLPAPER_ID, -1);
+        if(lastWallpaperId != currentWallpaperId){
+            wallpaperChangeReceiver.onReceive(this, null);
+        }
+
         registerReceiver(new WallpaperChangeReceiver(mSharedPreferences), new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED));
     }
 
@@ -186,5 +219,27 @@ public class Infinity extends Application implements LifecycleObserver {
     public void onChangeAppLockEvent(ChangeAppLockEvent changeAppLockEvent) {
         appLock = changeAppLockEvent.appLock;
         appLockTimeout = changeAppLockEvent.appLockTimeout;
+    }
+
+    public static MatrixConfiguration getMatrixConfiguration(){
+        return new MatrixConfiguration(
+                "Default-application-flavor",
+                new MXCryptoConfig(),
+                "https://scalar.vector.im/",
+                "https://scalar.vector.im/api",
+                Arrays.asList(
+                        "https://scalar.vector.im/_matrix/integrations/v1",
+                        "https://scalar.vector.im/api",
+                        "https://scalar-staging.vector.im/_matrix/integrations/v1",
+                        "https://scalar-staging.vector.im/api",
+                        "https://scalar-staging.riot.im/scalar/api"
+                ),
+                null,
+                null,
+                ConnectionSpec.RESTRICTED_TLS,
+                false,
+                new MatrixItemDisplayNameFallbackProviderImpl(),
+                new RoomDisplayNameFallbackProviderImpl()
+                );
     }
 }

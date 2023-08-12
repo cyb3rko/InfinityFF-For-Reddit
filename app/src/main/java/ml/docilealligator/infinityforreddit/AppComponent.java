@@ -104,6 +104,9 @@ import ml.docilealligator.infinityforreddit.settings.SecurityPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.ThemePreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.TranslationFragment;
 import ml.docilealligator.infinityforreddit.settings.VideoPreferenceFragment;
+import ml.docilealligator.infinityforreddit.ui.RoomDetailFragment;
+import ml.docilealligator.infinityforreddit.ui.RoomListFragment;
+import ml.docilealligator.infinityforreddit.ui.SimpleLoginFragment;
 
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
@@ -310,7 +313,10 @@ public interface AppComponent {
 
     void inject(ChatOverviewActivity chatOverviewActivity);
 
-    void inject(ChatOverviewActivity.DemoObjectFragment demoObjectFragment);
+    void inject(RoomListFragment roomListFragment);
+
+    void inject(RoomDetailFragment roomDetailFragment);
+    void inject(SimpleLoginFragment simpleLoginFragment);
 
     @Component.Factory
     interface Factory {
