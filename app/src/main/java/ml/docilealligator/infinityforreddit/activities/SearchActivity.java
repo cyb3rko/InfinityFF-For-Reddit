@@ -120,6 +120,9 @@ public class SearchActivity extends BaseActivity {
     @Named("nsfw_and_spoiler")
     SharedPreferences mNsfwAndSpoilerSharedPreferences;
     @Inject
+    @Named("anonymous_account")
+    SharedPreferences mAnonymousAccountSharedPreferences;
+    @Inject
     CustomThemeWrapper mCustomThemeWrapper;
     private String mAccountName;
     private String mAccessToken;
@@ -213,6 +216,11 @@ public class SearchActivity extends BaseActivity {
                         subredditAutocompleteCall.cancel();
                     }
 
+                    if (mAccessToken == null) {
+                        mAccessToken = mAnonymousAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
+                    }
+                    if (mAccessToken == null) return;
+
                     subredditAutocompleteCall = mOauthRetrofit.create(RedditAPI.class).subredditAutocomplete(APIUtils.getOAuthHeader(mAccessToken),
                             s.toString(), nsfw);
                     subredditAutocompleteCall.enqueue(new Callback<>() {
@@ -247,7 +255,7 @@ public class SearchActivity extends BaseActivity {
         });
 
         searchEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if ((actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) || (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN )) {
+            if ((actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) || (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
                 if (!searchEditText.getText().toString().isEmpty()) {
                     search(searchEditText.getText().toString());
                     return true;
@@ -302,36 +310,35 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void bindView() {
-        if (mAccountName != null) {
-            adapter = new SearchActivityRecyclerViewAdapter(this, mCustomThemeWrapper, new SearchActivityRecyclerViewAdapter.ItemOnClickListener() {
-                @Override
-                public void onClick(String query) {
-                    search(query);
-                }
+        adapter = new SearchActivityRecyclerViewAdapter(this, mCustomThemeWrapper, new SearchActivityRecyclerViewAdapter.ItemOnClickListener() {
+            @Override
+            public void onClick(String query) {
+                search(query);
+            }
 
-                @Override
-                public void onDelete(RecentSearchQuery recentSearchQuery) {
-                    DeleteRecentSearchQuery.deleteRecentSearchQueryListener(mRedditDataRoomDatabase, recentSearchQuery, () -> {});
-                }
-            });
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.setAdapter(adapter);
-
-            if (mSharedPreferences.getBoolean(SharedPreferencesUtils.ENABLE_SEARCH_HISTORY, true)) {
-                mRecentSearchQueryViewModel = new ViewModelProvider(this,
-                        new RecentSearchQueryViewModel.Factory(mRedditDataRoomDatabase, mAccountName))
-                        .get(RecentSearchQueryViewModel.class);
-
-                mRecentSearchQueryViewModel.getAllRecentSearchQueries().observe(this, recentSearchQueries -> {
-                    if (recentSearchQueries != null && !recentSearchQueries.isEmpty()) {
-                        divider.setVisibility(View.VISIBLE);
-                    } else {
-                        divider.setVisibility(View.GONE);
-                    }
-                    adapter.setRecentSearchQueries(recentSearchQueries);
+            @Override
+            public void onDelete(RecentSearchQuery recentSearchQuery) {
+                DeleteRecentSearchQuery.deleteRecentSearchQueryListener(mRedditDataRoomDatabase, recentSearchQuery, () -> {
                 });
             }
+        });
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(adapter);
+
+        if (mSharedPreferences.getBoolean(SharedPreferencesUtils.ENABLE_SEARCH_HISTORY, true)) {
+            mRecentSearchQueryViewModel = new ViewModelProvider(this,
+                    new RecentSearchQueryViewModel.Factory(mRedditDataRoomDatabase, mAccountName))
+                    .get(RecentSearchQueryViewModel.class);
+
+            mRecentSearchQueryViewModel.getAllRecentSearchQueries().observe(this, recentSearchQueries -> {
+                if (recentSearchQueries != null && !recentSearchQueries.isEmpty()) {
+                    divider.setVisibility(View.VISIBLE);
+                } else {
+                    divider.setVisibility(View.GONE);
+                }
+                adapter.setRecentSearchQueries(recentSearchQueries);
+            });
         }
     }
 
