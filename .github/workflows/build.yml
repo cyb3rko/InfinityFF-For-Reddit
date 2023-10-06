@@ -2,7 +2,7 @@ name: Build and Upload Android APK
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -42,7 +42,6 @@ jobs:
           release_name: Release v5.11.0  # Replace with your desired release name
           body: |
             Infinity for Reddit automated Build.
-            - Images/Gifs/Stickers in comments can now be opened in fullscreen
 
       - name: Sign APK
         env:
