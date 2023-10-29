@@ -47,6 +47,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -77,6 +79,7 @@ public final class Utils {
             Pattern.compile("!\\[gif]\\(emote\\|\\w+\\|\\w+\\)"),
     };
 
+
     public static String modifyMarkdown(String markdown) {
         String regexed = REGEX_PATTERNS[0].matcher(markdown).replaceAll("[$0](https://www.reddit.com$0)");
         regexed = REGEX_PATTERNS[1].matcher(regexed).replaceAll("[$0](https://www.reddit.com/$0)");
@@ -87,6 +90,9 @@ public final class Utils {
 
     public static String inlineImages(String body, JSONObject mediaMetadata) {
         String value = body;
+        if(mediaMetadata.length() == 0){
+            return body;
+        }
         JSONArray names = mediaMetadata.names();
         try{
             for(int i=0; i<names.length(); i++){
@@ -115,7 +121,7 @@ public final class Utils {
         return value;
     }
 
-    public static String parseInlineEmotesAndGifs(String markdown, JSONObject mediaMetadataObject) throws JSONException {
+    public static String parseInlineEmotesAndGifs(String markdown, JSONObject mediaMetadataObject, JSONObject expressionAssetData) throws JSONException {
         JSONArray mediaMetadataNames = mediaMetadataObject.names();
         if (mediaMetadataNames != null) {
             for (int i = 0; i < mediaMetadataNames.length(); i++) {
@@ -147,6 +153,48 @@ public final class Utils {
                         continue;
                     }
                     markdown = markdown.replace(emote_id, emote_url);
+                }
+            }
+        }
+
+        if(expressionAssetData == null){
+            return markdown;
+        }
+
+        String front = "";
+        String back = "";
+        String container = "<div>%s%s%s</div>";
+        int res = 0;
+        String tmpl = "<div style=\"width: 150px; height: 150px\"><img style=\"position: absolute; top: 0\"src=\"%s\"/><div style=\"width: 100%%;height: 100%%;position: relative;display: grid;overflow: hidden;\"><div style=\"width: 150px;height: 150px;position: absolute;top: 25;display: flex;justify-content: center;\"><img src=\"%s\"/></div></div><img style=\"position: absolute; top: 0\"src=\"%s\"/></div>";
+
+        JSONArray expressionAssetDataNames = expressionAssetData.names();
+        if(expressionAssetDataNames != null){
+            for (int i = 0; i < expressionAssetDataNames.length(); i++){
+                if(!expressionAssetDataNames.isNull(i)){
+                    String expressionAssetKey = expressionAssetDataNames.getString(i);
+                    if (expressionAssetData.isNull(expressionAssetKey)) {
+                        continue;
+                    }
+                    JSONObject item = expressionAssetData.getJSONObject(expressionAssetKey);
+                    JSONArray expression = item.getJSONArray("expression");
+                    res = expression.getJSONObject(0).getJSONObject(JSONUtils.S_KEY).getInt(JSONUtils.X_KEY);
+                    for(int j = 0; j< expression.length(); j++){
+                        if(expression.getJSONObject(j).getJSONObject(JSONUtils.S_KEY).getInt(JSONUtils.X_KEY) == res){
+                            switch (expression.getJSONObject(j).getString("l")){
+                                case "BACK":
+                                    back = expression.getJSONObject(j).getJSONObject(JSONUtils.S_KEY).getString(JSONUtils.U_KEY);
+                                    break;
+                                case "FRONT":
+                                    front = expression.getJSONObject(j).getJSONObject(JSONUtils.S_KEY).getString(JSONUtils.U_KEY);
+                                    break;
+                            }
+
+                        }
+                    }
+                    String snoo = String.format("<img src=\"%s\"/>", item.getJSONObject("avatar").getJSONObject(JSONUtils.S_KEY).getString(JSONUtils.U_KEY));
+                    container = String.format(tmpl, back, snoo, front);
+
+                    markdown = markdown.replace(String.format("![img](%s)",expressionAssetKey), "*This comment contains a Collectible Expression which are not available on old Reddit.*");
                 }
             }
         }

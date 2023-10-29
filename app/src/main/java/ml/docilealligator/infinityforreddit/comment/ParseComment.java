@@ -265,8 +265,12 @@ public class ParseComment {
             commentMarkdown = Utils.modifyMarkdown(Utils.trimTrailingWhitespace(body));
             if (!singleCommentData.isNull(JSONUtils.MEDIA_METADATA_KEY)) {
                 JSONObject mediaMetadataObject = singleCommentData.getJSONObject(JSONUtils.MEDIA_METADATA_KEY);
+                JSONObject expressionAssetData = null;
+                if(!singleCommentData.isNull(JSONUtils.EXPRESSION_ASSET_KEY)){
+                    expressionAssetData = singleCommentData.getJSONObject(JSONUtils.EXPRESSION_ASSET_KEY);
+                }
                 commentMarkdown = Utils.inlineImages(commentMarkdown, mediaMetadataObject);
-                commentMarkdown = Utils.parseInlineEmotesAndGifs(commentMarkdown, mediaMetadataObject);
+                commentMarkdown = Utils.parseInlineEmotesAndGifs(commentMarkdown, mediaMetadataObject, expressionAssetData);
             }
         }
         String commentRawText = Utils.trimTrailingWhitespace(

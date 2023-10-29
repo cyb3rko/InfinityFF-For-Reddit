@@ -266,7 +266,8 @@ public class EditCommentActivity extends BaseActivity implements UploadImageEnab
                                                     JSONObject responseJSON = new JSONObject(response.body());
                                                     String body = responseJSON.getString("body");
                                                     JSONObject mediaMetadata = responseJSON.getJSONObject(JSONUtils.MEDIA_METADATA_KEY);
-                                                    String formattedBody = Utils.parseInlineEmotesAndGifs(body, mediaMetadata);
+                                                    JSONObject expressionAssetData = responseJSON.getJSONObject(JSONUtils.EXPRESSION_ASSET_KEY);
+                                                    String formattedBody = Utils.parseInlineEmotesAndGifs(body, mediaMetadata, expressionAssetData);
 
                                                     Intent returnIntent = new Intent();
                                                     returnIntent.putExtra(EXTRA_EDITED_COMMENT_CONTENT, Utils.modifyMarkdown(formattedBody));
