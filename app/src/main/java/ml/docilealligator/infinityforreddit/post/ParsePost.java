@@ -1005,6 +1005,7 @@ public class ParsePost {
                 }
             }
 
+
             String srcUrl = url;
 
             if(data.getString("domain").contains("imgur")){
@@ -1012,14 +1013,19 @@ public class ParsePost {
             }
 
             post = new Post(id, fullName, subredditName, subredditNamePrefixed, author,
-                    authorFlair, authorFlairHTML, postTimeMillis, title, srcUrl, permalink, score,
-                    postType, voteType, nComments, upvoteRatio, flair, awards, nAwards, hidden,
-                    spoiler, nsfw, stickied, archived, locked, saved, isCrosspost, distinguished, suggestedSort);
+                    authorFlair, authorFlairHTML, postTimeMillis, title, srcUrl, permalink, score, postType,
+                    voteType, nComments, upvoteRatio, flair, awards, nAwards, hidden, spoiler, nsfw,
+                    stickied, archived, locked, saved, isCrosspost, distinguished, suggestedSort);
 
             if (previews.isEmpty()) {
                 previews.add(new Post.Preview(srcUrl, 0, 0, "", ""));
             }
+
             post.setPreviews(previews);
+
+            if (!data.isNull("content")){
+                setText(post, data);
+            }
         } else if (data.getString("postHint").equals("HOSTED_VIDEO") || data.getString("postHint").equals("RICH_VIDEO")){
             if(data.getString("domain").contains("youtu") || data.getString("domain").contains("streamable")){
                 int postType = Post.LINK_TYPE;
