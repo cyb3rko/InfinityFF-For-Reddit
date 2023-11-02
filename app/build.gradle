@@ -8,8 +8,8 @@ android {
         applicationId "ml.docilealligator.infinityforreddit"
         minSdk 21
         targetSdk 33
-        versionCode 1091027
-        versionName "2023.31.0"
+        versionCode 1109919
+        versionName "2023.32.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -207,6 +207,11 @@ dependencies {
     implementation 'me.zhanghai.android.fastscroll:library:1.1.8'
 
     implementation 'com.otaliastudios:zoomlayout:1.9.0'
+
+    // apng support
+    implementation 'com.github.oupson:Kapng-Android:1.0.10'
+
+
 
 
 /**** Builds and flavors ****/
