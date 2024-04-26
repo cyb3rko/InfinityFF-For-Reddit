@@ -149,6 +149,11 @@ public class ParsePost {
                 object = data.getJSONObject("postFeed").getJSONObject("elements").getJSONObject("pageInfo");
             }
 
+            boolean hasNext = object.getBoolean("hasNextPage");
+            if (!hasNext){
+                return null;
+            }
+
             if(object.isNull("endCursor")){
                 return  null;
             } else{
