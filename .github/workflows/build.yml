@@ -38,11 +38,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: 2023.33.1  # Replace with your desired tag name
-          release_name: Release 2023.33.1  # Replace with your desired release name
+          tag_name: 2023.34.0  # Replace with your desired tag name
+          release_name: Release 2023.34.0  # Replace with your desired release name
           body: |
             Infinity for Reddit automated Build.
-            - Reddit now redirects requests to the old JSON API if the request has a mobile app user-agent. This header is now empty and defaults to the okhttp user-agent.
+            - Only remove User-Agent header from fetchSubredditInfo request. 
+            - This should be better than using okhttp default.
 
       - name: Sign APK
         env:
