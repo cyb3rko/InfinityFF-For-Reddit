@@ -26,7 +26,9 @@ public class FetchSubredditData {
             subredditData = api.getSubredditData(subredditName);
         } else {
             RedditAPI oauthApi = oauthRetrofit.create(RedditAPI.class);
-            subredditData = oauthApi.getSubredditDataOauth(subredditName, APIUtils.getOAuthHeader(accessToken));
+            Map<String, String> header = APIUtils.getOAuthHeader(accessToken);
+            header.remove(APIUtils.USER_AGENT_KEY);
+            subredditData = oauthApi.getSubredditDataOauth(subredditName, header);
         }
         subredditData.enqueue(new Callback<>() {
             @Override

@@ -137,7 +137,7 @@ public class APIUtils {
         double randomRate = 25 + Math.random()*5;
         Map<String, String> params = new HashMap<>();
         params.put(APIUtils.AUTHORIZATION_KEY, APIUtils.AUTHORIZATION_BASE + accessToken);
-        //params.put(APIUtils.USER_AGENT_KEY, APIUtils.USER_AGENT);
+        params.put(APIUtils.USER_AGENT_KEY, APIUtils.USER_AGENT);
         //params.put("client-vendor-id", APIUtils.CLIENT_VENDOR_ID);
         //params.put("x-reddit-device-id", APIUtils.CLIENT_VENDOR_ID);
         params.put("x-reddit-compression", "1");
