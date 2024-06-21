@@ -40,7 +40,7 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
     @Nullable
     @Override
     public Request authenticate(Route route, @NonNull Response response) {
-        if (response.code() == 401) {
+        if (response.code() != 200) {
             String accessTokenHeader = response.request().header(APIUtils.AUTHORIZATION_KEY);
             if (accessTokenHeader == null) {
                 return null;
@@ -55,12 +55,12 @@ public class AnyAccountAccessTokenAuthenticator implements Authenticator {
                 if (accessToken.equals(accessTokenFromDatabase)) {
                     String newAccessToken = refreshAccessToken(mAccount);
                     if (!newAccessToken.equals("")) {
-                        return response.request().newBuilder().headers(Headers.of(APIUtils.getOAuthHeader(newAccessToken))).build();
+                        return response.request().newBuilder().headers(Headers.of(APIUtils.getOAuthHeader(newAccessToken))).removeHeader(APIUtils.USER_AGENT_KEY).build();
                     } else {
                         return null;
                     }
                 } else {
-                    return response.request().newBuilder().headers(Headers.of(APIUtils.getOAuthHeader(accessTokenFromDatabase))).build();
+                    return response.request().newBuilder().headers(Headers.of(APIUtils.getOAuthHeader(accessTokenFromDatabase))).removeHeader(APIUtils.USER_AGENT_KEY).build();
                 }
             }
         }

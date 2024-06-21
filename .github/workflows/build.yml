@@ -38,12 +38,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: 2023.34.0  # Replace with your desired tag name
-          release_name: Release 2023.34.0  # Replace with your desired release name
+          tag_name: 2023.35.0  # Replace with your desired tag name
+          release_name: Release 2023.35.0  # Replace with your desired release name
           body: |
             Infinity for Reddit automated Build.
-            - Only remove User-Agent header from fetchSubredditInfo request. 
-            - This should be better than using okhttp default.
+            - Remove User-Agent header from all anonymous requests
 
       - name: Sign APK
         env:
