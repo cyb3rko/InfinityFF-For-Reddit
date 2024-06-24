@@ -356,7 +356,6 @@ public class ParseComment {
         }
 
         HashMap<String, Comment> commentMap = new HashMap<>();
-        ArrayList<String> visibleComments = new ArrayList<>();
         JSONObject lastDeleted = new JSONObject();
 
         for (int i = 0; i < actualCommentLength; i++) {
@@ -384,8 +383,9 @@ public class ParseComment {
                     commentMap.put(parentId, deletedComment);
                     if(deletedComment.getDepth() > 0){
                         commentMap.get(deletedComment.getParentId()).addChildEnd(deletedComment);
+                    }else{
+                        newCommentData.add(deletedComment);
                     }
-                    visibleComments.add(parentId);
                 }
 
                 String id = data.getJSONObject("node").getString("id");
@@ -393,7 +393,6 @@ public class ParseComment {
                 Comment singleComment = parseSingleCommentGQL(data, postId, subredditName);
                 commentMap.put(id, singleComment);
                 commentMap.get(parentId).addChildEnd(singleComment);
-                visibleComments.add(id);
             } else {
                 boolean isDeleted = data.getJSONObject("node").getString("__typename").equals("DeletedComment");
                 if (isDeleted) {
@@ -405,12 +404,8 @@ public class ParseComment {
 
                 Comment singleComment = parseSingleCommentGQL(data, postId, subredditName);
                 commentMap.put(id, singleComment);
-                visibleComments.add(id);
+                newCommentData.add(singleComment);
             }
-        }
-
-        for (int i = 0; i < visibleComments.size(); i++) {
-            newCommentData.add(commentMap.get(visibleComments.get(i)));
         }
     }
 
