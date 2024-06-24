@@ -36,5 +36,8 @@ public interface GqlAPI {
     @POST("/")
     ListenableFuture<Response<String>> searchPostsOauthListenableFuture(@HeaderMap Map<String, String> headers, @Body RequestBody body);
 
+    @POST("/")
+    Call<String> getPostComments(@HeaderMap Map<String, String> headers, @Body RequestBody body);
+
 
 }

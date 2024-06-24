@@ -14,10 +14,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import ml.docilealligator.infinityforreddit.post.ParsePost;
 import ml.docilealligator.infinityforreddit.utils.JSONUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
@@ -37,6 +40,41 @@ public class ParseComment {
                 ArrayList<Comment> newComments = new ArrayList<>();
 
                 parseCommentRecursion(childrenArray, newComments, moreChildrenIds, 0);
+                expandChildren(newComments, expandedNewComments, expandChildren);
+
+                ArrayList<Comment> commentData;
+                if (expandChildren) {
+                    commentData = expandedNewComments;
+                } else {
+                    commentData = newComments;
+                }
+
+                handler.post(() -> parseCommentListener.onParseCommentSuccess(newComments, commentData, parentId, moreChildrenIds));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                handler.post(parseCommentListener::onParseCommentFailed);
+            }
+        });
+    }
+
+    public static void parseCommentGQL(Executor executor, Handler handler, String response,
+                                       boolean expandChildren,
+                                       ParseCommentListener parseCommentListener) {
+        // TODO impl
+        executor.execute(() -> {
+            try {
+                JSONObject data = new JSONObject(response).getJSONObject("data");
+
+                String parentId = data.getJSONObject("postInfoById").getString("id");
+                String subredditId = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("id");
+
+                JSONArray childrenArray = data.getJSONObject("postInfoById").getJSONObject("commentForest").getJSONArray("trees");
+
+                ArrayList<Comment> expandedNewComments = new ArrayList<>();
+                ArrayList<Comment> newComments = new ArrayList<>();
+                ArrayList<String> moreChildrenIds = new ArrayList<>();
+
+                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, parentId, subredditId);
                 expandChildren(newComments, expandedNewComments, expandChildren);
 
                 ArrayList<Comment> commentData;
@@ -140,6 +178,94 @@ public class ParseComment {
         });
     }
 
+    static void parseMoreCommentGQL(Executor executor, Handler handler, String response, boolean expandChildren,
+                                    ParseCommentListener parseCommentListener) {
+        executor.execute(() -> {
+            try {
+                JSONObject data = new JSONObject(response).getJSONObject("data");
+
+                String postId = data.getJSONObject("postInfoById").getString("id");
+                String subredditId = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("id");
+
+                JSONArray childrenArray = data.getJSONObject("postInfoById").getJSONObject("commentForest").getJSONArray("trees");
+
+                ArrayList<Comment> newComments = new ArrayList<>();
+                ArrayList<Comment> expandedNewComments = new ArrayList<>();
+                ArrayList<String> moreChildrenIds = new ArrayList<>();
+
+                // api response is a flat list of comments tree
+                // process it in order and rebuild the tree
+                for (int i = 0; i < childrenArray.length(); i++) {
+                    JSONObject child = childrenArray.getJSONObject(i);
+                    if (!child.isNull(JSONUtils.KIND_VALUE_MORE)) {
+                        String parentFullName = child.getString("parentId");
+                        int childCount = child.getJSONObject(JSONUtils.KIND_VALUE_MORE).getInt("count");
+
+                        if (childCount > 0) {
+                            ArrayList<String> localMoreChildrenIds = new ArrayList<>();
+                            String cursor = child.getJSONObject(JSONUtils.KIND_VALUE_MORE).getString("cursor");
+                            localMoreChildrenIds.add(cursor);
+
+                            Comment parentComment = findCommentByFullName(newComments, parentFullName);
+                            if (parentComment != null) {
+                                parentComment.setHasReply(true);
+                                parentComment.setMoreChildrenIds(localMoreChildrenIds);
+                                parentComment.addChildren(new ArrayList<>()); // ensure children list is not null
+                            } else {
+                                // assume that it is parent of this call
+                                moreChildrenIds.addAll(localMoreChildrenIds);
+                            }
+                        } else {
+                            Comment continueThreadPlaceholder = new Comment(
+                                    parentFullName,
+                                    child.getInt(JSONUtils.DEPTH_KEY),
+                                    Comment.PLACEHOLDER_CONTINUE_THREAD
+                            );
+
+                            Comment parentComment = findCommentByFullName(newComments, parentFullName);
+                            if (parentComment != null) {
+                                parentComment.setHasReply(true);
+                                parentComment.addChild(continueThreadPlaceholder, parentComment.getChildCount());
+                                parentComment.setChildCount(parentComment.getChildCount() + 1);
+                            } else {
+                                // assume that it is parent of this call
+                                newComments.add(continueThreadPlaceholder);
+                            }
+                        }
+                    } else {
+                        Comment comment = parseSingleCommentGQL(child, postId, subredditId);
+                        String parentFullName = comment.getParentId();
+
+                        Comment parentComment = findCommentByFullName(newComments, parentFullName);
+                        if (parentComment != null) {
+                            parentComment.setHasReply(true);
+                            parentComment.addChild(comment, parentComment.getChildCount());
+                            parentComment.setChildCount(parentComment.getChildCount() + 1);
+                        } else {
+                            // assume that it is parent of this call
+                            newComments.add(comment);
+                        }
+                    }
+                }
+
+                updateChildrenCount(newComments);
+                expandChildren(newComments, expandedNewComments, expandChildren);
+
+                ArrayList<Comment> commentData;
+                if (expandChildren) {
+                    commentData = expandedNewComments;
+                } else {
+                    commentData = newComments;
+                }
+
+                handler.post(() -> parseCommentListener.onParseCommentSuccess(newComments, commentData, null, moreChildrenIds));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                handler.post(parseCommentListener::onParseCommentFailed);
+            }
+        });
+    }
+
     static void parseSentComment(Executor executor, Handler handler, String response, int depth,
                                  ParseSentCommentListener parseSentCommentListener) {
         executor.execute(() -> {
@@ -200,6 +326,74 @@ public class ParseComment {
             }
 
             newCommentData.add(singleComment);
+        }
+    }
+
+    private static void parseCommentRecursionGQL(JSONArray comments, ArrayList<Comment> newCommentData,
+                                                 ArrayList<String> moreChildrenIds, String postId, String subredditId) throws JSONException {
+        int actualCommentLength;
+
+        if (comments.length() == 0) {
+            return;
+        }
+
+        // last child data object
+        JSONObject last = comments.getJSONObject(comments.length() - 1);
+
+        //Maybe moreChildrenIds contain only commentsJSONArray and no more info
+        if (!last.isNull("more")) {
+
+            moreChildrenIds.add(last.getJSONObject("more").getString("cursor"));
+            actualCommentLength = comments.length() - 1;
+
+            if (moreChildrenIds.isEmpty() && !comments.getJSONObject(comments.length() - 1).isNull("more")) {
+                newCommentData.add(new Comment(last.getString("parentId"), last.getInt(JSONUtils.DEPTH_KEY), Comment.PLACEHOLDER_CONTINUE_THREAD));
+                return;
+            }
+        } else {
+            actualCommentLength = comments.length();
+        }
+
+        HashMap<String, Comment> commentMap = new HashMap<>();
+        ArrayList<String> visibleComments = new ArrayList<>();
+
+        for (int i = 0; i < actualCommentLength; i++) {
+            JSONObject data = comments.getJSONObject(i);
+            boolean isHiddenChild = data.isNull("node");
+            boolean isVisibleChild = !data.isNull("parentId") && !data.isNull("node");
+
+            if (isHiddenChild) {
+                String parentId = data.getString("parentId");
+                if (commentMap.get(parentId) == null) {
+                    continue;
+                }
+
+                String cursor = data.getJSONObject("more").getString("cursor");
+                commentMap.get(parentId).addMoreChildrenId(cursor);
+            } else if (isVisibleChild) {
+                String parentId = data.getString("parentId");
+                String id = data.getJSONObject("node").getString("id");
+
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditId);
+                commentMap.put(id, singleComment);
+                commentMap.get(parentId).addChildEnd(singleComment);
+                visibleComments.add(id);
+            } else {
+                boolean isDeleted = data.getJSONObject("node").getString("__typename").equals("DeletedComment");
+                if (isDeleted) {
+                    continue;
+                }
+
+                String id = data.getJSONObject("node").getString("id");
+
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditId);
+                commentMap.put(id, singleComment);
+                visibleComments.add(id);
+            }
+        }
+
+        for (int i = 0; i < visibleComments.size(); i++) {
+            newCommentData.add(commentMap.get(visibleComments.get(i)));
         }
     }
 
@@ -266,7 +460,7 @@ public class ParseComment {
             if (!singleCommentData.isNull(JSONUtils.MEDIA_METADATA_KEY)) {
                 JSONObject mediaMetadataObject = singleCommentData.getJSONObject(JSONUtils.MEDIA_METADATA_KEY);
                 JSONObject expressionAssetData = null;
-                if(!singleCommentData.isNull(JSONUtils.EXPRESSION_ASSET_KEY)){
+                if (!singleCommentData.isNull(JSONUtils.EXPRESSION_ASSET_KEY)) {
                     expressionAssetData = singleCommentData.getJSONObject(JSONUtils.EXPRESSION_ASSET_KEY);
                 }
                 commentMarkdown = Utils.inlineImages(commentMarkdown, mediaMetadataObject);
@@ -318,6 +512,119 @@ public class ParseComment {
                 permalink, awardingsBuilder.toString(), depth, collapsed, hasReply, scoreHidden, saved, edited);
     }
 
+    static Comment parseSingleCommentGQL(JSONObject singleCommentData, String postId, String subredditId) throws JSONException {
+        JSONObject node = singleCommentData.getJSONObject("node");
+
+        boolean isRemoved = node.getBoolean("isRemoved");
+        String id = node.getString(JSONUtils.ID_KEY).substring(3);
+        String fullName = node.getString(JSONUtils.ID_KEY);
+        String author = "[deleted]";
+        if (!node.isNull("authorInfo")) {
+            JSONObject authorObj = node.getJSONObject("authorInfo");
+            author = authorObj.getString("name");
+        }
+        JSONObject authorFlairObj = node.isNull("authorFlair") ? null : node.getJSONObject("authorFlair");
+
+        StringBuilder authorFlairHTMLBuilder = new StringBuilder();
+        if (authorFlairObj != null) {
+            String flairArrayStr = authorFlairObj.getString("richtext");
+            JSONArray flairArray = new JSONArray(flairArrayStr);
+            for (int i = 0; i < flairArray.length(); i++) {
+                JSONObject flairObject = flairArray.getJSONObject(i);
+                String e = flairObject.getString(JSONUtils.E_KEY);
+                if (e.equals("text")) {
+                    authorFlairHTMLBuilder.append(Html.escapeHtml(flairObject.getString(JSONUtils.T_KEY)));
+                } else if (e.equals("emoji")) {
+                    authorFlairHTMLBuilder.append("<img src=\"").append(Html.escapeHtml(flairObject.getString(JSONUtils.U_KEY))).append("\">");
+                }
+            }
+        }
+        String authorFlair = authorFlairObj == null ? "" : authorFlairObj.getString("text");
+
+        String linkAuthor = null;
+        String linkId = postId.substring(3);
+        String subredditName = subredditId;
+        String parentId = postId;
+        if (!singleCommentData.isNull("parentId")) {
+            parentId = singleCommentData.getString("parentId");
+        }
+        // TODO, probably through distinguishedAs?
+        boolean isSubmitter = false;
+        String distinguished = node.getString("distinguishedAs");
+        String commentMarkdown = "";
+        String commentRawText = "";
+        if (!node.isNull("content")) {
+            JSONObject content = node.getJSONObject("content");
+            String body = content.getString("markdown");
+            commentMarkdown = Utils.modifyMarkdown(Utils.trimTrailingWhitespace(body));
+            if (!isRemoved) {
+                JSONArray mediaMetadata = content.getJSONArray("richtextMedia");
+                for (int i = 0; i < mediaMetadata.length(); i++) {
+                    JSONObject mediaObj = mediaMetadata.getJSONObject(i);
+                    String typename = mediaObj.getString("__typename");
+                    if (typename.equals("ImageAsset")) {
+                        String mediaId = mediaObj.getString("id");
+                        String mediaUrl = mediaObj.getString("url");
+                        commentMarkdown = commentMarkdown.replace(mediaId, mediaUrl);
+                    } else if (typename.equals("ExpressionMediaAsset")) {
+                        String mediaId = mediaObj.getString("id");
+                        commentMarkdown = commentMarkdown.replace(String.format("![img](%s)", mediaId), "*This comment contains a Collectible Expression which are not available on old Reddit.*\n");
+                    }
+                }
+            }
+
+            commentRawText = Utils.trimTrailingWhitespace(
+                    Html.fromHtml(content.getString("html"))).toString();
+        }
+
+
+        String permalink = Html.fromHtml(node.getString(JSONUtils.PERMALINK_KEY)).toString();
+        StringBuilder awardingsBuilder = new StringBuilder();
+        JSONArray awardingsArray = node.getJSONArray("awardings");
+        for (int i = 0; i < awardingsArray.length(); i++) {
+            JSONObject award = awardingsArray.getJSONObject(i);
+            int count = award.getInt("total");
+            String iconUrl = award.getJSONObject("award").getJSONObject("static_icon_24").getString(JSONUtils.URL_KEY);
+            awardingsBuilder.append("<img src=\"").append(Html.escapeHtml(iconUrl)).append("\"> ").append("x").append(count).append(" ");
+        }
+
+        int score = node.getInt(JSONUtils.SCORE_KEY);
+        int voteType;
+        String voteState = node.getString("voteState");
+
+        if (voteState.equals("NONE")) {
+            voteType = VOTE_TYPE_NO_VOTE;
+        } else {
+            if (voteState.equals("UP")) {
+                voteType = VOTE_TYPE_UPVOTE;
+            } else {
+                voteType = VOTE_TYPE_DOWNVOTE;
+            }
+            score -= voteType;
+        }
+        long submitTime = ParsePost.getUnixTime(node.getString("createdAt"));
+        boolean scoreHidden = node.getBoolean("isScoreHidden");
+        boolean saved = node.getBoolean("isSaved");
+
+        int depth = singleCommentData.getInt(JSONUtils.DEPTH_KEY);
+
+        boolean collapsed = node.getBoolean("isInitiallyCollapsed");
+        boolean hasReply = singleCommentData.getInt("childCount") > 0;
+
+        // this key can either be a bool (false) or a long (edited timestamp)
+        long edited = 0;
+
+        if (!node.isNull("editedAt")) {
+            edited = ParsePost.getUnixTime(node.getString("editedAt"));
+        }
+        Comment newComment = new Comment(id, fullName, author, authorFlair, authorFlairHTMLBuilder.toString(),
+                linkAuthor, submitTime, commentMarkdown, commentRawText,
+                linkId, subredditName, parentId, score, voteType, isSubmitter, distinguished,
+                permalink, awardingsBuilder.toString(), depth, collapsed, hasReply, scoreHidden, saved, edited);
+        newComment.addChildren(new ArrayList<>());
+        return newComment;
+    }
+
     @Nullable
     private static String parseSentCommentErrorMessage(String response) {
         try {
@@ -349,7 +656,7 @@ public class ParseComment {
 
     @Nullable
     private static Comment findCommentByFullName(@NonNull List<Comment> comments, @NonNull String fullName) {
-        for (Comment comment: comments) {
+        for (Comment comment : comments) {
             if (comment.getFullName().equals(fullName) &&
                     comment.getPlaceholderType() == Comment.NOT_PLACEHOLDER) {
                 return comment;
@@ -365,7 +672,7 @@ public class ParseComment {
     }
 
     private static void updateChildrenCount(@NonNull List<Comment> comments) {
-        for (Comment comment: comments) {
+        for (Comment comment : comments) {
             comment.setChildCount(getChildCount(comment));
             if (comment.getChildren() != null) {
                 updateChildrenCount(comment.getChildren());
