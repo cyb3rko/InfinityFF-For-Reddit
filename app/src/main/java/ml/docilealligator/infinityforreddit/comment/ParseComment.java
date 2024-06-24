@@ -67,7 +67,7 @@ public class ParseComment {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
 
                 String parentId = data.getJSONObject("postInfoById").getString("id");
-                String subredditId = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("id");
+                String subredditName = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("name");
 
                 JSONArray childrenArray = data.getJSONObject("postInfoById").getJSONObject("commentForest").getJSONArray("trees");
 
@@ -75,7 +75,7 @@ public class ParseComment {
                 ArrayList<Comment> newComments = new ArrayList<>();
                 ArrayList<String> moreChildrenIds = new ArrayList<>();
 
-                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, parentId, subredditId);
+                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, parentId, subredditName);
                 expandChildren(newComments, expandedNewComments, expandChildren);
 
                 ArrayList<Comment> commentData;
@@ -186,7 +186,7 @@ public class ParseComment {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
 
                 String postId = data.getJSONObject("postInfoById").getString("id");
-                String subredditId = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("id");
+                String subredditName = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("name");
 
                 JSONArray childrenArray = data.getJSONObject("postInfoById").getJSONObject("commentForest").getJSONArray("trees");
 
@@ -234,7 +234,7 @@ public class ParseComment {
                             }
                         }
                     } else {
-                        Comment comment = parseSingleCommentGQL(child, postId, subredditId);
+                        Comment comment = parseSingleCommentGQL(child, postId, subredditName);
                         String parentFullName = comment.getParentId();
 
                         Comment parentComment = findCommentByFullName(newComments, parentFullName);
@@ -331,7 +331,7 @@ public class ParseComment {
     }
 
     private static void parseCommentRecursionGQL(JSONArray comments, ArrayList<Comment> newCommentData,
-                                                 ArrayList<String> moreChildrenIds, String postId, String subredditId) throws JSONException {
+                                                 ArrayList<String> moreChildrenIds, String postId, String subredditName) throws JSONException {
         int actualCommentLength;
 
         if (comments.length() == 0) {
@@ -357,6 +357,7 @@ public class ParseComment {
 
         HashMap<String, Comment> commentMap = new HashMap<>();
         ArrayList<String> visibleComments = new ArrayList<>();
+        JSONObject lastDeleted = new JSONObject();
 
         for (int i = 0; i < actualCommentLength; i++) {
             JSONObject data = comments.getJSONObject(i);
@@ -372,22 +373,37 @@ public class ParseComment {
                 String cursor = data.getJSONObject("more").getString("cursor");
                 commentMap.get(parentId).addMoreChildrenId(cursor);
             } else if (isVisibleChild) {
+                if (data.getJSONObject("node").getString("__typename").equals("DeletedComment")) {
+                    lastDeleted = data;
+                    continue;
+                }
+
                 String parentId = data.getString("parentId");
+                if (commentMap.get(parentId) == null) {
+                    Comment deletedComment = createDeletedComment(lastDeleted, parentId, postId, subredditName);
+                    commentMap.put(parentId, deletedComment);
+                    if(deletedComment.getDepth() > 0){
+                        commentMap.get(deletedComment.getParentId()).addChildEnd(deletedComment);
+                    }
+                    visibleComments.add(parentId);
+                }
+
                 String id = data.getJSONObject("node").getString("id");
 
-                Comment singleComment = parseSingleCommentGQL(data, postId, subredditId);
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName);
                 commentMap.put(id, singleComment);
                 commentMap.get(parentId).addChildEnd(singleComment);
                 visibleComments.add(id);
             } else {
                 boolean isDeleted = data.getJSONObject("node").getString("__typename").equals("DeletedComment");
                 if (isDeleted) {
+                    lastDeleted = data;
                     continue;
                 }
 
                 String id = data.getJSONObject("node").getString("id");
 
-                Comment singleComment = parseSingleCommentGQL(data, postId, subredditId);
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName);
                 commentMap.put(id, singleComment);
                 visibleComments.add(id);
             }
@@ -513,7 +529,7 @@ public class ParseComment {
                 permalink, awardingsBuilder.toString(), depth, collapsed, hasReply, scoreHidden, saved, edited);
     }
 
-    static Comment parseSingleCommentGQL(JSONObject singleCommentData, String postId, String subredditId) throws JSONException {
+    static Comment parseSingleCommentGQL(JSONObject singleCommentData, String postId, String subredditName) throws JSONException {
         JSONObject node = singleCommentData.getJSONObject("node");
 
         boolean isRemoved = node.getBoolean("isRemoved");
@@ -524,10 +540,10 @@ public class ParseComment {
 
         if (!node.isNull("authorInfo")) {
             JSONObject authorObj = node.getJSONObject("authorInfo");
-            if(authorObj.getString("__typename").equals("UnavailableRedditor") || authorObj.getString("__typename").equals("DeletedRedditor")){
+            if (authorObj.getString("__typename").equals("UnavailableRedditor") || authorObj.getString("__typename").equals("DeletedRedditor")) {
                 double r = Math.ceil(Math.random() * 7);
                 authorIconUrl = String.format("https://www.redditstatic.com/avatars/defaults/v2/avatar_default_%d.png", (int) r);
-            }else{
+            } else {
                 authorIconUrl = authorObj.getJSONObject("iconSmall").getString("url");
             }
             author = authorObj.getString("name");
@@ -552,7 +568,6 @@ public class ParseComment {
 
         String linkAuthor = null;
         String linkId = postId.substring(3);
-        String subredditName = subredditId;
         String parentId = postId;
         if (!singleCommentData.isNull("parentId")) {
             parentId = singleCommentData.getString("parentId");
@@ -632,6 +647,27 @@ public class ParseComment {
                 permalink, awardingsBuilder.toString(), depth, collapsed, hasReply, scoreHidden, saved, edited);
         newComment.addChildren(new ArrayList<>());
         newComment.setAuthorIconUrl(authorIconUrl);
+        return newComment;
+    }
+
+    private static Comment createDeletedComment(JSONObject data, String id, String postId, String subredditName) throws JSONException {
+        String linkId = postId.substring(3);
+
+        long createdAt = 0;
+        int depth = 0;
+        int childCount = 0;
+        String parentId = data.isNull("parentId") ? postId : data.getString("parentId");
+        createdAt = ParsePost.getUnixTime(data.getJSONObject("node").getString("createdAt"));
+        depth = data.getInt("depth");
+        childCount = data.getInt("childCount");
+
+        Comment newComment = new Comment(id, "deleted", "[deleted]", "", "",
+                null, createdAt, "[deleted]", "[deleted]",
+                linkId, subredditName, parentId, 0, VOTE_TYPE_NO_VOTE, false, null,
+                "", "", depth, true, childCount > 0, true, false, 0);
+        newComment.addChildren(new ArrayList<>());
+        newComment.setAuthorIconUrl("https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png");
+
         return newComment;
     }
 
