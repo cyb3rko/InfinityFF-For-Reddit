@@ -380,9 +380,9 @@ public class ParseComment {
                 if (commentMap.get(parentId) == null) {
                     Comment deletedComment = createDeletedComment(lastDeleted, parentId, postId, subredditName);
                     commentMap.put(parentId, deletedComment);
-                    if(deletedComment.getDepth() > 0){
+                    if (deletedComment.getDepth() > 0) {
                         commentMap.get(deletedComment.getParentId()).addChildEnd(deletedComment);
-                    }else{
+                    } else {
                         newCommentData.add(deletedComment);
                     }
                 }
@@ -546,17 +546,20 @@ public class ParseComment {
 
         StringBuilder authorFlairHTMLBuilder = new StringBuilder();
         if (authorFlairObj != null) {
-            String flairArrayStr = authorFlairObj.getString("richtext");
-            JSONArray flairArray = new JSONArray(flairArrayStr);
-            for (int i = 0; i < flairArray.length(); i++) {
-                JSONObject flairObject = flairArray.getJSONObject(i);
-                String e = flairObject.getString(JSONUtils.E_KEY);
-                if (e.equals("text")) {
-                    authorFlairHTMLBuilder.append(Html.escapeHtml(flairObject.getString(JSONUtils.T_KEY)));
-                } else if (e.equals("emoji")) {
-                    authorFlairHTMLBuilder.append("<img src=\"").append(Html.escapeHtml(flairObject.getString(JSONUtils.U_KEY))).append("\">");
+            if (!authorFlairObj.isNull("richtext")) {
+                String flairArrayStr = authorFlairObj.getString("richtext");
+                JSONArray flairArray = new JSONArray(flairArrayStr);
+                for (int i = 0; i < flairArray.length(); i++) {
+                    JSONObject flairObject = flairArray.getJSONObject(i);
+                    String e = flairObject.getString(JSONUtils.E_KEY);
+                    if (e.equals("text")) {
+                        authorFlairHTMLBuilder.append(Html.escapeHtml(flairObject.getString(JSONUtils.T_KEY)));
+                    } else if (e.equals("emoji")) {
+                        authorFlairHTMLBuilder.append("<img src=\"").append(Html.escapeHtml(flairObject.getString(JSONUtils.U_KEY))).append("\">");
+                    }
                 }
             }
+
         }
         String authorFlair = authorFlairObj == null ? "" : authorFlairObj.getString("text");
 
