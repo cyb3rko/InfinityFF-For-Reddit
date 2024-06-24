@@ -571,7 +571,7 @@ public class ParseComment {
         }
         // TODO, probably through distinguishedAs?
         boolean isSubmitter = false;
-        String distinguished = node.getString("distinguishedAs");
+        String distinguished = node.isNull("distinguishedAs") ? null : node.getString("distinguishedAs").toLowerCase();
         String commentMarkdown = "";
         String commentRawText = "";
         if (!node.isNull("content")) {
