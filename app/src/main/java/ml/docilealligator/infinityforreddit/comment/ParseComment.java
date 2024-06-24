@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 
 import ml.docilealligator.infinityforreddit.post.ParsePost;
@@ -519,8 +520,16 @@ public class ParseComment {
         String id = node.getString(JSONUtils.ID_KEY).substring(3);
         String fullName = node.getString(JSONUtils.ID_KEY);
         String author = "[deleted]";
+        String authorIconUrl = "";
+
         if (!node.isNull("authorInfo")) {
             JSONObject authorObj = node.getJSONObject("authorInfo");
+            if(authorObj.getString("__typename").equals("UnavailableRedditor") || authorObj.getString("__typename").equals("DeletedRedditor")){
+                double r = Math.ceil(Math.random() * 7);
+                authorIconUrl = String.format("https://www.redditstatic.com/avatars/defaults/v2/avatar_default_%d.png", (int) r);
+            }else{
+                authorIconUrl = authorObj.getJSONObject("iconSmall").getString("url");
+            }
             author = authorObj.getString("name");
         }
         JSONObject authorFlairObj = node.isNull("authorFlair") ? null : node.getJSONObject("authorFlair");
@@ -622,6 +631,7 @@ public class ParseComment {
                 linkId, subredditName, parentId, score, voteType, isSubmitter, distinguished,
                 permalink, awardingsBuilder.toString(), depth, collapsed, hasReply, scoreHidden, saved, edited);
         newComment.addChildren(new ArrayList<>());
+        newComment.setAuthorIconUrl(authorIconUrl);
         return newComment;
     }
 
