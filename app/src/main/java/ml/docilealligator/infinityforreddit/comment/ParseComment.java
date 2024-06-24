@@ -61,7 +61,6 @@ public class ParseComment {
     public static void parseCommentGQL(Executor executor, Handler handler, String response,
                                        boolean expandChildren,
                                        ParseCommentListener parseCommentListener) {
-        // TODO impl
         executor.execute(() -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
