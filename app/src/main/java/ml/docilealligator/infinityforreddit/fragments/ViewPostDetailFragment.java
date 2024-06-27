@@ -1494,7 +1494,7 @@ public class ViewPostDetailFragment extends Fragment implements FragmentCommunic
         Retrofit retrofit = mAccessToken == null ? mRetrofit : mGQLRetrofit;
 
         FetchComment.fetchComments(mExecutor, new Handler(), retrofit, mAccessToken, mPost.getId(), commentId, sortType,
-                mContextNumber, mExpandChildren, mLocale, new FetchComment.FetchCommentListener() {
+                mContextNumber, mExpandChildren, mLocale, mPost.getAuthor(), new FetchComment.FetchCommentListener() {
                     @Override
                     public void onFetchCommentSuccess(ArrayList<Comment> expandedComments,
                                                       String parentId, ArrayList<String> children) {
@@ -1581,7 +1581,7 @@ public class ViewPostDetailFragment extends Fragment implements FragmentCommunic
 
         Retrofit retrofit = mAccessToken == null ? mRetrofit : mGQLRetrofit;
         FetchComment.fetchMoreComment(mExecutor, new Handler(), retrofit, mAccessToken, children,
-                mExpandChildren, mPost.getFullName(), sortType, new FetchComment.FetchMoreCommentListener() {
+                mExpandChildren, mPost.getFullName(), sortType, mPost.getAuthor(), new FetchComment.FetchMoreCommentListener() {
                     @Override
                     public void onFetchMoreCommentSuccess(ArrayList<Comment> topLevelComments,
                                                           ArrayList<Comment> expandedComments,

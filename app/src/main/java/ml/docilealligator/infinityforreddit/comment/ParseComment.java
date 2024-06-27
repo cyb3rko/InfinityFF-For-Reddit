@@ -58,7 +58,7 @@ public class ParseComment {
         });
     }
 
-    public static void parseCommentGQL(Executor executor, Handler handler, String response,
+    public static void parseCommentGQL(Executor executor, Handler handler, String response, String authorName,
                                        boolean expandChildren,
                                        ParseCommentListener parseCommentListener) {
         executor.execute(() -> {
@@ -74,7 +74,7 @@ public class ParseComment {
                 ArrayList<Comment> newComments = new ArrayList<>();
                 ArrayList<String> moreChildrenIds = new ArrayList<>();
 
-                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, parentId, subredditName);
+                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, parentId, subredditName, authorName);
                 expandChildren(newComments, expandedNewComments, expandChildren);
 
                 ArrayList<Comment> commentData;
@@ -178,7 +178,7 @@ public class ParseComment {
         });
     }
 
-    static void parseMoreCommentGQL(Executor executor, Handler handler, String response, boolean expandChildren,
+    static void parseMoreCommentGQL(Executor executor, Handler handler, String response, boolean expandChildren, String authorName,
                                     ParseCommentListener parseCommentListener) {
         executor.execute(() -> {
             try {
@@ -233,7 +233,7 @@ public class ParseComment {
                             }
                         }
                     } else {
-                        Comment comment = parseSingleCommentGQL(child, postId, subredditName);
+                        Comment comment = parseSingleCommentGQL(child, postId, subredditName, authorName);
                         String parentFullName = comment.getParentId();
 
                         Comment parentComment = findCommentByFullName(newComments, parentFullName);
@@ -330,7 +330,7 @@ public class ParseComment {
     }
 
     private static void parseCommentRecursionGQL(JSONArray comments, ArrayList<Comment> newCommentData,
-                                                 ArrayList<String> moreChildrenIds, String postId, String subredditName) throws JSONException {
+                                                 ArrayList<String> moreChildrenIds, String postId, String subredditName, String authorName) throws JSONException {
         int actualCommentLength;
 
         if (comments.length() == 0) {
@@ -371,13 +371,8 @@ public class ParseComment {
                 String cursor = data.getJSONObject("more").getString("cursor");
                 commentMap.get(parentId).addMoreChildrenId(cursor);
             } else if (isVisibleChild) {
-                if (data.getJSONObject("node").getString("__typename").equals("DeletedComment")) {
-                    lastDeleted = data;
-                    continue;
-                }
-
                 String parentId = data.getString("parentId");
-                if (commentMap.get(parentId) == null) {
+                if (!commentMap.containsKey(parentId)) {
                     Comment deletedComment = createDeletedComment(lastDeleted, parentId, postId, subredditName);
                     commentMap.put(parentId, deletedComment);
                     if (deletedComment.getDepth() > 0) {
@@ -387,9 +382,14 @@ public class ParseComment {
                     }
                 }
 
+                if (data.getJSONObject("node").getString("__typename").equals("DeletedComment")) {
+                    lastDeleted = data;
+                    continue;
+                }
+
                 String id = data.getJSONObject("node").getString("id");
 
-                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName);
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName, authorName);
                 commentMap.put(id, singleComment);
                 commentMap.get(parentId).addChildEnd(singleComment);
             } else {
@@ -401,7 +401,7 @@ public class ParseComment {
 
                 String id = data.getJSONObject("node").getString("id");
 
-                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName);
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName, authorName);
                 commentMap.put(id, singleComment);
                 newCommentData.add(singleComment);
             }
@@ -523,7 +523,7 @@ public class ParseComment {
                 permalink, awardingsBuilder.toString(), depth, collapsed, hasReply, scoreHidden, saved, edited);
     }
 
-    static Comment parseSingleCommentGQL(JSONObject singleCommentData, String postId, String subredditName) throws JSONException {
+    static Comment parseSingleCommentGQL(JSONObject singleCommentData, String postId, String subredditName, String authorName) throws JSONException {
         JSONObject node = singleCommentData.getJSONObject("node");
 
         boolean isRemoved = node.getBoolean("isRemoved");
@@ -569,8 +569,8 @@ public class ParseComment {
         if (!singleCommentData.isNull("parentId")) {
             parentId = singleCommentData.getString("parentId");
         }
-        // TODO, probably through distinguishedAs?
-        boolean isSubmitter = false;
+
+        boolean isSubmitter = author.equals(authorName);
         String distinguished = node.isNull("distinguishedAs") ? null : node.getString("distinguishedAs").toLowerCase();
         String commentMarkdown = "";
         String commentRawText = "";

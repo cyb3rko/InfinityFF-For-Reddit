@@ -26,7 +26,7 @@ public class FetchComment {
     public static void fetchComments(Executor executor, Handler handler, Retrofit retrofit,
                                      @Nullable String accessToken, String article,
                                      String commentId, SortType.Type sortType, String contextNumber, boolean expandChildren,
-                                     Locale locale, FetchCommentListener fetchCommentListener) {
+                                     Locale locale, String authorName, FetchCommentListener fetchCommentListener) {
 
         RedditAPI api = retrofit.create(RedditAPI.class);
         GqlAPI gqlAPI = retrofit.create(GqlAPI.class);
@@ -54,7 +54,7 @@ public class FetchComment {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
                     if (accessToken != null) {
-                        ParseComment.parseCommentGQL(executor, handler, response.body(),
+                        ParseComment.parseCommentGQL(executor, handler, response.body(), authorName,
                                 expandChildren, new ParseComment.ParseCommentListener() {
                                     @Override
                                     public void onParseCommentSuccess(ArrayList<Comment> topLevelComments,
@@ -103,7 +103,7 @@ public class FetchComment {
                                         @Nullable String accessToken,
                                         ArrayList<String> allChildren,
                                         boolean expandChildren, String postFullName,
-                                        SortType.Type sortType,
+                                        SortType.Type sortType, String authorName,
                                         FetchMoreCommentListener fetchMoreCommentListener) {
         if (allChildren == null) {
             return;
@@ -134,7 +134,7 @@ public class FetchComment {
                 if (response.isSuccessful()) {
                     if (accessToken != null) {
                         ParseComment.parseMoreCommentGQL(executor, handler, response.body(),
-                                expandChildren, new ParseComment.ParseCommentListener() {
+                                expandChildren, authorName, new ParseComment.ParseCommentListener() {
                                     @Override
                                     public void onParseCommentSuccess(ArrayList<Comment> topLevelComments,
                                                                       ArrayList<Comment> expandedComments,

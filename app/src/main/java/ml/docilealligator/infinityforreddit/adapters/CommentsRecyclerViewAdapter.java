@@ -633,7 +633,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                         SortType.Type sortType = mCommentRecyclerViewAdapterCallback.getSortType();
                         FetchComment.fetchMoreComment(mExecutor, new Handler(), retrofit, mAccessToken,
                                 parentComment.getMoreChildrenIds(),
-                                mExpandChildren, mPost.getFullName(), sortType, new FetchComment.FetchMoreCommentListener() {
+                                mExpandChildren, mPost.getFullName(), sortType, mPost.getAuthor(), new FetchComment.FetchMoreCommentListener() {
                                     @Override
                                     public void onFetchMoreCommentSuccess(ArrayList<Comment> topLevelComments,
                                                                           ArrayList<Comment> expandedComments,
