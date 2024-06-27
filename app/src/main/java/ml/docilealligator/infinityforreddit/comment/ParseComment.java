@@ -65,7 +65,7 @@ public class ParseComment {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
 
-                String parentId = data.getJSONObject("postInfoById").getString("id");
+                String postId = data.getJSONObject("postInfoById").getString("id");
                 String subredditName = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("name");
 
                 JSONArray childrenArray = data.getJSONObject("postInfoById").getJSONObject("commentForest").getJSONArray("trees");
@@ -74,7 +74,7 @@ public class ParseComment {
                 ArrayList<Comment> newComments = new ArrayList<>();
                 ArrayList<String> moreChildrenIds = new ArrayList<>();
 
-                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, parentId, subredditName, authorName);
+                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, postId, subredditName, authorName);
                 expandChildren(newComments, expandedNewComments, expandChildren);
 
                 ArrayList<Comment> commentData;
@@ -84,7 +84,7 @@ public class ParseComment {
                     commentData = newComments;
                 }
 
-                handler.post(() -> parseCommentListener.onParseCommentSuccess(newComments, commentData, parentId, moreChildrenIds));
+                handler.post(() -> parseCommentListener.onParseCommentSuccess(newComments, commentData, postId, moreChildrenIds));
             } catch (JSONException e) {
                 e.printStackTrace();
                 handler.post(parseCommentListener::onParseCommentFailed);
@@ -193,60 +193,7 @@ public class ParseComment {
                 ArrayList<Comment> expandedNewComments = new ArrayList<>();
                 ArrayList<String> moreChildrenIds = new ArrayList<>();
 
-                // api response is a flat list of comments tree
-                // process it in order and rebuild the tree
-                for (int i = 0; i < childrenArray.length(); i++) {
-                    JSONObject child = childrenArray.getJSONObject(i);
-                    if (!child.isNull(JSONUtils.KIND_VALUE_MORE)) {
-                        String parentFullName = child.getString("parentId");
-                        int childCount = child.getJSONObject(JSONUtils.KIND_VALUE_MORE).getInt("count");
-
-                        if (childCount > 0) {
-                            ArrayList<String> localMoreChildrenIds = new ArrayList<>();
-                            String cursor = child.getJSONObject(JSONUtils.KIND_VALUE_MORE).getString("cursor");
-                            localMoreChildrenIds.add(cursor);
-
-                            Comment parentComment = findCommentByFullName(newComments, parentFullName);
-                            if (parentComment != null) {
-                                parentComment.setHasReply(true);
-                                parentComment.setMoreChildrenIds(localMoreChildrenIds);
-                                parentComment.addChildren(new ArrayList<>()); // ensure children list is not null
-                            } else {
-                                // assume that it is parent of this call
-                                moreChildrenIds.addAll(localMoreChildrenIds);
-                            }
-                        } else {
-                            Comment continueThreadPlaceholder = new Comment(
-                                    parentFullName,
-                                    child.getInt(JSONUtils.DEPTH_KEY),
-                                    Comment.PLACEHOLDER_CONTINUE_THREAD
-                            );
-
-                            Comment parentComment = findCommentByFullName(newComments, parentFullName);
-                            if (parentComment != null) {
-                                parentComment.setHasReply(true);
-                                parentComment.addChild(continueThreadPlaceholder, parentComment.getChildCount());
-                                parentComment.setChildCount(parentComment.getChildCount() + 1);
-                            } else {
-                                // assume that it is parent of this call
-                                newComments.add(continueThreadPlaceholder);
-                            }
-                        }
-                    } else {
-                        Comment comment = parseSingleCommentGQL(child, postId, subredditName, authorName);
-                        String parentFullName = comment.getParentId();
-
-                        Comment parentComment = findCommentByFullName(newComments, parentFullName);
-                        if (parentComment != null) {
-                            parentComment.setHasReply(true);
-                            parentComment.addChild(comment, parentComment.getChildCount());
-                            parentComment.setChildCount(parentComment.getChildCount() + 1);
-                        } else {
-                            // assume that it is parent of this call
-                            newComments.add(comment);
-                        }
-                    }
-                }
+                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, postId, subredditName, authorName);
 
                 updateChildrenCount(newComments);
                 expandChildren(newComments, expandedNewComments, expandChildren);
