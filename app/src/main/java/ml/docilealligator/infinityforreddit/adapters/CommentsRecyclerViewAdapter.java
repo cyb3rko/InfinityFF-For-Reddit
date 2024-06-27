@@ -139,6 +139,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private int mUsernameColor;
     private int mSubmitterColor;
     private int mModeratorColor;
+    private int mDeletedColor;
     private int mCurrentUserColor;
     private int mAuthorFlairTextColor;
     private int mUpvotedColor;
@@ -252,6 +253,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         mCommentBackgroundColor = customThemeWrapper.getCommentBackgroundColor();
         mSubmitterColor = customThemeWrapper.getSubmitter();
         mModeratorColor = customThemeWrapper.getModerator();
+        mDeletedColor = customThemeWrapper.getDeleted();
         mCurrentUserColor = customThemeWrapper.getCurrentUser();
         mAuthorFlairTextColor = customThemeWrapper.getAuthorFlairTextColor();
         mUsernameColor = customThemeWrapper.getUsername();
@@ -393,6 +395,8 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     Drawable currentUserDrawable = Utils.getTintedDrawable(mActivity, R.drawable.ic_current_user_14dp, mCurrentUserColor);
                     ((CommentViewHolder) holder).authorTextView.setCompoundDrawablesWithIntrinsicBounds(
                             currentUserDrawable, null, null, null);
+                }else if (comment.isAuthorDeleted()) {
+                    ((CommentViewHolder) holder).authorTextView.setTextColor(mDeletedColor);
                 }
 
                 if (comment.getAuthorIconUrl() == null) {
