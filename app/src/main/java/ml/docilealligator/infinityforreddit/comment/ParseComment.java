@@ -193,7 +193,7 @@ public class ParseComment {
                 ArrayList<Comment> expandedNewComments = new ArrayList<>();
                 ArrayList<String> moreChildrenIds = new ArrayList<>();
 
-                parseCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, postId, subredditName, authorName);
+                parseMoreCommentRecursionGQL(childrenArray, newComments, moreChildrenIds, postId, subredditName, authorName);
 
                 updateChildrenCount(newComments);
                 expandChildren(newComments, expandedNewComments, expandChildren);
@@ -354,6 +354,94 @@ public class ParseComment {
             }
         }
     }
+
+    private static void parseMoreCommentRecursionGQL(JSONArray comments, ArrayList<Comment> newCommentData,
+                                                 ArrayList<String> moreChildrenIds, String postId, String subredditName, String authorName) throws JSONException {
+        int actualCommentLength;
+
+        if (comments.length() == 0) {
+            return;
+        }
+
+        // last child data object
+        JSONObject last = comments.getJSONObject(comments.length() - 1);
+
+        //Maybe moreChildrenIds contain only commentsJSONArray and no more info
+        if (!last.isNull("more")) {
+
+            moreChildrenIds.add(last.getJSONObject("more").getString("cursor"));
+            actualCommentLength = comments.length() - 1;
+
+            if (moreChildrenIds.isEmpty() && !comments.getJSONObject(comments.length() - 1).isNull("more")) {
+                newCommentData.add(new Comment(last.getString("parentId"), last.getInt(JSONUtils.DEPTH_KEY), Comment.PLACEHOLDER_CONTINUE_THREAD));
+                return;
+            }
+        } else {
+            actualCommentLength = comments.length();
+        }
+
+        HashMap<String, Comment> commentMap = new HashMap<>();
+        JSONObject lastDeleted = new JSONObject();
+        int topDepth = comments.getJSONObject(0).getInt("depth");
+
+        for (int i = 0; i < actualCommentLength; i++) {
+            JSONObject data = comments.getJSONObject(i);
+            boolean isHiddenChild = data.isNull("node");
+            boolean isVisibleChild = !data.isNull("parentId") && !data.isNull("node");
+
+            if (isHiddenChild) {
+                String parentId = data.getString("parentId");
+                if (commentMap.get(parentId) == null) {
+                    continue;
+                }
+
+                String cursor = data.getJSONObject("more").getString("cursor");
+                commentMap.get(parentId).addMoreChildrenId(cursor);
+            } else if (isVisibleChild) {
+                String parentId = data.getString("parentId");
+                boolean isTopLevel = false;
+                if (topDepth < data.getInt("depth") && !commentMap.containsKey(parentId)) {
+                    Comment deletedComment = createDeletedComment(lastDeleted, parentId, postId, subredditName);
+                    commentMap.put(parentId, deletedComment);
+                    if (deletedComment.getDepth() > 0) {
+                        commentMap.get(deletedComment.getParentId()).addChildEnd(deletedComment);
+                    } else {
+                        newCommentData.add(deletedComment);
+                    }
+                }else{
+                    isTopLevel = true;
+                }
+
+                if (data.getJSONObject("node").getString("__typename").equals("DeletedComment")) {
+                    lastDeleted = data;
+                    continue;
+                }
+
+                String id = data.getJSONObject("node").getString("id");
+
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName, authorName);
+                commentMap.put(id, singleComment);
+                if(isTopLevel){
+                    newCommentData.add(singleComment);
+                }else{
+                    commentMap.get(parentId).addChildEnd(singleComment);
+                }
+            } else {
+                boolean isDeleted = data.getJSONObject("node").getString("__typename").equals("DeletedComment");
+                if (isDeleted) {
+                    lastDeleted = data;
+                    continue;
+                }
+
+                String id = data.getJSONObject("node").getString("id");
+
+                Comment singleComment = parseSingleCommentGQL(data, postId, subredditName, authorName);
+                commentMap.put(id, singleComment);
+                newCommentData.add(singleComment);
+            }
+        }
+    }
+
 
     private static int getChildCount(Comment comment) {
         if (comment.getChildren() == null) {
