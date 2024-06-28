@@ -399,18 +399,17 @@ public class ParseComment {
                 commentMap.get(parentId).addMoreChildrenId(cursor);
             } else if (isVisibleChild) {
                 String parentId = data.getString("parentId");
-                boolean isTopLevel = false;
                 if (topDepth < data.getInt("depth") && !commentMap.containsKey(parentId)) {
                     Comment deletedComment = createDeletedComment(lastDeleted, parentId, postId, subredditName);
                     commentMap.put(parentId, deletedComment);
-                    if (deletedComment.getDepth() > 0) {
+                    if (deletedComment.getDepth() > topDepth) {
                         commentMap.get(deletedComment.getParentId()).addChildEnd(deletedComment);
                     } else {
                         newCommentData.add(deletedComment);
                     }
-                }else{
-                    isTopLevel = true;
                 }
+
+                boolean isTopLevel = topDepth == data.getInt("depth");
 
                 if (data.getJSONObject("node").getString("__typename").equals("DeletedComment")) {
                     lastDeleted = data;
