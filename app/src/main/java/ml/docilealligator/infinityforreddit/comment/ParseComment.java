@@ -66,7 +66,13 @@ public class ParseComment {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
 
                 String postId = data.getJSONObject("postInfoById").getString("id");
-                String subredditName = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("name");
+                String postType = data.getJSONObject("postInfoById").getString("__typename");
+                String subredditName = "";
+                if (postType.equals("ProfilePost")) {
+                    subredditName= data.getJSONObject("postInfoById").getJSONObject("profile").getJSONObject("redditorInfo").getString("name");
+                }else{
+                    subredditName= data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("name");
+                }
 
                 JSONArray childrenArray = data.getJSONObject("postInfoById").getJSONObject("commentForest").getJSONArray("trees");
 
@@ -185,8 +191,14 @@ public class ParseComment {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
 
                 String postId = data.getJSONObject("postInfoById").getString("id");
-                String subredditName = data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("name");
+                String postType = data.getJSONObject("postInfoById").getString("__typename");
 
+                String subredditName = "";
+                if (postType.equals("ProfilePost")) {
+                    subredditName= data.getJSONObject("postInfoById").getJSONObject("profile").getJSONObject("redditorInfo").getString("name");
+                }else{
+                    subredditName= data.getJSONObject("postInfoById").getJSONObject("subreddit").getString("name");
+                }
                 JSONArray childrenArray = data.getJSONObject("postInfoById").getJSONObject("commentForest").getJSONArray("trees");
 
                 ArrayList<Comment> newComments = new ArrayList<>();
@@ -357,7 +369,7 @@ public class ParseComment {
 
     private static void parseMoreCommentRecursionGQL(JSONArray comments, ArrayList<Comment> newCommentData,
                                                  ArrayList<String> moreChildrenIds, String postId, String subredditName, String authorName) throws JSONException {
-        int actualCommentLength;
+        int actualCommentLength = comments.length();
 
         if (comments.length() == 0) {
             return;
@@ -367,6 +379,7 @@ public class ParseComment {
         JSONObject last = comments.getJSONObject(comments.length() - 1);
 
         //Maybe moreChildrenIds contain only commentsJSONArray and no more info
+        /*
         if (!last.isNull("more")) {
 
             moreChildrenIds.add(last.getJSONObject("more").getString("cursor"));
@@ -379,6 +392,7 @@ public class ParseComment {
         } else {
             actualCommentLength = comments.length();
         }
+        */
 
         HashMap<String, Comment> commentMap = new HashMap<>();
         JSONObject lastDeleted = new JSONObject();
