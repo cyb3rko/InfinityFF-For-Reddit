@@ -38,6 +38,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -50,6 +51,7 @@ import com.github.piasy.biv.view.GlideImageViewFactory;
 import com.google.android.material.bottomappbar.BottomAppBar;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -78,6 +80,10 @@ import ml.docilealligator.infinityforreddit.font.TitleFontStyle;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWallpaperCallback, CustomFontReceiver {
 
@@ -146,7 +152,22 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
         getTheme().applyStyle(ContentFontFamily.valueOf(mSharedPreferences
                 .getString(SharedPreferencesUtils.CONTENT_FONT_FAMILY_KEY, ContentFontFamily.Default.name())).getResId(), true);
 
-        BigImageViewer.initialize(GlideImageLoader.with(this.getApplicationContext()));
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request original = chain.request();
+                        if (original.url().host().equals("files.catbox.moe")) {
+                            Request request = original.newBuilder().removeHeader("user-agent")
+                                    .method(original.method(), original.body())
+                                    .build();
+                            return chain.proceed(request);
+                        }
+                        return chain.proceed(original);
+                    }
+                })
+                .build();
+        BigImageViewer.initialize(GlideImageLoader.with(this.getApplicationContext(), client));
 
         setContentView(R.layout.activity_view_image_or_gif);
 
