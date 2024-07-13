@@ -5,20 +5,13 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.TextUtils;
 
-import com.google.common.io.BaseEncoding;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1124,7 +1117,6 @@ public class ParsePost {
                     authorFlair, authorFlairHTML, postTimeMillis, title, url, permalink, score,
                     postType, voteType, nComments, upvoteRatio, flair, awards, nAwards, hidden,
                     spoiler, nsfw, stickied, archived, locked, saved, isCrosspost, distinguished, suggestedSort);
-
             JSONArray galleryArray = data.getJSONObject("gallery").getJSONArray(JSONUtils.ITEMS_KEY);
             ArrayList<Post.Gallery> gallery = new ArrayList<>();
             for (int i = 0; i < galleryArray.length(); i++) {
@@ -1180,6 +1172,10 @@ public class ParsePost {
                 post.setPostType(Post.GALLERY_TYPE);
                 post.setGallery(gallery);
                 post.setPreviews(previews);
+            }
+
+            if(!data.isNull("content")){
+                setText(post, data);
             }
 
         } else {
@@ -1252,7 +1248,7 @@ public class ParsePost {
         Matcher matcher = patternImageLink.matcher(content);
         String value = content;
 
-        Map replace = new HashMap<String, String>();
+        Map<String, String> replace = new HashMap<>();
 
         int i = 0;
         while (matcher.find()) {
