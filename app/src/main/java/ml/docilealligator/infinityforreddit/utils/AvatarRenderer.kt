@@ -1,13 +1,15 @@
 package ml.docilealligator.infinityforreddit.utils
 
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.widget.ImageView
-import com.amulyakhare.textdrawable.TextDrawable
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import ml.docilealligator.infinityforreddit.SessionHolder
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.util.MatrixItem
+
 
 class AvatarRenderer(private val matrixItemColorProvider: MatrixItemColorProvider) {
 
@@ -35,11 +37,11 @@ class AvatarRenderer(private val matrixItemColorProvider: MatrixItemColorProvide
 
     fun getPlaceholderDrawable(matrixItem: MatrixItem): Drawable {
         val avatarColor = matrixItemColorProvider.getColor(matrixItem)
-        return TextDrawable.builder()
-            .beginConfig()
-            .bold()
-            .endConfig()
-            .buildRound(matrixItem.firstLetterOfDisplayName(), avatarColor)
+        val drawable = ShapeDrawable(OvalShape())
+        drawable.paint.color = avatarColor
+        drawable.intrinsicWidth = THUMBNAIL_SIZE
+        drawable.intrinsicHeight = THUMBNAIL_SIZE
+        return drawable
     }
 
     // PRIVATE API *********************************************************************************
