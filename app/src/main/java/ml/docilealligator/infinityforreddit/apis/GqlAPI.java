@@ -39,5 +39,10 @@ public interface GqlAPI {
     @POST("/")
     Call<String> getPostComments(@HeaderMap Map<String, String> headers, @Body RequestBody body);
 
+    @POST("/")
+    Call<String> subredditAutocomplete(@HeaderMap Map<String, String> headers, @Body RequestBody body);
+
+    @POST("/")
+    Call<String> getSubredditData(@HeaderMap Map<String, String> headers, @Body RequestBody body);
 
 }

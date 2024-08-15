@@ -1,7 +1,5 @@
 package ml.docilealligator.infinityforreddit.subreddit;
 
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -10,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ml.docilealligator.infinityforreddit.SortType;
+import ml.docilealligator.infinityforreddit.apis.GqlAPI;
+import ml.docilealligator.infinityforreddit.apis.GqlRequestBody;
 import ml.docilealligator.infinityforreddit.apis.RedditAPI;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import retrofit2.Call;
@@ -19,16 +19,15 @@ import retrofit2.Retrofit;
 
 public class FetchSubredditData {
     public static void fetchSubredditData(Retrofit oauthRetrofit, Retrofit retrofit, String subredditName, String accessToken, final FetchSubredditDataListener fetchSubredditDataListener) {
-        RedditAPI api = retrofit.create(RedditAPI.class);
 
         Call<String> subredditData;
-        if (oauthRetrofit == null || TextUtils.isEmpty(accessToken)) {
+        if (accessToken == null) {
+            RedditAPI api = retrofit.create(RedditAPI.class);
             subredditData = api.getSubredditData(subredditName);
         } else {
-            RedditAPI oauthApi = oauthRetrofit.create(RedditAPI.class);
+            GqlAPI oauthApi = oauthRetrofit.create(GqlAPI.class);
             Map<String, String> header = APIUtils.getOAuthHeader(accessToken);
-            header.remove(APIUtils.USER_AGENT_KEY);
-            subredditData = oauthApi.getSubredditDataOauth(subredditName, header);
+            subredditData = oauthApi.getSubredditData(header, GqlRequestBody.subredditDataBody(subredditName));
         }
         subredditData.enqueue(new Callback<>() {
             @Override
@@ -64,7 +63,7 @@ public class FetchSubredditData {
         Map<String, String> map = new HashMap<>();
         Map<String, String> headers = accessToken != null ? APIUtils.getOAuthHeader(accessToken) : Collections.unmodifiableMap(map);
         Call<String> subredditDataCall = api.searchSubreddits(query, after, sortType, nsfw ? 1 : 0, headers);
-        subredditDataCall.enqueue(new Callback<String>() {
+        subredditDataCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {

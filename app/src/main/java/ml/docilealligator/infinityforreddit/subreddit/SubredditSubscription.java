@@ -10,6 +10,8 @@ import java.util.concurrent.Executor;
 
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.account.Account;
+import ml.docilealligator.infinityforreddit.apis.GqlAPI;
+import ml.docilealligator.infinityforreddit.apis.GqlRequestBody;
 import ml.docilealligator.infinityforreddit.apis.RedditAPI;
 import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubredditData;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
@@ -23,14 +25,14 @@ public class SubredditSubscription {
                                             String accountName, RedditDataRoomDatabase redditDataRoomDatabase,
                                             SubredditSubscriptionListener subredditSubscriptionListener) {
         subredditSubscription(executor, handler, oauthRetrofit, retrofit, accessToken, subredditName,
-                accountName, "sub", redditDataRoomDatabase, subredditSubscriptionListener);
+                accountName, APIUtils.ACTION_SUB, redditDataRoomDatabase, subredditSubscriptionListener);
     }
 
-    public static void anonymousSubscribeToSubreddit(Executor executor, Handler handler, Retrofit retrofit,
+    public static void anonymousSubscribeToSubreddit(Executor executor, Handler handler, String accessToken, Retrofit retrofit,
                                                      RedditDataRoomDatabase redditDataRoomDatabase,
                                                      String subredditName,
                                                      SubredditSubscriptionListener subredditSubscriptionListener) {
-        FetchSubredditData.fetchSubredditData(null, retrofit, subredditName, "", new FetchSubredditData.FetchSubredditDataListener() {
+        FetchSubredditData.fetchSubredditData(retrofit, null, subredditName, accessToken, new FetchSubredditData.FetchSubredditDataListener() {
             @Override
             public void onFetchSubredditDataSuccess(SubredditData subredditData, int nCurrentOnlineSubscribers) {
                 insertSubscription(executor, handler, redditDataRoomDatabase,
@@ -49,7 +51,7 @@ public class SubredditSubscription {
                                               RedditDataRoomDatabase redditDataRoomDatabase,
                                               SubredditSubscriptionListener subredditSubscriptionListener) {
         subredditSubscription(executor, handler, oauthRetrofit, null, accessToken, subredditName,
-                accountName, "unsub", redditDataRoomDatabase, subredditSubscriptionListener);
+                accountName, APIUtils.ACTION_UNSUB, redditDataRoomDatabase, subredditSubscriptionListener);
     }
 
     public static void anonymousUnsubscribeToSubreddit(Executor executor, Handler handler,
@@ -64,18 +66,14 @@ public class SubredditSubscription {
                                               String accountName, String action,
                                               RedditDataRoomDatabase redditDataRoomDatabase,
                                               SubredditSubscriptionListener subredditSubscriptionListener) {
-        RedditAPI api = oauthRetrofit.create(RedditAPI.class);
+        GqlAPI api = oauthRetrofit.create(GqlAPI.class);
 
-        Map<String, String> params = new HashMap<>();
-        params.put(APIUtils.ACTION_KEY, action);
-        params.put(APIUtils.SR_NAME_KEY, subredditName);
-
-        Call<String> subredditSubscriptionCall = api.subredditSubscription(APIUtils.getOAuthHeader(accessToken), params);
-        subredditSubscriptionCall.enqueue(new Callback<String>() {
+        Call<String> subredditSubscriptionCall = api.subredditSubscription(APIUtils.getOAuthHeader(accessToken), GqlRequestBody.subscribeBody(subredditName, action));
+        subredditSubscriptionCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull retrofit2.Response<String> response) {
                 if (response.isSuccessful()) {
-                    if (action.equals("sub")) {
+                    if (action.equals(APIUtils.ACTION_SUB)) {
                         FetchSubredditData.fetchSubredditData(oauthRetrofit, retrofit, subredditName, accessToken, new FetchSubredditData.FetchSubredditDataListener() {
                             @Override
                             public void onFetchSubredditDataSuccess(SubredditData subredditData, int nCurrentOnlineSubscribers) {

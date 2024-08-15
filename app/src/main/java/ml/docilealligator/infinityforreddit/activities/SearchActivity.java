@@ -43,6 +43,8 @@ import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.adapters.SearchActivityRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.adapters.SubredditAutocompleteRecyclerViewAdapter;
+import ml.docilealligator.infinityforreddit.apis.GqlAPI;
+import ml.docilealligator.infinityforreddit.apis.GqlRequestBody;
 import ml.docilealligator.infinityforreddit.apis.RedditAPI;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
@@ -108,6 +110,9 @@ public class SearchActivity extends BaseActivity {
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
+    @Inject
+    @Named("gql")
+    Retrofit mGQLRetrofit;
     @Inject
     RedditDataRoomDatabase mRedditDataRoomDatabase;
     @Inject
@@ -221,8 +226,8 @@ public class SearchActivity extends BaseActivity {
                     }
                     if (mAccessToken == null) return;
 
-                    subredditAutocompleteCall = mOauthRetrofit.create(RedditAPI.class).subredditAutocomplete(APIUtils.getOAuthHeader(mAccessToken),
-                            s.toString(), nsfw);
+                    subredditAutocompleteCall = mGQLRetrofit.create(GqlAPI.class).subredditAutocomplete(APIUtils.getOAuthHeader(mAccessToken),
+                            GqlRequestBody.subredditAutocompleteBody(s.toString(), nsfw));
                     subredditAutocompleteCall.enqueue(new Callback<>() {
                         @Override
                         public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {

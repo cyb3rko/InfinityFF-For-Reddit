@@ -185,6 +185,9 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
     @Named("oauth")
     Retrofit mOauthRetrofit;
     @Inject
+    @Named("gql")
+    Retrofit mGQLRetrofit;
+    @Inject
     RedditDataRoomDatabase mRedditDataRoomDatabase;
     @Inject
     @Named("default")
@@ -205,6 +208,9 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
     @Named("current_account")
     SharedPreferences mCurrentAccountSharedPreferences;
     @Inject
+    @Named("anonymous_account")
+    SharedPreferences mAnonymousAccountSharedPreferences;
+    @Inject
     CustomThemeWrapper mCustomThemeWrapper;
     @Inject
     Executor mExecutor;
@@ -215,6 +221,7 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
     private String mAccessToken;
     private String mAccountName;
     private String subredditName;
+    private String subredditId;
     private String description;
     private boolean mFetchSubredditInfoSuccess = false;
     private int mNCurrentOnlineSubscribers = 0;
@@ -348,7 +355,10 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
         fragmentManager = getSupportFragmentManager();
 
         mAccessToken = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
-        mAccountName = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, null);
+        if (mAccessToken == null){
+            mAccessToken = mAnonymousAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
+        }
+        mAccountName = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, "-");
 
         if (savedInstanceState == null) {
             mMessageFullname = getIntent().getStringExtra(EXTRA_MESSAGE_FULLNAME);
@@ -416,6 +426,8 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
             if (subredditData != null) {
                 isNsfwSubreddit = subredditData.isNSFW();
 
+                subredditId = subredditData.getId();
+
                 if (subredditData.getBannerUrl().equals("")) {
                     iconGifImageView.setOnClickListener(view -> {
                         //Do nothing as it has no image
@@ -470,7 +482,7 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
 
                 if (subredditData.isNSFW()) {
                     if (nsfwWarningBuilder == null
-                            && mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_NSFW_FOREVER, false) || !mNsfwAndSpoilerSharedPreferences.getBoolean((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.NSFW_BASE, false)) {
+                            && mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_NSFW_FOREVER, false) || !mNsfwAndSpoilerSharedPreferences.getBoolean((mAccountName == null ? "-" : mAccountName) + SharedPreferencesUtils.NSFW_BASE, false)) {
                         nsfwWarningBuilder = new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogTheme)
                                 .setTitle(R.string.warning)
                                 .setMessage(R.string.this_is_a_nsfw_subreddit)
@@ -573,7 +585,7 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
 
     private void fetchSubredditData() {
         if (!mFetchSubredditInfoSuccess) {
-            FetchSubredditData.fetchSubredditData(mOauthRetrofit, mRetrofit, subredditName, mAccessToken, new FetchSubredditData.FetchSubredditDataListener() {
+            FetchSubredditData.fetchSubredditData(mGQLRetrofit, mRetrofit, subredditName, mAccessToken, new FetchSubredditData.FetchSubredditDataListener() {
                 @Override
                 public void onFetchSubredditDataSuccess(SubredditData subredditData, int nCurrentOnlineSubscribers) {
                     mNCurrentOnlineSubscribers = nCurrentOnlineSubscribers;
@@ -953,12 +965,12 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
         navigationWrapper.floatingActionButton.setVisibility(hideFab ? View.GONE : View.VISIBLE);
 
         subscribeSubredditChip.setOnClickListener(view -> {
-            if (mAccessToken == null) {
+            if (mAccountName == null || mAccountName.equals("-")) {
                 if (subscriptionReady) {
                     subscriptionReady = false;
                     if (getResources().getString(R.string.subscribe).contentEquals(subscribeSubredditChip.getText())) {
-                        SubredditSubscription.anonymousSubscribeToSubreddit(mExecutor, new Handler(),
-                                mRetrofit, mRedditDataRoomDatabase, subredditName,
+                        SubredditSubscription.anonymousSubscribeToSubreddit(mExecutor, new Handler(), mAccessToken,
+                                mGQLRetrofit, mRedditDataRoomDatabase, subredditName,
                                 new SubredditSubscription.SubredditSubscriptionListener() {
                                     @Override
                                     public void onSubredditSubscriptionSuccess() {
@@ -998,8 +1010,8 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
                 if (subscriptionReady) {
                     subscriptionReady = false;
                     if (getResources().getString(R.string.subscribe).contentEquals(subscribeSubredditChip.getText())) {
-                        SubredditSubscription.subscribeToSubreddit(mExecutor, new Handler(), mOauthRetrofit,
-                                mRetrofit, mAccessToken, subredditName, mAccountName, mRedditDataRoomDatabase,
+                        SubredditSubscription.subscribeToSubreddit(mExecutor, new Handler(), mGQLRetrofit,
+                                mRetrofit, mAccessToken, subredditId, mAccountName, mRedditDataRoomDatabase,
                                 new SubredditSubscription.SubredditSubscriptionListener() {
                                     @Override
                                     public void onSubredditSubscriptionSuccess() {
@@ -1016,8 +1028,8 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
                                     }
                                 });
                     } else {
-                        SubredditSubscription.unsubscribeToSubreddit(mExecutor, new Handler(), mOauthRetrofit,
-                                mAccessToken, subredditName, mAccountName, mRedditDataRoomDatabase,
+                        SubredditSubscription.unsubscribeToSubreddit(mExecutor, new Handler(), mGQLRetrofit,
+                                mAccessToken, subredditId, mAccountName, mRedditDataRoomDatabase,
                                 new SubredditSubscription.SubredditSubscriptionListener() {
                                     @Override
                                     public void onSubredditSubscriptionSuccess() {
@@ -1430,7 +1442,7 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
             return false;
         });
 
-        boolean nsfw = mNsfwAndSpoilerSharedPreferences.getBoolean((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.NSFW_BASE, false);
+        boolean nsfw = mNsfwAndSpoilerSharedPreferences.getBoolean((mAccountName == null ? "-" : mAccountName) + SharedPreferencesUtils.NSFW_BASE, false);
         thingEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -1530,7 +1542,7 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
     private void random() {
         RandomBottomSheetFragment randomBottomSheetFragment = new RandomBottomSheetFragment();
         Bundle bundle = new Bundle();
-        bundle.putBoolean(RandomBottomSheetFragment.EXTRA_IS_NSFW, !mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_NSFW_FOREVER, false) && mNsfwAndSpoilerSharedPreferences.getBoolean((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.NSFW_BASE, false));
+        bundle.putBoolean(RandomBottomSheetFragment.EXTRA_IS_NSFW, !mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_NSFW_FOREVER, false) && mNsfwAndSpoilerSharedPreferences.getBoolean((mAccountName == null ? "-" : mAccountName) + SharedPreferencesUtils.NSFW_BASE, false));
         randomBottomSheetFragment.setArguments(bundle);
         randomBottomSheetFragment.show(getSupportFragmentManager(), randomBottomSheetFragment.getTag());
     }
