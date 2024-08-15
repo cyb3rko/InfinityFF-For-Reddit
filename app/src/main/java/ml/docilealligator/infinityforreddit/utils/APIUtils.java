@@ -111,6 +111,8 @@ public class APIUtils {
     public static final String REVEDDIT_ORIGIN = "https://www.reveddit.com";
     public static final String REFERER_KEY = "Referer";
     public static final String REVEDDIT_REFERER = "https://www.reveddit.com/";
+    public static final String ACTION_SUB = "SUBSCRIBED";
+    public static final String ACTION_UNSUB = "NONE";
 
     /*public static final String HOST_KEY = "Host";
     public static final String REDGIFS_HOST = "api.redgifs.com";
