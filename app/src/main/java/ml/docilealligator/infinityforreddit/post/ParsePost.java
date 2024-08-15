@@ -999,6 +999,9 @@ public class ParsePost {
                     post.setPreviews(previews);
                     post.setVideoUrl(videoUrl);
                     post.setVideoDownloadUrl(videoUrl);
+                    if (!data.isNull("content")){
+                        setText(post, data);
+                    }
                     return post;
                 }
             }
@@ -1059,6 +1062,10 @@ public class ParsePost {
             post.setPreviews(previews);
             post.setVideoUrl(videoUrl);
             post.setVideoDownloadUrl(videoDownloadUrl);
+
+            if (!data.isNull("content")){
+                setText(post, data);
+            }
         } else if (data.getString("postHint").equals("LINK")){
             int postType = Post.LINK_TYPE;
 
