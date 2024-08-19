@@ -159,6 +159,7 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
     public static final String EXTRA_POST_TYPE = "EPT";
     public static final String EXTRA_FILTER = "EF";
     public static final String EXTRA_ACCESS_TOKEN = "EAT";
+    public static final String ANON_ACCESS_TOKEN = "AAT";
     public static final String EXTRA_ACCOUNT_NAME = "EAN";
     public static final String EXTRA_DISABLE_READ_POSTS = "EDRP";
 
@@ -275,6 +276,8 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
     private Unbinder unbinder;
     private Map<String, String> subredditOrUserIcons = new HashMap<>();
     private String accessToken;
+
+    private String anonAccessToken;
 
     public PostFragment() {
         // Required empty public constructor
@@ -445,6 +448,7 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
         postType = getArguments().getInt(EXTRA_POST_TYPE);
 
         accessToken = getArguments().getString(EXTRA_ACCESS_TOKEN);
+        anonAccessToken = getArguments().getString(ANON_ACCESS_TOKEN);
         accountName = getArguments().getString(EXTRA_ACCOUNT_NAME);
         int defaultPostLayout = Integer.parseInt(mSharedPreferences.getString(SharedPreferencesUtils.DEFAULT_POST_LAYOUT_KEY, "0"));
         savePostFeedScrolledPosition = mSharedPreferences.getBoolean(SharedPreferencesUtils.SAVE_FRONT_PAGE_SCROLLED_POSITION, false);
@@ -1249,8 +1253,8 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
 
     private void initializeAndBindPostViewModelForAnonymous(String concatenatedSubredditNames) {
         //For anonymous user
-        String l_accessToken = null;
-        if (accessToken == null){
+        String l_accessToken = anonAccessToken;
+        if (l_accessToken == null){
             l_accessToken = mAnonymousAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
         }
 

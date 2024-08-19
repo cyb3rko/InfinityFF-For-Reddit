@@ -1574,7 +1574,12 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
                 Bundle bundle = new Bundle();
                 bundle.putString(PostFragment.EXTRA_NAME, subredditName);
                 bundle.putInt(PostFragment.EXTRA_POST_TYPE, PostPagingSource.TYPE_SUBREDDIT);
-                bundle.putString(PostFragment.EXTRA_ACCESS_TOKEN, mAccessToken);
+                if (mAccountName == null) {
+                    bundle.putString(PostFragment.EXTRA_ACCESS_TOKEN, null);
+                    bundle.putString(PostFragment.ANON_ACCESS_TOKEN, mAccessToken);
+                }else{
+                    bundle.putString(PostFragment.EXTRA_ACCESS_TOKEN, mAccessToken);
+                }
                 bundle.putString(PostFragment.EXTRA_ACCOUNT_NAME, mAccountName);
                 fragment.setArguments(bundle);
                 return fragment;
