@@ -43,8 +43,8 @@ public class APIUtils {
     public static final String AUTHORIZATION_KEY = "Authorization";
     public static final String AUTHORIZATION_BASE = "bearer ";
     public static final String USER_AGENT_KEY = "User-Agent";
-    public static final String USER_AGENT = "Reddit/Version 2023.39.0/Build 1211607/Android 11";
-    public static final String VIDEO_USER_AGENT = "RedditVideo/Version 2023.39.0/Build 1211607/Android 11";
+    public static final String USER_AGENT = "Reddit/Version 2023.40.0/Build 1221521/Android 11";
+    public static final String VIDEO_USER_AGENT = "RedditVideo/Version 2023.40.0/Build 1221521/Android 11";
 
     public static final String GRANT_TYPE_KEY = "grant_type";
     public static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
@@ -113,6 +113,10 @@ public class APIUtils {
     public static final String REVEDDIT_REFERER = "https://www.reveddit.com/";
     public static final String ACTION_SUB = "SUBSCRIBED";
     public static final String ACTION_UNSUB = "NONE";
+
+    public static final String VOTESTATE_UP = "UP";
+    public static final String VOTESTATE_NONE = "NONE";
+    public static final String VOTESTATE_DOWN = "DOWN";
 
     /*public static final String HOST_KEY = "Host";
     public static final String REDGIFS_HOST = "api.redgifs.com";

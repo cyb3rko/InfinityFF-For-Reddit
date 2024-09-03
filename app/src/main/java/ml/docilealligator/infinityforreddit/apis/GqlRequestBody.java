@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import okhttp3.RequestBody;
 
 public class GqlRequestBody {
@@ -87,6 +88,83 @@ public class GqlRequestBody {
 
             data.put("variables", variables);
             data.put("extensions", createExtensionsObject("5de46969ea6ea4ba6ec17ad2f7174498982453f96b1b9cc1172b63c18f2a7f2f"));
+
+        }catch (JSONException e){
+
+        }
+        return RequestBody.create(data.toString(), okhttp3.MediaType.parse("application/json; charset=utf-8"));
+    }
+
+    public static RequestBody updatePostVoteStateBody(String postId, String state){
+
+        JSONObject data = new JSONObject();
+        try {
+            data.put("operationName", "UpdatePostVoteState");
+            JSONObject variables = new JSONObject();
+
+            JSONObject input = new JSONObject();
+            input.put("postId", postId);
+
+            String voteState;
+            switch(state){
+                case "0":
+                    voteState = APIUtils.VOTESTATE_NONE;
+                    break;
+                case "1":
+                    voteState = APIUtils.VOTESTATE_UP;
+                    break;
+                case "-1":
+                    voteState = APIUtils.VOTESTATE_DOWN;
+                    break;
+                default:
+                    voteState = APIUtils.VOTESTATE_NONE;
+                    break;
+            }
+
+            input.put("voteState", voteState);
+
+            variables.put("input", input);
+
+            data.put("variables", variables);
+            data.put("extensions", createExtensionsObject("2523ed203f983488aab97d84f12b46910008244b79a61073b419e33ff98cb7e5"));
+
+        }catch (JSONException e){
+
+        }
+        return RequestBody.create(data.toString(), okhttp3.MediaType.parse("application/json; charset=utf-8"));
+    }
+    public static RequestBody updateCommentVoteStateBody(String postId, String state){
+
+        JSONObject data = new JSONObject();
+        try {
+            data.put("operationName", "UpdateCommentVoteState");
+            JSONObject variables = new JSONObject();
+
+            JSONObject input = new JSONObject();
+            input.put("commentId", postId);
+
+            String voteState;
+            switch(state){
+                case "0":
+                    voteState = APIUtils.VOTESTATE_NONE;
+                    break;
+                case "1":
+                    voteState = APIUtils.VOTESTATE_UP;
+                    break;
+                case "-1":
+                    voteState = APIUtils.VOTESTATE_DOWN;
+                    break;
+                default:
+                    voteState = APIUtils.VOTESTATE_NONE;
+                    break;
+            }
+
+            input.put("voteState", voteState);
+
+            variables.put("input", input);
+
+            data.put("variables", variables);
+            data.put("extensions", createExtensionsObject("a353fb29741128e9346380c4706af0bf59fc5767608ea6848039c57ae0b08fec"));
 
         }catch (JSONException e){
 

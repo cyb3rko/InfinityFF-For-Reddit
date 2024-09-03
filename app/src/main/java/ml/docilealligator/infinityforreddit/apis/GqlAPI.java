@@ -49,5 +49,17 @@ public interface GqlAPI {
     Call<String> subredditSubscription(@HeaderMap Map<String, String> headers, @Body RequestBody body);
 
     @POST("/")
+    Call<String> updatePostVoteState(@HeaderMap Map<String, String> headers, @Body RequestBody body);
+
+    @POST("/")
+    Call<String> updateCommentVoteState(@HeaderMap Map<String, String> headers, @Body RequestBody body);
+
+    @POST("/")
+    Call<String> savePost(@HeaderMap Map<String, String> headers, @Body RequestBody body);
+
+    @POST("/")
+    Call<String> saveComment(@HeaderMap Map<String, String> headers, @Body RequestBody body);
+
+    @POST("/")
     Call<String> searchUsers(@HeaderMap Map<String, String> headers, @Body RequestBody body);
 }

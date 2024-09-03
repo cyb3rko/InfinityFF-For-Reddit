@@ -605,7 +605,7 @@ public class ViewPostDetailFragment extends Fragment implements FragmentCommunic
 
             mPostAdapter = new PostDetailRecyclerViewAdapter(activity,
                     this, mExecutor, mCustomThemeWrapper, mRetrofit, mOauthRetrofit, mGfycatRetrofit,
-                    mRedgifsRetrofit, mStreamableApiProvider, mRedditDataRoomDatabase, mGlide,
+                    mRedgifsRetrofit, mGQLRetrofit, mStreamableApiProvider, mRedditDataRoomDatabase, mGlide,
                     mSeparatePostAndComments, mAccessToken, mAccountName, mPost, mLocale,
                     mSharedPreferences, mCurrentAccountSharedPreferences, mNsfwAndSpoilerSharedPreferences, mPostDetailsSharedPreferences,
                     mExoCreator, post -> EventBus.getDefault().post(new PostUpdateEventToPostList(mPost, postListPosition)));
@@ -1310,7 +1310,7 @@ public class ViewPostDetailFragment extends Fragment implements FragmentCommunic
 
                             mPostAdapter = new PostDetailRecyclerViewAdapter(activity,
                                     ViewPostDetailFragment.this, mExecutor, mCustomThemeWrapper,
-                                    mRetrofit, mOauthRetrofit, mGfycatRetrofit, mRedgifsRetrofit,
+                                    mRetrofit, mOauthRetrofit, mGfycatRetrofit, mRedgifsRetrofit, mGQLRetrofit,
                                     mStreamableApiProvider, mRedditDataRoomDatabase, mGlide, mSeparatePostAndComments,
                                     mAccessToken, mAccountName, mPost, mLocale, mSharedPreferences,
                                     mCurrentAccountSharedPreferences, mNsfwAndSpoilerSharedPreferences,
