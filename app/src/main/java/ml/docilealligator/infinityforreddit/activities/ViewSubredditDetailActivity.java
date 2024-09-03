@@ -998,7 +998,7 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
                     subscriptionReady = false;
                     if (getResources().getString(R.string.subscribe).contentEquals(subscribeSubredditChip.getText())) {
                         SubredditSubscription.subscribeToSubreddit(mExecutor, new Handler(), mGQLRetrofit,
-                                mRetrofit, mAccessToken, subredditId, mAccountName, mRedditDataRoomDatabase,
+                                mRetrofit, mAccessToken, subredditName, subredditId, mAccountName, mRedditDataRoomDatabase,
                                 new SubredditSubscription.SubredditSubscriptionListener() {
                                     @Override
                                     public void onSubredditSubscriptionSuccess() {
@@ -1016,7 +1016,7 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
                                 });
                     } else {
                         SubredditSubscription.unsubscribeToSubreddit(mExecutor, new Handler(), mGQLRetrofit,
-                                mAccessToken, subredditId, mAccountName, mRedditDataRoomDatabase,
+                                mAccessToken, subredditName, subredditId, mAccountName, mRedditDataRoomDatabase,
                                 new SubredditSubscription.SubredditSubscriptionListener() {
                                     @Override
                                     public void onSubredditSubscriptionSuccess() {

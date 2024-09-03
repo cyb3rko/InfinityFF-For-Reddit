@@ -158,7 +158,7 @@ public class SubredditListingRecyclerViewAdapter extends PagedListAdapter<Subred
                                     ((DataViewHolder) holder).subscribeButton.setOnClickListener(view -> {
                                         if (accessToken != null) {
                                             SubredditSubscription.subscribeToSubreddit(executor, new Handler(),
-                                                    oauthRetrofit, retrofit, accessToken, subredditData.getId(),
+                                                    oauthRetrofit, retrofit, accessToken, subredditData.getName(), subredditData.getId(),
                                                     accountName, redditDataRoomDatabase,
                                                     new SubredditSubscription.SubredditSubscriptionListener() {
                                                         @Override

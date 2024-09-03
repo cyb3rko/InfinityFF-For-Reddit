@@ -18,10 +18,10 @@ import retrofit2.Retrofit;
 
 public class SubredditSubscription {
     public static void subscribeToSubreddit(Executor executor, Handler handler, Retrofit oauthRetrofit,
-                                            Retrofit retrofit, String accessToken, String subredditName,
+                                            Retrofit retrofit, String accessToken, String subredditName,String subredditId,
                                             String accountName, RedditDataRoomDatabase redditDataRoomDatabase,
                                             SubredditSubscriptionListener subredditSubscriptionListener) {
-        subredditSubscription(executor, handler, oauthRetrofit, retrofit, accessToken, subredditName,
+        subredditSubscription(executor, handler, oauthRetrofit, retrofit, accessToken, subredditName, subredditId,
                 accountName, APIUtils.ACTION_SUB, redditDataRoomDatabase, subredditSubscriptionListener);
     }
 
@@ -44,10 +44,10 @@ public class SubredditSubscription {
     }
 
     public static void unsubscribeToSubreddit(Executor executor, Handler handler, Retrofit oauthRetrofit,
-                                              String accessToken, String subredditName, String accountName,
+                                              String accessToken, String subredditName,String subredditId, String accountName,
                                               RedditDataRoomDatabase redditDataRoomDatabase,
                                               SubredditSubscriptionListener subredditSubscriptionListener) {
-        subredditSubscription(executor, handler, oauthRetrofit, null, accessToken, subredditName,
+        subredditSubscription(executor, handler, oauthRetrofit, null, accessToken, subredditName, subredditId,
                 accountName, APIUtils.ACTION_UNSUB, redditDataRoomDatabase, subredditSubscriptionListener);
     }
 
@@ -59,13 +59,13 @@ public class SubredditSubscription {
     }
 
     private static void subredditSubscription(Executor executor, Handler handler, Retrofit oauthRetrofit,
-                                              Retrofit retrofit, String accessToken, String subredditName,
+                                              Retrofit retrofit, String accessToken, String subredditName, String subredditId,
                                               String accountName, String action,
                                               RedditDataRoomDatabase redditDataRoomDatabase,
                                               SubredditSubscriptionListener subredditSubscriptionListener) {
         GqlAPI api = oauthRetrofit.create(GqlAPI.class);
 
-        Call<String> subredditSubscriptionCall = api.subredditSubscription(APIUtils.getOAuthHeader(accessToken), GqlRequestBody.subscribeBody(subredditName, action));
+        Call<String> subredditSubscriptionCall = api.subredditSubscription(APIUtils.getOAuthHeader(accessToken), GqlRequestBody.subscribeBody(subredditId, action));
         subredditSubscriptionCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull retrofit2.Response<String> response) {
