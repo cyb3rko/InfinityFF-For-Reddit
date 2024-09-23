@@ -62,4 +62,7 @@ public interface GqlAPI {
 
     @POST("/")
     Call<String> searchUsers(@HeaderMap Map<String, String> headers, @Body RequestBody body);
+
+    @POST("/")
+    Call<String> searchSubreddit(@HeaderMap Map<String, String> headers, @Body RequestBody body);
 }

@@ -48,6 +48,46 @@ public class GqlRequestBody {
         return RequestBody.create(data.toString(), okhttp3.MediaType.parse("application/json; charset=utf-8"));
     }
 
+    public static RequestBody subredditSearchBody(String query, boolean nsfw, String afterCursor){
+
+        JSONObject data = new JSONObject();
+        try {
+            data.put("operationName", "SearchCommunities");
+            JSONObject variables = new JSONObject();
+            variables.put("query", query);
+
+            JSONArray filters = new JSONArray();
+            JSONObject nsfwFilter = new JSONObject();
+
+            String nsfwVal = nsfw ? "1" : "0";
+            nsfwFilter.put("key", "nsfw");
+            nsfwFilter.put("value", nsfwVal);
+            filters.put(nsfwFilter);
+
+            variables.put("filters", filters);
+
+            variables.put("productSurface", "android");
+            variables.put("afterCursor", afterCursor);
+
+            JSONObject searchInput = new JSONObject();
+            searchInput.put("originPageType", "home");
+            searchInput.put("structureType", "search");
+            searchInput.put("pane", "posts");
+            searchInput.put("isClientPrefNsfw", nsfw);
+
+            variables.put("searchInput", searchInput);
+
+            variables.put("includeDynamicModifiers", false);
+
+            data.put("variables", variables);
+            data.put("extensions", createExtensionsObject("effbf83b871ba83e7eecca32efab3cbccc74cce2e4fd73595707c223a03b3ae1"));
+
+        }catch (JSONException e){
+
+        }
+        return RequestBody.create(data.toString(), okhttp3.MediaType.parse("application/json; charset=utf-8"));
+    }
+
     public static RequestBody subredditDataBody(String subredditName){
 
         JSONObject data = new JSONObject();

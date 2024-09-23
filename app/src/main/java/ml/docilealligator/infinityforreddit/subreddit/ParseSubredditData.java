@@ -80,7 +80,11 @@ public class ParseSubredditData {
         }
         String id = subredditDataJsonObject.getString("id");
         String subredditFullName = subredditDataJsonObject.getString("name");
-        String description = subredditDataJsonObject.getString("publicDescriptionText").trim();
+        String description = "";
+        if(!subredditDataJsonObject.isNull("publicDescriptionText")){
+            description = subredditDataJsonObject.getString("publicDescriptionText").trim();
+        }
+
         String sidebarDescription = Utils.modifyMarkdown(subredditDataJsonObject.getJSONObject(JSONUtils.DESCRIPTION_KEY).getString("markdown").trim());
         long createdUTC = GqlRequestBody.getUnixTime(subredditDataJsonObject.getString("createdAt"));
 
@@ -191,15 +195,33 @@ public class ParseSubredditData {
         protected Void doInBackground(Void... voids) {
             try {
                 if (!parseFailed) {
-                    JSONArray children = jsonResponse.getJSONObject(JSONUtils.DATA_KEY).getJSONObject("search").getJSONObject("typeaheadByType").getJSONArray("subreddits");
+                    JSONArray children;
+                    boolean isGeneralSearch = jsonResponse.getJSONObject(JSONUtils.DATA_KEY).getJSONObject("search").has("general");
+                    if (isGeneralSearch){
+                        children = jsonResponse.getJSONObject(JSONUtils.DATA_KEY).getJSONObject("search").getJSONObject("general").getJSONObject("communities").getJSONArray("edges");
+                        JSONObject pageInfo = jsonResponse.getJSONObject(JSONUtils.DATA_KEY).getJSONObject("search").getJSONObject("general").getJSONObject("communities").getJSONObject("pageInfo");
+                        if (pageInfo.getBoolean("hasNextPage")){
+                            after = pageInfo.getString("endCursor");
+                        }else{
+                            after = null;
+                        }
+                    }else{
+                        children = jsonResponse.getJSONObject(JSONUtils.DATA_KEY).getJSONObject("search").getJSONObject("typeaheadByType").getJSONArray("subreddits");
+                        after = null;
+                    }
+
                     for (int i = 0; i < children.length(); i++) {
-                        JSONObject data = children.getJSONObject(i);
+                        JSONObject data;
+                        if(isGeneralSearch){
+                            data = children.getJSONObject(i).getJSONObject("node");
+                        }else{
+                            data = children.getJSONObject(i);
+                        }
                         SubredditData subredditData = parseSubredditData(data, nsfw);
                         if (subredditData != null) {
                             subredditListingData.add(subredditData);
                         }
                     }
-                    after = null;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

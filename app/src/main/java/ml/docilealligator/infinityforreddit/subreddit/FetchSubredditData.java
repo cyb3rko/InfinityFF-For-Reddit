@@ -12,6 +12,7 @@ import ml.docilealligator.infinityforreddit.apis.GqlAPI;
 import ml.docilealligator.infinityforreddit.apis.GqlRequestBody;
 import ml.docilealligator.infinityforreddit.apis.RedditAPI;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,11 +59,13 @@ public class FetchSubredditData {
 
     static void fetchSubredditListingData(Retrofit retrofit, String query, String after, SortType.Type sortType, String accessToken,
                                           boolean nsfw, final FetchSubredditListingDataListener fetchSubredditListingDataListener) {
-        RedditAPI api = retrofit.create(RedditAPI.class);
+        GqlAPI api = retrofit.create(GqlAPI.class);
 
         Map<String, String> map = new HashMap<>();
         Map<String, String> headers = accessToken != null ? APIUtils.getOAuthHeader(accessToken) : Collections.unmodifiableMap(map);
-        Call<String> subredditDataCall = api.searchSubreddits(query, after, sortType, nsfw ? 1 : 0, headers);
+        RequestBody body = GqlRequestBody.subredditSearchBody(query, nsfw, after);
+
+        Call<String> subredditDataCall = api.searchSubreddit(headers, body);
         subredditDataCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
