@@ -31,6 +31,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.documentfile.provider.DocumentFile;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,6 +42,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -47,6 +52,7 @@ import ml.docilealligator.infinityforreddit.DownloadProgressResponseBody;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.apis.DownloadFile;
+import ml.docilealligator.infinityforreddit.apis.RedgifsAPI;
 import ml.docilealligator.infinityforreddit.broadcastreceivers.DownloadedMediaDeleteActionBroadcastReceiver;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
@@ -64,6 +70,8 @@ public class DownloadRedditVideoService extends Service {
     public static final String EXTRA_POST_ID = "EPI";
     public static final String EXTRA_IS_NSFW = "EIN";
 
+    private static Pattern rgRegex = Pattern.compile("rg://([a-z]+)");
+
     private static final int NO_ERROR = -1;
     private static final int ERROR_CANNOT_GET_CACHE_DIRECTORY = 0;
     private static final int ERROR_VIDEO_FILE_CANNOT_DOWNLOAD = 1;
@@ -76,6 +84,9 @@ public class DownloadRedditVideoService extends Service {
     @Inject
     @Named("download_media")
     Retrofit retrofit;
+    @Inject
+    @Named("redgifs")
+    Retrofit redgifs;
     @Inject
     @Named("default")
     SharedPreferences sharedPreferences;
@@ -139,6 +150,22 @@ public class DownloadRedditVideoService extends Service {
                 String destinationFileName = fileNameWithoutExtension + ".mp4";
 
                 try {
+
+                    Matcher matcher = rgRegex.matcher(videoUrl);
+                    if(matcher.find()){
+                        RedgifsAPI rgRetrofit = redgifs.create(RedgifsAPI.class);
+                        String rgId = matcher.group(1);
+                        Response<String> rgResponse = rgRetrofit.getRedgifsData(APIUtils.getRedgifsOAuthHeader(sharedPreferences.getString(SharedPreferencesUtils.REDGIFS_ACCESS_TOKEN, "")), rgId).execute();
+                        if(rgResponse.isSuccessful()){
+                            JSONObject data = new JSONObject(rgResponse.body());
+                            String res = "hd";
+                            if(!data.getJSONObject("gif").getJSONObject("urls").has("hd")){
+                                res = "sd";
+                            }
+                            videoUrl = data.getJSONObject("gif").getJSONObject("urls").getString(res);
+                        }
+                    }
+
                     Response<ResponseBody> videoResponse = downloadFile.downloadFile(videoUrl).execute();
                     if (videoResponse.isSuccessful() && videoResponse.body() != null) {
                         String externalCacheDirectoryPath = externalCacheDirectory.getAbsolutePath() + "/";
@@ -236,6 +263,8 @@ public class DownloadRedditVideoService extends Service {
                 } catch (IOException e) {
                     e.printStackTrace();
                     downloadFinished(null, ERROR_VIDEO_FILE_CANNOT_DOWNLOAD, randomNotificationIdOffset);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
                 }
             } else {
                 downloadFinished(null, ERROR_CANNOT_GET_CACHE_DIRECTORY, randomNotificationIdOffset);

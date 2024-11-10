@@ -1055,14 +1055,16 @@ public class ParsePost {
             int postType = Post.VIDEO_TYPE;
 
             String videoUrl = Html.fromHtml(redditVideoObject.getString("dashUrl")).toString();
+            String videoDownloadUrl = download.getString("url");
+
             if(data.getString("domain").contains("redgifs")){
                 Matcher m = rgIdRegex.matcher(url);
                 if (m.find()){
                     String rgId = m.group(1);
                     videoUrl = String.format("https://api.redgifs.com/v2/gifs/%s/hd.m3u8", rgId);
+                    videoDownloadUrl = String.format("rg://%s", rgId);
                 }
             }
-            String videoDownloadUrl = download.getString("url");
 
             post = new Post(id, fullName, subredditName, subredditNamePrefixed, author, authorFlair,
                     authorFlairHTML, postTimeMillis, title, permalink, score, postType, voteType,
