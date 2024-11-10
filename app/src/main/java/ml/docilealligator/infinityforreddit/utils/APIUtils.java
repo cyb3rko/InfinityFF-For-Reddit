@@ -43,8 +43,8 @@ public class APIUtils {
     public static final String AUTHORIZATION_KEY = "Authorization";
     public static final String AUTHORIZATION_BASE = "bearer ";
     public static final String USER_AGENT_KEY = "User-Agent";
-    public static final String USER_AGENT = "Reddit/Version 2024.03.0/Build 1379408/Android 11";
-    public static final String VIDEO_USER_AGENT = "RedditVideo/Version 2024.03.0/Build 1379408/Android 11";
+    public static final String USER_AGENT = "Reddit/Version 2024.04.0/Build 1391236/Android 11";
+    public static final String VIDEO_USER_AGENT = "RedditVideo/Version 2024.04.0/Build 1391236/Android 11";
 
     public static final String GRANT_TYPE_KEY = "grant_type";
     public static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
