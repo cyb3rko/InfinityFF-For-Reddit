@@ -236,7 +236,7 @@ public class DownloadRedditVideoService extends Service {
                             destinationFileUriString = picFile.getUri().toString();
                         }
 
-                        updateNotification(R.string.downloading_reddit_video_audio_track, 0,
+                        updateNotification(R.string.downloading_reddit_video, 0,
                                 randomNotificationIdOffset, null);
 
                         String videoFilePath = externalCacheDirectoryPath + fileNameWithoutExtension + "-cache.mp4";
