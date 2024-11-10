@@ -36,6 +36,7 @@ public class APIUtils {
     public static final String REDGIFS_CLIENT_SECRET = "=";
     public static final String GIPHY_SDK_KEY = "s3ybk2jbEg4BmxQqvqgXoGs3A0UHUH8y";
     public static final String ACCESS_TOKEN_KEY = "access_token";
+    public static final String REDGIFS_ACCESS_TOKEN_KEY = "token";
     public static final String SIGNING_KEY = "8c7abaa5f905f70400c81bf3a1a101e75f7210104b1991f0cd5240aa80c4d99d";
     public static final String EXPIRY_TS_KEY = "expiry_ts";
     public static final String SCOPE = "{\"scopes\":[\"*\",\"email\",\"pii\"]}";

@@ -37,7 +37,7 @@ public class RedgifsAccessTokenAuthenticator implements Interceptor {
         try {
             retrofit2.Response<String> response = accessTokenCall.execute();
             if (response.isSuccessful() && response.body() != null) {
-                String newAccessToken = new JSONObject(response.body()).getString(APIUtils.ACCESS_TOKEN_KEY);
+                String newAccessToken = new JSONObject(response.body()).getString(APIUtils.REDGIFS_ACCESS_TOKEN_KEY);
                 mDefaultSharedPreferences.edit().putString(SharedPreferencesUtils.REDGIFS_ACCESS_TOKEN, newAccessToken).apply();
 
                 return newAccessToken;
