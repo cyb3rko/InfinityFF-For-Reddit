@@ -35,12 +35,7 @@ public class RedgifsAccessTokenAuthenticator implements Interceptor {
                 .build();
         RedgifsAPI api = retrofit.create(RedgifsAPI.class);
 
-        Map<String, String> params = new HashMap<>();
-        params.put(APIUtils.GRANT_TYPE_KEY, APIUtils.GRANT_TYPE_CLIENT_CREDENTIALS);
-        params.put(APIUtils.CLIENT_ID_KEY, APIUtils.REDGIFS_CLIENT_ID);
-        params.put(APIUtils.CLIENT_SECRET_KEY, APIUtils.REDGIFS_CLIENT_SECRET);
-
-        Call<String> accessTokenCall = api.getRedgifsAccessToken(params);
+        Call<String> accessTokenCall = api.getRedgifsAccessToken();
         try {
             retrofit2.Response<String> response = accessTokenCall.execute();
             if (response.isSuccessful() && response.body() != null) {
