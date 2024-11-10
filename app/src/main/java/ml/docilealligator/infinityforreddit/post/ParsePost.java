@@ -31,6 +31,8 @@ import ml.docilealligator.infinityforreddit.utils.Utils;
  */
 
 public class ParsePost {
+
+    private static Pattern rgIdRegex = Pattern.compile("redgifs\\.com\\/watch\\/([a-z]+)");
     public static LinkedHashSet<Post> parsePostsSync(String response, int nPosts, PostFilter postFilter, List<String> readPostList) {
         LinkedHashSet<Post> newPosts = new LinkedHashSet<>();
         try {
@@ -1051,7 +1053,15 @@ public class ParsePost {
             JSONObject redditVideoObject = data.getJSONObject(JSONUtils.MEDIA_KEY).getJSONObject("streaming");
             JSONObject download = data.getJSONObject(JSONUtils.MEDIA_KEY).getJSONObject("download");
             int postType = Post.VIDEO_TYPE;
+
             String videoUrl = Html.fromHtml(redditVideoObject.getString("dashUrl")).toString();
+            if(data.getString("domain").contains("redgifs")){
+                Matcher m = rgIdRegex.matcher(url);
+                if (m.find()){
+                    String rgId = m.group(1);
+                    videoUrl = String.format("https://api.redgifs.com/v2/gifs/%s/hd.m3u8", rgId);
+                }
+            }
             String videoDownloadUrl = download.getString("url");
 
             post = new Post(id, fullName, subredditName, subredditNamePrefixed, author, authorFlair,
