@@ -20,10 +20,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RedgifsAccessTokenAuthenticator implements Interceptor {
-    private SharedPreferences mCurrentAccountSharedPreferences;
+    private SharedPreferences mDefaultSharedPreferences;
 
-    public RedgifsAccessTokenAuthenticator(SharedPreferences currentAccountSharedPreferences) {
-        this.mCurrentAccountSharedPreferences = currentAccountSharedPreferences;
+    public RedgifsAccessTokenAuthenticator(SharedPreferences defaultSharedPreferences) {
+        this.mDefaultSharedPreferences = defaultSharedPreferences;
     }
 
     private String refreshAccessToken() {
@@ -38,7 +38,7 @@ public class RedgifsAccessTokenAuthenticator implements Interceptor {
             retrofit2.Response<String> response = accessTokenCall.execute();
             if (response.isSuccessful() && response.body() != null) {
                 String newAccessToken = new JSONObject(response.body()).getString(APIUtils.ACCESS_TOKEN_KEY);
-                mCurrentAccountSharedPreferences.edit().putString(SharedPreferencesUtils.REDGIFS_ACCESS_TOKEN, newAccessToken).apply();
+                mDefaultSharedPreferences.edit().putString(SharedPreferencesUtils.REDGIFS_ACCESS_TOKEN, newAccessToken).apply();
 
                 return newAccessToken;
             }
@@ -62,7 +62,7 @@ public class RedgifsAccessTokenAuthenticator implements Interceptor {
 
             String accessToken = accessTokenHeader.substring(APIUtils.AUTHORIZATION_BASE.length() - 1).trim();
             synchronized (this) {
-                String accessTokenFromSharedPreferences = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.REDGIFS_ACCESS_TOKEN, "");
+                String accessTokenFromSharedPreferences = mDefaultSharedPreferences.getString(SharedPreferencesUtils.REDGIFS_ACCESS_TOKEN, "");
                 if (accessToken.equals(accessTokenFromSharedPreferences)) {
                     String newAccessToken = refreshAccessToken();
                     if (!newAccessToken.equals("")) {

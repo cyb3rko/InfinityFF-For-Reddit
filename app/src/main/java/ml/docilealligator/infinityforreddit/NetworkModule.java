@@ -163,8 +163,8 @@ abstract class NetworkModule {
 
     @Provides
     @Named("RedgifsAccessTokenAuthenticator")
-    static Interceptor redgifsAccessTokenAuthenticator(@Named("current_account") SharedPreferences currentAccountSharedPreferences) {
-        return new RedgifsAccessTokenAuthenticator(currentAccountSharedPreferences);
+    static Interceptor redgifsAccessTokenAuthenticator(@Named("default") SharedPreferences defaultSharedPreferences) {
+        return new RedgifsAccessTokenAuthenticator(defaultSharedPreferences);
     }
 
     @Provides
