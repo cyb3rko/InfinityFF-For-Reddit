@@ -93,23 +93,20 @@ public class WikiActivity extends BaseActivity {
             mSliderPanel = Slidr.attach(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.appBarLayout);
+        }
 
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.appBarLayout);
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
+            } else {
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
-
-            if (isImmersiveInterface()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.toolbar);
-                RecyclerView recyclerView = binding.markdownRecyclerView;
-                recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), getNavBarHeight());
-            }
+            adjustToolbar(binding.toolbar);
+            RecyclerView recyclerView = binding.markdownRecyclerView;
+            recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), getNavBarHeight());
         }
 
         mGlide = Glide.with(this);

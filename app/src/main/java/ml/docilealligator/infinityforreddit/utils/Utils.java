@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -47,8 +46,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -290,42 +287,19 @@ public final class Utils {
     public static int getConnectedNetwork(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connMgr != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Network nw = connMgr.getActiveNetwork();
-                if (nw == null) return NETWORK_TYPE_OTHER;
-                try {
-                    NetworkCapabilities actNw = connMgr.getNetworkCapabilities(nw);
-                    if (actNw != null) {
-                        if (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                            return NETWORK_TYPE_WIFI;
-                        }
-                        if (actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                            return NETWORK_TYPE_CELLULAR;
-                        }
+            Network nw = connMgr.getActiveNetwork();
+            if (nw == null) return NETWORK_TYPE_OTHER;
+            try {
+                NetworkCapabilities actNw = connMgr.getNetworkCapabilities(nw);
+                if (actNw != null) {
+                    if (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                        return NETWORK_TYPE_WIFI;
                     }
-                } catch (SecurityException ignore) {
-                }
-            } else {
-                boolean isWifi = false;
-                boolean isCellular = false;
-                for (Network network : connMgr.getAllNetworks()) {
-                    NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
-                    if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                        isWifi = true;
-                    }
-                    if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                        isCellular = true;
+                    if (actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                        return NETWORK_TYPE_CELLULAR;
                     }
                 }
-
-                if (isWifi) {
-                    return NETWORK_TYPE_WIFI;
-                }
-
-                if (isCellular) {
-                    return NETWORK_TYPE_CELLULAR;
-                }
-
+            } catch (SecurityException ignore) {
             }
             return NETWORK_TYPE_OTHER;
         }
@@ -336,19 +310,10 @@ public final class Utils {
     public static boolean isConnectedToWifi(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connMgr != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Network nw = connMgr.getActiveNetwork();
-                if (nw == null) return false;
-                NetworkCapabilities actNw = connMgr.getNetworkCapabilities(nw);
-                return actNw != null && actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
-            } else {
-                for (Network network : connMgr.getAllNetworks()) {
-                    NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
-                    if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                        return networkInfo.isConnected();
-                    }
-                }
-            }
+            Network nw = connMgr.getActiveNetwork();
+            if (nw == null) return false;
+            NetworkCapabilities actNw = connMgr.getNetworkCapabilities(nw);
+            return actNw != null && actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
         }
 
         return false;
@@ -357,19 +322,10 @@ public final class Utils {
     public static boolean isConnectedToCellularData(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connMgr != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Network nw = connMgr.getActiveNetwork();
-                if (nw == null) return false;
-                NetworkCapabilities actNw = connMgr.getNetworkCapabilities(nw);
-                return actNw != null && actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
-            } else {
-                for (Network network : connMgr.getAllNetworks()) {
-                    NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
-                    if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                        return networkInfo.isConnected();
-                    }
-                }
-            }
+            Network nw = connMgr.getActiveNetwork();
+            if (nw == null) return false;
+            NetworkCapabilities actNw = connMgr.getNetworkCapabilities(nw);
+            return actNw != null && actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
         }
 
         return false;

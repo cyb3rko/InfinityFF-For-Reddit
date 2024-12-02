@@ -51,7 +51,6 @@ import me.saket.bettermovementmethod.BetterLinkMovementMethod;
 import ml.docilealligator.infinityforreddit.BuildConfig;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.SetAsWallpaperCallback;
 import ml.docilealligator.infinityforreddit.activities.ViewRedditGalleryActivity;
 import ml.docilealligator.infinityforreddit.asynctasks.SaveBitmapImageToFile;
 import ml.docilealligator.infinityforreddit.asynctasks.SaveGIFToFile;
@@ -353,7 +352,7 @@ public class ViewRedditGalleryImageOrGifFragment extends Fragment {
     }
 
     private void requestPermissionAndDownload() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             if (ContextCompat.checkSelfPermission(activity,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -468,15 +467,11 @@ public class ViewRedditGalleryImageOrGifFragment extends Fragment {
 
     private void setWallpaper() {
         if (media.mediaType != Post.Gallery.TYPE_GIF) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                SetAsWallpaperBottomSheetFragment setAsWallpaperBottomSheetFragment = new SetAsWallpaperBottomSheetFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt(SetAsWallpaperBottomSheetFragment.EXTRA_VIEW_PAGER_POSITION, activity.getCurrentPagePosition());
-                setAsWallpaperBottomSheetFragment.setArguments(bundle);
-                setAsWallpaperBottomSheetFragment.show(activity.getSupportFragmentManager(), setAsWallpaperBottomSheetFragment.getTag());
-            } else {
-                ((SetAsWallpaperCallback) activity).setToBoth(activity.getCurrentPagePosition());
-            }
+            SetAsWallpaperBottomSheetFragment setAsWallpaperBottomSheetFragment = new SetAsWallpaperBottomSheetFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(SetAsWallpaperBottomSheetFragment.EXTRA_VIEW_PAGER_POSITION, activity.getCurrentPagePosition());
+            setAsWallpaperBottomSheetFragment.setArguments(bundle);
+            setAsWallpaperBottomSheetFragment.show(activity.getSupportFragmentManager(), setAsWallpaperBottomSheetFragment.getTag());
         }
     }
 

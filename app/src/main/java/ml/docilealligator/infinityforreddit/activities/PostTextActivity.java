@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -152,7 +151,7 @@ public class PostTextActivity extends BaseActivity implements FlairBottomSheetFr
 
         applyCustomTheme();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
+        if (isChangeStatusBarIconColor()) {
             addOnOffsetChangedListener(binding.appBarLayout);
         }
 

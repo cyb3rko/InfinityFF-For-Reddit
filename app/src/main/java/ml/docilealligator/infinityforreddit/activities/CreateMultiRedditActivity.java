@@ -2,7 +2,6 @@ package ml.docilealligator.infinityforreddit.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -74,7 +73,7 @@ public class CreateMultiRedditActivity extends BaseActivity {
             Slidr.attach(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
+        if (isChangeStatusBarIconColor()) {
             addOnOffsetChangedListener(binding.appBarLayout);
         }
 
@@ -86,10 +85,8 @@ public class CreateMultiRedditActivity extends BaseActivity {
 
         if (mAccessToken == null) {
             binding.visibilityWrapperLinearLayout.setVisibility(View.GONE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                binding.nameEditText.setImeOptions(binding.nameEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
-                binding.descriptionEditText.setImeOptions(binding.descriptionEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
-            }
+            binding.nameEditText.setImeOptions(binding.nameEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            binding.descriptionEditText.setImeOptions(binding.descriptionEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
         }
 
         if (savedInstanceState != null) {

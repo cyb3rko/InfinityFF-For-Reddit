@@ -692,8 +692,6 @@ https://play.google.com/store/apps/details?id=ml.docilealligator.infinityforredd
     <!-- Fuzzy -->
     <string name="theme_item_light_nav_bar">"深色导航栏图标颜色"</string>
     <string name="theme_item_change_status_bar_icon_color_after_toolbar_collapsed_in_immersive_interface">"在沉浸式界面中折叠工具栏后，更改状态栏图标的颜色"</string>
-    <string name="theme_item_available_on_android_8">"仅在 Android 8.0 或以上版本中可用。"</string>
-    <string name="theme_item_available_on_android_6">"仅在 Android 6.0 或以上版本中可用。"</string>
     <string name="predefined_themes">"预设主题"</string>
     <string name="user_themes">"您的主题"</string>
     <string name="no_theme_name">"这个主题叫什么名字？"</string>

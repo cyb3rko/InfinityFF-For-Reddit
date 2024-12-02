@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InflateException;
@@ -67,7 +66,7 @@ public class WebViewActivity extends BaseActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        if (mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null) == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null) == null) {
             binding.webView.setAnonymous(true);
         }
 

@@ -73,22 +73,19 @@ public class FullMarkdownActivity extends BaseActivity {
             mSliderPanel = Slidr.attach(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.appBarLayout);
+        }
 
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.appBarLayout);
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
+            } else {
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
-
-            if (isImmersiveInterface()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.toolbar);
-                binding.recyclerView.setPadding(binding.recyclerView.getPaddingLeft(), 0, binding.recyclerView.getPaddingRight(), getNavBarHeight());
-            }
+            adjustToolbar(binding.toolbar);
+            binding.recyclerView.setPadding(binding.recyclerView.getPaddingLeft(), 0, binding.recyclerView.getPaddingRight(), getNavBarHeight());
         }
 
         String commentMarkdown = getIntent().getStringExtra(EXTRA_COMMENT_MARKDOWN);

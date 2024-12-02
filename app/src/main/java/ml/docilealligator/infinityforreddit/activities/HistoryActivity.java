@@ -77,21 +77,18 @@ public class HistoryActivity extends BaseActivity implements ActivityToolbarInte
 
         //mViewPager2 = viewPager2;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.appBarLayout);
+        }
 
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.appBarLayout);
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
+            } else {
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
-
-            if (isImmersiveInterface()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.toolbar);
-            }
+            adjustToolbar(binding.toolbar);
         }
 
         setSupportActionBar(binding.toolbar);

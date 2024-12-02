@@ -1,7 +1,6 @@
 package ml.docilealligator.infinityforreddit.activities;
 
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,7 +70,7 @@ public class SettingsActivity extends BaseActivity implements
 
         applyCustomTheme();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
+        if (isChangeStatusBarIconColor()) {
             addOnOffsetChangedListener(binding.appbarLayoutSettingsActivity);
         }
 

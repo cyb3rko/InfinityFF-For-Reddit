@@ -123,8 +123,7 @@ public class CustomThemePreviewActivity extends AppCompatActivity implements Cus
                 }
         }
 
-        boolean immersiveInterface = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                mSharedPreferences.getBoolean(SharedPreferencesUtils.IMMERSIVE_INTERFACE_KEY, true);
+        boolean immersiveInterface = mSharedPreferences.getBoolean(SharedPreferencesUtils.IMMERSIVE_INTERFACE_KEY, true);
         boolean changeStatusBarIconColor = false;
         if (immersiveInterface) {
             changeStatusBarIconColor = customTheme.isChangeStatusBarIconColorAfterToolbarCollapsedInImmersiveInterface;
@@ -132,43 +131,35 @@ public class CustomThemePreviewActivity extends AppCompatActivity implements Cus
         boolean isLightStatusbar = customTheme.isLightStatusBar;
         Window window = getWindow();
         View decorView = window.getDecorView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            boolean isLightNavBar = customTheme.isLightNavBar;
-            if (isLightStatusbar) {
-                if (isLightNavBar) {
-                    systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    if (changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    } else {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    }
+        boolean isLightNavBar = customTheme.isLightNavBar;
+        if (isLightStatusbar) {
+            if (isLightNavBar) {
+                systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                if (changeStatusBarIconColor) {
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
                 } else {
-                    systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    if (!changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    }
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
                 }
             } else {
-                if (isLightNavBar) {
-                    systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    if (changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    }
-                } else {
-                    if (changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    }
+                systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                if (!changeStatusBarIconColor) {
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 }
             }
-            decorView.setSystemUiVisibility(systemVisibilityToolbarExpanded);
-            window.setNavigationBarColor(customTheme.navBarColor);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (isLightStatusbar) {
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        } else {
+            if (isLightNavBar) {
+                systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                if (changeStatusBarIconColor) {
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                }
+            } else {
+                if (changeStatusBarIconColor) {
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                }
             }
         }
+        decorView.setSystemUiVisibility(systemVisibilityToolbarExpanded);
+        window.setNavigationBarColor(customTheme.navBarColor);
 
         getTheme().applyStyle(FontStyle.valueOf(mSharedPreferences
                 .getString(SharedPreferencesUtils.FONT_SIZE_KEY, FontStyle.Normal.name())).getResId(), true);
@@ -188,74 +179,57 @@ public class CustomThemePreviewActivity extends AppCompatActivity implements Cus
             mSliderPanel = Slidr.attach(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (immersiveInterface) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.toolbar);
-
-                Resources resources = getResources();
-                int navBarResourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-                if (navBarResourceId > 0) {
-                    int navBarHeight = resources.getDimensionPixelSize(navBarResourceId);
-                    if (navBarHeight > 0) {
-                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fab.getLayoutParams();
-                        params.bottomMargin = navBarHeight;
-                        binding.fab.setLayoutParams(params);
-                        binding.linearLayoutBottomAppBar.setPadding(0,
-                                (int) (6 * getResources().getDisplayMetrics().density), 0, navBarHeight);
-                    }
-                }
-            }
-
-            if (changeStatusBarIconColor) {
-                binding.appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-                    @Override
-                    public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
-                        if (state == State.COLLAPSED) {
-                            decorView.setSystemUiVisibility(systemVisibilityToolbarCollapsed);
-                            binding.tabLayout.setTabTextColors(collapsedTabTextColor, collapsedTabTextColor);
-                            binding.tabLayout.setSelectedTabIndicatorColor(collapsedTabIndicatorColor);
-                            binding.tabLayout.setBackgroundColor(collapsedTabBackgroundColor);
-                        } else if (state == State.EXPANDED) {
-                            decorView.setSystemUiVisibility(systemVisibilityToolbarExpanded);
-                            binding.tabLayout.setTabTextColors(expandedTabTextColor, expandedTabTextColor);
-                            binding.tabLayout.setSelectedTabIndicatorColor(expandedTabIndicatorColor);
-                            binding.tabLayout.setBackgroundColor(expandedTabBackgroundColor);
-                        }
-                    }
-                });
+        if (immersiveInterface) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
             } else {
-                binding.appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-                    @Override
-                    public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
-                        if (state == State.COLLAPSED) {
-                            binding.tabLayout.setTabTextColors(collapsedTabTextColor, collapsedTabTextColor);
-                            binding.tabLayout.setSelectedTabIndicatorColor(collapsedTabIndicatorColor);
-                            binding.tabLayout.setBackgroundColor(collapsedTabBackgroundColor);
-                        } else if (state == State.EXPANDED) {
-                            binding.tabLayout.setTabTextColors(expandedTabTextColor, expandedTabTextColor);
-                            binding.tabLayout.setSelectedTabIndicatorColor(expandedTabIndicatorColor);
-                            binding.tabLayout.setBackgroundColor(expandedTabBackgroundColor);
-                        }
-                    }
-                });
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
+            adjustToolbar(binding.toolbar);
+
+            Resources resources = getResources();
+            int navBarResourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            if (navBarResourceId > 0) {
+                int navBarHeight = resources.getDimensionPixelSize(navBarResourceId);
+                if (navBarHeight > 0) {
+                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fab.getLayoutParams();
+                    params.bottomMargin = navBarHeight;
+                    binding.fab.setLayoutParams(params);
+                    binding.linearLayoutBottomAppBar.setPadding(0,
+                            (int) (6 * getResources().getDisplayMetrics().density), 0, navBarHeight);
+                }
+            }
+        }
+
+        if (changeStatusBarIconColor) {
+            binding.appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+                @Override
+                public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                    if (state == State.COLLAPSED) {
+                        decorView.setSystemUiVisibility(systemVisibilityToolbarCollapsed);
+                        binding.tabLayout.setTabTextColors(collapsedTabTextColor, collapsedTabTextColor);
+                        binding.tabLayout.setSelectedTabIndicatorColor(collapsedTabIndicatorColor);
+                        binding.tabLayout.setBackgroundColor(collapsedTabBackgroundColor);
+                    } else if (state == State.EXPANDED) {
+                        decorView.setSystemUiVisibility(systemVisibilityToolbarExpanded);
+                        binding.tabLayout.setTabTextColors(expandedTabTextColor, expandedTabTextColor);
+                        binding.tabLayout.setSelectedTabIndicatorColor(expandedTabIndicatorColor);
+                        binding.tabLayout.setBackgroundColor(expandedTabBackgroundColor);
+                    }
+                }
+            });
         } else {
             binding.appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
                 @Override
                 public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                    if (state == State.EXPANDED) {
-                        binding.tabLayout.setTabTextColors(expandedTabTextColor, expandedTabTextColor);
-                        binding.tabLayout.setSelectedTabIndicatorColor(expandedTabIndicatorColor);
-                        binding.tabLayout.setBackgroundColor(expandedTabBackgroundColor);
-                    } else if (state == State.COLLAPSED) {
+                    if (state == State.COLLAPSED) {
                         binding.tabLayout.setTabTextColors(collapsedTabTextColor, collapsedTabTextColor);
                         binding.tabLayout.setSelectedTabIndicatorColor(collapsedTabIndicatorColor);
                         binding.tabLayout.setBackgroundColor(collapsedTabBackgroundColor);
+                    } else if (state == State.EXPANDED) {
+                        binding.tabLayout.setTabTextColors(expandedTabTextColor, expandedTabTextColor);
+                        binding.tabLayout.setSelectedTabIndicatorColor(expandedTabIndicatorColor);
+                        binding.tabLayout.setBackgroundColor(expandedTabBackgroundColor);
                     }
                 }
             });

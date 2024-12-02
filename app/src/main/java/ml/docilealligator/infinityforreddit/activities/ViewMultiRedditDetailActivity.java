@@ -162,28 +162,25 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
             mSliderPanel = Slidr.attach(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.appBarLayout);
+        }
 
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.appBarLayout);
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
+            } else {
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
+            adjustToolbar(binding.toolbar);
 
-            if (isImmersiveInterface()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.toolbar);
-
-                int navBarHeight = getNavBarHeight();
-                if (navBarHeight > 0) {
-                    if (navigationWrapper.navigationRailView == null) {
-                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) navigationWrapper.floatingActionButton.getLayoutParams();
-                        params.bottomMargin += navBarHeight;
-                        navigationWrapper.floatingActionButton.setLayoutParams(params);
-                    }
+            int navBarHeight = getNavBarHeight();
+            if (navBarHeight > 0) {
+                if (navigationWrapper.navigationRailView == null) {
+                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) navigationWrapper.floatingActionButton.getLayoutParams();
+                    params.bottomMargin += navBarHeight;
+                    navigationWrapper.floatingActionButton.setLayoutParams(params);
                 }
             }
         }

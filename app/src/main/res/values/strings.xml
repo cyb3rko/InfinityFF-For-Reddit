@@ -928,8 +928,6 @@
     <string name="theme_item_light_status_bar">Dark Status Bar Icon Color</string>
     <string name="theme_item_light_nav_bar">Dark Navigation Bar Icon Color</string>
     <string name="theme_item_change_status_bar_icon_color_after_toolbar_collapsed_in_immersive_interface">Change Status Bar Icon Color After Toolbar Collapsed In Immersive Interface</string>
-    <string name="theme_item_available_on_android_8">Only available for Android 8.0 or above.</string>
-    <string name="theme_item_available_on_android_6">Only available for Android 6.0 or above.</string>
 
     <string name="predefined_themes">Predefined Themes</string>
     <string name="user_themes">Your Themes</string>

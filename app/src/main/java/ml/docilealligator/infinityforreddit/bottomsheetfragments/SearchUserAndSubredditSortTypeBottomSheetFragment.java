@@ -3,7 +3,6 @@ package ml.docilealligator.infinityforreddit.bottomsheetfragments;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,8 +57,7 @@ public class SearchUserAndSubredditSortTypeBottomSheetFragment extends Landscape
             binding.activityTypeTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(binding.activityTypeTextView.getCompoundDrawablesRelative()[0], null, AppCompatResources.getDrawable(activity, R.drawable.ic_round_check_circle_day_night_24dp), null);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                && (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
+        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
             rootView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
 

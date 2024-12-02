@@ -93,21 +93,18 @@ public class AccountSavedThingActivity extends BaseActivity implements ActivityT
 
         mViewPager2 = binding.accountSavedThingViewPager2;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.accountSavedThingAppbarLayout);
+        }
 
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.accountSavedThingAppbarLayout);
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
+            } else {
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
-
-            if (isImmersiveInterface()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.accountSavedThingToolbar);
-            }
+            adjustToolbar(binding.accountSavedThingToolbar);
         }
 
         setSupportActionBar(binding.accountSavedThingToolbar);

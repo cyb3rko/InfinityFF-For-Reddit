@@ -91,7 +91,7 @@ public class CustomizePostFilterActivity extends BaseActivity {
             Slidr.attach(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
+        if (isChangeStatusBarIconColor()) {
             addOnOffsetChangedListener(binding.appBarLayout);
         }
 

@@ -636,8 +636,6 @@ Nie można zsynchronizować subskrypcji"</string>
     <string name="theme_item_light_status_bar">"Kolor ikony paska ciemnego statusu"</string>
     <string name="theme_item_light_nav_bar">"Kolor ikon ciemnego paska nawigacji"</string>
     <string name="theme_item_change_status_bar_icon_color_after_toolbar_collapsed_in_immersive_interface">"Zmień kolor ikony paska stanu po zwinięciu paska narzędzi w interfejsie immersyjnym"</string>
-    <string name="theme_item_available_on_android_8">"Dostępne tylko dla Androida 8.0 lub nowszego"</string>
-    <string name="theme_item_available_on_android_6">"Dostępne tylko dla Androida 6.0 lub nowszego"</string>
     <string name="predefined_themes">"Predefiniowane motywy"</string>
     <string name="user_themes">"Twoje motywy"</string>
     <string name="no_theme_name">"Jaka jest nazwa tego motywu?"</string>

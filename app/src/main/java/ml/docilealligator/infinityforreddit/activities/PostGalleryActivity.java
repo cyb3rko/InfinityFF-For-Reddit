@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -159,7 +158,7 @@ public class PostGalleryActivity extends BaseActivity implements FlairBottomShee
 
         applyCustomTheme();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
+        if (isChangeStatusBarIconColor()) {
             addOnOffsetChangedListener(binding.appBarLayout);
         }
 

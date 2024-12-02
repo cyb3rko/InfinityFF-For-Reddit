@@ -104,8 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
 
         boolean systemDefault = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
         int systemThemeType = Integer.parseInt(mSharedPreferences.getString(SharedPreferencesUtils.THEME_KEY, "2"));
-        immersiveInterface = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                mSharedPreferences.getBoolean(SharedPreferencesUtils.IMMERSIVE_INTERFACE_KEY, true);
+        immersiveInterface = mSharedPreferences.getBoolean(SharedPreferencesUtils.IMMERSIVE_INTERFACE_KEY, true);
         if (immersiveInterface && config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             immersiveInterface = !mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_IMMERSIVE_INTERFACE_IN_LANDSCAPE_MODE, false);
         }
@@ -174,54 +173,42 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
         Window window = getWindow();
         View decorView = window.getDecorView();
         boolean isLightStatusbar = customThemeWrapper.isLightStatusBar();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            boolean isLightNavBar = customThemeWrapper.isLightNavBar();
-            if (isLightStatusbar) {
-                if (isLightNavBar) {
-                    systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    if (changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    } else {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    }
+        boolean isLightNavBar = customThemeWrapper.isLightNavBar();
+        if (isLightStatusbar) {
+            if (isLightNavBar) {
+                systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                if (changeStatusBarIconColor) {
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
                 } else {
-                    systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    if (!changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    }
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
                 }
             } else {
-                if (isLightNavBar) {
-                    systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    if (changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-                    }
-                } else {
-                    if (changeStatusBarIconColor) {
-                        systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    }
-                }
-            }
-            decorView.setSystemUiVisibility(systemVisibilityToolbarExpanded);
-            if (!(immersiveInterface && isImmersiveInterfaceApplicable)) {
-                window.setNavigationBarColor(customThemeWrapper.getNavBarColor());
-                if (!hasDrawerLayout) {
-                    window.setStatusBarColor(customThemeWrapper.getColorPrimaryDark());
-                }
-            } else {
-                window.setNavigationBarColor(Color.TRANSPARENT);
-                window.setStatusBarColor(Color.TRANSPARENT);
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (isLightStatusbar) {
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 if (!changeStatusBarIconColor) {
                     systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 }
-            } else if (changeStatusBarIconColor) {
-                systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             }
+        } else {
+            if (isLightNavBar) {
+                systemVisibilityToolbarExpanded = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                if (changeStatusBarIconColor) {
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                }
+            } else {
+                if (changeStatusBarIconColor) {
+                    systemVisibilityToolbarCollapsed = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                }
+            }
+        }
+        decorView.setSystemUiVisibility(systemVisibilityToolbarExpanded);
+        if (!(immersiveInterface && isImmersiveInterfaceApplicable)) {
+            window.setNavigationBarColor(customThemeWrapper.getNavBarColor());
+            if (!hasDrawerLayout) {
+                window.setStatusBarColor(customThemeWrapper.getColorPrimaryDark());
+            }
+        } else {
+            window.setNavigationBarColor(Color.TRANSPARENT);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
     }
 

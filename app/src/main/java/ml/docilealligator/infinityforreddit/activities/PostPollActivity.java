@@ -137,7 +137,7 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
 
         applyCustomTheme();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
+        if (isChangeStatusBarIconColor()) {
             addOnOffsetChangedListener(binding.appBarLayout);
         }
 

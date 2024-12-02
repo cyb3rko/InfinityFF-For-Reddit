@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -190,10 +189,7 @@ public class Infinity extends Application implements LifecycleObserver {
 
         WallpaperChangeReceiver wallpaperChangeReceiver = new WallpaperChangeReceiver(mSharedPreferences);
 
-        int currentWallpaperId = -1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            currentWallpaperId = WallpaperManager.getInstance(this).getWallpaperId(WallpaperManager.FLAG_SYSTEM);
-        }
+        int currentWallpaperId = WallpaperManager.getInstance(this).getWallpaperId(WallpaperManager.FLAG_SYSTEM);
         int lastWallpaperId = mSharedPreferences.getInt(SharedPreferencesUtils.WALLPAPER_ID, -1);
         if(lastWallpaperId != currentWallpaperId){
             wallpaperChangeReceiver.onReceive(this, null);

@@ -1,7 +1,6 @@
 package ml.docilealligator.infinityforreddit.settings;
 
 
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.preference.Preference;
@@ -26,7 +25,7 @@ public class InterfacePreferenceFragment extends CustomFontPreferenceFragmentCom
         SwitchPreference bottomAppBarSwitch = findPreference(SharedPreferencesUtils.BOTTOM_APP_BAR_KEY);
         SwitchPreference voteButtonsOnTheRightSwitch = findPreference(SharedPreferencesUtils.VOTE_BUTTONS_ON_THE_RIGHT_KEY);
 
-        if (immersiveInterfaceEntryPreference != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (immersiveInterfaceEntryPreference != null) {
             immersiveInterfaceEntryPreference.setVisible(true);
         }
 

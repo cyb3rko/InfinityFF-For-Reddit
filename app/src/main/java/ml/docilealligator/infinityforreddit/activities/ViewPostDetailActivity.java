@@ -172,33 +172,30 @@ public class ViewPostDetailActivity extends BaseActivity implements SortTypeSele
 
         applyCustomTheme();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.appBarLayout);
+        }
 
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.appBarLayout);
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
+            } else {
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
+            adjustToolbar(binding.toolbar);
 
-            if (isImmersiveInterface()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.toolbar);
+            int navBarHeight = getNavBarHeight();
+            if (navBarHeight > 0) {
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fab.getLayoutParams();
+                params.bottomMargin += navBarHeight;
+                binding.fab.setLayoutParams(params);
 
-                int navBarHeight = getNavBarHeight();
-                if (navBarHeight > 0) {
-                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fab.getLayoutParams();
-                    params.bottomMargin += navBarHeight;
-                    binding.fab.setLayoutParams(params);
-
-                    MaterialCardView searchPanel = binding.searchPanelMaterialCardView;
-                    searchPanel.setContentPadding(searchPanel.getPaddingStart(),
-                            searchPanel.getPaddingTop(),
-                            searchPanel.getPaddingEnd(),
-                            searchPanel.getPaddingBottom() + navBarHeight);
-                }
+                MaterialCardView searchPanel = binding.searchPanelMaterialCardView;
+                searchPanel.setContentPadding(searchPanel.getPaddingStart(),
+                        searchPanel.getPaddingTop(),
+                        searchPanel.getPaddingEnd(),
+                        searchPanel.getPaddingBottom() + navBarHeight);
             }
         }
 
@@ -260,7 +257,7 @@ public class ViewPostDetailActivity extends BaseActivity implements SortTypeSele
             return false;
         });
 
-        if (mAccessToken == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (mAccessToken == null) {
             binding.searchTextInputEditText.setImeOptions(binding.searchTextInputEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
         }
 

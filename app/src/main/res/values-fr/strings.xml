@@ -715,8 +715,6 @@ https://s3.eu-west-1.amazonaws.com/po-pub/i/dFZKKms9HbrDGOlcgW9QTcwF.jpg -->
     <string name="theme_item_light_status_bar">"Couleur de l'icône de la barre d'état sombre"</string>
     <string name="theme_item_light_nav_bar">"Couleur de l'icône de la barre de navigation sombre"</string>
     <string name="theme_item_change_status_bar_icon_color_after_toolbar_collapsed_in_immersive_interface">"Modifier la couleur de l'icône de la barre d'état après la réduction de la barre d'outils dans l'interface immersive"</string>
-    <string name="theme_item_available_on_android_8">"Seulement disponible pour Android 8.0 ou versions ultérieures"</string>
-    <string name="theme_item_available_on_android_6">"Seulement disponible pour Android 6.0 ou versions ultérieures"</string>
     <string name="predefined_themes">"Thèmes prédéfinis"</string>
     <string name="user_themes">"Vos thèmes"</string>
     <string name="no_theme_name">"Quel est le nom de ce thème ?"</string>

@@ -240,44 +240,38 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
 
         applyCustomTheme();
 
-        mCurrentWallpaperId = -1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mCurrentWallpaperId = WallpaperManager.getInstance(this).getWallpaperId(WallpaperManager.FLAG_SYSTEM);
+        mCurrentWallpaperId = WallpaperManager.getInstance(this).getWallpaperId(WallpaperManager.FLAG_SYSTEM);
+
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.appBarMain.appBarLayout);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.appBarMain.appBarLayout);
-            }
-
-            if (isImmersiveInterface()) {
-                binding.drawerLayout.setStatusBarBackgroundColor(Color.TRANSPARENT);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    binding.drawerLayout.setFitsSystemWindows(false);
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.appBarMain.toolbar);
-
-                int navBarHeight = getNavBarHeight();
-                if (navBarHeight > 0) {
-                    if (navigationWrapper.navigationRailView == null) {
-                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) navigationWrapper.floatingActionButton.getLayoutParams();
-                        params.bottomMargin += navBarHeight;
-                        navigationWrapper.floatingActionButton.setLayoutParams(params);
-                    }
-                    if (navigationWrapper.bottomAppBar != null) {
-                        navigationWrapper.linearLayoutBottomAppBar.setPadding(navigationWrapper.linearLayoutBottomAppBar.getPaddingLeft(),
-                                navigationWrapper.linearLayoutBottomAppBar.getPaddingTop(), navigationWrapper.linearLayoutBottomAppBar.getPaddingRight(), navBarHeight);
-                    }
-                    binding.navDrawerRecyclerView.setPadding(0, 0, 0, navBarHeight);
-                }
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            binding.drawerLayout.setStatusBarBackgroundColor(Color.TRANSPARENT);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                binding.drawerLayout.setFitsSystemWindows(false);
+                window.setDecorFitsSystemWindows(false);
             } else {
-                binding.drawerLayout.setStatusBarBackgroundColor(mCustomThemeWrapper.getColorPrimaryDark());
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
+            adjustToolbar(binding.appBarMain.toolbar);
+
+            int navBarHeight = getNavBarHeight();
+            if (navBarHeight > 0) {
+                if (navigationWrapper.navigationRailView == null) {
+                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) navigationWrapper.floatingActionButton.getLayoutParams();
+                    params.bottomMargin += navBarHeight;
+                    navigationWrapper.floatingActionButton.setLayoutParams(params);
+                }
+                if (navigationWrapper.bottomAppBar != null) {
+                    navigationWrapper.linearLayoutBottomAppBar.setPadding(navigationWrapper.linearLayoutBottomAppBar.getPaddingLeft(),
+                            navigationWrapper.linearLayoutBottomAppBar.getPaddingTop(), navigationWrapper.linearLayoutBottomAppBar.getPaddingRight(), navBarHeight);
+                }
+                binding.navDrawerRecyclerView.setPadding(0, 0, 0, navBarHeight);
+            }
+        } else {
+            binding.drawerLayout.setStatusBarBackgroundColor(mCustomThemeWrapper.getColorPrimaryDark());
         }
 
         setSupportActionBar(binding.appBarMain.toolbar);

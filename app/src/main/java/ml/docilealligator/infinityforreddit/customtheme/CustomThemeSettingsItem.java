@@ -1,7 +1,6 @@
 package ml.docilealligator.infinityforreddit.customtheme;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -406,12 +405,6 @@ public class CustomThemeSettingsItem implements Parcelable {
         customThemeSettingsItems.add(new CustomThemeSettingsItem(
                 context.getString(R.string.theme_item_change_status_bar_icon_color_after_toolbar_collapsed_in_immersive_interface),
                 customTheme.isChangeStatusBarIconColorAfterToolbarCollapsedInImmersiveInterface));
-        if (androidVersion < Build.VERSION_CODES.O) {
-            customThemeSettingsItems.get(customThemeSettingsItems.size() - 2).itemDetails = context.getString(R.string.theme_item_available_on_android_8);
-        }
-        if (androidVersion < Build.VERSION_CODES.M) {
-            customThemeSettingsItems.get(customThemeSettingsItems.size() - 3).itemDetails = context.getString(R.string.theme_item_available_on_android_6);
-        }
         return customThemeSettingsItems;
     }
 

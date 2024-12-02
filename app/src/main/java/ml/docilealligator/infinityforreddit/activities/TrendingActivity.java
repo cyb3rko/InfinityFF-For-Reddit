@@ -95,25 +95,22 @@ public class TrendingActivity extends BaseActivity {
             Slidr.attach(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
+        if (isChangeStatusBarIconColor()) {
+            addOnOffsetChangedListener(binding.appBarLayout);
+        }
 
-            if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(binding.appBarLayout);
+        Window window = getWindow();
+        if (isImmersiveInterface()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.setDecorFitsSystemWindows(false);
+            } else {
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             }
+            adjustToolbar(binding.toolbar);
 
-            if (isImmersiveInterface()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.setDecorFitsSystemWindows(false);
-                } else {
-                    window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-                }
-                adjustToolbar(binding.toolbar);
-
-                int navBarResourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-                if (navBarResourceId > 0) {
-                    binding.recyclerView.setPadding(0, 0, 0, binding.recyclerView.getPaddingBottom() + getResources().getDimensionPixelSize(navBarResourceId));
-                }
+            int navBarResourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+            if (navBarResourceId > 0) {
+                binding.recyclerView.setPadding(0, 0, 0, binding.recyclerView.getPaddingBottom() + getResources().getDimensionPixelSize(navBarResourceId));
             }
         }
 
