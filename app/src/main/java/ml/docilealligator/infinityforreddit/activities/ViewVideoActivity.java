@@ -6,7 +6,6 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -29,19 +28,13 @@ import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -63,14 +56,12 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.ui.TrackSelectionDialogBuilder;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.video.VideoSize;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.common.collect.ImmutableList;
 import com.otaliastudios.zoom.ZoomEngine;
@@ -86,10 +77,6 @@ import javax.inject.Named;
 import javax.inject.Provider;
 
 import app.futured.hauler.DragDirection;
-import app.futured.hauler.HaulerView;
-import app.futured.hauler.LockableNestedScrollView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.FetchGfycatOrRedgifsVideoLinks;
 import ml.docilealligator.infinityforreddit.FetchStreamableVideo;
@@ -100,6 +87,7 @@ import ml.docilealligator.infinityforreddit.apis.StreamableAPI;
 import ml.docilealligator.infinityforreddit.apis.VReddIt;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PlaybackSpeedBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ActivityViewVideoZoomableBinding;
 import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
 import ml.docilealligator.infinityforreddit.font.ContentFontStyle;
 import ml.docilealligator.infinityforreddit.font.FontFamily;
@@ -118,8 +106,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+// TODO fix exoplay integration
 public class ViewVideoActivity extends AppCompatActivity implements CustomFontReceiver {
-
     public static final int PLAYBACK_SPEED_25 = 25;
     public static final int PLAYBACK_SPEED_50 = 50;
     public static final int PLAYBACK_SPEED_75 = 75;
@@ -155,26 +143,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     private static final String ID_STATE=  "IS";
     private static final String PLAYBACK_SPEED_STATE = "PSS";
 
-    @BindView(R.id.hauler_view_view_video_activity)
-    HaulerView haulerView;
-    @BindView(R.id.coordinator_layout_view_video_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.progress_bar_view_video_activity)
-    ProgressBar progressBar;
-    @BindView(R.id.mute_exo_playback_control_view)
-    ImageButton muteButton;
-    @BindView(R.id.hd_exo_playback_control_view)
-    ImageButton hdButton;
-    @BindView(R.id.bottom_navigation_exo_playback_control_view)
-    BottomAppBar bottomAppBar;
-    @BindView(R.id.title_text_view_exo_playback_control_view)
-    TextView titleTextView;
-    @BindView(R.id.download_image_view_exo_playback_control_view)
-    ImageView downloadImageView;
-    @BindView(R.id.playback_speed_image_view_exo_playback_control_view)
-    ImageView playbackSpeedImageView;
-    @BindView(R.id.lockable_nested_scroll_view_view_video_activity)
-    LockableNestedScrollView nestedScrollView;
+    private ActivityViewVideoZoomableBinding binding;
 
     public Typeface typeface;
 
@@ -291,14 +260,17 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         getTheme().applyStyle(ContentFontFamily.valueOf(mSharedPreferences
                 .getString(SharedPreferencesUtils.CONTENT_FONT_FAMILY_KEY, ContentFontFamily.Default.name())).getResId(), true);
 
+        // TODO remove zoomable layout
         boolean zoomable = mSharedPreferences.getBoolean(SharedPreferencesUtils.PINCH_TO_ZOOM_VIDEO, false);
-        if (zoomable) {
-            setContentView(R.layout.activity_view_video_zoomable);
-        } else {
-            setContentView(R.layout.activity_view_video);
-        }
+        //if (zoomable) {
+        //    setContentView(R.layout.activity_view_video_zoomable);
+        //} else {
+        //    setContentView(R.layout.activity_view_video);
+        //}
 
-        ButterKnife.bind(this);
+        binding = ActivityViewVideoZoomableBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         Resources resources = getResources();
@@ -310,29 +282,30 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
         useBottomAppBar = mSharedPreferences.getBoolean(SharedPreferencesUtils.USE_BOTTOM_TOOLBAR_IN_MEDIA_VIEWER, false);
         if (useBottomAppBar) {
-            getSupportActionBar().hide();
-            bottomAppBar.setVisibility(View.VISIBLE);
-            downloadImageView.setOnClickListener(view -> {
-                if (isDownloading) {
-                    return;
-                }
-
-                if (videoDownloadUrl == null) {
-                    Toast.makeText(this, R.string.fetching_video_info_please_wait, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                isDownloading = true;
-                requestPermissionAndDownload();
-            });
-
-            playbackSpeedImageView.setOnClickListener(view -> {
-                PlaybackSpeedBottomSheetFragment playbackSpeedBottomSheetFragment = new PlaybackSpeedBottomSheetFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt(PlaybackSpeedBottomSheetFragment.EXTRA_PLAYBACK_SPEED, playbackSpeed);
-                playbackSpeedBottomSheetFragment.setArguments(bundle);
-                playbackSpeedBottomSheetFragment.show(getSupportFragmentManager(), playbackSpeedBottomSheetFragment.getTag());
-            });
+            // TODO remove bottomAppBar support for videos
+//            getSupportActionBar().hide();
+//            bottomAppBar.setVisibility(View.VISIBLE);
+//            downloadImageView.setOnClickListener(view -> {
+//                if (isDownloading) {
+//                    return;
+//                }
+//
+//                if (videoDownloadUrl == null) {
+//                    Toast.makeText(this, R.string.fetching_video_info_please_wait, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                isDownloading = true;
+//                requestPermissionAndDownload();
+//            });
+//
+//            playbackSpeedImageView.setOnClickListener(view -> {
+//                PlaybackSpeedBottomSheetFragment playbackSpeedBottomSheetFragment = new PlaybackSpeedBottomSheetFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(PlaybackSpeedBottomSheetFragment.EXTRA_PLAYBACK_SPEED, playbackSpeed);
+//                playbackSpeedBottomSheetFragment.setArguments(bundle);
+//                playbackSpeedBottomSheetFragment.show(getSupportFragmentManager(), playbackSpeedBottomSheetFragment.getTag());
+//            });
         } else {
             ActionBar actionBar = getSupportActionBar();
             Drawable upArrow = resources.getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -364,7 +337,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             });
         }
 
-        haulerView.setOnDragDismissedListener(dragDirection -> {
+        binding.haulerView.setOnDragDismissedListener(dragDirection -> {
             int slide = dragDirection == DragDirection.UP ? R.anim.slide_out_up : R.anim.slide_out_down;
             finish();
             overridePendingTransition(0, slide);
@@ -418,7 +391,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
         player = new ExoPlayer.Builder(this).setTrackSelector(trackSelector).build();
 
         if (zoomable) {
-            PlayerControlView playerControlView = findViewById(R.id.player_control_view_view_video_activity);
+            PlayerControlView playerControlView = findViewById(R.id.player_control_view);
             playerControlView.addVisibilityListener(visibility -> {
                 switch (visibility) {
                     case View.GONE:
@@ -439,7 +412,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             });
             playerControlView.setPlayer(player);
 
-            ZoomSurfaceView zoomSurfaceView = findViewById(R.id.zoom_surface_view_view_video_activity);
+            ZoomSurfaceView zoomSurfaceView = findViewById(R.id.zoom_surface_view);
             player.addListener(new Player.Listener() {
                 @Override
                 public void onVideoSizeChanged(VideoSize videoSize) {
@@ -461,11 +434,11 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 @Override
                 public void onUpdate(@NonNull ZoomEngine zoomEngine, @NonNull Matrix matrix) {
                     if (zoomEngine.getZoom() < 1.00001) {
-                        haulerView.setDragEnabled(true);
-                        nestedScrollView.setScrollEnabled(true);
+                        binding.haulerView.setDragEnabled(true);
+                        binding.lockableNestedScrollView.setScrollEnabled(true);
                     } else {
-                        haulerView.setDragEnabled(false);
-                        nestedScrollView.setScrollEnabled(false);
+                        binding.haulerView.setDragEnabled(false);
+                        binding.lockableNestedScrollView.setScrollEnabled(false);
                     }
                 }
 
@@ -482,7 +455,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 }
             });
         } else {
-            PlayerView videoPlayerView = findViewById(R.id.player_view_view_video_activity);
+            PlayerView videoPlayerView = findViewById(R.id.player_view);
             videoPlayerView.setPlayer(player);
             videoPlayerView.setControllerVisibilityListener(visibility -> {
                 switch (visibility) {
@@ -609,7 +582,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     private void setSmallTitle(String title) {
         if (title != null) {
             if (useBottomAppBar) {
-                titleTextView.setText(Html.fromHtml(String.format("<font color=\"#FFFFFF\"><small>%s</small></font>", title)));
+                //titleTextView.setText(Html.fromHtml(String.format("<font color=\"#FFFFFF\"><small>%s</small></font>", title)));
             } else {
                 setTitle(Utils.getTabTextWithCustomFont(typeface, Html.fromHtml(String.format("<font color=\"#FFFFFF\"><small>%s</small></font>", title))));
             }
@@ -639,17 +612,17 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
             isMute = savedInstanceState.getBoolean(IS_MUTE_STATE);
             if (isMute) {
                 player.setVolume(0f);
-                muteButton.setImageResource(R.drawable.ic_mute_24dp);
+                //muteButton.setImageResource(R.drawable.ic_mute_24dp);
             } else {
                 player.setVolume(1f);
-                muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+                //muteButton.setImageResource(R.drawable.ic_unmute_24dp);
             }
         } else if (muteVideo) {
             isMute = true;
             player.setVolume(0f);
-            muteButton.setImageResource(R.drawable.ic_mute_24dp);
+            //muteButton.setImageResource(R.drawable.ic_mute_24dp);
         } else {
-            muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+            //muteButton.setImageResource(R.drawable.ic_unmute_24dp);
         }
 
         player.addListener(new Player.Listener() {
@@ -658,18 +631,18 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                 ImmutableList<Tracks.Group> trackGroups = tracks.getGroups();
                 if (!trackGroups.isEmpty()) {
                     if (videoType == VIDEO_TYPE_NORMAL) {
-                        hdButton.setVisibility(View.VISIBLE);
-                        hdButton.setOnClickListener(view -> {
-                            TrackSelectionDialogBuilder builder = new TrackSelectionDialogBuilder(ViewVideoActivity.this, getString(R.string.select_video_quality), player, C.TRACK_TYPE_VIDEO);
-                            builder.setShowDisableOption(true);
-                            builder.setAllowAdaptiveSelections(false);
-                            Dialog dialog = builder.setTheme(R.style.MaterialAlertDialogTheme).build();
-                            dialog.show();
-                            if (dialog instanceof AlertDialog) {
-                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-                            }
-                        });
+                        //hdButton.setVisibility(View.VISIBLE);
+//                        hdButton.setOnClickListener(view -> {
+//                            TrackSelectionDialogBuilder builder = new TrackSelectionDialogBuilder(ViewVideoActivity.this, getString(R.string.select_video_quality), player, C.TRACK_TYPE_VIDEO);
+//                            builder.setShowDisableOption(true);
+//                            builder.setAllowAdaptiveSelections(false);
+//                            Dialog dialog = builder.setTheme(R.style.MaterialAlertDialogTheme).build();
+//                            dialog.show();
+//                            if (dialog instanceof AlertDialog) {
+//                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+//                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+//                            }
+//                        });
                     }
 
                     for (Tracks.Group trackGroup : tracks.getGroups()) {
@@ -687,24 +660,24 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                                 )
                                 );
                             }
-                            if (muteButton.getVisibility() != View.VISIBLE) {
-                                muteButton.setVisibility(View.VISIBLE);
-                                muteButton.setOnClickListener(view -> {
-                                    if (isMute) {
-                                        isMute = false;
-                                        player.setVolume(1f);
-                                        muteButton.setImageResource(R.drawable.ic_unmute_24dp);
-                                    } else {
-                                        isMute = true;
-                                        player.setVolume(0f);
-                                        muteButton.setImageResource(R.drawable.ic_mute_24dp);
-                                    }
-                                });
-                            }
+//                            if (muteButton.getVisibility() != View.VISIBLE) {
+//                                muteButton.setVisibility(View.VISIBLE);
+//                                muteButton.setOnClickListener(view -> {
+//                                    if (isMute) {
+//                                        isMute = false;
+//                                        player.setVolume(1f);
+//                                        muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+//                                    } else {
+//                                        isMute = true;
+//                                        player.setVolume(0f);
+//                                        muteButton.setImageResource(R.drawable.ic_mute_24dp);
+//                                    }
+//                                });
+//                            }
                         }
                     }
                 } else {
-                    muteButton.setVisibility(View.GONE);
+                    //muteButton.setVisibility(View.GONE);
                 }
             }
         });
@@ -732,13 +705,13 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
     private void loadGfycatOrRedgifsVideo(Retrofit retrofit, String gfycatId, boolean isGfycatVideo,
                                           Bundle savedInstanceState, boolean needErrorHandling) {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         if (isGfycatVideo) {
             FetchGfycatOrRedgifsVideoLinks.fetchGfycatVideoLinks(mExecutor, new Handler(), retrofit, gfycatId,
                     new FetchGfycatOrRedgifsVideoLinks.FetchGfycatOrRedgifsVideoLinksListener() {
                         @Override
                         public void success(String webm, String mp4) {
-                            progressBar.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
                             mVideoUri = Uri.parse(webm);
                             videoDownloadUrl = mp4;
                             dataSourceFactory = new CacheDataSource.Factory().setCache(mSimpleCache)
@@ -754,11 +727,11 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                 if (mSharedPreferences.getBoolean(SharedPreferencesUtils.AUTOMATICALLY_TRY_REDGIFS, true)) {
                                     loadGfycatOrRedgifsVideo(redgifsRetrofit, gfycatId, false, savedInstanceState, false);
                                 } else {
-                                    Snackbar.make(coordinatorLayout, R.string.load_video_in_redgifs, Snackbar.LENGTH_INDEFINITE).setAction(R.string.yes,
+                                    Snackbar.make(binding.coordinatorLayout, R.string.load_video_in_redgifs, Snackbar.LENGTH_INDEFINITE).setAction(R.string.yes,
                                             view -> loadGfycatOrRedgifsVideo(redgifsRetrofit, gfycatId, false, savedInstanceState, false)).show();
                                 }
                             } else {
-                                progressBar.setVisibility(View.GONE);
+                                binding.progressBar.setVisibility(View.GONE);
                                 Toast.makeText(ViewVideoActivity.this, R.string.fetch_gfycat_video_failed, Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -768,7 +741,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                     mCurrentAccountSharedPreferences, gfycatId, new FetchGfycatOrRedgifsVideoLinks.FetchGfycatOrRedgifsVideoLinksListener() {
                         @Override
                         public void success(String webm, String mp4) {
-                            progressBar.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
                             mVideoUri = Uri.parse(webm);
                             videoDownloadUrl = mp4;
                             dataSourceFactory = new CacheDataSource.Factory().setCache(mSimpleCache)
@@ -780,7 +753,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
 
                         @Override
                         public void failed(int errorCode) {
-                            progressBar.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
                             Toast.makeText(ViewVideoActivity.this, R.string.fetch_redgifs_video_failed, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -788,7 +761,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     }
 
     private void loadVReddItVideo(Bundle savedInstanceState) {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         vReddItRetrofit.create(VReddIt.class).getRedirectUrl(getIntent().getStringExtra(EXTRA_V_REDD_IT_URL)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
@@ -844,7 +817,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                                         player.setMediaSource(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(mVideoUri)));
                                         preparePlayer(savedInstanceState);
                                     } else {
-                                        progressBar.setVisibility(View.GONE);
+                                        binding.progressBar.setVisibility(View.GONE);
                                         if (post.getVideoUrl() != null) {
                                             mVideoUri = Uri.parse(post.getVideoUrl());
                                             subredditName = post.getSubredditName();
@@ -883,7 +856,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
     }
 
     private void loadStreamableVideo(String shortCode, Bundle savedInstanceState) {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         FetchStreamableVideo.fetchStreamableVideo(mExecutor, new Handler(), streamableApiProvider, shortCode,
                 new FetchStreamableVideo.FetchStreamableVideoListener() {
                     @Override
@@ -893,7 +866,7 @@ public class ViewVideoActivity extends AppCompatActivity implements CustomFontRe
                             return;
                         }
                         setSmallTitle(streamableVideo.title);
-                        progressBar.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
                         videoDownloadUrl = streamableVideo.mp4 == null ? streamableVideo.mp4Mobile.url : streamableVideo.mp4.url;
                         mVideoUri = Uri.parse(videoDownloadUrl);
                         dataSourceFactory = new CacheDataSource.Factory().setCache(mSimpleCache)

@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/theme_name_text_view_custom_theme_options_bottom_sheet_fragment"
+            android:id="@+id/theme_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -22,7 +22,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/edit_theme_text_view_custom_theme_options_bottom_sheet_fragment"
+            android:id="@+id/edit_theme_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -41,7 +41,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/change_theme_name_text_view_custom_theme_options_bottom_sheet_fragment"
+            android:id="@+id/change_theme_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -60,7 +60,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/share_theme_text_view_custom_theme_options_bottom_sheet_fragment"
+            android:id="@+id/share_theme_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -79,7 +79,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/delete_theme_text_view_custom_theme_options_bottom_sheet_fragment"
+            android:id="@+id/delete_theme_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

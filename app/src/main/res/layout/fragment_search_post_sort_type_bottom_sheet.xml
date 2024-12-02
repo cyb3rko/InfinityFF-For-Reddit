@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/relevance_type_text_view_search_sort_type_bottom_sheet_fragment"
+            android:id="@+id/relevance_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -31,7 +31,7 @@
             app:drawableTint="?attr/primaryTextColor" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/hot_type_text_view_search_sort_type_bottom_sheet_fragment"
+            android:id="@+id/hot_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -50,7 +50,7 @@
             app:drawableTint="?attr/primaryTextColor" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/top_type_text_view_search_sort_type_bottom_sheet_fragment"
+            android:id="@+id/top_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -69,7 +69,7 @@
             app:drawableTint="?attr/primaryTextColor" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/new_type_text_view_search_sort_type_bottom_sheet_fragment"
+            android:id="@+id/new_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -88,7 +88,7 @@
             app:drawableTint="?attr/primaryTextColor" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/comments_type_text_view_search_sort_type_bottom_sheet_fragment"
+            android:id="@+id/comments_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"

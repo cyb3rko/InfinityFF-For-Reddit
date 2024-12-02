@@ -9,30 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
@@ -41,34 +30,17 @@ import ml.docilealligator.infinityforreddit.adapters.SubredditMultiselectionRecy
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivitySubscribedSubredditsMultiselectionBinding;
 import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubredditViewModel;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import retrofit2.Retrofit;
 
 public class SubredditMultiselectionActivity extends BaseActivity implements ActivityToolbarInterface {
-
     static final String EXTRA_RETURN_SELECTED_SUBREDDITS = "ERSS";
-
     private static final int SUBREDDIT_SEARCH_REQUEST_CODE = 1;
 
-    @BindView(R.id.coordinator_layout_subreddits_multiselection_activity)
-    CoordinatorLayout mCoordinatorLayout;
-    @BindView(R.id.appbar_layout_subreddits_multiselection_activity)
-    AppBarLayout mAppBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_subscribed_subreddits_multiselection_activity)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @BindView(R.id.toolbar_subscribed_subreddits_multiselection_activity)
-    Toolbar mToolbar;
-    @BindView(R.id.swipe_refresh_layout_subscribed_subscribed_subreddits_multiselection_activity)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.recycler_view_subscribed_subscribed_subreddits_multiselection_activity)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.no_subscriptions_linear_layout_subscribed_subreddits_multiselection_activity)
-    LinearLayout mLinearLayout;
-    @BindView(R.id.no_subscriptions_image_view_subscribed_subreddits_multiselection_activity)
-    ImageView mImageView;
-    @BindView(R.id.error_text_view_subscribed_subreddits_multiselection_activity)
-    TextView mErrorTextView;
+    private ActivitySubscribedSubredditsMultiselectionBinding binding;
+
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
@@ -92,9 +64,8 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
     protected void onCreate(Bundle savedInstanceState) {
         ((Infinity) getApplication()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subscribed_subreddits_multiselection);
-
-        ButterKnife.bind(this);
+        binding = ActivitySubscribedSubredditsMultiselectionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         applyCustomTheme();
 
@@ -106,7 +77,7 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(mAppBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -115,21 +86,21 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(mToolbar);
+                adjustToolbar(binding.toolbar);
 
                 int navBarHeight = getNavBarHeight();
                 if (navBarHeight > 0) {
-                    mRecyclerView.setPadding(0, 0, 0, navBarHeight);
+                    binding.recyclerView.setPadding(0, 0, 0, navBarHeight);
                 }
             }
         }
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mGlide = Glide.with(this);
 
-        mSwipeRefreshLayout.setEnabled(false);
+        binding.swipeRefreshLayout.setEnabled(false);
 
         mAccountName = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, "-");
 
@@ -138,23 +109,23 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
 
     private void bindView() {
         mLinearLayoutManager = new LinearLayoutManagerBugFixed(this);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        binding.recyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter = new SubredditMultiselectionRecyclerViewAdapter(this, mCustomThemeWrapper);
-        mRecyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setAdapter(mAdapter);
 
         mSubscribedSubredditViewModel = new ViewModelProvider(this,
                 new SubscribedSubredditViewModel.Factory(getApplication(), mRedditDataRoomDatabase, mAccountName))
                 .get(SubscribedSubredditViewModel.class);
         mSubscribedSubredditViewModel.getAllSubscribedSubreddits().observe(this, subscribedSubredditData -> {
-            mSwipeRefreshLayout.setRefreshing(false);
+            binding.swipeRefreshLayout.setRefreshing(false);
             if (subscribedSubredditData == null || subscribedSubredditData.size() == 0) {
-                mRecyclerView.setVisibility(View.GONE);
-                mLinearLayout.setVisibility(View.VISIBLE);
-                mGlide.load(R.drawable.error_image).into(mImageView);
+                binding.recyclerView.setVisibility(View.GONE);
+                binding.noSubscriptionsLinearLayout.setVisibility(View.VISIBLE);
+                mGlide.load(R.drawable.error_image).into(binding.noSubscriptionsImageView);
             } else {
-                mLinearLayout.setVisibility(View.GONE);
-                mRecyclerView.setVisibility(View.VISIBLE);
-                mGlide.clear(mImageView);
+                binding.noSubscriptionsLinearLayout.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                mGlide.clear(binding.noSubscriptionsImageView);
             }
 
             mAdapter.setSubscribedSubreddits(subscribedSubredditData);
@@ -226,11 +197,12 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
 
     @Override
     protected void applyCustomTheme() {
-        mCoordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(mAppBarLayout, mCollapsingToolbarLayout, mToolbar);
-        mErrorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
+        binding.errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
         if (typeface != null) {
-            mErrorTextView.setTypeface(typeface);
+            binding.errorTextView.setTypeface(typeface);
         }
     }
 

@@ -6,23 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeSettingsItem;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.ColorPickerDialog;
+import ml.docilealligator.infinityforreddit.databinding.ItemCustomThemeColorItemBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemCustomThemeSwitchItemBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemThemeNameBinding;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class CustomizeThemeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -69,24 +68,24 @@ public class CustomizeThemeRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ThemeColorItemViewHolder) {
             CustomThemeSettingsItem customThemeSettingsItem = customThemeSettingsItems.get(position - 1);
-            ((ThemeColorItemViewHolder) holder).themeItemNameTextView.setText(customThemeSettingsItem.itemName);
-            ((ThemeColorItemViewHolder) holder).themeItemInfoTextView.setText(customThemeSettingsItem.itemDetails);
-            ((ThemeColorItemViewHolder) holder).colorImageView.setBackgroundTintList(ColorStateList.valueOf(customThemeSettingsItem.colorValue));
+            ((ThemeColorItemViewHolder) holder).binding.themeItemNameTextView.setText(customThemeSettingsItem.itemName);
+            ((ThemeColorItemViewHolder) holder).binding.themeItemInfoTextView.setText(customThemeSettingsItem.itemDetails);
+            ((ThemeColorItemViewHolder) holder).binding.colorImageView.setBackgroundTintList(ColorStateList.valueOf(customThemeSettingsItem.colorValue));
             holder.itemView.setOnClickListener(view -> {
                 new ColorPickerDialog(activity, customThemeSettingsItem.colorValue, color -> {
                     customThemeSettingsItem.colorValue = color;
-                    ((ThemeColorItemViewHolder) holder).colorImageView.setBackgroundTintList(ColorStateList.valueOf(color));
+                    ((ThemeColorItemViewHolder) holder).binding.colorImageView.setBackgroundTintList(ColorStateList.valueOf(color));
                 }).show();
             });
         } else if (holder instanceof ThemeSwitchItemViewHolder) {
             CustomThemeSettingsItem customThemeSettingsItem = customThemeSettingsItems.get(position - 1);
-            ((ThemeSwitchItemViewHolder) holder).themeItemNameTextView.setText(customThemeSettingsItem.itemName);
-            ((ThemeSwitchItemViewHolder) holder).themeItemInfoTextView.setText(customThemeSettingsItem.itemName);
-            ((ThemeSwitchItemViewHolder) holder).themeItemSwitch.setChecked(customThemeSettingsItem.isEnabled);
-            ((ThemeSwitchItemViewHolder) holder).themeItemSwitch.setOnClickListener(view -> customThemeSettingsItem.isEnabled = ((ThemeSwitchItemViewHolder) holder).themeItemSwitch.isChecked());
-            holder.itemView.setOnClickListener(view -> ((ThemeSwitchItemViewHolder) holder).themeItemSwitch.performClick());
+            ((ThemeSwitchItemViewHolder) holder).binding.themeItemNameTextView.setText(customThemeSettingsItem.itemName);
+            ((ThemeSwitchItemViewHolder) holder).binding.themeItemInfoTextView.setText(customThemeSettingsItem.itemName);
+            ((ThemeSwitchItemViewHolder) holder).binding.themeItemSwitch.setChecked(customThemeSettingsItem.isEnabled);
+            ((ThemeSwitchItemViewHolder) holder).binding.themeItemSwitch.setOnClickListener(view -> customThemeSettingsItem.isEnabled = ((ThemeSwitchItemViewHolder) holder).binding.themeItemSwitch.isChecked());
+            holder.itemView.setOnClickListener(view -> ((ThemeSwitchItemViewHolder) holder).binding.themeItemSwitch.performClick());
         } else if (holder instanceof ThemeNameItemViewHolder) {
-            ((ThemeNameItemViewHolder) holder).themeNameTextView.setText(themeName);
+            ((ThemeNameItemViewHolder) holder).binding.themeNameTextView.setText(themeName);
             holder.itemView.setOnClickListener(view -> {
                 View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_edit_name, null);
                 EditText themeNameEditText = dialogView.findViewById(R.id.name_edit_text_edit_name_dialog);
@@ -100,7 +99,7 @@ public class CustomizeThemeRecyclerViewAdapter extends RecyclerView.Adapter<Recy
                                 -> {
                             Utils.hideKeyboard(activity);
                             themeName = themeNameEditText.getText().toString();
-                            ((ThemeNameItemViewHolder) holder).themeNameTextView.setText(themeName);
+                            ((ThemeNameItemViewHolder) holder).binding.themeNameTextView.setText(themeName);
                         })
                         .setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
                             Utils.hideKeyboard(activity);
@@ -129,64 +128,52 @@ public class CustomizeThemeRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     }
 
     class ThemeColorItemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.color_image_view_item_custom_theme_color_item)
-        View colorImageView;
-        @BindView(R.id.theme_item_name_text_view_item_custom_theme_color_item)
-        TextView themeItemNameTextView;
-        @BindView(R.id.theme_item_info_text_view_item_custom_theme_color_item)
-        TextView themeItemInfoTextView;
+        private final ItemCustomThemeColorItemBinding binding;
 
         ThemeColorItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemCustomThemeColorItemBinding.bind(itemView);
 
-            themeItemNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
-            themeItemInfoTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
+            binding.themeItemNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
+            binding.themeItemInfoTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
 
             if (activity.typeface != null) {
-                themeItemNameTextView.setTypeface(activity.typeface);
-                themeItemInfoTextView.setTypeface(activity.typeface);
+                binding.themeItemNameTextView.setTypeface(activity.typeface);
+                binding.themeItemInfoTextView.setTypeface(activity.typeface);
             }
         }
     }
 
     class ThemeSwitchItemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.theme_item_name_text_view_item_custom_theme_switch_item)
-        TextView themeItemNameTextView;
-        @BindView(R.id.theme_item_info_text_view_item_custom_theme_switch_item)
-        TextView themeItemInfoTextView;
-        @BindView(R.id.theme_item_switch_item_custom_theme_switch_item)
-        MaterialSwitch themeItemSwitch;
+        private final ItemCustomThemeSwitchItemBinding binding;
 
         ThemeSwitchItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemCustomThemeSwitchItemBinding.bind(itemView);
 
-            themeItemNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
-            themeItemInfoTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
+            binding.themeItemNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
+            binding.themeItemInfoTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
 
             if (activity.typeface != null) {
-                themeItemNameTextView.setTypeface(activity.typeface);
-                themeItemInfoTextView.setTypeface(activity.typeface);
+                binding.themeItemNameTextView.setTypeface(activity.typeface);
+                binding.themeItemInfoTextView.setTypeface(activity.typeface);
             }
         }
     }
 
     class ThemeNameItemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.theme_name_text_view_item_theme_name)
-        TextView themeNameTextView;
-        @BindView(R.id.description_text_view_item_theme_name)
-        TextView descriptionTextView;
+        private final ItemThemeNameBinding binding;
+
         public ThemeNameItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemThemeNameBinding.bind(itemView);
 
-            themeNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
-            descriptionTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
+            binding.themeNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
+            binding.descriptionTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
 
             if (activity.typeface != null) {
-                themeNameTextView.setTypeface(activity.typeface);
-                descriptionTextView.setTypeface(activity.typeface);
+                binding.themeNameTextView.setTypeface(activity.typeface);
+                binding.descriptionTextView.setTypeface(activity.typeface);
             }
         }
     }

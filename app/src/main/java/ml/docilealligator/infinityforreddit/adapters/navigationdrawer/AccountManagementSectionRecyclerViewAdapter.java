@@ -3,8 +3,6 @@ package ml.docilealligator.infinityforreddit.adapters.navigationdrawer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -16,14 +14,13 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.account.Account;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import pl.droidsonroids.gif.GifImageView;
+import ml.docilealligator.infinityforreddit.databinding.ItemNavDrawerAccountBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemNavDrawerMenuItemBinding;
 
 public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -76,8 +73,8 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
             glide.load(accounts.get(position).getProfileImageUrl())
                     .error(glide.load(R.drawable.subreddit_default_icon))
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(128, 0)))
-                    .into(((AccountViewHolder) holder).profileImageGifImageView);
-            ((AccountViewHolder) holder).usernameTextView.setText(accounts.get(position).getAccountName());
+                    .into(((AccountViewHolder) holder).binding.profileImage);
+            ((AccountViewHolder) holder).binding.usernameTextView.setText(accounts.get(position).getAccountName());
             holder.itemView.setOnClickListener(view ->
                     itemClickListener.onAccountClick(accounts.get(position).getAccountName()));
         } else if (holder instanceof MenuItemViewHolder) {
@@ -102,8 +99,8 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
             }
 
             if (stringId != 0) {
-                ((MenuItemViewHolder) holder).menuTextView.setText(stringId);
-                ((MenuItemViewHolder) holder).imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, drawableId));
+                ((MenuItemViewHolder) holder).binding.textView.setText(stringId);
+                ((MenuItemViewHolder) holder).binding.imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, drawableId));
             }
             int finalStringId = stringId;
             holder.itemView.setOnClickListener(view -> itemClickListener.onMenuClick(finalStringId));
@@ -133,35 +130,29 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
     }
 
     class AccountViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.profile_image_item_account)
-        GifImageView profileImageGifImageView;
-        @BindView(R.id.username_text_view_item_account)
-        TextView usernameTextView;
+        private final ItemNavDrawerAccountBinding binding;
 
         AccountViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemNavDrawerAccountBinding.bind(itemView);
             if (baseActivity.typeface != null) {
-                usernameTextView.setTypeface(baseActivity.typeface);
+                binding.usernameTextView.setTypeface(baseActivity.typeface);
             }
-            usernameTextView.setTextColor(primaryTextColor);
+            binding.usernameTextView.setTextColor(primaryTextColor);
         }
     }
 
     class MenuItemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.image_view_item_nav_drawer_menu_item)
-        ImageView imageView;
-        @BindView(R.id.text_view_item_nav_drawer_menu_item)
-        TextView menuTextView;
+        private final ItemNavDrawerMenuItemBinding binding;
 
         MenuItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemNavDrawerMenuItemBinding.bind(itemView);
             if (baseActivity.typeface != null) {
-                menuTextView.setTypeface(baseActivity.typeface);
+                binding.textView.setTypeface(baseActivity.typeface);
             }
-            menuTextView.setTextColor(primaryTextColor);
-            imageView.setColorFilter(primaryIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.textView.setTextColor(primaryTextColor);
+            binding.imageView.setColorFilter(primaryIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
         }
     }
 }

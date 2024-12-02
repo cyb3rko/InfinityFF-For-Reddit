@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".settings.CustomizeBottomAppBarFragment">
 
     <LinearLayout
@@ -12,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/info_text_view_customize_bottom_app_bar_fragment"
+            android:id="@+id/info_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
@@ -28,7 +27,7 @@
             android:background="@color/dividerColor" />
 
         <TextView
-            android:id="@+id/main_activity_group_summary_customize_bottom_app_bar_fragment"
+            android:id="@+id/main_activity_group_summary_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -39,7 +38,7 @@
             android:fontFamily="?attr/font_family" />
 
         <LinearLayout
-            android:id="@+id/main_activity_option_count_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/main_activity_option_count_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -52,7 +51,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/main_activity_option_count_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_count_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -63,7 +62,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/main_activity_option_count_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_count_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -75,7 +74,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_activity_option_1_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/main_activity_option_1_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -88,7 +87,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/main_activity_option_1_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_1_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -98,7 +97,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/main_activity_option_1_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_1_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -109,7 +108,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_activity_option_2_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/main_activity_option_2_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -122,7 +121,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/main_activity_option_2_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_2_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -132,7 +131,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/main_activity_option_2_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_2_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -143,7 +142,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_activity_option_3_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/main_activity_option_3_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -156,7 +155,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/main_activity_option_3_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_3_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -166,7 +165,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/main_activity_option_3_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_3_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -177,7 +176,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_activity_option_4_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/main_activity_option_4_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -190,7 +189,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/main_activity_option_4_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_4_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -200,7 +199,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/main_activity_option_4_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_option_4_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -211,7 +210,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_activity_fab_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/main_activity_fab_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -224,7 +223,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/main_activity_fab_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_fab_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -234,7 +233,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/main_activity_fab_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/main_activity_fab_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -245,13 +244,13 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/divider_2_customize_bottom_app_bar_fragment"
+            android:id="@+id/divider_2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dividerColor" />
 
         <TextView
-            android:id="@+id/other_activities_group_summary_customize_bottom_app_bar_fragment"
+            android:id="@+id/other_activities_group_summary_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -262,7 +261,7 @@
             android:fontFamily="?attr/font_family" />
 
         <LinearLayout
-            android:id="@+id/other_activities_option_count_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/other_activities_option_count_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -275,7 +274,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/other_activities_option_count_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_count_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -286,7 +285,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/other_activities_option_count_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_count_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -298,7 +297,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/other_activities_option_1_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/other_activities_option_1_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -311,7 +310,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/other_activities_option_1_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_1_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -321,7 +320,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/other_activities_option_1_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_1_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -332,7 +331,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/other_activities_option_2_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/other_activities_option_2_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -345,7 +344,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/other_activities_option_2_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_2_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -355,7 +354,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/other_activities_option_2_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_2_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -366,7 +365,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/other_activities_option_3_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/other_activities_option_3_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -379,7 +378,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/other_activities_option_3_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_3_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -389,7 +388,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/other_activities_option_3_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_3_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -400,7 +399,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/other_activities_option_4_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/other_activities_option_4_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -413,7 +412,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/other_activities_option_4_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_4_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -423,7 +422,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/other_activities_option_4_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_option_4_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -434,7 +433,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/other_activities_fab_linear_layout_customize_bottom_app_bar_fragment"
+            android:id="@+id/other_activities_fab_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -447,7 +446,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/other_activities_fab_title_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_fab_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -457,7 +456,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <TextView
-                android:id="@+id/other_activities_fab_text_view_customize_bottom_app_bar_fragment"
+                android:id="@+id/other_activities_fab_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

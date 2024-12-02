@@ -4,19 +4,16 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ItemRecentSearchQueryBinding;
 import ml.docilealligator.infinityforreddit.recentsearchquery.RecentSearchQuery;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
@@ -52,7 +49,7 @@ public class SearchActivityRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RecentSearchQueryViewHolder) {
             if (recentSearchQueries != null && !recentSearchQueries.isEmpty() && position < recentSearchQueries.size()) {
-                ((RecentSearchQueryViewHolder) holder).recentSearchQueryTextView.setText(recentSearchQueries.get(position).getSearchQuery());
+                ((RecentSearchQueryViewHolder) holder).binding.recentSearchQueryTextView.setText(recentSearchQueries.get(position).getSearchQuery());
             }
         }
     }
@@ -68,22 +65,18 @@ public class SearchActivityRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     }
 
     class RecentSearchQueryViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.recent_search_query_text_view_item_recent_search_query)
-        TextView recentSearchQueryTextView;
-        @BindView(R.id.delete_image_view_item_recent_search_query)
-        ImageView deleteImageView;
+        private final ItemRecentSearchQueryBinding binding;
 
         public RecentSearchQueryViewHolder(@NonNull View itemView) {
             super(itemView);
+            binding = ItemRecentSearchQueryBinding.bind(itemView);
 
-            ButterKnife.bind(this, itemView);
-
-            recentSearchQueryTextView.setTextColor(primaryTextColor);
-            recentSearchQueryTextView.setCompoundDrawablesWithIntrinsicBounds(historyIcon, null, null, null);
-            deleteImageView.setImageDrawable(deleteIcon);
+            binding.recentSearchQueryTextView.setTextColor(primaryTextColor);
+            binding.recentSearchQueryTextView.setCompoundDrawablesWithIntrinsicBounds(historyIcon, null, null, null);
+            binding.deleteImageView.setImageDrawable(deleteIcon);
 
             if (activity.typeface != null) {
-                recentSearchQueryTextView.setTypeface(activity.typeface);
+                binding.recentSearchQueryTextView.setTypeface(activity.typeface);
             }
 
             itemView.setOnClickListener(view -> {
@@ -92,7 +85,7 @@ public class SearchActivityRecyclerViewAdapter extends RecyclerView.Adapter<Recy
                 }
             });
 
-            deleteImageView.setOnClickListener(view -> {
+            binding.deleteImageView.setOnClickListener(view -> {
                 itemOnClickListener.onDelete(recentSearchQueries.get(getBindingAdapterPosition()));
             });
         }

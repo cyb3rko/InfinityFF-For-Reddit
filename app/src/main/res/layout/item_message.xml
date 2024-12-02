@@ -6,7 +6,7 @@
     android:background="?attr/cardViewBackgroundColor">
 
     <TextView
-        android:id="@+id/author_text_view_item_message"
+        android:id="@+id/author_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -15,7 +15,7 @@
         android:fontFamily="?attr/font_family" />
 
     <TextView
-        android:id="@+id/subject_text_view_item_message"
+        android:id="@+id/subject_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -24,7 +24,7 @@
         android:fontFamily="?attr/font_family" />
 
     <TextView
-        android:id="@+id/title_text_view_item_message"
+        android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -33,7 +33,7 @@
         android:fontFamily="?attr/title_font_family" />
 
     <TextView
-        android:id="@+id/content_custom_markwon_view_item_message"
+        android:id="@+id/content_custom_markwon_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="?attr/font_default"

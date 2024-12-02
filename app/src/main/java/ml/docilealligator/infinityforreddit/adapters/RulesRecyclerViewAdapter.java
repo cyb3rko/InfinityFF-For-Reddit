@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.MarkwonConfiguration;
@@ -32,6 +30,7 @@ import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.SwipeLockInterface;
 import ml.docilealligator.infinityforreddit.customviews.SwipeLockLinearLayoutManager;
 import ml.docilealligator.infinityforreddit.customviews.slidr.widget.SliderPanel;
+import ml.docilealligator.infinityforreddit.databinding.ItemRuleBinding;
 import ml.docilealligator.infinityforreddit.markdown.MarkdownUtils;
 
 public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecyclerViewAdapter.RuleViewHolder> {
@@ -94,9 +93,9 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
     @Override
     public void onBindViewHolder(@NonNull RuleViewHolder holder, int position) {
         Rule rule = rules.get(holder.getBindingAdapterPosition());
-        holder.shortNameTextView.setText(rule.getShortName());
+        holder.binding.shortNameTextView.setText(rule.getShortName());
         if (rule.getDescriptionHtml() == null) {
-            holder.descriptionMarkwonView.setVisibility(View.GONE);
+            holder.binding.descriptionMarkwonView.setVisibility(View.GONE);
         } else {
             holder.markwonAdapter.setMarkdown(markwon, rule.getDescriptionHtml());
             //noinspection NotifyDatasetChanged
@@ -112,7 +111,7 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
     @Override
     public void onViewRecycled(@NonNull RuleViewHolder holder) {
         super.onViewRecycled(holder);
-        holder.descriptionMarkwonView.setVisibility(View.VISIBLE);
+        holder.binding.descriptionMarkwonView.setVisibility(View.VISIBLE);
     }
 
     public void changeDataset(ArrayList<Rule> rules) {
@@ -121,20 +120,18 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
     }
 
     class RuleViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.short_name_text_view_item_rule)
-        TextView shortNameTextView;
-        @BindView(R.id.description_markwon_view_item_rule)
-        RecyclerView descriptionMarkwonView;
+        private final ItemRuleBinding binding;
+
         @NonNull
         final MarkwonAdapter markwonAdapter;
 
         RuleViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            shortNameTextView.setTextColor(mPrimaryTextColor);
+            binding = ItemRuleBinding.bind(itemView);
+            binding.shortNameTextView.setTextColor(mPrimaryTextColor);
 
             if (activity.typeface != null) {
-                shortNameTextView.setTypeface(activity.typeface);
+                binding.shortNameTextView.setTypeface(activity.typeface);
             }
             markwonAdapter = MarkdownUtils.createTablesAdapter();
             SwipeLockLinearLayoutManager swipeLockLinearLayoutManager = new SwipeLockLinearLayoutManager(activity,
@@ -153,8 +150,8 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
                     }
                 }
             });
-            descriptionMarkwonView.setLayoutManager(swipeLockLinearLayoutManager);
-            descriptionMarkwonView.setAdapter(markwonAdapter);
+            binding.descriptionMarkwonView.setLayoutManager(swipeLockLinearLayoutManager);
+            binding.descriptionMarkwonView.setAdapter(markwonAdapter);
         }
     }
 }

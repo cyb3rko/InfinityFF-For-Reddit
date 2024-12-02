@@ -6,18 +6,16 @@ import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ItemNavDrawerMenuGroupTitleBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemNavDrawerMenuItemBinding;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class PreferenceSectionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -69,11 +67,11 @@ public class PreferenceSectionRecyclerViewAdapter extends RecyclerView.Adapter<R
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MenuGroupTitleViewHolder) {
-            ((MenuGroupTitleViewHolder) holder).titleTextView.setText(R.string.label_preferences);
+            ((MenuGroupTitleViewHolder) holder).binding.titleTextView.setText(R.string.label_preferences);
             if (collapsePreferencesSection) {
-                ((MenuGroupTitleViewHolder) holder).collapseIndicatorImageView.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24dp);
+                ((MenuGroupTitleViewHolder) holder).binding.collapseIndicatorImageView.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24dp);
             } else {
-                ((MenuGroupTitleViewHolder) holder).collapseIndicatorImageView.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24dp);
+                ((MenuGroupTitleViewHolder) holder).binding.collapseIndicatorImageView.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24dp);
             }
 
             holder.itemView.setOnClickListener(view -> {
@@ -114,13 +112,13 @@ public class PreferenceSectionRecyclerViewAdapter extends RecyclerView.Adapter<R
                     holder.itemView.setOnClickListener(view -> {
                         if (isNSFWEnabled) {
                             isNSFWEnabled = false;
-                            ((MenuItemViewHolder) holder).menuTextView.setText(R.string.enable_nsfw);
-                            ((MenuItemViewHolder) holder).imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, R.drawable.ic_nsfw_on_24dp));
+                            ((MenuItemViewHolder) holder).binding.textView.setText(R.string.enable_nsfw);
+                            ((MenuItemViewHolder) holder).binding.imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, R.drawable.ic_nsfw_on_24dp));
                             itemClickListener.onMenuClick(R.string.disable_nsfw);
                         } else {
                             isNSFWEnabled = true;
-                            ((MenuItemViewHolder) holder).menuTextView.setText(R.string.disable_nsfw);
-                            ((MenuItemViewHolder) holder).imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, R.drawable.ic_nsfw_off_24dp));
+                            ((MenuItemViewHolder) holder).binding.textView.setText(R.string.disable_nsfw);
+                            ((MenuItemViewHolder) holder).binding.imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, R.drawable.ic_nsfw_off_24dp));
                             itemClickListener.onMenuClick(R.string.enable_nsfw);
                         }
                     });
@@ -131,8 +129,8 @@ public class PreferenceSectionRecyclerViewAdapter extends RecyclerView.Adapter<R
             }
 
             if (stringId != 0) {
-                ((MenuItemViewHolder) holder).menuTextView.setText(stringId);
-                ((MenuItemViewHolder) holder).imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, drawableId));
+                ((MenuItemViewHolder) holder).binding.textView.setText(stringId);
+                ((MenuItemViewHolder) holder).binding.imageView.setImageDrawable(ContextCompat.getDrawable(baseActivity, drawableId));
                 if (setOnClickListener) {
                     int finalStringId = stringId;
                     holder.itemView.setOnClickListener(view -> itemClickListener.onMenuClick(finalStringId));
@@ -152,36 +150,30 @@ public class PreferenceSectionRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     class MenuGroupTitleViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.title_text_view_item_nav_drawer_menu_group_title)
-        TextView titleTextView;
-        @BindView(R.id.collapse_indicator_image_view_item_nav_drawer_menu_group_title)
-        ImageView collapseIndicatorImageView;
+        private final ItemNavDrawerMenuGroupTitleBinding binding;
 
         MenuGroupTitleViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemNavDrawerMenuGroupTitleBinding.bind(itemView);
             if (baseActivity.typeface != null) {
-                titleTextView.setTypeface(baseActivity.typeface);
+                binding.titleTextView.setTypeface(baseActivity.typeface);
             }
-            titleTextView.setTextColor(secondaryTextColor);
-            collapseIndicatorImageView.setColorFilter(secondaryTextColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.titleTextView.setTextColor(secondaryTextColor);
+            binding.collapseIndicatorImageView.setColorFilter(secondaryTextColor, android.graphics.PorterDuff.Mode.SRC_IN);
         }
     }
 
     class MenuItemViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.image_view_item_nav_drawer_menu_item)
-        ImageView imageView;
-        @BindView(R.id.text_view_item_nav_drawer_menu_item)
-        TextView menuTextView;
+        private final ItemNavDrawerMenuItemBinding binding;
 
         MenuItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemNavDrawerMenuItemBinding.bind(itemView);
             if (baseActivity.typeface != null) {
-                menuTextView.setTypeface(baseActivity.typeface);
+                binding.textView.setTypeface(baseActivity.typeface);
             }
-            menuTextView.setTextColor(primaryTextColor);
-            imageView.setColorFilter(primaryIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.textView.setTextColor(primaryTextColor);
+            binding.imageView.setColorFilter(primaryIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
         }
     }
 }

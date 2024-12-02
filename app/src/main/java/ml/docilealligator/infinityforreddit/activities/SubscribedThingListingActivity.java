@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.inputmethod.EditorInfoCompat;
 import androidx.fragment.app.Fragment;
@@ -27,11 +26,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,8 +37,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.FetchSubscribedThing;
 import ml.docilealligator.infinityforreddit.FragmentCommunicator;
@@ -54,9 +47,8 @@ import ml.docilealligator.infinityforreddit.asynctasks.DeleteMultiredditInDataba
 import ml.docilealligator.infinityforreddit.asynctasks.InsertMultireddit;
 import ml.docilealligator.infinityforreddit.asynctasks.InsertSubscribedThings;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import ml.docilealligator.infinityforreddit.customviews.ViewPagerBugFixed;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
-import ml.docilealligator.infinityforreddit.customviews.slidr.widget.SliderPanel;
+import ml.docilealligator.infinityforreddit.databinding.ActivitySubscribedThingListingBinding;
 import ml.docilealligator.infinityforreddit.events.GoBackToMainPageEvent;
 import ml.docilealligator.infinityforreddit.events.RefreshMultiRedditsEvent;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
@@ -73,30 +65,13 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 import retrofit2.Retrofit;
 
-;
-
 public class SubscribedThingListingActivity extends BaseActivity implements ActivityToolbarInterface {
-
     public static final String EXTRA_SHOW_MULTIREDDITS = "ESM";
     private static final String INSERT_SUBSCRIBED_SUBREDDIT_STATE = "ISSS";
     private static final String INSERT_MULTIREDDIT_STATE = "IMS";
 
-    @BindView(R.id.coordinator_layout_subscribed_thing_listing_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_subscribed_thing_listing_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_subscribed_thing_listing_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.toolbar_subscribed_thing_listing_activity)
-    Toolbar toolbar;
-    @BindView(R.id.search_edit_text_subscribed_thing_listing_activity)
-    EditText searchEditText;
-    @BindView(R.id.tab_layout_subscribed_thing_listing_activity)
-    TabLayout tabLayout;
-    @BindView(R.id.view_pager_subscribed_thing_listing_activity)
-    ViewPagerBugFixed viewPager;
-    @BindView(R.id.fab_subscribed_thing_listing_activity)
-    FloatingActionButton fab;
+    private ActivitySubscribedThingListingBinding binding;
+
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
@@ -125,10 +100,8 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
         ((Infinity) getApplication()).getAppComponent().inject(this);
 
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_subscribed_thing_listing);
-
-        ButterKnife.bind(this);
+        binding = ActivitySubscribedThingListingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -142,7 +115,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -151,20 +124,20 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(toolbar);
+                adjustToolbar(binding.toolbar);
 
                 int navBarHeight = getNavBarHeight();
                 if (navBarHeight > 0) {
-                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fab.getLayoutParams();
                     params.bottomMargin += navBarHeight;
-                    fab.setLayoutParams(params);
+                    binding.fab.setLayoutParams(params);
                 }
             }
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarGoToTop(toolbar);
+        setToolbarGoToTop(binding.toolbar);
 
         mAccessToken = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
         mAccountName = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, "-");
@@ -177,10 +150,10 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
         }
 
         if (mAccessToken == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            searchEditText.setImeOptions(searchEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            binding.searchEditText.setImeOptions(binding.searchEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
         }
 
-        searchEditText.addTextChangedListener(new TextWatcher() {
+        binding.searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -211,42 +184,44 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar);
-        applyTabLayoutTheme(tabLayout);
-        applyFABTheme(fab);
-        searchEditText.setTextColor(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor());
-        searchEditText.setHintTextColor(mCustomThemeWrapper.getToolbarSecondaryTextColor());
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
+        applyTabLayoutTheme(binding.tabLayout);
+        applyFABTheme(binding.fab);
+        binding.searchEditText.setTextColor(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor());
+        binding.searchEditText.setHintTextColor(mCustomThemeWrapper.getToolbarSecondaryTextColor());
     }
 
     private void initializeViewPagerAndLoadSubscriptions() {
-        fab.setOnClickListener(view -> {
+        binding.fab.setOnClickListener(view -> {
             Intent intent = new Intent(this, CreateMultiRedditActivity.class);
             startActivity(intent);
         });
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
         if (viewPager.getCurrentItem() != 2) {
-            fab.hide();
+            binding.fab.hide();
         }
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
                     unlockSwipeRightToGoBack();
-                    fab.hide();
+                    binding.fab.hide();
                 } else {
                     lockSwipeRightToGoBack();
                     if (position != 2) {
-                        fab.hide();
+                        binding.fab.hide();
                     } else {
-                        fab.show();
+                        binding.fab.show();
                     }
                 }
             }
         });
-        tabLayout.setupWithViewPager(viewPager);
+        binding.tabLayout.setupWithViewPager(viewPager);
 
         if (showMultiReddits) {
             viewPager.setCurrentItem(2, false);
@@ -265,6 +240,7 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        EditText searchEditText = binding.searchEditText;
         if (item.getItemId() == R.id.action_search_subscribed_thing_listing_activity) {
             item.setVisible(false);
             searchEditText.setVisibility(View.VISIBLE);
@@ -292,10 +268,10 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
 
     @Override
     public void onBackPressed() {
-        if (searchEditText.getVisibility() == View.VISIBLE) {
+        if (binding.searchEditText.getVisibility() == View.VISIBLE) {
             Utils.hideKeyboard(this);
-            searchEditText.setVisibility(View.GONE);
-            searchEditText.setText("");
+            binding.searchEditText.setVisibility(View.GONE);
+            binding.searchEditText.setText("");
             mMenu.findItem(R.id.action_search_subscribed_thing_listing_activity).setVisible(true);
             sectionsPagerAdapter.changeSearchQuery("");
         } else {
@@ -356,14 +332,14 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
     }
 
     public void showFabInMultiredditTab() {
-        if (viewPager.getCurrentItem() == 2) {
-            fab.show();
+        if (binding.viewPager.getCurrentItem() == 2) {
+            binding.fab.show();
         }
     }
 
     public void hideFabInMultiredditTab() {
-        if (viewPager.getCurrentItem() == 2) {
-            fab.hide();
+        if (binding.viewPager.getCurrentItem() == 2) {
+            binding.fab.hide();
         }
     }
 
@@ -548,9 +524,9 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
         }
 
         void goBackToTop() {
-            if (viewPager.getCurrentItem() == 0) {
+            if (binding.viewPager.getCurrentItem() == 0) {
                 subscribedSubredditsListingFragment.goBackToTop();
-            } else if (viewPager.getCurrentItem() == 1) {
+            } else if (binding.viewPager.getCurrentItem() == 1) {
                 followedUsersListingFragment.goBackToTop();
             } else {
                 multiRedditListingFragment.goBackToTop();

@@ -8,17 +8,17 @@
     android:layout_marginBottom="16dp">
 
     <TextView
-        android:id="@+id/error_text_view_item_footer_error"
+        android:id="@+id/error_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/retry_button_item_footer_error"
+        android:layout_toStartOf="@id/retry_button"
         android:textSize="?attr/font_18"
         android:fontFamily="?attr/font_family" />
 
     <Button
-        android:id="@+id/retry_button_item_footer_error"
+        android:id="@+id/retry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ml.docilealligator.infinityforreddit.customviews.CommentIndentationView
-        android:id="@+id/vertical_block_indentation_item_comment_fully_collapsed"
+        android:id="@+id/comment_indentation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 
@@ -19,14 +19,14 @@
             android:layout_marginStart="16dp">
 
             <ImageView
-                android:id="@+id/author_icon_image_view_item_comment_fully_collapsed"
+                android:id="@+id/author_icon_image_view"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/user_name_text_view_item_comment_fully_collapsed"
+                android:id="@+id/user_name_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,7 +41,7 @@
                 android:textSize="?attr/font_default" />
 
             <TextView
-                android:id="@+id/child_count_text_view_item_comment_fully_collapsed"
+                android:id="@+id/child_count_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -53,7 +53,7 @@
                 android:textSize="?attr/font_default" />
 
             <TextView
-                android:id="@+id/score_text_view_item_comment_fully_collapsed"
+                android:id="@+id/score_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -65,7 +65,7 @@
                 android:textSize="?attr/font_default" />
 
             <TextView
-                android:id="@+id/time_text_view_item_comment_fully_collapsed"
+                android:id="@+id/time_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/divider_item_comment_fully_collapsed"
+            android:id="@+id/comment_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:visibility="gone" />

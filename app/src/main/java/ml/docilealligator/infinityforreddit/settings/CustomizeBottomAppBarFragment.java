@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,99 +20,18 @@ import java.util.Arrays;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.SettingsActivity;
+import ml.docilealligator.infinityforreddit.databinding.FragmentCustomizeBottomAppBarBinding;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class CustomizeBottomAppBarFragment extends Fragment {
-
     public static final String EXTRA_ACCOUNT_NAME = "EAN";
 
-    @BindView(R.id.info_text_view_customize_bottom_app_bar_fragment)
-    TextView infoTextView;
-    @BindView(R.id.main_activity_group_summary_customize_bottom_app_bar_fragment)
-    TextView mainActivityGroupSummaryTextView;
-    @BindView(R.id.main_activity_option_count_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout mainActivityOptionCountLinearLayout;
-    @BindView(R.id.main_activity_option_count_title_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOptionCountTitleTextView;
-    @BindView(R.id.main_activity_option_count_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOptionCountTextView;
-    @BindView(R.id.main_activity_option_1_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout mainActivityOption1LinearLayout;
-    @BindView(R.id.main_activity_option_1_title_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption1TitleTextView;
-    @BindView(R.id.main_activity_option_1_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption1TextView;
-    @BindView(R.id.main_activity_option_2_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout mainActivityOption2LinearLayout;
-    @BindView(R.id.main_activity_option_2_title_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption2TitleTextView;
-    @BindView(R.id.main_activity_option_2_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption2TextView;
-    @BindView(R.id.main_activity_option_3_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout mainActivityOption3LinearLayout;
-    @BindView(R.id.main_activity_option_3_title_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption3TitleTextView;
-    @BindView(R.id.main_activity_option_3_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption3TextView;
-    @BindView(R.id.main_activity_option_4_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout mainActivityOption4LinearLayout;
-    @BindView(R.id.main_activity_option_4_title_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption4TitleTextView;
-    @BindView(R.id.main_activity_option_4_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityOption4TextView;
-    @BindView(R.id.main_activity_fab_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout mainActivityFABLinearLayout;
-    @BindView(R.id.main_activity_fab_title_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityFABTitleTextView;
-    @BindView(R.id.main_activity_fab_text_view_customize_bottom_app_bar_fragment)
-    TextView mainActivityFABTextView;
+    private FragmentCustomizeBottomAppBarBinding binding;
 
-    @BindView(R.id.divider_2_customize_bottom_app_bar_fragment)
-    View divider2;
-    @BindView(R.id.other_activities_group_summary_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesGroupSummaryTextView;
-    @BindView(R.id.other_activities_option_count_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout otherActivitiesOptionCountLinearLayout;
-    @BindView(R.id.other_activities_option_count_title_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOptionCountTitleTextView;
-    @BindView(R.id.other_activities_option_count_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOptionCountTextView;
-    @BindView(R.id.other_activities_option_1_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout otherActivitiesOption1LinearLayout;
-    @BindView(R.id.other_activities_option_1_title_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption1TitleTextView;
-    @BindView(R.id.other_activities_option_1_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption1TextView;
-    @BindView(R.id.other_activities_option_2_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout otherActivitiesOption2LinearLayout;
-    @BindView(R.id.other_activities_option_2_title_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption2TitleTextView;
-    @BindView(R.id.other_activities_option_2_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption2TextView;
-    @BindView(R.id.other_activities_option_3_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout otherActivitiesOption3LinearLayout;
-    @BindView(R.id.other_activities_option_3_title_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption3TitleTextView;
-    @BindView(R.id.other_activities_option_3_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption3TextView;
-    @BindView(R.id.other_activities_option_4_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout otherActivitiesOption4LinearLayout;
-    @BindView(R.id.other_activities_option_4_title_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption4TitleTextView;
-    @BindView(R.id.other_activities_option_4_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesOption4TextView;
-    @BindView(R.id.other_activities_fab_linear_layout_customize_bottom_app_bar_fragment)
-    LinearLayout otherActivitiesFABLinearLayout;
-    @BindView(R.id.other_activities_fab_title_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesFABTitleTextView;
-    @BindView(R.id.other_activities_fab_text_view_customize_bottom_app_bar_fragment)
-    TextView otherActivitiesFABTextView;
     @Inject
     @Named("bottom_app_bar")
     SharedPreferences sharedPreferences;
@@ -137,14 +54,12 @@ public class CustomizeBottomAppBarFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_customize_bottom_app_bar, container, false);
+        binding = FragmentCustomizeBottomAppBarBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
-
-        ButterKnife.bind(this, rootView);
 
         rootView.setBackgroundColor(activity.customThemeWrapper.getBackgroundColor());
 
@@ -168,11 +83,11 @@ public class CustomizeBottomAppBarFragment extends Fragment {
         mainActivityOption4 = sharedPreferences.getInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_4, 3);
         mainActivityFAB = sharedPreferences.getInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB, accountName == null ? 7: 0);
 
-        mainActivityOptionCountTextView.setText(Integer.toString(mainActivityOptionCount));
-        mainActivityOption1TextView.setText(mainActivityOptions[mainActivityOption1]);
-        mainActivityOption2TextView.setText(mainActivityOptions[mainActivityOption2]);
-        mainActivityOption3TextView.setText(mainActivityOptions[mainActivityOption3]);
-        mainActivityOption4TextView.setText(mainActivityOptions[mainActivityOption4]);
+        binding.mainActivityOptionCountTextView.setText(Integer.toString(mainActivityOptionCount));
+        binding.mainActivityOption1TextView.setText(mainActivityOptions[mainActivityOption1]);
+        binding.mainActivityOption2TextView.setText(mainActivityOptions[mainActivityOption2]);
+        binding.mainActivityOption3TextView.setText(mainActivityOptions[mainActivityOption3]);
+        binding.mainActivityOption4TextView.setText(mainActivityOptions[mainActivityOption4]);
 
         if (accountName == null) {
             fabOptions = resources.getStringArray(R.array.settings_bottom_app_bar_fab_options_anonymous);
@@ -187,73 +102,73 @@ public class CustomizeBottomAppBarFragment extends Fragment {
             fabOptions = resources.getStringArray(R.array.settings_bottom_app_bar_fab_options);
         }
 
-        mainActivityFABTextView.setText(fabOptions[mainActivityFAB]);
+        binding.mainActivityFabTextView.setText(fabOptions[mainActivityFAB]);
 
-        mainActivityOptionCountLinearLayout.setOnClickListener(view -> {
+        binding.mainActivityOptionCountLinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_tab_count)
                     .setSingleChoiceItems(R.array.settings_bottom_app_bar_option_count_options, mainActivityOptionCount / 2 - 1, (dialogInterface, i) -> {
                         mainActivityOptionCount = (i + 1) * 2;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_COUNT, mainActivityOptionCount).apply();
-                        mainActivityOptionCountTextView.setText(Integer.toString(mainActivityOptionCount));
+                        binding.mainActivityOptionCountTextView.setText(Integer.toString(mainActivityOptionCount));
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        mainActivityOption1LinearLayout.setOnClickListener(view -> {
+        binding.mainActivityOption1LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_1)
                     .setSingleChoiceItems(accountName == null ? mainActivityOptionAnonymous : mainActivityOptions, mainActivityOption1, (dialogInterface, i) -> {
                         mainActivityOption1 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(mainActivityOptionAnonymousValues[i]) : mainActivityOption1;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_1, optionToSaveToPreference).apply();
-                        mainActivityOption1TextView.setText(mainActivityOptions[optionToSaveToPreference]);
+                        binding.mainActivityOption1TextView.setText(mainActivityOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        mainActivityOption2LinearLayout.setOnClickListener(view -> {
+        binding.mainActivityOption2LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_2)
                     .setSingleChoiceItems(accountName == null ? mainActivityOptionAnonymous : mainActivityOptions, mainActivityOption2, (dialogInterface, i) -> {
                         mainActivityOption2 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(mainActivityOptionAnonymousValues[i]) : mainActivityOption2;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_2, optionToSaveToPreference).apply();
-                        mainActivityOption2TextView.setText(mainActivityOptions[optionToSaveToPreference]);
+                        binding.mainActivityOption2TextView.setText(mainActivityOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        mainActivityOption3LinearLayout.setOnClickListener(view -> {
+        binding.mainActivityOption3LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_3)
                     .setSingleChoiceItems(accountName == null ? mainActivityOptionAnonymous : mainActivityOptions, mainActivityOption3, (dialogInterface, i) -> {
                         mainActivityOption3 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(mainActivityOptionAnonymousValues[i]) : mainActivityOption3;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_3, optionToSaveToPreference).apply();
-                        mainActivityOption3TextView.setText(mainActivityOptions[optionToSaveToPreference]);
+                        binding.mainActivityOption3TextView.setText(mainActivityOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        mainActivityOption4LinearLayout.setOnClickListener(view -> {
+        binding.mainActivityOption4LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_4)
                     .setSingleChoiceItems(accountName == null ? mainActivityOptionAnonymous : mainActivityOptions, mainActivityOption4, (dialogInterface, i) -> {
                         mainActivityOption4 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(mainActivityOptionAnonymousValues[i]) : mainActivityOption4;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_OPTION_4, optionToSaveToPreference).apply();
-                        mainActivityOption4TextView.setText(mainActivityOptions[optionToSaveToPreference]);
+                        binding.mainActivityOption4TextView.setText(mainActivityOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        mainActivityFABLinearLayout.setOnClickListener(view -> {
+        binding.mainActivityFabLinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_fab)
                     .setSingleChoiceItems(fabOptions, mainActivityFAB, (dialogInterface, i) -> {
@@ -269,7 +184,7 @@ public class CustomizeBottomAppBarFragment extends Fragment {
                             optionToSaveToPreference = i;
                         }
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.MAIN_ACTIVITY_BOTTOM_APP_BAR_FAB, optionToSaveToPreference).apply();
-                        mainActivityFABTextView.setText(fabOptions[mainActivityFAB]);
+                        binding.mainActivityFabTextView.setText(fabOptions[mainActivityFAB]);
                         dialogInterface.dismiss();
                     })
                     .show();
@@ -285,11 +200,11 @@ public class CustomizeBottomAppBarFragment extends Fragment {
         otherActivitiesOption4 = sharedPreferences.getInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_4, 3);
         otherActivitiesFAB = sharedPreferences.getInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB, accountName == null ? 7: 0);
 
-        otherActivitiesOptionCountTextView.setText(Integer.toString(otherActivitiesOptionCount));
-        otherActivitiesOption1TextView.setText(otherActivitiesOptions[otherActivitiesOption1]);
-        otherActivitiesOption2TextView.setText(otherActivitiesOptions[otherActivitiesOption2]);
-        otherActivitiesOption3TextView.setText(otherActivitiesOptions[otherActivitiesOption3]);
-        otherActivitiesOption4TextView.setText(otherActivitiesOptions[otherActivitiesOption4]);
+        binding.otherActivitiesOptionCountTextView.setText(Integer.toString(otherActivitiesOptionCount));
+        binding.otherActivitiesOption1TextView.setText(otherActivitiesOptions[otherActivitiesOption1]);
+        binding.otherActivitiesOption2TextView.setText(otherActivitiesOptions[otherActivitiesOption2]);
+        binding.otherActivitiesOption3TextView.setText(otherActivitiesOptions[otherActivitiesOption3]);
+        binding.otherActivitiesOption4TextView.setText(otherActivitiesOptions[otherActivitiesOption4]);
 
         if (accountName == null) {
             ArrayList<String> otherActivitiesOptionAnonymousValuesList = new ArrayList<>(Arrays.asList(otherActivitiesOptionAnonymousValues));
@@ -300,73 +215,73 @@ public class CustomizeBottomAppBarFragment extends Fragment {
             otherActivitiesFAB = otherActivitiesFAB >= 9 ? otherActivitiesFAB - 2 : otherActivitiesFAB - 1;
         }
 
-        otherActivitiesFABTextView.setText(fabOptions[otherActivitiesFAB]);
+        binding.otherActivitiesFabTextView.setText(fabOptions[otherActivitiesFAB]);
 
-        otherActivitiesOptionCountLinearLayout.setOnClickListener(view -> {
+        binding.otherActivitiesOptionCountLinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_tab_count)
                     .setSingleChoiceItems(R.array.settings_bottom_app_bar_option_count_options, otherActivitiesOptionCount / 2 - 1, (dialogInterface, i) -> {
                         otherActivitiesOptionCount = (i + 1) * 2;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_COUNT, otherActivitiesOptionCount).apply();
-                        otherActivitiesOptionCountTextView.setText(Integer.toString(otherActivitiesOptionCount));
+                        binding.otherActivitiesOptionCountTextView.setText(Integer.toString(otherActivitiesOptionCount));
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        otherActivitiesOption1LinearLayout.setOnClickListener(view -> {
+        binding.otherActivitiesOption1LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_1)
                     .setSingleChoiceItems(accountName == null ? otherActivitiesOptionAnonymous : otherActivitiesOptions, otherActivitiesOption1, (dialogInterface, i) -> {
                         otherActivitiesOption1 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(otherActivitiesOptionAnonymousValues[i]) : otherActivitiesOption1;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_1, optionToSaveToPreference).apply();
-                        otherActivitiesOption1TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
+                        binding.otherActivitiesOption1TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        otherActivitiesOption2LinearLayout.setOnClickListener(view -> {
+        binding.otherActivitiesOption2LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_2)
                     .setSingleChoiceItems(accountName == null ? otherActivitiesOptionAnonymous : otherActivitiesOptions, otherActivitiesOption2, (dialogInterface, i) -> {
                         otherActivitiesOption2 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(otherActivitiesOptionAnonymousValues[i]) : otherActivitiesOption2;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_2, optionToSaveToPreference).apply();
-                        otherActivitiesOption2TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
+                        binding.otherActivitiesOption2TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        otherActivitiesOption3LinearLayout.setOnClickListener(view -> {
+        binding.otherActivitiesOption3LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_3)
                     .setSingleChoiceItems(accountName == null ? otherActivitiesOptionAnonymous : otherActivitiesOptions, otherActivitiesOption3, (dialogInterface, i) -> {
                         otherActivitiesOption3 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(otherActivitiesOptionAnonymousValues[i]) : otherActivitiesOption3;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_3, optionToSaveToPreference).apply();
-                        otherActivitiesOption3TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
+                        binding.otherActivitiesOption3TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        otherActivitiesOption4LinearLayout.setOnClickListener(view -> {
+        binding.otherActivitiesOption4LinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_option_4)
                     .setSingleChoiceItems(accountName == null ? otherActivitiesOptionAnonymous : otherActivitiesOptions, otherActivitiesOption4, (dialogInterface, i) -> {
                         otherActivitiesOption4 = i;
                         int optionToSaveToPreference = accountName == null ? Integer.parseInt(otherActivitiesOptionAnonymousValues[i]) : otherActivitiesOption4;
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_OPTION_4, optionToSaveToPreference).apply();
-                        otherActivitiesOption4TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
+                        binding.otherActivitiesOption4TextView.setText(otherActivitiesOptions[optionToSaveToPreference]);
                         dialogInterface.dismiss();
                     })
                     .show();
         });
 
-        otherActivitiesFABLinearLayout.setOnClickListener(view -> {
+        binding.otherActivitiesFabLinearLayout.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.settings_bottom_app_bar_fab)
                     .setSingleChoiceItems(fabOptions, otherActivitiesFAB, (dialogInterface, i) -> {
@@ -382,7 +297,7 @@ public class CustomizeBottomAppBarFragment extends Fragment {
                             optionToSaveToPreference = i;
                         }
                         sharedPreferences.edit().putInt((accountName == null ? "-" : "") + SharedPreferencesUtils.OTHER_ACTIVITIES_BOTTOM_APP_BAR_FAB, optionToSaveToPreference).apply();
-                        otherActivitiesFABTextView.setText(fabOptions[otherActivitiesFAB]);
+                        binding.otherActivitiesFabTextView.setText(fabOptions[otherActivitiesFAB]);
                         dialogInterface.dismiss();
                     })
                     .show();
@@ -395,41 +310,47 @@ public class CustomizeBottomAppBarFragment extends Fragment {
         int primaryTextColor = activity.customThemeWrapper.getPrimaryTextColor();
         int secondaryTextColor = activity.customThemeWrapper.getSecondaryTextColor();
         int accentColor = activity.customThemeWrapper.getColorAccent();
-        infoTextView.setTextColor(secondaryTextColor);
+        binding.infoTextView.setTextColor(secondaryTextColor);
         Drawable infoDrawable = Utils.getTintedDrawable(activity, R.drawable.ic_info_preference_24dp, activity.customThemeWrapper.getPrimaryIconColor());
-        infoTextView.setCompoundDrawablesWithIntrinsicBounds(infoDrawable, null, null, null);
-        mainActivityGroupSummaryTextView.setTextColor(accentColor);
-        mainActivityOptionCountTitleTextView.setTextColor(primaryTextColor);
-        mainActivityOptionCountTextView.setTextColor(secondaryTextColor);
-        mainActivityOption1TitleTextView.setTextColor(primaryTextColor);
-        mainActivityOption1TextView.setTextColor(secondaryTextColor);
-        mainActivityOption2TitleTextView.setTextColor(primaryTextColor);
-        mainActivityOption2TextView.setTextColor(secondaryTextColor);
-        mainActivityOption3TitleTextView.setTextColor(primaryTextColor);
-        mainActivityOption3TextView.setTextColor(secondaryTextColor);
-        mainActivityOption4TitleTextView.setTextColor(primaryTextColor);
-        mainActivityOption4TextView.setTextColor(secondaryTextColor);
-        mainActivityFABTitleTextView.setTextColor(primaryTextColor);
-        mainActivityFABTextView.setTextColor(secondaryTextColor);
+        binding.infoTextView.setCompoundDrawablesWithIntrinsicBounds(infoDrawable, null, null, null);
+        binding.mainActivityGroupSummaryTextView.setTextColor(accentColor);
+        binding.mainActivityOptionCountTitleTextView.setTextColor(primaryTextColor);
+        binding.mainActivityOptionCountTextView.setTextColor(secondaryTextColor);
+        binding.mainActivityOption1TitleTextView.setTextColor(primaryTextColor);
+        binding.mainActivityOption1TextView.setTextColor(secondaryTextColor);
+        binding.mainActivityOption2TitleTextView.setTextColor(primaryTextColor);
+        binding.mainActivityOption2TextView.setTextColor(secondaryTextColor);
+        binding.mainActivityOption3TitleTextView.setTextColor(primaryTextColor);
+        binding.mainActivityOption3TextView.setTextColor(secondaryTextColor);
+        binding.mainActivityOption4TitleTextView.setTextColor(primaryTextColor);
+        binding.mainActivityOption4TextView.setTextColor(secondaryTextColor);
+        binding.mainActivityFabTitleTextView.setTextColor(primaryTextColor);
+        binding.mainActivityFabTextView.setTextColor(secondaryTextColor);
 
-        otherActivitiesGroupSummaryTextView.setTextColor(accentColor);
-        otherActivitiesOptionCountTitleTextView.setTextColor(primaryTextColor);
-        otherActivitiesOptionCountTextView.setTextColor(secondaryTextColor);
-        otherActivitiesOption1TitleTextView.setTextColor(primaryTextColor);
-        otherActivitiesOption1TextView.setTextColor(secondaryTextColor);
-        otherActivitiesOption2TitleTextView.setTextColor(primaryTextColor);
-        otherActivitiesOption2TextView.setTextColor(secondaryTextColor);
-        otherActivitiesOption3TitleTextView.setTextColor(primaryTextColor);
-        otherActivitiesOption3TextView.setTextColor(secondaryTextColor);
-        otherActivitiesOption4TitleTextView.setTextColor(primaryTextColor);
-        otherActivitiesOption4TextView.setTextColor(secondaryTextColor);
-        otherActivitiesFABTitleTextView.setTextColor(primaryTextColor);
-        otherActivitiesFABTextView.setTextColor(secondaryTextColor);
+        binding.otherActivitiesGroupSummaryTextView.setTextColor(accentColor);
+        binding.otherActivitiesOptionCountTitleTextView.setTextColor(primaryTextColor);
+        binding.otherActivitiesOptionCountTextView.setTextColor(secondaryTextColor);
+        binding.otherActivitiesOption1TitleTextView.setTextColor(primaryTextColor);
+        binding.otherActivitiesOption1TextView.setTextColor(secondaryTextColor);
+        binding.otherActivitiesOption2TitleTextView.setTextColor(primaryTextColor);
+        binding.otherActivitiesOption2TextView.setTextColor(secondaryTextColor);
+        binding.otherActivitiesOption3TitleTextView.setTextColor(primaryTextColor);
+        binding.otherActivitiesOption3TextView.setTextColor(secondaryTextColor);
+        binding.otherActivitiesOption4TitleTextView.setTextColor(primaryTextColor);
+        binding.otherActivitiesOption4TextView.setTextColor(secondaryTextColor);
+        binding.otherActivitiesFabTitleTextView.setTextColor(primaryTextColor);
+        binding.otherActivitiesFabTextView.setTextColor(secondaryTextColor);
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         activity = (SettingsActivity) context;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

@@ -10,24 +10,20 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.SettingsActivity;
 import ml.docilealligator.infinityforreddit.adapters.AcknowledgementRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
+import ml.docilealligator.infinityforreddit.databinding.FragmentAcknowledgementBinding;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AcknowledgementFragment extends Fragment {
+    private FragmentAcknowledgementBinding binding;
 
-    @BindView(R.id.recycler_view_acknowledgement_fragment)
-    RecyclerView recyclerView;
     private SettingsActivity activity;
 
     public AcknowledgementFragment() {
@@ -35,10 +31,10 @@ public class AcknowledgementFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_acknowledgement, container, false);
-        ButterKnife.bind(this, rootView);
+        binding = FragmentAcknowledgementBinding.inflate(getLayoutInflater(), container, false);
+        View rootView = binding.getRoot();
 
         ArrayList<Acknowledgement> acknowledgements = new ArrayList<>();
         acknowledgements.add(new Acknowledgement("ExoPlayer",
@@ -56,9 +52,6 @@ public class AcknowledgementFragment extends Fragment {
         acknowledgements.add(new Acknowledgement("Dagger",
                 "A fast dependency injector for Java and Android.",
                 Uri.parse("https://github.com/google/dagger")));
-        acknowledgements.add(new Acknowledgement("Butter Knife",
-                "Field and method binding for Android views",
-                Uri.parse("https://github.com/JakeWharton/butterknife")));
         acknowledgements.add(new Acknowledgement("Aspect Ratio ImageView",
                 "A simple imageview which scales the width or height aspect with the given ratio",
                 Uri.parse("https://github.com/santalu/aspect-ratio-imageview")));
@@ -124,11 +117,10 @@ public class AcknowledgementFragment extends Fragment {
                 Uri.parse("https://github.com/natario1/ZoomLayout")));
 
         AcknowledgementRecyclerViewAdapter adapter = new AcknowledgementRecyclerViewAdapter(activity, acknowledgements);
-        recyclerView.setLayoutManager(new LinearLayoutManagerBugFixed(activity));
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManagerBugFixed(activity));
+        binding.recyclerView.setAdapter(adapter);
 
         rootView.setBackgroundColor(activity.customThemeWrapper.getBackgroundColor());
-
         return rootView;
     }
 
@@ -136,5 +128,11 @@ public class AcknowledgementFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         activity = (SettingsActivity) context;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

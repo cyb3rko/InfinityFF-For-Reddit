@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/constraint_layout_item_subreddit_listing"
+    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
@@ -10,7 +10,7 @@
     android:padding="16dp">
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/subreddit_icon_gif_image_view_item_subreddit_listing"
+        android:id="@+id/subreddit_icon_gif_image_view"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
@@ -19,30 +19,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/subreddit_name_text_view_item_subreddit_listing"
+        android:id="@+id/subreddit_name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:fontFamily="?attr/font_family"
         android:textSize="?attr/font_default"
-        app:layout_constraintStart_toEndOf="@+id/subreddit_icon_gif_image_view_item_subreddit_listing"
+        app:layout_constraintStart_toEndOf="@+id/subreddit_icon_gif_image_view"
         app:layout_constraintEnd_toStartOf="@id/barrier3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/subscriber_count_text_view_item_subreddit_listing"
+        android:id="@+id/subscriber_count_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:fontFamily="?attr/font_family"
         android:textSize="?attr/font_default"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/subreddit_icon_gif_image_view_item_subreddit_listing"
+        app:layout_constraintStart_toEndOf="@+id/subreddit_icon_gif_image_view"
         app:layout_constraintEnd_toStartOf="@id/barrier3"
-        app:layout_constraintTop_toBottomOf="@id/subreddit_name_text_view_item_subreddit_listing" />
+        app:layout_constraintTop_toBottomOf="@id/subreddit_name_text_view" />
 
     <ImageView
-        android:id="@+id/subscribe_image_view_item_subreddit_listing"
+        android:id="@+id/subscribe_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -56,7 +56,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkbox_item_subreddit_listing"
+        android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -69,6 +69,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="start"
-        app:constraint_referenced_ids="subscribe_image_view_item_subreddit_listing,checkbox_item_subreddit_listing" />
+        app:constraint_referenced_ids="subscribe_image_view,checkbox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

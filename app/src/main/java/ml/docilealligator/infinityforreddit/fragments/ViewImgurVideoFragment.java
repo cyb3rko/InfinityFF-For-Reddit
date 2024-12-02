@@ -16,9 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,31 +31,28 @@ import com.google.android.exoplayer2.Tracks;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.common.collect.ImmutableList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.ImgurMedia;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.ViewImgurMediaActivity;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PlaybackSpeedBottomSheetFragment;
+import ml.docilealligator.infinityforreddit.databinding.ExoPlaybackControlViewBinding;
+import ml.docilealligator.infinityforreddit.databinding.FragmentViewImgurVideoBinding;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class ViewImgurVideoFragment extends Fragment {
-
     public static final String EXTRA_IMGUR_VIDEO = "EIV";
     public static final String EXTRA_INDEX = "EI";
     public static final String EXTRA_MEDIA_COUNT = "EMC";
@@ -65,16 +60,10 @@ public class ViewImgurVideoFragment extends Fragment {
     private static final String IS_MUTE_STATE = "IMS";
     private static final String POSITION_STATE = "PS";
     private static final String PLAYBACK_SPEED_STATE = "PSS";
-    @BindView(R.id.player_view_view_imgur_video_fragment)
-    PlayerView videoPlayerView;
-    @BindView(R.id.mute_exo_playback_control_view)
-    ImageButton muteButton;
-    @BindView(R.id.bottom_navigation_exo_playback_control_view)
-    BottomAppBar bottomAppBar;
-    @BindView(R.id.title_text_view_exo_playback_control_view)
-    TextView titleTextView;
-    @BindView(R.id.download_image_view_exo_playback_control_view)
-    ImageView downloadImageView;
+
+    private FragmentViewImgurVideoBinding binding;
+    private ExoPlaybackControlViewBinding controlBinding;
+
     private ViewImgurMediaActivity activity;
     private ImgurMedia imgurMedia;
     private ExoPlayer player;
@@ -95,13 +84,13 @@ public class ViewImgurVideoFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_view_imgur_video, container, false);
+        binding = FragmentViewImgurVideoBinding.inflate(inflater, container, false);
+        controlBinding = ExoPlaybackControlViewBinding.bind(binding.videoPlayerView.getVideoSurfaceView());
+        View rootView = binding.getRoot();
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
-
-        ButterKnife.bind(this, rootView);
 
         setHasOptionsMenu(true);
 
@@ -125,7 +114,7 @@ public class ViewImgurVideoFragment extends Fragment {
             }
         }
 
-        videoPlayerView.setControllerVisibilityListener(visibility -> {
+        binding.videoPlayerView.setControllerVisibilityListener(visibility -> {
             switch (visibility) {
                 case View.GONE:
                     activity.getWindow().getDecorView().setSystemUiVisibility(
@@ -146,7 +135,7 @@ public class ViewImgurVideoFragment extends Fragment {
 
         TrackSelector trackSelector = new DefaultTrackSelector(activity);
         player = new ExoPlayer.Builder(activity).setTrackSelector(trackSelector).build();
-        videoPlayerView.setPlayer(player);
+        binding.videoPlayerView.setPlayer(player);
         dataSourceFactory = new CacheDataSource.Factory().setCache(mSimpleCache)
                 .setUpstreamDataSourceFactory(new DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true).setUserAgent(APIUtils.USER_AGENT));
         player.prepare();
@@ -159,10 +148,10 @@ public class ViewImgurVideoFragment extends Fragment {
         preparePlayer(savedInstanceState);
 
         if (activity.isUseBottomAppBar()) {
-            bottomAppBar.setVisibility(View.VISIBLE);
-            titleTextView.setText(getString(R.string.view_imgur_media_activity_video_label,
+            controlBinding.bottomNavigation.setVisibility(View.VISIBLE);
+            controlBinding.titleTextView.setText(getString(R.string.view_imgur_media_activity_video_label,
                     getArguments().getInt(EXTRA_INDEX) + 1, getArguments().getInt(EXTRA_MEDIA_COUNT)));
-            downloadImageView.setOnClickListener(view -> {
+            controlBinding.downloadImageView.setOnClickListener(view -> {
                 if (isDownloading) {
                     return;
                 }
@@ -258,6 +247,7 @@ public class ViewImgurVideoFragment extends Fragment {
 
         boolean muteVideo = mSharedPreferences.getBoolean(SharedPreferencesUtils.MUTE_VIDEO, false);
 
+        ImageButton muteButton = controlBinding.mute;
         if (savedInstanceState != null) {
             long position = savedInstanceState.getLong(POSITION_STATE);
             if (position > 0) {
@@ -330,6 +320,13 @@ public class ViewImgurVideoFragment extends Fragment {
         outState.putBoolean(IS_MUTE_STATE, isMute);
         outState.putLong(POSITION_STATE, player.getCurrentPosition());
         outState.putInt(PLAYBACK_SPEED_STATE, playbackSpeed);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+        controlBinding = null;
     }
 
     @Override

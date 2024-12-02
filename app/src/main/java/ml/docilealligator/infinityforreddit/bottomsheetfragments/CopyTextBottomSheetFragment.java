@@ -19,12 +19,11 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewRedditGalleryActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
+import ml.docilealligator.infinityforreddit.databinding.FragmentCopyTextBottomSheetBinding;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 /**
@@ -33,15 +32,6 @@ import ml.docilealligator.infinityforreddit.utils.Utils;
 public class CopyTextBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
     public static final String EXTRA_RAW_TEXT = "ERT";
     public static final String EXTRA_MARKDOWN = "EM";
-
-    @BindView(R.id.copy_raw_text_text_view_copy_text_bottom_sheet_fragment)
-    TextView copyRawTextTextView;
-    @BindView(R.id.copy_markdown_text_view_copy_text_bottom_sheet_fragment)
-    TextView copyMarkdownTextView;
-    @BindView(R.id.copy_all_raw_text_text_view_copy_text_bottom_sheet_fragment)
-    TextView copyAllRawTextTextView;
-    @BindView(R.id.copy_all_markdown_text_view_copy_text_bottom_sheet_fragment)
-    TextView copyAllMarkdownTextView;
 
     private BaseActivity baseActivity;
     private ViewRedditGalleryActivity viewRedditGalleryActivity;
@@ -66,43 +56,43 @@ public class CopyTextBottomSheetFragment extends LandscapeExpandedRoundedBottomS
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_copy_text_bottom_sheet, container, false);
-        ButterKnife.bind(this, rootView);
+        FragmentCopyTextBottomSheetBinding binding =
+                FragmentCopyTextBottomSheetBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         String rawText = getArguments().getString(EXTRA_RAW_TEXT, null);
         markdownText = getArguments().getString(EXTRA_MARKDOWN, null);
 
         if (rawText != null) {
-            copyRawTextTextView.setOnClickListener(view -> {
+            binding.copyRawTextTextView.setOnClickListener(view -> {
                 showCopyDialog(rawText);
                 dismiss();
             });
 
-            copyAllRawTextTextView.setOnClickListener(view -> {
+            binding.copyAllRawTextTextView.setOnClickListener(view -> {
                 copyText(rawText);
                 dismiss();
             });
         } else {
-            copyRawTextTextView.setVisibility(View.GONE);
-            copyAllRawTextTextView.setVisibility(View.GONE);
+            binding.copyRawTextTextView.setVisibility(View.GONE);
+            binding.copyAllRawTextTextView.setVisibility(View.GONE);
         }
 
         if (markdownText != null) {
-            copyMarkdownTextView.setOnClickListener(view -> {
+            binding.copyMarkdownTextView.setOnClickListener(view -> {
                 showCopyDialog(markdownText);
                 dismiss();
             });
 
-            copyAllMarkdownTextView.setOnClickListener(view -> {
+            binding.copyAllMarkdownTextView.setOnClickListener(view -> {
                 copyText(markdownText);
                 dismiss();
             });
         } else {
-            copyMarkdownTextView.setVisibility(View.GONE);
-            copyAllMarkdownTextView.setVisibility(View.GONE);
+            binding.copyMarkdownTextView.setVisibility(View.GONE);
+            binding.copyAllMarkdownTextView.setVisibility(View.GONE);
         }
 
         if (baseActivity != null && baseActivity.typeface != null) {

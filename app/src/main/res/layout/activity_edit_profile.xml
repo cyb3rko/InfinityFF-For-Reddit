@@ -2,19 +2,19 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout_view_edit_profile_activity"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.EditProfileActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_view_edit_profile_activity"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout_edit_profile_activity"
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -22,7 +22,7 @@
             app:toolbarId="@+id/toolbar_post_text_activity">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar_view_edit_profile_activity"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
@@ -39,7 +39,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/content_view_edit_profile_activity"
+            android:id="@+id/content_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -49,19 +49,19 @@
                 android:layout_height="wrap_content">
 
                 <FrameLayout
-                    android:id="@+id/frame_layout_view_banner_edit_profile_activity"
+                    android:id="@+id/frame_layout_view_banner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <pl.droidsonroids.gif.GifImageView
-                        android:id="@+id/image_view_banner_edit_profile_activity"
+                        android:id="@+id/image_view_banner"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
                         android:scaleType="centerCrop"
                         tools:src="@tools:sample/backgrounds/scenic" />
 
                     <ImageView
-                        android:id="@+id/image_view_change_banner_edit_profile_activity"
+                        android:id="@+id/image_view_change_banner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|bottom"
@@ -73,7 +73,7 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/frame_layout_view_avatar_edit_profile_activity"
+                    android:id="@+id/frame_layout_view_avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -81,13 +81,13 @@
                     android:elevation="4dp">
 
                     <pl.droidsonroids.gif.GifImageView
-                        android:id="@+id/image_view_avatar_edit_profile_activity"
+                        android:id="@+id/image_view_avatar"
                         android:layout_width="72dp"
                         android:layout_height="72dp"
                         tools:src="@tools:sample/avatars" />
 
                     <ImageView
-                        android:id="@+id/image_view_change_avatar_edit_profile_activity"
+                        android:id="@+id/image_view_change_avatar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -115,7 +115,7 @@
                     android:fontFamily="?attr/font_family" />
 
                 <EditText
-                    android:id="@+id/edit_text_display_name_edit_profile_activity"
+                    android:id="@+id/edit_text_display_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -154,7 +154,7 @@
                     android:fontFamily="?attr/font_family" />
 
                 <EditText
-                    android:id="@+id/edit_text_about_you_edit_profile_activity"
+                    android:id="@+id/edit_text_about_you"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"

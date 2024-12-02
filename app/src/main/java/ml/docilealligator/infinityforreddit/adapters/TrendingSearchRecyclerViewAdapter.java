@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,13 +21,11 @@ import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.TrendingSearch;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import ml.docilealligator.infinityforreddit.customviews.AspectRatioGifImageView;
+import ml.docilealligator.infinityforreddit.databinding.ItemTrendingSearchBinding;
 import ml.docilealligator.infinityforreddit.post.Post;
 
 public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -68,28 +63,28 @@ public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         if (holder instanceof TrendingSearchViewHolder) {
             TrendingSearch trendingSearch = trendingSearches.get(position);
             if (dataSavingMode && disableImagePreview) {
-                ((TrendingSearchViewHolder) holder).noPreviewLinkImageView.setVisibility(View.VISIBLE);
+                ((TrendingSearchViewHolder) holder).binding.imageViewNoPreviewGallery.setVisibility(View.VISIBLE);
             } else {
                 Post.Preview preview = getSuitablePreview(trendingSearch.previews);
                 if (preview != null) {
-                    ((TrendingSearchViewHolder) holder).imageWrapperRelativeLayout.setVisibility(View.VISIBLE);
+                    ((TrendingSearchViewHolder) holder).binding.imageWrapperRelativeLayout.setVisibility(View.VISIBLE);
                     if (preview.getPreviewWidth() <= 0 || preview.getPreviewHeight() <= 0) {
                         int height = (int) (400 * mScale);
-                        ((TrendingSearchViewHolder) holder).imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        ((TrendingSearchViewHolder) holder).imageView.getLayoutParams().height = height;
+                        ((TrendingSearchViewHolder) holder).binding.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        ((TrendingSearchViewHolder) holder).binding.imageView.getLayoutParams().height = height;
                         preview.setPreviewWidth(imageViewWidth);
                         preview.setPreviewHeight(height);
                     } else {
-                        ((TrendingSearchViewHolder) holder).imageView
+                        ((TrendingSearchViewHolder) holder).binding.imageView
                                 .setRatio((float) preview.getPreviewHeight() / preview.getPreviewWidth());
                     }
                     loadImage((TrendingSearchViewHolder) holder, preview);
                 } else {
-                    ((TrendingSearchViewHolder) holder).noPreviewLinkImageView.setVisibility(View.VISIBLE);
+                    ((TrendingSearchViewHolder) holder).binding.imageViewNoPreviewGallery.setVisibility(View.VISIBLE);
                 }
             }
 
-            ((TrendingSearchViewHolder) holder).titleTextView.setText(trendingSearch.displayString);
+            ((TrendingSearchViewHolder) holder).binding.titleTextView.setText(trendingSearch.displayString);
         }
     }
 
@@ -102,11 +97,11 @@ public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         if (holder instanceof TrendingSearchViewHolder) {
-            glide.clear(((TrendingSearchViewHolder) holder).imageView);
-            ((TrendingSearchViewHolder) holder).imageWrapperRelativeLayout.setVisibility(View.GONE);
-            ((TrendingSearchViewHolder) holder).errorRelativeLayout.setVisibility(View.GONE);
-            ((TrendingSearchViewHolder) holder).noPreviewLinkImageView.setVisibility(View.GONE);
-            ((TrendingSearchViewHolder) holder).progressBar.setVisibility(View.GONE);
+            glide.clear(((TrendingSearchViewHolder) holder).binding.imageView);
+            ((TrendingSearchViewHolder) holder).binding.imageWrapperRelativeLayout.setVisibility(View.GONE);
+            ((TrendingSearchViewHolder) holder).binding.loadImageErrorRelativeLayout.setVisibility(View.GONE);
+            ((TrendingSearchViewHolder) holder).binding.imageViewNoPreviewGallery.setVisibility(View.GONE);
+            ((TrendingSearchViewHolder) holder).binding.progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -156,11 +151,11 @@ public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         RequestBuilder<Drawable> imageRequestBuilder = glide.load(url).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                holder.progressBar.setVisibility(View.GONE);
-                holder.errorRelativeLayout.setVisibility(View.VISIBLE);
-                holder.errorRelativeLayout.setOnClickListener(view -> {
-                    holder.progressBar.setVisibility(View.VISIBLE);
-                    holder.errorRelativeLayout.setVisibility(View.GONE);
+                holder.binding.progressBar.setVisibility(View.GONE);
+                holder.binding.loadImageErrorRelativeLayout.setVisibility(View.VISIBLE);
+                holder.binding.loadImageErrorRelativeLayout.setOnClickListener(view -> {
+                    holder.binding.progressBar.setVisibility(View.VISIBLE);
+                    holder.binding.loadImageErrorRelativeLayout.setVisibility(View.GONE);
                     loadImage(holder, preview);
                 });
                 return false;
@@ -168,16 +163,16 @@ public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                holder.errorRelativeLayout.setVisibility(View.GONE);
-                holder.progressBar.setVisibility(View.GONE);
+                holder.binding.loadImageErrorRelativeLayout.setVisibility(View.GONE);
+                holder.binding.progressBar.setVisibility(View.GONE);
                 return false;
             }
         });
 
         if (imageViewWidth > preview.getPreviewWidth()) {
-            imageRequestBuilder.override(preview.getPreviewWidth(), preview.getPreviewHeight()).into(holder.imageView);
+            imageRequestBuilder.override(preview.getPreviewWidth(), preview.getPreviewHeight()).into(holder.binding.imageView);
         } else {
-            imageRequestBuilder.into(holder.imageView);
+            imageRequestBuilder.into(holder.binding.imageView);
         }
     }
 
@@ -193,34 +188,20 @@ public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     }
 
     class TrendingSearchViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.image_wrapper_relative_layout_item_trending_search)
-        RelativeLayout imageWrapperRelativeLayout;
-        @BindView(R.id.progress_bar_item_trending_search)
-        ProgressBar progressBar;
-        @BindView(R.id.image_view_item_trending_search)
-        AspectRatioGifImageView imageView;
-        @BindView(R.id.load_image_error_relative_layout_item_trending_search)
-        RelativeLayout errorRelativeLayout;
-        @BindView(R.id.load_image_error_text_view_item_trending_search)
-        TextView errorTextView;
-        @BindView(R.id.image_view_no_preview_gallery_item_trending_search)
-        ImageView noPreviewLinkImageView;
-        @BindView(R.id.title_text_view_item_trending_search)
-        TextView titleTextView;
+        private final ItemTrendingSearchBinding binding;
 
         public TrendingSearchViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemTrendingSearchBinding.bind(itemView);
 
-            noPreviewLinkImageView.setBackgroundColor(customThemeWrapper.getNoPreviewPostTypeBackgroundColor());
-            noPreviewLinkImageView.setColorFilter(customThemeWrapper.getNoPreviewPostTypeIconTint(), android.graphics.PorterDuff.Mode.SRC_IN);
-            progressBar.setIndeterminateTintList(ColorStateList.valueOf(customThemeWrapper.getColorAccent()));
-            errorTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
+            binding.imageViewNoPreviewGallery.setBackgroundColor(customThemeWrapper.getNoPreviewPostTypeBackgroundColor());
+            binding.imageViewNoPreviewGallery.setColorFilter(customThemeWrapper.getNoPreviewPostTypeIconTint(), android.graphics.PorterDuff.Mode.SRC_IN);
+            binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(customThemeWrapper.getColorAccent()));
+            binding.loadImageErrorTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
 
             if (activity.typeface != null) {
-                titleTextView.setTypeface(activity.typeface);
-                errorTextView.setTypeface(activity.typeface);
+                binding.titleTextView.setTypeface(activity.typeface);
+                binding.loadImageErrorTextView.setTypeface(activity.typeface);
             }
 
             itemView.setOnClickListener(view -> {

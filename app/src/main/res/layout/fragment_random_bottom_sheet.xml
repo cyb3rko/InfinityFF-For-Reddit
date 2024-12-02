@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/random_subreddit_text_view_random_bottom_sheet_fragment"
+            android:id="@+id/random_subreddit_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -28,7 +28,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/random_post_text_view_random_bottom_sheet_fragment"
+            android:id="@+id/random_post_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -45,7 +45,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/random_nsfw_subreddit_text_view_random_bottom_sheet_fragment"
+            android:id="@+id/random_nsfw_subreddit_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -62,7 +62,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/random_nsfw_post_text_view_random_bottom_sheet_fragment"
+            android:id="@+id/random_nsfw_post_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

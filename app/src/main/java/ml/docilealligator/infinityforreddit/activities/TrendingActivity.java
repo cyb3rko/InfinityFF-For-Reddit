@@ -11,20 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,8 +29,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.TrendingSearch;
@@ -47,6 +36,7 @@ import ml.docilealligator.infinityforreddit.adapters.TrendingSearchRecyclerViewA
 import ml.docilealligator.infinityforreddit.apis.RedditAPI;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityTrendingBinding;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.post.ParsePost;
 import ml.docilealligator.infinityforreddit.post.Post;
@@ -60,27 +50,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class TrendingActivity extends BaseActivity {
-
     private static final String TRENDING_SEARCHES_STATE = "TSS";
 
-    @BindView(R.id.coordinator_layout_trending_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_trending_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_trending_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.toolbar_trending_activity)
-    Toolbar toolbar;
-    @BindView(R.id.swipe_refresh_layout_trending_activity)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.recycler_view_trending_activity)
-    RecyclerView recyclerView;
-    @BindView(R.id.fetch_trending_search_linear_layout_trending_activity)
-    LinearLayout errorLinearLayout;
-    @BindView(R.id.fetch_trending_search_image_view_trending_activity)
-    ImageView errorImageView;
-    @BindView(R.id.fetch_trending_search_text_view_trending_activity)
-    TextView errorTextView;
+    private ActivityTrendingBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -111,9 +84,8 @@ public class TrendingActivity extends BaseActivity {
         ((Infinity) getApplication()).getAppComponent().inject(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trending);
-
-        ButterKnife.bind(this);
+        binding = ActivityTrendingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -127,7 +99,7 @@ public class TrendingActivity extends BaseActivity {
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -136,18 +108,18 @@ public class TrendingActivity extends BaseActivity {
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(toolbar);
+                adjustToolbar(binding.toolbar);
 
                 int navBarResourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
                 if (navBarResourceId > 0) {
-                    recyclerView.setPadding(0, 0, 0, recyclerView.getPaddingBottom() + getResources().getDimensionPixelSize(navBarResourceId));
+                    binding.recyclerView.setPadding(0, 0, 0, binding.recyclerView.getPaddingBottom() + getResources().getDimensionPixelSize(navBarResourceId));
                 }
             }
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarGoToTop(toolbar);
+        setToolbarGoToTop(binding.toolbar);
 
         mAccessToken = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
 
@@ -176,12 +148,12 @@ public class TrendingActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout.setEnabled(mSharedPreferences.getBoolean(SharedPreferencesUtils.PULL_TO_REFRESH, true));
-        swipeRefreshLayout.setOnRefreshListener(this::fetchTrendingSearches);
+        binding.swipeRefreshLayout.setEnabled(mSharedPreferences.getBoolean(SharedPreferencesUtils.PULL_TO_REFRESH, true));
+        binding.swipeRefreshLayout.setOnRefreshListener(this::fetchTrendingSearches);
 
-        errorLinearLayout.setOnClickListener(view -> fetchTrendingSearches());
+        binding.fetchTrendingSearchLinearLayout.setOnClickListener(view -> fetchTrendingSearches());
 
         if (savedInstanceState != null) {
             trendingSearches = savedInstanceState.getParcelableArrayList(TRENDING_SEARCHES_STATE);
@@ -199,9 +171,9 @@ public class TrendingActivity extends BaseActivity {
         }
         isRefreshing = true;
 
-        errorLinearLayout.setVisibility(View.GONE);
-        Glide.with(this).clear(errorImageView);
-        swipeRefreshLayout.setRefreshing(true);
+        binding.fetchTrendingSearchLinearLayout.setVisibility(View.GONE);
+        Glide.with(this).clear(binding.fetchTrendingSearchImageView);
+        binding.swipeRefreshLayout.setRefreshing(true);
         trendingSearches = null;
         adapter.setTrendingSearches(null);
         Handler handler = new Handler();
@@ -242,14 +214,14 @@ public class TrendingActivity extends BaseActivity {
 
                             handler.post(() -> {
                                 trendingSearches = trendingSearchList;
-                                swipeRefreshLayout.setRefreshing(false);
+                                binding.swipeRefreshLayout.setRefreshing(false);
                                 adapter.setTrendingSearches(trendingSearches);
                                 isRefreshing = false;
                             });
                         } catch (JSONException e) {
                             e.printStackTrace();
                             handler.post(() -> {
-                                swipeRefreshLayout.setRefreshing(false);
+                                binding.swipeRefreshLayout.setRefreshing(false);
                                 showErrorView(R.string.error_parse_trending_search);
                                 isRefreshing = false;
                             });
@@ -257,7 +229,7 @@ public class TrendingActivity extends BaseActivity {
                     });
                 } else {
                     handler.post(() -> {
-                        swipeRefreshLayout.setRefreshing(false);
+                        binding.swipeRefreshLayout.setRefreshing(false);
                         showErrorView(R.string.error_fetch_trending_search);
                         isRefreshing = false;
                     });
@@ -267,7 +239,7 @@ public class TrendingActivity extends BaseActivity {
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 handler.post(() -> {
-                    swipeRefreshLayout.setRefreshing(false);
+                    binding.swipeRefreshLayout.setRefreshing(false);
                     showErrorView(R.string.error_fetch_trending_search);
                     isRefreshing = false;
                 });
@@ -276,9 +248,9 @@ public class TrendingActivity extends BaseActivity {
     }
 
     private void showErrorView(int stringId) {
-        errorLinearLayout.setVisibility(View.VISIBLE);
-        mGlide.load(R.drawable.error_image).into(errorImageView);
-        errorTextView.setText(stringId);
+        binding.fetchTrendingSearchLinearLayout.setVisibility(View.VISIBLE);
+        mGlide.load(R.drawable.error_image).into(binding.fetchTrendingSearchImageView);
+        binding.fetchTrendingSearchTextView.setText(stringId);
     }
 
     @Override
@@ -325,13 +297,14 @@ public class TrendingActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
-        swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
-        errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
+        binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
+        binding.fetchTrendingSearchTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
         if (typeface != null) {
-            errorTextView.setTypeface(typeface);
+            binding.fetchTrendingSearchTextView.setTypeface(typeface);
         }
     }
 

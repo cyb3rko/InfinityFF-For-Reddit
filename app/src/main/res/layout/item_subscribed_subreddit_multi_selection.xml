@@ -12,14 +12,14 @@
     android:background="?attr/selectableItemBackground">
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/icon_gif_image_view_item_subscribed_subreddit_multiselection"
+        android:id="@+id/icon_gif_image_view"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="32dp" />
 
     <TextView
-        android:id="@+id/name_text_view_item_subscribed_subreddit_multiselection"
+        android:id="@+id/name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -29,7 +29,7 @@
         android:fontFamily="?attr/font_family" />
 
     <CheckBox
-        android:id="@+id/checkbox_item_subscribed_subreddit_multiselection"
+        android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical" />

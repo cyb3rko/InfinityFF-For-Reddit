@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,14 +27,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditGalleryPayload;
 import ml.docilealligator.infinityforreddit.activities.PostGalleryActivity;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SetRedditGalleryItemCaptionAndUrlBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import ml.docilealligator.infinityforreddit.customviews.AspectRatioGifImageView;
+import ml.docilealligator.infinityforreddit.databinding.ItemRedditGallerySubmissionImageBinding;
 
 public class RedditGallerySubmissionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -84,8 +80,8 @@ public class RedditGallerySubmissionRecyclerViewAdapter extends RecyclerView.Ada
 
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            ((ImageViewHolder) holder).progressBar.setVisibility(View.GONE);
-                            ((ImageViewHolder) holder).closeImageView.setVisibility(View.VISIBLE);
+                            ((ImageViewHolder) holder).binding.progressBar.setVisibility(View.GONE);
+                            ((ImageViewHolder) holder).binding.closeImageView.setVisibility(View.VISIBLE);
                             return false;
                         }
 
@@ -94,11 +90,11 @@ public class RedditGallerySubmissionRecyclerViewAdapter extends RecyclerView.Ada
                             return false;
                         }
                     })
-                    .into(((ImageViewHolder) holder).imageView);
+                    .into(((ImageViewHolder) holder).binding.aspectRatioGifImageView);
 
             if (redditGalleryImageInfoList.get(position).payload != null) {
-                ((ImageViewHolder) holder).progressBar.setVisibility(View.GONE);
-                ((ImageViewHolder) holder).closeImageView.setVisibility(View.VISIBLE);
+                ((ImageViewHolder) holder).binding.progressBar.setVisibility(View.GONE);
+                ((ImageViewHolder) holder).binding.closeImageView.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -112,9 +108,9 @@ public class RedditGallerySubmissionRecyclerViewAdapter extends RecyclerView.Ada
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         if (holder instanceof ImageViewHolder) {
-            glide.clear(((ImageViewHolder) holder).imageView);
-            ((ImageViewHolder) holder).progressBar.setVisibility(View.VISIBLE);
-            ((ImageViewHolder) holder).closeImageView.setVisibility(View.GONE);
+            glide.clear(((ImageViewHolder) holder).binding.aspectRatioGifImageView);
+            ((ImageViewHolder) holder).binding.progressBar.setVisibility(View.VISIBLE);
+            ((ImageViewHolder) holder).binding.closeImageView.setVisibility(View.GONE);
         }
     }
 
@@ -153,21 +149,14 @@ public class RedditGallerySubmissionRecyclerViewAdapter extends RecyclerView.Ada
     }
 
     class ImageViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.aspect_ratio_gif_image_view_item_reddit_gallery_submission_image)
-        AspectRatioGifImageView imageView;
-        @BindView(R.id.progress_bar_item_reddit_gallery_submission_image)
-        ProgressBar progressBar;
-        @BindView(R.id.close_image_view_item_reddit_gallery_submission_image)
-        ImageView closeImageView;
+        private final ItemRedditGallerySubmissionImageBinding binding;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
+            binding = ItemRedditGallerySubmissionImageBinding.bind(itemView);
 
-            ButterKnife.bind(this, itemView);
-
-            imageView.setRatio(1);
-
-            imageView.setOnClickListener(view -> {
+            binding.aspectRatioGifImageView.setRatio(1);
+            binding.aspectRatioGifImageView.setOnClickListener(view -> {
                 RedditGalleryPayload.Item payload = redditGalleryImageInfoList.get(getBindingAdapterPosition()).payload;
                 if (payload != null) {
                     SetRedditGalleryItemCaptionAndUrlBottomSheetFragment fragment = new SetRedditGalleryItemCaptionAndUrlBottomSheetFragment();
@@ -180,7 +169,7 @@ public class RedditGallerySubmissionRecyclerViewAdapter extends RecyclerView.Ada
                 }
             });
 
-            closeImageView.setOnClickListener(view -> {
+            binding.closeImageView.setOnClickListener(view -> {
                 redditGalleryImageInfoList.remove(getBindingAdapterPosition());
                 notifyItemRemoved(getBindingAdapterPosition());
             });

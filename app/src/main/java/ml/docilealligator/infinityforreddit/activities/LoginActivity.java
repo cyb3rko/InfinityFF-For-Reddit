@@ -12,19 +12,14 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.CircularProgressIndicatorSpec;
 import com.google.android.material.progressindicator.IndeterminateDrawable;
 
@@ -43,8 +38,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.FetchMyInfo;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
@@ -54,6 +47,7 @@ import ml.docilealligator.infinityforreddit.apis.RedditAccountsAPI;
 import ml.docilealligator.infinityforreddit.asynctasks.ParseAndInsertNewAccount;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityLoginBinding;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
@@ -64,26 +58,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class LoginActivity extends BaseActivity {
-
     private static final String ENABLE_DOM_STATE = "EDS";
     private static final String IS_AGREE_TO_USER_AGGREMENT_STATE = "IATUAS";
 
-    @BindView(R.id.login_btn)
-    MaterialButton loginButton;
-    @BindView(R.id.text_username)
-    EditText textUsername;
-    @BindView(R.id.text_password)
-    EditText textPassword;
-    @BindView(R.id.coordinator_layout_login_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_login_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_login_activity)
-    Toolbar toolbar;
-    @BindView(R.id.two_fa_infO_text_view_login_activity)
-    TextView twoFAInfoTextView;
-    @BindView(R.id.fab_login_activity)
-    FloatingActionButton fab;
+    private ActivityLoginBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -123,7 +102,8 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         try {
-            setContentView(R.layout.activity_login);
+            binding = ActivityLoginBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
         } catch (InflateException ie) {
             Log.e("LoginActivity", "Failed to inflate LoginActivity: " + ie.getMessage());
             Toast.makeText(LoginActivity.this, R.string.no_system_webview_error, Toast.LENGTH_SHORT).show();
@@ -131,15 +111,13 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        ButterKnife.bind(this);
-
         applyCustomTheme();
 
         if (mSharedPreferences.getBoolean(SharedPreferencesUtils.SWIPE_RIGHT_TO_GO_BACK, true)) {
             Slidr.attach(this);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -151,12 +129,13 @@ public class LoginActivity extends BaseActivity {
         IndeterminateDrawable<CircularProgressIndicatorSpec> progressIndicatorDrawable =
                 IndeterminateDrawable.createCircularDrawable(LoginActivity.this, spec);
 
+        MaterialButton loginButton = binding.loginButton;
         loginButton.setOnClickListener(view -> {
             loginButton.setClickable(false);
             loginButton.setIcon(progressIndicatorDrawable);
             RedditAccountsAPI api = mLoginRetrofit.create(RedditAccountsAPI.class);
-            String username = textUsername.getText().toString();
-            String password = textPassword.getText().toString();
+            String username = binding.textUsername.getText().toString();
+            String password = binding.textPassword.getText().toString();
 
             if(username.isBlank() || password.isBlank()){
                 Toast.makeText(LoginActivity.this, "Username or password is blank", Toast.LENGTH_LONG).show();
@@ -303,7 +282,7 @@ public class LoginActivity extends BaseActivity {
 
         });
 
-        fab.setOnClickListener(view -> {
+        binding.fab.setOnClickListener(view -> {
             new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogTheme)
                     .setTitle(R.string.have_trouble_login_title)
                     .setMessage(R.string.have_trouble_login_message)
@@ -315,7 +294,7 @@ public class LoginActivity extends BaseActivity {
                     .show();
         });
 
-        textPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        binding.textPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -327,7 +306,7 @@ public class LoginActivity extends BaseActivity {
         });
 
         if (enableDom) {
-            twoFAInfoTextView.setVisibility(View.GONE);
+            binding.twoFaInfoTextView.setVisibility(View.GONE);
         }
 
     }
@@ -350,19 +329,20 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
-        twoFAInfoTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        TextView twoFaInfoTextView = binding.twoFaInfoTextView;
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(binding.appbarLayout, null, binding.toolbar);
+        twoFaInfoTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
         Drawable infoDrawable = Utils.getTintedDrawable(this, R.drawable.ic_info_preference_24dp, mCustomThemeWrapper.getPrimaryIconColor());
-        twoFAInfoTextView.setCompoundDrawablesWithIntrinsicBounds(infoDrawable, null, null, null);
-        applyFABTheme(fab);
+        twoFaInfoTextView.setCompoundDrawablesWithIntrinsicBounds(infoDrawable, null, null, null);
+        applyFABTheme(binding.fab);
         if (typeface != null) {
-            twoFAInfoTextView.setTypeface(typeface);
+            twoFaInfoTextView.setTypeface(typeface);
         }
-        textUsername.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-        textPassword.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-        loginButton.setBackgroundColor(customThemeWrapper.getColorAccent());
-        loginButton.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        binding.textUsername.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        binding.textPassword.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        binding.loginButton.setBackgroundColor(customThemeWrapper.getColorAccent());
+        binding.loginButton.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
 
     }
 

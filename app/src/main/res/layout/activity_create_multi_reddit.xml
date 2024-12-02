@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator_layout_create_multi_reddit_activity"
+    android:id="@+id/coordinator_layout"
     tools:context=".activities.CreateMultiRedditActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_create_multi_reddit_activity"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout_create_multi_reddit_activity"
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways"
             app:titleEnabled="false"
-            app:toolbarId="@+id/toolbar_create_multi_reddit_activity">
+            app:toolbarId="@+id/toolbar">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_create_multi_reddit_activity"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
@@ -44,7 +44,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/multi_reddit_name_edit_text_create_multi_reddit_activity"
+                android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -57,12 +57,12 @@
                 android:maxLength="50" />
 
             <View
-                android:id="@+id/divider_1_create_multi_reddit_activity"
+                android:id="@+id/divider_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
 
             <EditText
-                android:id="@+id/description_edit_text_create_multi_reddit_activity"
+                android:id="@+id/description_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -74,12 +74,12 @@
                 android:fontFamily="?attr/font_family" />
 
             <View
-                android:id="@+id/divider_2_create_multi_reddit_activity"
+                android:id="@+id/divider_2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
             <LinearLayout
-                android:id="@+id/visibility_wrapper_linear_layout_create_multi_reddit_activity"
+                android:id="@+id/visibility_wrapper_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -88,7 +88,7 @@
                 android:background="?attr/selectableItemBackground">
 
                 <TextView
-                    android:id="@+id/visibility_text_view_create_multi_reddit_activity"
+                    android:id="@+id/visibility_text_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -98,7 +98,7 @@
                     android:fontFamily="?attr/font_family" />
 
                 <Switch
-                    android:id="@+id/visibility_switch_create_multi_reddit_activity"
+                    android:id="@+id/visibility_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true" />
@@ -106,7 +106,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/select_subreddit_text_view_create_multi_reddit_activity"
+                android:id="@+id/select_subreddit_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"

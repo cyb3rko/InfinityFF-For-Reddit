@@ -10,15 +10,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.activities.CommentActivity;
@@ -29,6 +26,7 @@ import ml.docilealligator.infinityforreddit.activities.ViewPostDetailActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewUserDetailActivity;
 import ml.docilealligator.infinityforreddit.comment.Comment;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
+import ml.docilealligator.infinityforreddit.databinding.FragmentCommentMoreBottomSheetBinding;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 
@@ -36,31 +34,13 @@ import ml.docilealligator.infinityforreddit.utils.Utils;
  * A simple {@link Fragment} subclass.
  */
 public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
-
     public static final String EXTRA_COMMENT = "ECF";
     public static final String EXTRA_ACCESS_TOKEN = "EAT";
     public static final String EXTRA_EDIT_AND_DELETE_AVAILABLE = "EEADA";
     public static final String EXTRA_POSITION = "EP";
     public static final String EXTRA_SHOW_REPLY_AND_SAVE_OPTION = "ESSARO";
     public static final String EXTRA_IS_NSFW = "EIN";
-    @BindView(R.id.edit_text_view_comment_more_bottom_sheet_fragment)
-    TextView editTextView;
-    @BindView(R.id.delete_text_view_comment_more_bottom_sheet_fragment)
-    TextView deleteTextView;
-    @BindView(R.id.reply_text_view_comment_more_bottom_sheet_fragment)
-    TextView replyTextView;
-    @BindView(R.id.save_text_view_comment_more_bottom_sheet_fragment)
-    TextView saveTextView;
-    @BindView(R.id.share_text_view_comment_more_bottom_sheet_fragment)
-    TextView shareTextView;
-    @BindView(R.id.copy_text_view_comment_more_bottom_sheet_fragment)
-    TextView copyTextView;
-    @BindView(R.id.give_award_text_view_comment_more_bottom_sheet_fragment)
-    TextView giveAwardTextView;
-    @BindView(R.id.report_view_comment_more_bottom_sheet_fragment)
-    TextView reportTextView;
-    @BindView(R.id.see_removed_view_comment_more_bottom_sheet_fragment)
-    TextView seeRemovedTextView;
+
     private BaseActivity activity;
 
     public CommentMoreBottomSheetFragment() {
@@ -68,10 +48,11 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_comment_more_bottom_sheet, container, false);
-        ButterKnife.bind(this, rootView);
+        FragmentCommentMoreBottomSheetBinding binding =
+                FragmentCommentMoreBottomSheetBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 && (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES) {
@@ -93,8 +74,8 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
         boolean showReplyAndSaveOption = bundle.getBoolean(EXTRA_SHOW_REPLY_AND_SAVE_OPTION, false);
 
         if (accessToken != null && !accessToken.equals("")) {
-            giveAwardTextView.setVisibility(View.VISIBLE);
-            giveAwardTextView.setOnClickListener(view -> {
+            binding.giveAwardTextView.setVisibility(View.VISIBLE);
+            binding.giveAwardTextView.setOnClickListener(view -> {
                 Intent intent = new Intent(activity, GiveAwardActivity.class);
                 intent.putExtra(GiveAwardActivity.EXTRA_THING_FULLNAME, comment.getFullName());
                 intent.putExtra(GiveAwardActivity.EXTRA_ITEM_POSITION, bundle.getInt(EXTRA_POSITION));
@@ -107,10 +88,10 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
             });
 
             if (editAndDeleteAvailable) {
-                editTextView.setVisibility(View.VISIBLE);
-                deleteTextView.setVisibility(View.VISIBLE);
+                binding.editTextView.setVisibility(View.VISIBLE);
+                binding.deleteTextView.setVisibility(View.VISIBLE);
 
-                editTextView.setOnClickListener(view -> {
+                binding.editTextView.setOnClickListener(view -> {
                     Intent intent = new Intent(activity, EditCommentActivity.class);
                     intent.putExtra(EditCommentActivity.EXTRA_FULLNAME, comment.getFullName());
                     intent.putExtra(EditCommentActivity.EXTRA_CONTENT, comment.getCommentMarkdown());
@@ -124,7 +105,7 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
                     dismiss();
                 });
 
-                deleteTextView.setOnClickListener(view -> {
+                binding.deleteTextView.setOnClickListener(view -> {
                     dismiss();
                     if (activity instanceof ViewPostDetailActivity) {
                         ((ViewPostDetailActivity) activity).deleteComment(comment.getFullName(), bundle.getInt(EXTRA_POSITION));
@@ -136,16 +117,16 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
         }
 
         if (showReplyAndSaveOption) {
-            replyTextView.setVisibility(View.VISIBLE);
-            saveTextView.setVisibility(View.VISIBLE);
+            binding.replyTextView.setVisibility(View.VISIBLE);
+            binding.saveTextView.setVisibility(View.VISIBLE);
             if (comment.isSaved()) {
-                saveTextView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(activity, R.drawable.ic_bookmark_24dp), null, null, null);
-                saveTextView.setText(R.string.unsave_comment);
+                binding.saveTextView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(activity, R.drawable.ic_bookmark_24dp), null, null, null);
+                binding.saveTextView.setText(R.string.unsave_comment);
             } else {
-                saveTextView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(activity, R.drawable.ic_bookmark_border_24dp), null, null, null);
-                saveTextView.setText(R.string.save_comment);
+                binding.saveTextView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(activity, R.drawable.ic_bookmark_border_24dp), null, null, null);
+                binding.saveTextView.setText(R.string.save_comment);
             }
-            replyTextView.setOnClickListener(view -> {
+            binding.replyTextView.setOnClickListener(view -> {
                 Intent intent = new Intent(activity, CommentActivity.class);
                 intent.putExtra(CommentActivity.EXTRA_PARENT_DEPTH_KEY, comment.getDepth() + 1);
                 intent.putExtra(CommentActivity.EXTRA_COMMENT_PARENT_BODY_MARKDOWN_KEY, comment.getCommentMarkdown());
@@ -159,7 +140,7 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
                 dismiss();
             });
 
-            saveTextView.setOnClickListener(view -> {
+            binding.saveTextView.setOnClickListener(view -> {
                 if (activity instanceof ViewPostDetailActivity) {
                     ((ViewPostDetailActivity) activity).saveComment(comment, bundle.getInt(EXTRA_POSITION));
                 }
@@ -167,7 +148,7 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
             });
         }
 
-        shareTextView.setOnClickListener(view -> {
+        binding.shareTextView.setOnClickListener(view -> {
             dismiss();
             try {
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -179,19 +160,19 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
             }
         });
 
-        shareTextView.setOnLongClickListener(view -> {
+        binding.shareTextView.setOnLongClickListener(view -> {
             dismiss();
             activity.copyLink(comment.getPermalink());
             return true;
         });
 
-        copyTextView.setOnClickListener(view -> {
+        binding.copyTextView.setOnClickListener(view -> {
             dismiss();
             CopyTextBottomSheetFragment.show(activity.getSupportFragmentManager(),
                     comment.getCommentRawText(), comment.getCommentMarkdown());
         });
 
-        reportTextView.setOnClickListener(view -> {
+        binding.reportTextView.setOnClickListener(view -> {
             Intent intent = new Intent(activity, ReportActivity.class);
             intent.putExtra(ReportActivity.EXTRA_SUBREDDIT_NAME, comment.getSubredditName());
             intent.putExtra(ReportActivity.EXTRA_THING_FULLNAME, comment.getFullName());
@@ -204,9 +185,8 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
                 "[deleted]".equals(comment.getCommentRawText()) ||
                 "[removed]".equals(comment.getCommentRawText())
         ) {
-            seeRemovedTextView.setVisibility(View.VISIBLE);
-
-            seeRemovedTextView.setOnClickListener(view -> {
+            binding.seeRemovedTextView.setVisibility(View.VISIBLE);
+            binding.seeRemovedTextView.setOnClickListener(view -> {
                 dismiss();
                 if (activity instanceof ViewPostDetailActivity) {
                     ((ViewPostDetailActivity) activity).showRemovedComment(comment, bundle.getInt(EXTRA_POSITION));

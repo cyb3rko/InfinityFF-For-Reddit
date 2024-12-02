@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/constraint_layout_item_user_listing"
+    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
@@ -10,7 +10,7 @@
     android:background="?attr/selectableItemBackground">
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/user_icon_gif_image_view_item_user_listing"
+        android:id="@+id/user_icon_gif_image_view"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/user_name_text_view_item_user_listing"
+        android:id="@+id/user_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -27,11 +27,11 @@
         android:textSize="?attr/font_default"
         android:fontFamily="?attr/font_family"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/user_icon_gif_image_view_item_user_listing"
+        app:layout_constraintStart_toEndOf="@+id/user_icon_gif_image_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/subscribe_image_view_item_user_listing"
+        android:id="@+id/subscribe_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -45,7 +45,7 @@
         android:visibility="gone" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkbox__item_user_listing"
+        android:id="@+id/checkbox_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

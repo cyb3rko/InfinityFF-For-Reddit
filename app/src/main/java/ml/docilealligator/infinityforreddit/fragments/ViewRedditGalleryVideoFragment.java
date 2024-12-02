@@ -15,10 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,27 +26,22 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.Tracks;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.common.collect.ImmutableList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.ViewRedditGalleryActivity;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PlaybackSpeedBottomSheetFragment;
+import ml.docilealligator.infinityforreddit.databinding.FragmentViewRedditGalleryVideoBinding;
 import ml.docilealligator.infinityforreddit.post.Post;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
@@ -57,7 +49,6 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class ViewRedditGalleryVideoFragment extends Fragment {
-
     public static final String EXTRA_REDDIT_GALLERY_VIDEO = "EIV";
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     public static final String EXTRA_INDEX = "EI";
@@ -67,16 +58,9 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
     private static final String IS_MUTE_STATE = "IMS";
     private static final String POSITION_STATE = "PS";
     private static final String PLAYBACK_SPEED_STATE = "PSS";
-    @BindView(R.id.player_view_view_reddit_gallery_video_fragment)
-    PlayerView videoPlayerView;
-    @BindView(R.id.mute_exo_playback_control_view)
-    ImageButton muteButton;
-    @BindView(R.id.bottom_navigation_exo_playback_control_view)
-    BottomAppBar bottomAppBar;
-    @BindView(R.id.title_text_view_exo_playback_control_view)
-    TextView titleTextView;
-    @BindView(R.id.download_image_view_exo_playback_control_view)
-    ImageView downloadImageView;
+
+    private FragmentViewRedditGalleryVideoBinding binding;
+
     private ViewRedditGalleryActivity activity;
     private Post.Gallery galleryVideo;
     private String subredditName;
@@ -99,18 +83,17 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_view_reddit_gallery_video, container, false);
+        binding = FragmentViewRedditGalleryVideoBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
-
-        ButterKnife.bind(this, rootView);
 
         setHasOptionsMenu(true);
 
         if (activity.typeface != null) {
-            titleTextView.setTypeface(activity.typeface);
+            //titleTextView.setTypeface(activity.typeface);
         }
 
         activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -135,28 +118,28 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
             }
         }
 
-        videoPlayerView.setControllerVisibilityListener(visibility -> {
-            switch (visibility) {
-                case View.GONE:
-                    activity.getWindow().getDecorView().setSystemUiVisibility(
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
-                    break;
-                case View.VISIBLE:
-                    activity.getWindow().getDecorView().setSystemUiVisibility(
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            }
-        });
+//        videoPlayerView.setControllerVisibilityListener(visibility -> {
+//            switch (visibility) {
+//                case View.GONE:
+//                    activity.getWindow().getDecorView().setSystemUiVisibility(
+//                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
+//                    break;
+//                case View.VISIBLE:
+//                    activity.getWindow().getDecorView().setSystemUiVisibility(
+//                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//            }
+//        });
 
         TrackSelector trackSelector = new DefaultTrackSelector(activity);
         player = new ExoPlayer.Builder(activity).setTrackSelector(trackSelector).build();
-        videoPlayerView.setPlayer(player);
+        //videoPlayerView.setPlayer(player);
         dataSourceFactory = new CacheDataSource.Factory().setCache(mSimpleCache)
                 .setUpstreamDataSourceFactory(new DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true).setUserAgent(APIUtils.USER_AGENT));
         player.prepare();
@@ -168,18 +151,18 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
         Integer.parseInt(mSharedPreferences.getString(SharedPreferencesUtils.DEFAULT_PLAYBACK_SPEED, "100"));
         preparePlayer(savedInstanceState);
 
-        if (activity.isUseBottomAppBar()) {
-            bottomAppBar.setVisibility(View.VISIBLE);
-            titleTextView.setText(getString(R.string.view_reddit_gallery_activity_video_label,
-                    getArguments().getInt(EXTRA_INDEX) + 1, getArguments().getInt(EXTRA_MEDIA_COUNT)));
-            downloadImageView.setOnClickListener(view -> {
-                if (isDownloading) {
-                    return;
-                }
-                isDownloading = true;
-                requestPermissionAndDownload();
-            });
-        }
+//        if (activity.isUseBottomAppBar()) {
+//            bottomAppBar.setVisibility(View.VISIBLE);
+//            titleTextView.setText(getString(R.string.view_reddit_gallery_activity_video_label,
+//                    getArguments().getInt(EXTRA_INDEX) + 1, getArguments().getInt(EXTRA_MEDIA_COUNT)));
+//            downloadImageView.setOnClickListener(view -> {
+//                if (isDownloading) {
+//                    return;
+//                }
+//                isDownloading = true;
+//                requestPermissionAndDownload();
+//            });
+//        }
 
         return rootView;
     }
@@ -270,55 +253,55 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
 
         boolean muteVideo = mSharedPreferences.getBoolean(SharedPreferencesUtils.MUTE_VIDEO, false);
 
-        if (savedInstanceState != null) {
-            long position = savedInstanceState.getLong(POSITION_STATE);
-            if (position > 0) {
-                player.seekTo(position);
-            }
-            isMute = savedInstanceState.getBoolean(IS_MUTE_STATE);
-            if (isMute) {
-                player.setVolume(0f);
-                muteButton.setImageResource(R.drawable.ic_mute_24dp);
-            } else {
-                player.setVolume(1f);
-                muteButton.setImageResource(R.drawable.ic_unmute_24dp);
-            }
-        } else if (muteVideo) {
-            isMute = true;
-            player.setVolume(0f);
-            muteButton.setImageResource(R.drawable.ic_mute_24dp);
-        } else {
-            muteButton.setImageResource(R.drawable.ic_unmute_24dp);
-        }
-
-        player.addListener(new Player.Listener() {
-            @Override
-            public void onTracksChanged(@NonNull Tracks tracks) {
-                ImmutableList<Tracks.Group> trackGroups = tracks.getGroups();
-                if (!trackGroups.isEmpty()) {
-                    for (int i = 0; i < trackGroups.size(); i++) {
-                        String mimeType = trackGroups.get(i).getTrackFormat(0).sampleMimeType;
-                        if (mimeType != null && mimeType.contains("audio")) {
-                            muteButton.setVisibility(View.VISIBLE);
-                            muteButton.setOnClickListener(view -> {
-                                if (isMute) {
-                                    isMute = false;
-                                    player.setVolume(1f);
-                                    muteButton.setImageResource(R.drawable.ic_unmute_24dp);
-                                } else {
-                                    isMute = true;
-                                    player.setVolume(0f);
-                                    muteButton.setImageResource(R.drawable.ic_mute_24dp);
-                                }
-                            });
-                            break;
-                        }
-                    }
-                } else {
-                    muteButton.setVisibility(View.GONE);
-                }
-            }
-        });
+//        if (savedInstanceState != null) {
+//            long position = savedInstanceState.getLong(POSITION_STATE);
+//            if (position > 0) {
+//                player.seekTo(position);
+//            }
+//            isMute = savedInstanceState.getBoolean(IS_MUTE_STATE);
+//            if (isMute) {
+//                player.setVolume(0f);
+//                muteButton.setImageResource(R.drawable.ic_mute_24dp);
+//            } else {
+//                player.setVolume(1f);
+//                muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+//            }
+//        } else if (muteVideo) {
+//            isMute = true;
+//            player.setVolume(0f);
+//            muteButton.setImageResource(R.drawable.ic_mute_24dp);
+//        } else {
+//            muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+//        }
+//
+//        player.addListener(new Player.Listener() {
+//            @Override
+//            public void onTracksChanged(@NonNull Tracks tracks) {
+//                ImmutableList<Tracks.Group> trackGroups = tracks.getGroups();
+//                if (!trackGroups.isEmpty()) {
+//                    for (int i = 0; i < trackGroups.size(); i++) {
+//                        String mimeType = trackGroups.get(i).getTrackFormat(0).sampleMimeType;
+//                        if (mimeType != null && mimeType.contains("audio")) {
+//                            muteButton.setVisibility(View.VISIBLE);
+//                            muteButton.setOnClickListener(view -> {
+//                                if (isMute) {
+//                                    isMute = false;
+//                                    player.setVolume(1f);
+//                                    muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+//                                } else {
+//                                    isMute = true;
+//                                    player.setVolume(0f);
+//                                    muteButton.setImageResource(R.drawable.ic_mute_24dp);
+//                                }
+//                            });
+//                            break;
+//                        }
+//                    }
+//                } else {
+//                    muteButton.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -350,6 +333,12 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
         player.seekToDefaultPosition();
         player.stop(true);
         player.release();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override

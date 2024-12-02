@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/info_text_view_post_history_fragment"
+            android:id="@+id/info_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
@@ -28,7 +28,7 @@
             android:background="@color/dividerColor" />
 
         <LinearLayout
-            android:id="@+id/mark_posts_as_read_linear_layout_post_history_fragment"
+            android:id="@+id/mark_posts_as_read_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
@@ -40,7 +40,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/mark_posts_as_read_text_view_post_history_fragment"
+                android:id="@+id/mark_posts_as_read_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -53,7 +53,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/mark_posts_as_read_switch_post_history_fragment"
+                android:id="@+id/mark_posts_as_read_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
@@ -61,7 +61,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/mark_posts_as_read_after_voting_linear_layout_post_history_fragment"
+            android:id="@+id/mark_posts_as_read_after_voting_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
@@ -73,7 +73,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/mark_posts_as_read_after_voting_text_view_post_history_fragment"
+                android:id="@+id/mark_posts_as_read_after_voting_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,7 +85,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/mark_posts_as_read_after_voting_switch_post_history_fragment"
+                android:id="@+id/mark_posts_as_read_after_voting_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
@@ -93,7 +93,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/mark_posts_as_read_on_scroll_linear_layout_post_history_fragment"
+            android:id="@+id/mark_posts_as_read_on_scroll_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
@@ -105,7 +105,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/mark_posts_as_read_on_scroll_text_view_post_history_fragment"
+                android:id="@+id/mark_posts_as_read_on_scroll_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -117,7 +117,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/mark_posts_as_read_on_scroll_switch_post_history_fragment"
+                android:id="@+id/mark_posts_as_read_on_scroll_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
@@ -125,7 +125,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/hide_read_posts_automatically_linear_layout_post_history_fragment"
+            android:id="@+id/hide_read_posts_automatically_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
@@ -137,7 +137,7 @@
             android:background="?attr/selectableItemBackground">
 
             <TextView
-                android:id="@+id/hide_read_posts_automatically_text_view_post_history_fragment"
+                android:id="@+id/hide_read_posts_automatically_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -149,7 +149,7 @@
                 android:fontFamily="?attr/font_family" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/hide_read_posts_automatically_switch_post_history_fragment"
+                android:id="@+id/hide_read_posts_automatically_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />

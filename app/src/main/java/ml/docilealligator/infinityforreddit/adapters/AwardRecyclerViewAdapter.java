@@ -3,7 +3,6 @@ package ml.docilealligator.infinityforreddit.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,16 +12,13 @@ import com.bumptech.glide.RequestManager;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.award.Award;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import pl.droidsonroids.gif.GifImageView;
+import ml.docilealligator.infinityforreddit.databinding.ItemAwardBinding;
 
 public class AwardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private ArrayList<Award> awards;
     private BaseActivity activity;
     private RequestManager glide;
@@ -54,10 +50,10 @@ public class AwardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof AwardViewHolder) {
             Award award = awards.get(position);
-            glide.load(award.getIconUrl()).into(((AwardViewHolder) holder).iconImageView);
-            ((AwardViewHolder) holder).nameTextView.setText(award.getName());
-            ((AwardViewHolder) holder).descriptionTextView.setText(award.getDescription());
-            ((AwardViewHolder) holder).coinTextView.setText(Integer.toString(award.getCoinPrice()));
+            glide.load(award.getIconUrl()).into(((AwardViewHolder) holder).binding.iconImageView);
+            ((AwardViewHolder) holder).binding.nameTextView.setText(award.getName());
+            ((AwardViewHolder) holder).binding.descriptionTextView.setText(award.getDescription());
+            ((AwardViewHolder) holder).binding.coinTextView.setText(Integer.toString(award.getCoinPrice()));
         }
     }
 
@@ -70,34 +66,27 @@ public class AwardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         if (holder instanceof AwardViewHolder) {
-            glide.clear(((AwardViewHolder) holder).iconImageView);
-            ((AwardViewHolder) holder).nameTextView.setText("");
-            ((AwardViewHolder) holder).descriptionTextView.setText("");
+            glide.clear(((AwardViewHolder) holder).binding.iconImageView);
+            ((AwardViewHolder) holder).binding.nameTextView.setText("");
+            ((AwardViewHolder) holder).binding.descriptionTextView.setText("");
         }
     }
 
     class AwardViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.icon_image_view_item_award)
-        GifImageView iconImageView;
-        @BindView(R.id.name_text_view_item_award)
-        TextView nameTextView;
-        @BindView(R.id.description_text_view_item_award)
-        TextView descriptionTextView;
-        @BindView(R.id.coin_text_view_item_award)
-        TextView coinTextView;
+        private final ItemAwardBinding binding;
 
         public AwardViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemAwardBinding.bind(itemView);
 
             if (activity.typeface != null) {
-                nameTextView.setTypeface(activity.typeface);
-                descriptionTextView.setTypeface(activity.typeface);
-                coinTextView.setTypeface(activity.typeface);
+                binding.nameTextView.setTypeface(activity.typeface);
+                binding.descriptionTextView.setTypeface(activity.typeface);
+                binding.coinTextView.setTypeface(activity.typeface);
             }
-            nameTextView.setTextColor(primaryTextColor);
-            descriptionTextView.setTextColor(secondaryTextColor);
-            coinTextView.setTextColor(primaryTextColor);
+            binding.nameTextView.setTextColor(primaryTextColor);
+            binding.descriptionTextView.setTextColor(secondaryTextColor);
+            binding.coinTextView.setTextColor(primaryTextColor);
 
             itemView.setOnClickListener(view -> {
                 itemOnClickListener.onClick(awards.get(getBindingAdapterPosition()));

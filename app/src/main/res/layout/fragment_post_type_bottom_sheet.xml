@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_type_linear_layout_post_type_bottom_sheet_fragment"
+            android:id="@+id/text_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -30,7 +30,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/link_type_linear_layout_post_type_bottom_sheet_fragment"
+            android:id="@+id/link_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -49,7 +49,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/video_type_linear_layout_post_type_bottom_sheet_fragment"
+            android:id="@+id/video_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -68,7 +68,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/image_type_linear_layout_post_type_bottom_sheet_fragment"
+            android:id="@+id/image_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -87,7 +87,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/gallery_type_linear_layout_post_type_bottom_sheet_fragment"
+            android:id="@+id/gallery_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -106,7 +106,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/poll_type_linear_layout_post_type_bottom_sheet_fragment"
+            android:id="@+id/poll_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

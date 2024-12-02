@@ -13,23 +13,13 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.materialswitch.MaterialSwitch;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -40,20 +30,18 @@ import java.util.regex.PatternSyntaxException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityCustomizePostFilterBinding;
 import ml.docilealligator.infinityforreddit.postfilter.PostFilter;
 import ml.docilealligator.infinityforreddit.postfilter.SavePostFilter;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class CustomizePostFilterActivity extends BaseActivity {
-
     public static final String EXTRA_POST_FILTER = "EPF";
     public static final String EXTRA_FROM_SETTINGS = "EFS";
     public static final String EXTRA_EXCLUDE_SUBREDDIT = "EES";
@@ -69,134 +57,8 @@ public class CustomizePostFilterActivity extends BaseActivity {
     private static final int ADD_SUBREDDITS_ANONYMOUS_REQUEST_CODE = 2;
     private static final int ADD_USERS_REQUEST_CODE = 3;
 
-    @BindView(R.id.coordinator_layout_customize_post_filter_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_customize_post_filter_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_customize_post_filter_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.toolbar_customize_post_filter_activity)
-    Toolbar toolbar;
-    @BindView(R.id.name_text_input_layout_customize_post_filter_activity)
-    TextInputLayout nameTextInputLayout;
-    @BindView(R.id.name_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText nameTextInputEditText;
-    @BindView(R.id.post_type_text_linear_layout_customize_post_filter_activity)
-    LinearLayout postTypeTextLinearLayout;
-    @BindView(R.id.post_type_text_text_view_customize_post_filter_activity)
-    TextView postTypeTextTextView;
-    @BindView(R.id.post_type_text_check_box_customize_post_filter_activity)
-    MaterialCheckBox postTypeTextCheckBox;
-    @BindView(R.id.post_type_link_linear_layout_customize_post_filter_activity)
-    LinearLayout postTypeLinkLinearLayout;
-    @BindView(R.id.post_type_link_text_view_customize_post_filter_activity)
-    TextView postTypeLinkTextView;
-    @BindView(R.id.post_type_link_check_box_customize_post_filter_activity)
-    MaterialCheckBox postTypeLinkCheckBox;
-    @BindView(R.id.post_type_image_linear_layout_customize_post_filter_activity)
-    LinearLayout postTypeImageLinearLayout;
-    @BindView(R.id.post_type_image_text_view_customize_post_filter_activity)
-    TextView postTypeImageTextView;
-    @BindView(R.id.post_type_image_check_box_customize_post_filter_activity)
-    MaterialCheckBox postTypeImageCheckBox;
-    @BindView(R.id.post_type_gif_linear_layout_customize_post_filter_activity)
-    LinearLayout postTypeGifLinearLayout;
-    @BindView(R.id.post_type_gif_text_view_customize_post_filter_activity)
-    TextView postTypeGifTextView;
-    @BindView(R.id.post_type_gif_check_box_customize_post_filter_activity)
-    MaterialCheckBox postTypeGifCheckBox;
-    @BindView(R.id.post_type_video_linear_layout_customize_post_filter_activity)
-    LinearLayout postTypeVideoLinearLayout;
-    @BindView(R.id.post_type_video_text_view_customize_post_filter_activity)
-    TextView postTypeVideoTextView;
-    @BindView(R.id.post_type_video_check_box_customize_post_filter_activity)
-    MaterialCheckBox postTypeVideoCheckBox;
-    @BindView(R.id.post_type_gallery_linear_layout_customize_post_filter_activity)
-    LinearLayout postTypeGalleryLinearLayout;
-    @BindView(R.id.post_type_gallery_text_view_customize_post_filter_activity)
-    TextView postTypeGalleryTextView;
-    @BindView(R.id.post_type_gallery_check_box_customize_post_filter_activity)
-    MaterialCheckBox postTypeGalleryCheckBox;
-    @BindView(R.id.only_nsfw_linear_layout_customize_post_filter_activity)
-    LinearLayout onlyNSFWLinearLayout;
-    @BindView(R.id.only_nsfw_text_view_customize_post_filter_activity)
-    TextView onlyNSFWTextView;
-    @BindView(R.id.only_nsfw_switch_customize_post_filter_activity)
-    MaterialSwitch onlyNSFWSwitch;
-    @BindView(R.id.only_spoiler_linear_layout_customize_post_filter_activity)
-    LinearLayout onlySpoilerLinearLayout;
-    @BindView(R.id.only_spoiler_text_view_customize_post_filter_activity)
-    TextView onlySpoilerTextView;
-    @BindView(R.id.only_spoiler_switch_customize_post_filter_activity)
-    MaterialSwitch onlySpoilerSwitch;
-    @BindView(R.id.title_excludes_strings_text_input_layout_customize_post_filter_activity)
-    TextInputLayout titleExcludesStringsTextInputLayout;
-    @BindView(R.id.title_excludes_strings_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText titleExcludesStringsTextInputEditText;
-    @BindView(R.id.title_contains_strings_text_input_layout_customize_post_filter_activity)
-    TextInputLayout titleContainsStringsTextInputLayout;
-    @BindView(R.id.title_contains_strings_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText titleContainsStringsTextInputEditText;
-    @BindView(R.id.title_excludes_regex_text_input_layout_customize_post_filter_activity)
-    TextInputLayout titleExcludesRegexTextInputLayout;
-    @BindView(R.id.title_excludes_regex_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText titleExcludesRegexTextInputEditText;
-    @BindView(R.id.title_contains_regex_text_input_layout_customize_post_filter_activity)
-    TextInputLayout titleContainsRegexTextInputLayout;
-    @BindView(R.id.title_contains_regex_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText titleContainsRegexTextInputEditText;
-    @BindView(R.id.excludes_subreddits_text_input_layout_customize_post_filter_activity)
-    TextInputLayout excludesSubredditsTextInputLayout;
-    @BindView(R.id.excludes_subreddits_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText excludesSubredditsTextInputEditText;
-    @BindView(R.id.add_subreddits_image_view_customize_post_filter_activity)
-    ImageView addSubredditsImageView;
-    @BindView(R.id.excludes_users_text_input_layout_customize_post_filter_activity)
-    TextInputLayout excludesUsersTextInputLayout;
-    @BindView(R.id.excludes_users_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText excludesUsersTextInputEditText;
-    @BindView(R.id.add_users_image_view_customize_post_filter_activity)
-    ImageView addUsersImageView;
-    @BindView(R.id.excludes_flairs_text_input_layout_customize_post_filter_activity)
-    TextInputLayout excludesFlairsTextInputLayout;
-    @BindView(R.id.excludes_flairs_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText excludesFlairsTextInputEditText;
-    @BindView(R.id.contains_flairs_text_input_layout_customize_post_filter_activity)
-    TextInputLayout containsFlairsTextInputLayout;
-    @BindView(R.id.contains_flairs_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText containsFlairsTextInputEditText;
-    @BindView(R.id.exclude_domains_text_input_layout_customize_post_filter_activity)
-    TextInputLayout excludeDomainsTextInputLayout;
-    @BindView(R.id.exclude_domains_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText excludeDomainsTextInputEditText;
-    @BindView(R.id.contain_domains_text_input_layout_customize_post_filter_activity)
-    TextInputLayout containDomainsTextInputLayout;
-    @BindView(R.id.contain_domains_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText containDomainsTextInputEditText;
-    @BindView(R.id.min_vote_text_input_layout_customize_post_filter_activity)
-    TextInputLayout minVoteTextInputLayout;
-    @BindView(R.id.min_vote_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText minVoteTextInputEditText;
-    @BindView(R.id.max_vote_text_input_layout_customize_post_filter_activity)
-    TextInputLayout maxVoteTextInputLayout;
-    @BindView(R.id.max_vote_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText maxVoteTextInputEditText;
-    @BindView(R.id.min_comments_text_input_layout_customize_post_filter_activity)
-    TextInputLayout minCommentsTextInputLayout;
-    @BindView(R.id.min_comments_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText minCommentsTextInputEditText;
-    @BindView(R.id.max_comments_text_input_layout_customize_post_filter_activity)
-    TextInputLayout maxCommentsTextInputLayout;
-    @BindView(R.id.max_comments_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText maxCommentsTextInputEditText;
-    @BindView(R.id.min_awards_text_input_layout_customize_post_filter_activity)
-    TextInputLayout minAwardsTextInputLayout;
-    @BindView(R.id.min_awards_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText minAwardsTextInputEditText;
-    @BindView(R.id.max_awards_text_input_layout_customize_post_filter_activity)
-    TextInputLayout maxAwardsTextInputLayout;
-    @BindView(R.id.max_awards_text_input_edit_text_customize_post_filter_activity)
-    TextInputEditText maxAwardsTextInputEditText;
+    private ActivityCustomizePostFilterBinding binding;
+
     @Inject
     RedditDataRoomDatabase mRedditDataRoomDatabase;
     @Inject
@@ -220,9 +82,8 @@ public class CustomizePostFilterActivity extends BaseActivity {
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customize_post_filter);
-
-        ButterKnife.bind(this);
+        binding = ActivityCustomizePostFilterBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         applyCustomTheme();
 
@@ -231,49 +92,49 @@ public class CustomizePostFilterActivity extends BaseActivity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
-            addOnOffsetChangedListener(appBarLayout);
+            addOnOffsetChangedListener(binding.appBarLayout);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarGoToTop(toolbar);
+        setToolbarGoToTop(binding.toolbar);
 
         fromSettings = getIntent().getBooleanExtra(EXTRA_FROM_SETTINGS, false);
 
-        postTypeTextLinearLayout.setOnClickListener(view -> {
-            postTypeTextCheckBox.performClick();
+        binding.postTypeTextLinearLayout.setOnClickListener(view -> {
+            binding.postTypeTextCheckBox.performClick();
         });
 
-        postTypeLinkLinearLayout.setOnClickListener(view -> {
-            postTypeLinkCheckBox.performClick();
+        binding.postTypeLinkLinearLayout.setOnClickListener(view -> {
+            binding.postTypeLinkCheckBox.performClick();
         });
 
-        postTypeImageLinearLayout.setOnClickListener(view -> {
-            postTypeImageCheckBox.performClick();
+        binding.postTypeImageLinearLayout.setOnClickListener(view -> {
+            binding.postTypeImageCheckBox.performClick();
         });
 
-        postTypeGifLinearLayout.setOnClickListener(view -> {
-            postTypeGifCheckBox.performClick();
+        binding.postTypeGifLinearLayout.setOnClickListener(view -> {
+            binding.postTypeGifCheckBox.performClick();
         });
 
-        postTypeVideoLinearLayout.setOnClickListener(view -> {
-            postTypeVideoCheckBox.performClick();
+        binding.postTypeVideoLinearLayout.setOnClickListener(view -> {
+            binding.postTypeVideoCheckBox.performClick();
         });
 
-        postTypeGalleryLinearLayout.setOnClickListener(view -> {
-            postTypeGalleryCheckBox.performClick();
+        binding.postTypeGalleryLinearLayout.setOnClickListener(view -> {
+            binding.postTypeGalleryCheckBox.performClick();
         });
 
-        onlyNSFWLinearLayout.setOnClickListener(view -> {
-            onlyNSFWSwitch.performClick();
+        binding.onlyNsfwLinearLayout.setOnClickListener(view -> {
+            binding.onlyNsfwSwitch.performClick();
         });
 
-        onlySpoilerLinearLayout.setOnClickListener(view -> {
-            onlySpoilerSwitch.performClick();
+        binding.onlySpoilerLinearLayout.setOnClickListener(view -> {
+            binding.onlySpoilerSwitch.performClick();
         });
 
         String accessToken = currentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
-        addSubredditsImageView.setOnClickListener(view -> {
+        binding.addSubredditsImageView.setOnClickListener(view -> {
             if (accessToken == null) {
                 Intent intent = new Intent(this, SearchActivity.class);
                 intent.putExtra(SearchActivity.EXTRA_SEARCH_ONLY_SUBREDDITS, true);
@@ -285,7 +146,7 @@ public class CustomizePostFilterActivity extends BaseActivity {
             }
         });
 
-        addUsersImageView.setOnClickListener(view -> {
+        binding.addUsersImageView.setOnClickListener(view -> {
             Intent intent = new Intent(this, SearchActivity.class);
             intent.putExtra(SearchActivity.EXTRA_SEARCH_ONLY_USERS, true);
             intent.putExtra(SearchActivity.EXTRA_IS_MULTI_SELECTION, true);
@@ -312,31 +173,31 @@ public class CustomizePostFilterActivity extends BaseActivity {
     }
 
     private void bindView() {
-        nameTextInputEditText.setText(postFilter.name);
-        postTypeTextCheckBox.setChecked(postFilter.containTextType);
-        postTypeLinkCheckBox.setChecked(postFilter.containLinkType);
-        postTypeImageCheckBox.setChecked(postFilter.containImageType);
-        postTypeGifCheckBox.setChecked(postFilter.containGifType);
-        postTypeVideoCheckBox.setChecked(postFilter.containVideoType);
-        postTypeGalleryCheckBox.setChecked(postFilter.containGalleryType);
-        onlyNSFWSwitch.setChecked(postFilter.onlyNSFW);
-        onlySpoilerSwitch.setChecked(postFilter.onlySpoiler);
-        titleExcludesStringsTextInputEditText.setText(postFilter.postTitleExcludesStrings);
-        titleContainsStringsTextInputEditText.setText(postFilter.postTitleContainsStrings);
-        titleExcludesRegexTextInputEditText.setText(postFilter.postTitleExcludesRegex);
-        titleContainsRegexTextInputEditText.setText(postFilter.postTitleContainsRegex);
-        excludesSubredditsTextInputEditText.setText(postFilter.excludeSubreddits);
-        excludesUsersTextInputEditText.setText(postFilter.excludeUsers);
-        excludesFlairsTextInputEditText.setText(postFilter.excludeFlairs);
-        containsFlairsTextInputEditText.setText(postFilter.containFlairs);
-        excludeDomainsTextInputEditText.setText(postFilter.excludeDomains);
-        containDomainsTextInputEditText.setText(postFilter.containDomains);
-        minVoteTextInputEditText.setText(Integer.toString(postFilter.minVote));
-        maxVoteTextInputEditText.setText(Integer.toString(postFilter.maxVote));
-        minCommentsTextInputEditText.setText(Integer.toString(postFilter.minComments));
-        maxCommentsTextInputEditText.setText(Integer.toString(postFilter.maxComments));
-        minAwardsTextInputEditText.setText(Integer.toString(postFilter.minAwards));
-        maxAwardsTextInputEditText.setText(Integer.toString(postFilter.maxAwards));
+        binding.nameTextInputEditText.setText(postFilter.name);
+        binding.postTypeTextCheckBox.setChecked(postFilter.containTextType);
+        binding.postTypeLinkCheckBox.setChecked(postFilter.containLinkType);
+        binding.postTypeImageCheckBox.setChecked(postFilter.containImageType);
+        binding.postTypeGifCheckBox.setChecked(postFilter.containGifType);
+        binding.postTypeVideoCheckBox.setChecked(postFilter.containVideoType);
+        binding.postTypeGalleryCheckBox.setChecked(postFilter.containGalleryType);
+        binding.onlyNsfwSwitch.setChecked(postFilter.onlyNSFW);
+        binding.onlySpoilerSwitch.setChecked(postFilter.onlySpoiler);
+        binding.titleExcludesStringsTextInputEditText.setText(postFilter.postTitleExcludesStrings);
+        binding.titleContainsStringsTextInputEditText.setText(postFilter.postTitleContainsStrings);
+        binding.titleExcludesRegexTextInputEditText.setText(postFilter.postTitleExcludesRegex);
+        binding.titleContainsRegexTextInputEditText.setText(postFilter.postTitleContainsRegex);
+        binding.excludesSubredditsTextInputEditText.setText(postFilter.excludeSubreddits);
+        binding.excludesUsersTextInputEditText.setText(postFilter.excludeUsers);
+        binding.excludesFlairsTextInputEditText.setText(postFilter.excludeFlairs);
+        binding.containsFlairsTextInputEditText.setText(postFilter.containFlairs);
+        binding.excludeDomainsTextInputEditText.setText(postFilter.excludeDomains);
+        binding.containDomainsTextInputEditText.setText(postFilter.containDomains);
+        binding.minVoteTextInputEditText.setText(Integer.toString(postFilter.minVote));
+        binding.maxVoteTextInputEditText.setText(Integer.toString(postFilter.maxVote));
+        binding.minCommentsTextInputEditText.setText(Integer.toString(postFilter.minComments));
+        binding.maxCommentsTextInputEditText.setText(Integer.toString(postFilter.maxComments));
+        binding.minAwardsTextInputEditText.setText(Integer.toString(postFilter.minAwards));
+        binding.maxAwardsTextInputEditText.setText(Integer.toString(postFilter.maxAwards));
 
         Intent intent = getIntent();
         String excludeSubreddit = intent.getStringExtra(EXTRA_EXCLUDE_SUBREDDIT);
@@ -347,40 +208,40 @@ public class CustomizePostFilterActivity extends BaseActivity {
         String containDomain = intent.getStringExtra(EXTRA_CONTAIN_DOMAIN);
 
         if (excludeSubreddit != null && !excludeSubreddit.equals("")) {
-            if (!excludesSubredditsTextInputEditText.getText().toString().equals("")) {
-                excludesSubredditsTextInputEditText.append(",");
+            if (!binding.excludesSubredditsTextInputEditText.getText().toString().equals("")) {
+                binding.excludesSubredditsTextInputEditText.append(",");
             }
-            excludesSubredditsTextInputEditText.append(excludeSubreddit);
+            binding.excludesSubredditsTextInputEditText.append(excludeSubreddit);
         }
         if (excludeUser != null && !excludeUser.equals("")) {
-            if (!excludesUsersTextInputEditText.getText().toString().equals("")) {
-                excludesUsersTextInputEditText.append(",");
+            if (!binding.excludesUsersTextInputEditText.getText().toString().equals("")) {
+                binding.excludesUsersTextInputEditText.append(",");
             }
-            excludesUsersTextInputEditText.append(excludeUser);
+            binding.excludesUsersTextInputEditText.append(excludeUser);
         }
         if (excludeFlair != null && !excludeFlair.equals("")) {
-            if (!excludesFlairsTextInputEditText.getText().toString().equals("")) {
-                excludesFlairsTextInputEditText.append(",");
+            if (!binding.excludesFlairsTextInputEditText.getText().toString().equals("")) {
+                binding.excludesFlairsTextInputEditText.append(",");
             }
-            excludesFlairsTextInputEditText.append(excludeFlair);
+            binding.excludesFlairsTextInputEditText.append(excludeFlair);
         }
         if (containFlair != null && !containFlair.equals("")) {
-            if (!containsFlairsTextInputEditText.getText().toString().equals("")) {
-                containsFlairsTextInputEditText.append(",");
+            if (!binding.containsFlairsTextInputEditText.getText().toString().equals("")) {
+                binding.containsFlairsTextInputEditText.append(",");
             }
-            containsFlairsTextInputEditText.append(containFlair);
+            binding.containsFlairsTextInputEditText.append(containFlair);
         }
         if (excludeDomain != null && !excludeDomain.equals("")) {
-            if (!excludeDomainsTextInputEditText.getText().toString().equals("")) {
-                excludeDomainsTextInputEditText.append(",");
+            if (!binding.excludeDomainsTextInputEditText.getText().toString().equals("")) {
+                binding.excludeDomainsTextInputEditText.append(",");
             }
-            excludeDomainsTextInputEditText.append(Uri.parse(excludeDomain).getHost());
+            binding.excludeDomainsTextInputEditText.append(Uri.parse(excludeDomain).getHost());
         }
         if (containDomain != null && !containDomain.equals("")) {
-            if (!containDomainsTextInputEditText.getText().toString().equals("")) {
-                containDomainsTextInputEditText.append(",");
+            if (!binding.containDomainsTextInputEditText.getText().toString().equals("")) {
+                binding.containDomainsTextInputEditText.append(",");
             }
-            containDomainsTextInputEditText.append(Uri.parse(containDomain).getHost());
+            binding.containDomainsTextInputEditText.append(Uri.parse(containDomain).getHost());
         }
     }
 
@@ -396,113 +257,114 @@ public class CustomizePostFilterActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
         int primaryTextColor = mCustomThemeWrapper.getPrimaryTextColor();
         int primaryIconColor = mCustomThemeWrapper.getPrimaryIconColor();
         Drawable cursorDrawable = Utils.getTintedDrawable(this, R.drawable.edit_text_cursor, primaryTextColor);
-        nameTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        nameTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        nameTextInputEditText.setTextColor(primaryTextColor);
-        postTypeTextTextView.setTextColor(primaryTextColor);
-        postTypeLinkTextView.setTextColor(primaryTextColor);
-        postTypeImageTextView.setTextColor(primaryTextColor);
-        postTypeGifTextView.setTextColor(primaryTextColor);
-        postTypeVideoTextView.setTextColor(primaryTextColor);
-        postTypeGalleryTextView.setTextColor(primaryTextColor);
-        onlyNSFWTextView.setTextColor(primaryTextColor);
-        onlySpoilerTextView.setTextColor(primaryTextColor);
-        titleExcludesStringsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        titleExcludesStringsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        titleExcludesStringsTextInputEditText.setTextColor(primaryTextColor);
-        titleContainsStringsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        titleContainsStringsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        titleContainsStringsTextInputEditText.setTextColor(primaryTextColor);
-        titleExcludesRegexTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        titleExcludesRegexTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        titleExcludesRegexTextInputEditText.setTextColor(primaryTextColor);
-        titleContainsRegexTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        titleContainsRegexTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        titleContainsRegexTextInputEditText.setTextColor(primaryTextColor);
-        excludesSubredditsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        excludesSubredditsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        excludesSubredditsTextInputEditText.setTextColor(primaryTextColor);
-        addSubredditsImageView.setImageDrawable(Utils.getTintedDrawable(this, R.drawable.ic_add_24dp, primaryIconColor));
-        excludesUsersTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        excludesUsersTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        excludesUsersTextInputEditText.setTextColor(primaryTextColor);
-        addUsersImageView.setImageDrawable(Utils.getTintedDrawable(this, R.drawable.ic_add_24dp, primaryIconColor));
-        excludesFlairsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        excludesFlairsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        excludesFlairsTextInputEditText.setTextColor(primaryTextColor);
-        containsFlairsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        containsFlairsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        containsFlairsTextInputEditText.setTextColor(primaryTextColor);
-        excludeDomainsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        excludeDomainsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        excludeDomainsTextInputEditText.setTextColor(primaryTextColor);
-        containDomainsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        containDomainsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        containDomainsTextInputEditText.setTextColor(primaryTextColor);
-        minVoteTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        minVoteTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        minVoteTextInputEditText.setTextColor(primaryTextColor);
-        maxVoteTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        maxVoteTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        maxVoteTextInputEditText.setTextColor(primaryTextColor);
-        minCommentsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        minCommentsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        minCommentsTextInputEditText.setTextColor(primaryTextColor);
-        maxCommentsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        maxCommentsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        maxCommentsTextInputEditText.setTextColor(primaryTextColor);
-        minAwardsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        minAwardsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        minAwardsTextInputEditText.setTextColor(primaryTextColor);
-        maxAwardsTextInputLayout.setBoxStrokeColor(primaryTextColor);
-        maxAwardsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        maxAwardsTextInputEditText.setTextColor(primaryTextColor);
+        binding.nameTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.nameTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.nameTextInputEditText.setTextColor(primaryTextColor);
+        binding.postTypeTextTextView.setTextColor(primaryTextColor);
+        binding.postTypeLinkTextView.setTextColor(primaryTextColor);
+        binding.postTypeImageTextView.setTextColor(primaryTextColor);
+        binding.postTypeGifTextView.setTextColor(primaryTextColor);
+        binding.postTypeVideoTextView.setTextColor(primaryTextColor);
+        binding.postTypeGalleryTextView.setTextColor(primaryTextColor);
+        binding.onlyNsfwSwitch.setTextColor(primaryTextColor);
+        binding.onlySpoilerTextView.setTextColor(primaryTextColor);
+        binding.titleExcludesStringsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.titleExcludesStringsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.titleExcludesStringsTextInputEditText.setTextColor(primaryTextColor);
+        binding.titleContainsStringsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.titleContainsStringsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.titleContainsStringsTextInputEditText.setTextColor(primaryTextColor);
+        binding.titleExcludesRegexTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.titleExcludesRegexTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.titleExcludesRegexTextInputEditText.setTextColor(primaryTextColor);
+        binding.titleContainsRegexTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.titleContainsRegexTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.titleContainsRegexTextInputEditText.setTextColor(primaryTextColor);
+        binding.excludesSubredditsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.excludesSubredditsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.excludesSubredditsTextInputEditText.setTextColor(primaryTextColor);
+        binding.addSubredditsImageView.setImageDrawable(Utils.getTintedDrawable(this, R.drawable.ic_add_24dp, primaryIconColor));
+        binding.excludesUsersTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.excludesUsersTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.excludesUsersTextInputEditText.setTextColor(primaryTextColor);
+        binding.addUsersImageView.setImageDrawable(Utils.getTintedDrawable(this, R.drawable.ic_add_24dp, primaryIconColor));
+        binding.excludesFlairsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.excludesFlairsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.excludesFlairsTextInputEditText.setTextColor(primaryTextColor);
+        binding.containsFlairsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.containsFlairsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.containsFlairsTextInputEditText.setTextColor(primaryTextColor);
+        binding.excludeDomainsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.excludeDomainsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.excludeDomainsTextInputEditText.setTextColor(primaryTextColor);
+        binding.containDomainsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.containDomainsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.containDomainsTextInputEditText.setTextColor(primaryTextColor);
+        binding.minVoteTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.minVoteTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.minVoteTextInputEditText.setTextColor(primaryTextColor);
+        binding.maxVoteTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.maxVoteTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.maxVoteTextInputEditText.setTextColor(primaryTextColor);
+        binding.minCommentsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.minCommentsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.minCommentsTextInputEditText.setTextColor(primaryTextColor);
+        binding.maxCommentsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.maxCommentsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.maxCommentsTextInputEditText.setTextColor(primaryTextColor);
+        binding.minAwardsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.minAwardsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.minAwardsTextInputEditText.setTextColor(primaryTextColor);
+        binding.maxAwardsTextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.maxAwardsTextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.maxAwardsTextInputEditText.setTextColor(primaryTextColor);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            nameTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            titleExcludesStringsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            titleContainsStringsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            titleExcludesRegexTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            titleContainsRegexTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            excludesSubredditsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            excludesUsersTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            excludesFlairsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            containsFlairsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            excludeDomainsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            containDomainsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            minVoteTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            maxVoteTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            minCommentsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            maxCommentsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            minAwardsTextInputEditText.setTextCursorDrawable(cursorDrawable);
-            maxAwardsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.nameTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.titleExcludesStringsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.titleContainsStringsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.titleExcludesRegexTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.titleContainsRegexTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.excludesSubredditsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.excludesUsersTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.excludesFlairsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.containsFlairsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.excludeDomainsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.containDomainsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.minVoteTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.maxVoteTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.minCommentsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.maxCommentsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.minAwardsTextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.maxAwardsTextInputEditText.setTextCursorDrawable(cursorDrawable);
         } else {
-            setCursorDrawableColor(nameTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(titleExcludesStringsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(titleContainsStringsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(titleExcludesRegexTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(titleContainsRegexTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(excludesSubredditsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(excludesUsersTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(excludesFlairsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(containsFlairsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(excludeDomainsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(containDomainsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(minVoteTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(maxVoteTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(minCommentsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(maxCommentsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(minAwardsTextInputEditText, primaryTextColor);
-            setCursorDrawableColor(maxAwardsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.nameTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.titleExcludesStringsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.titleContainsStringsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.titleExcludesRegexTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.titleContainsRegexTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.excludesSubredditsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.excludesUsersTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.excludesFlairsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.containsFlairsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.excludeDomainsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.containDomainsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.minVoteTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.maxVoteTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.minCommentsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.maxCommentsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.minAwardsTextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.maxAwardsTextInputEditText, primaryTextColor);
         }
 
         if (typeface != null) {
-            Utils.setFontToAllTextViews(coordinatorLayout, typeface);
+            Utils.setFontToAllTextViews(binding.coordinatorLayout, typeface);
         }
     }
 
@@ -604,67 +466,67 @@ public class CustomizePostFilterActivity extends BaseActivity {
                 updateExcludeSubredditNames(subredditNames);
             } else if (requestCode == ADD_USERS_REQUEST_CODE) {
                 ArrayList<String> usernames = data.getStringArrayListExtra(SearchActivity.RETURN_EXTRA_SELECTED_USERNAMES);
-                String currentUsers = excludesUsersTextInputEditText.getText().toString().trim();
+                String currentUsers = binding.excludesUsersTextInputEditText.getText().toString().trim();
                 if (usernames != null && !usernames.isEmpty()) {
                     if (!currentUsers.isEmpty() && currentUsers.charAt(currentUsers.length() - 1) != ',') {
                         String newString = currentUsers + ",";
-                        excludesUsersTextInputEditText.setText(newString);
+                        binding.excludesUsersTextInputEditText.setText(newString);
                     }
                     StringBuilder stringBuilder = new StringBuilder();
                     for (String s : usernames) {
                         stringBuilder.append(s).append(",");
                     }
                     stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-                    excludesUsersTextInputEditText.append(stringBuilder.toString());
+                    binding.excludesUsersTextInputEditText.append(stringBuilder.toString());
                 }
             }
         }
     }
 
     private void updateExcludeSubredditNames(ArrayList<String> subredditNames) {
-        String currentSubreddits = excludesSubredditsTextInputEditText.getText().toString().trim();
+        String currentSubreddits = binding.excludesSubredditsTextInputEditText.getText().toString().trim();
         if (subredditNames != null && !subredditNames.isEmpty()) {
             if (!currentSubreddits.isEmpty() && currentSubreddits.charAt(currentSubreddits.length() - 1) != ',') {
                 String newString = currentSubreddits + ",";
-                excludesSubredditsTextInputEditText.setText(newString);
+                binding.excludesSubredditsTextInputEditText.setText(newString);
             }
             StringBuilder stringBuilder = new StringBuilder();
             for (String s : subredditNames) {
                 stringBuilder.append(s).append(",");
             }
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-            excludesSubredditsTextInputEditText.append(stringBuilder.toString());
+            binding.excludesSubredditsTextInputEditText.append(stringBuilder.toString());
         }
     }
 
     private void constructPostFilter() throws PatternSyntaxException {
-        postFilter.name = nameTextInputEditText.getText().toString();
-        postFilter.maxVote = maxVoteTextInputEditText.getText() == null || maxVoteTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(maxVoteTextInputEditText.getText().toString());
-        postFilter.minVote = minVoteTextInputEditText.getText() == null || minVoteTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(minVoteTextInputEditText.getText().toString());
-        postFilter.maxComments = maxCommentsTextInputEditText.getText() == null || maxCommentsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(maxCommentsTextInputEditText.getText().toString());
-        postFilter.minComments = minCommentsTextInputEditText.getText() == null || minCommentsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(minCommentsTextInputEditText.getText().toString());
-        postFilter.maxAwards = maxAwardsTextInputEditText.getText() == null || maxAwardsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(maxAwardsTextInputEditText.getText().toString());
-        postFilter.minAwards = minAwardsTextInputEditText.getText() == null || minAwardsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(minAwardsTextInputEditText.getText().toString());
-        postFilter.postTitleExcludesRegex = titleExcludesRegexTextInputEditText.getText().toString();
+        postFilter.name = binding.nameTextInputEditText.getText().toString();
+        postFilter.maxVote = binding.maxVoteTextInputEditText.getText() == null || binding.maxVoteTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(binding.maxVoteTextInputEditText.getText().toString());
+        postFilter.minVote = binding.minVoteTextInputEditText.getText() == null || binding.minVoteTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(binding.minVoteTextInputEditText.getText().toString());
+        postFilter.maxComments = binding.maxCommentsTextInputEditText.getText() == null || binding.maxCommentsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(binding.maxCommentsTextInputEditText.getText().toString());
+        postFilter.minComments = binding.minCommentsTextInputEditText.getText() == null || binding.minCommentsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(binding.minCommentsTextInputEditText.getText().toString());
+        postFilter.maxAwards = binding.maxAwardsTextInputEditText.getText() == null || binding.maxAwardsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(binding.maxAwardsTextInputEditText.getText().toString());
+        postFilter.minAwards = binding.minAwardsTextInputEditText.getText() == null || binding.minAwardsTextInputEditText.getText().toString().equals("") ? -1 : Integer.parseInt(binding.minAwardsTextInputEditText.getText().toString());
+        postFilter.postTitleExcludesRegex = binding.titleExcludesRegexTextInputEditText.getText().toString();
         Pattern.compile(postFilter.postTitleExcludesRegex);
-        postFilter.postTitleContainsRegex = titleContainsRegexTextInputEditText.getText().toString();
+        postFilter.postTitleContainsRegex = binding.titleContainsRegexTextInputEditText.getText().toString();
         Pattern.compile(postFilter.postTitleContainsRegex);
-        postFilter.postTitleExcludesStrings = titleExcludesStringsTextInputEditText.getText().toString();
-        postFilter.postTitleContainsStrings = titleContainsStringsTextInputEditText.getText().toString();
-        postFilter.excludeSubreddits = excludesSubredditsTextInputEditText.getText().toString();
-        postFilter.excludeUsers = excludesUsersTextInputEditText.getText().toString();
-        postFilter.excludeFlairs = excludesFlairsTextInputEditText.getText().toString();
-        postFilter.containFlairs = containsFlairsTextInputEditText.getText().toString();
-        postFilter.excludeDomains = excludeDomainsTextInputEditText.getText().toString();
-        postFilter.containDomains = containDomainsTextInputEditText.getText().toString();
-        postFilter.containTextType = postTypeTextCheckBox.isChecked();
-        postFilter.containLinkType = postTypeLinkCheckBox.isChecked();
-        postFilter.containImageType = postTypeImageCheckBox.isChecked();
-        postFilter.containGifType = postTypeGifCheckBox.isChecked();
-        postFilter.containVideoType = postTypeVideoCheckBox.isChecked();
-        postFilter.containGalleryType = postTypeGalleryCheckBox.isChecked();
-        postFilter.onlyNSFW = onlyNSFWSwitch.isChecked();
-        postFilter.onlySpoiler = onlySpoilerSwitch.isChecked();
+        postFilter.postTitleExcludesStrings = binding.titleExcludesStringsTextInputEditText.getText().toString();
+        postFilter.postTitleContainsStrings = binding.titleContainsStringsTextInputEditText.getText().toString();
+        postFilter.excludeSubreddits = binding.excludesSubredditsTextInputEditText.getText().toString();
+        postFilter.excludeUsers = binding.excludesUsersTextInputEditText.getText().toString();
+        postFilter.excludeFlairs = binding.excludesFlairsTextInputEditText.getText().toString();
+        postFilter.containFlairs = binding.containsFlairsTextInputEditText.getText().toString();
+        postFilter.excludeDomains = binding.excludeDomainsTextInputEditText.getText().toString();
+        postFilter.containDomains = binding.containDomainsTextInputEditText.getText().toString();
+        postFilter.containTextType = binding.postTypeTextCheckBox.isChecked();
+        postFilter.containLinkType = binding.postTypeLinkCheckBox.isChecked();
+        postFilter.containImageType = binding.postTypeImageCheckBox.isChecked();
+        postFilter.containGifType = binding.postTypeGifCheckBox.isChecked();
+        postFilter.containVideoType = binding.postTypeVideoCheckBox.isChecked();
+        postFilter.containGalleryType = binding.postTypeGalleryCheckBox.isChecked();
+        postFilter.onlyNSFW = binding.onlyNsfwSwitch.isChecked();
+        postFilter.onlySpoiler = binding.onlySpoilerSwitch.isChecked();
     }
 
     @Override

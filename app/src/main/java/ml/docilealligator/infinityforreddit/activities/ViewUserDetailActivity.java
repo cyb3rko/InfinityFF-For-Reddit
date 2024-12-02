@@ -20,12 +20,11 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -40,8 +39,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -60,8 +57,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.MarkwonConfiguration;
@@ -96,8 +91,7 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.UserThingSortTy
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.NavigationWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
-import ml.docilealligator.infinityforreddit.customviews.slidr.model.SlidrInterface;
-import ml.docilealligator.infinityforreddit.customviews.slidr.widget.SliderPanel;
+import ml.docilealligator.infinityforreddit.databinding.ActivityViewUserDetailBinding;
 import ml.docilealligator.infinityforreddit.events.ChangeNSFWEvent;
 import ml.docilealligator.infinityforreddit.events.GoBackToMainPageEvent;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
@@ -120,7 +114,6 @@ import ml.docilealligator.infinityforreddit.user.UserViewModel;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
-import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -142,34 +135,8 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
     private static final String MESSAGE_FULLNAME_STATE = "MFS";
     private static final String NEW_ACCOUNT_NAME_STATE = "NANS";
 
-    @BindView(R.id.coordinator_layout_view_user_detail_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.view_pager_view_user_detail_activity)
-    ViewPager2 viewPager2;
-    @BindView(R.id.appbar_layout_view_user_detail)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_view_user_detail_activity)
-    MaterialToolbar toolbar;
-    @BindView(R.id.toolbar_linear_layout_view_user_detail_activity)
-    LinearLayout linearLayout;
-    @BindView(R.id.tab_layout_view_user_detail_activity)
-    TabLayout tabLayout;
-    @BindView(R.id.collapsing_toolbar_layout_view_user_detail_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.banner_image_view_view_user_detail_activity)
-    GifImageView bannerImageView;
-    @BindView(R.id.icon_gif_image_view_view_user_detail_activity)
-    GifImageView iconGifImageView;
-    @BindView(R.id.user_name_text_view_view_user_detail_activity)
-    TextView userNameTextView;
-    @BindView(R.id.subscribe_user_chip_view_user_detail_activity)
-    Chip subscribeUserChip;
-    @BindView(R.id.karma_text_view_view_user_detail_activity)
-    TextView karmaTextView;
-    @BindView(R.id.cakeday_text_view_view_user_detail_activity)
-    TextView cakedayTextView;
-    @BindView(R.id.description_text_view_view_user_detail_activity)
-    TextView descriptionTextView;
+    private ActivityViewUserDetailBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -235,10 +202,8 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
         setTransparentStatusBarAfterToolbarCollapsed();
 
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_view_user_detail);
-
-        ButterKnife.bind(this);
+        binding = ActivityViewUserDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         hideFab = mSharedPreferences.getBoolean(SharedPreferencesUtils.HIDE_FAB_IN_POST_FEED, false);
         showBottomAppBar = mSharedPreferences.getBoolean(SharedPreferencesUtils.BOTTOM_APP_BAR_KEY, false);
@@ -246,7 +211,7 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
         navigationWrapper = new NavigationWrapper(findViewById(R.id.bottom_app_bar_bottom_app_bar), findViewById(R.id.linear_layout_bottom_app_bar),
                 findViewById(R.id.option_1_bottom_app_bar), findViewById(R.id.option_2_bottom_app_bar),
                 findViewById(R.id.option_3_bottom_app_bar), findViewById(R.id.option_4_bottom_app_bar),
-                findViewById(R.id.fab_view_user_detail_activity),
+                findViewById(R.id.fab),
                 findViewById(R.id.navigation_rail), showBottomAppBar);
 
         EventBus.getDefault().register(this);
@@ -256,8 +221,6 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
         if (mSharedPreferences.getBoolean(SharedPreferencesUtils.SWIPE_RIGHT_TO_GO_BACK, true)) {
             mSliderPanel = Slidr.attach(this);
         }
-
-        mViewPager2 = viewPager2;
 
         username = getIntent().getStringExtra(EXTRA_USER_NAME_KEY);
 
@@ -287,7 +250,8 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
         Resources resources = getResources();
 
         String title = "u/" + username;
-        userNameTextView.setText(title);
+        binding.userNameTextView.setText(title);
+        Toolbar toolbar = binding.toolbar;
         toolbar.setTitle(title);
 
         setSupportActionBar(toolbar);
@@ -317,9 +281,10 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
 
             View decorView = window.getDecorView();
             if (isChangeStatusBarIconColor()) {
-                appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+                binding.appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
                     @Override
                     public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                        TabLayout tabLayout = binding.tabLayout;
                         if (state == State.COLLAPSED) {
                             decorView.setSystemUiVisibility(getSystemVisibilityToolbarCollapsed());
                             tabLayout.setTabTextColors(collapsedTabTextColor, collapsedTabTextColor);
@@ -334,9 +299,10 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
                     }
                 });
             } else {
-                appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+                binding.appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
                     @Override
                     public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                        TabLayout tabLayout = binding.tabLayout;
                         if (state == State.COLLAPSED) {
                             tabLayout.setTabTextColors(collapsedTabTextColor, collapsedTabTextColor);
                             tabLayout.setSelectedTabIndicatorColor(collapsedTabIndicatorColor);
@@ -350,9 +316,10 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
                 });
             }
         } else {
-            appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            binding.appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
                 @Override
                 public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                    TabLayout tabLayout = binding.tabLayout;
                     if (state == State.EXPANDED) {
                         tabLayout.setTabTextColors(expandedTabTextColor, expandedTabTextColor);
                         tabLayout.setSelectedTabIndicatorColor(expandedTabIndicatorColor);
@@ -392,8 +359,8 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
         };
         Markwon markwon = MarkdownUtils.createDescriptionMarkwon(this, miscPlugin, onLinkLongClickListener);
 
-        descriptionTextView.setOnLongClickListener(view -> {
-            if (description != null && !description.equals("") && descriptionTextView.getSelectionStart() == -1 && descriptionTextView.getSelectionEnd() == -1) {
+        binding.descriptionTextView.setOnLongClickListener(view -> {
+            if (description != null && !description.equals("") && binding.descriptionTextView.getSelectionStart() == -1 && binding.descriptionTextView.getSelectionEnd() == -1) {
                 CopyTextBottomSheetFragment.show(getSupportFragmentManager(), description, null);
             }
             return true;
@@ -404,10 +371,10 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
         userViewModel.getUserLiveData().observe(this, userData -> {
             if (userData != null) {
                 if (userData.getBanner().equals("")) {
-                    bannerImageView.setOnClickListener(null);
+                    binding.bannerImageView.setOnClickListener(null);
                 } else {
-                    glide.load(userData.getBanner()).into(bannerImageView);
-                    bannerImageView.setOnClickListener(view -> {
+                    glide.load(userData.getBanner()).into(binding.bannerImageView);
+                    binding.bannerImageView.setOnClickListener(view -> {
                         Intent intent = new Intent(this, ViewImageOrGifActivity.class);
                         intent.putExtra(ViewImageOrGifActivity.EXTRA_IMAGE_URL_KEY, userData.getBanner());
                         intent.putExtra(ViewImageOrGifActivity.EXTRA_FILE_NAME_KEY, username + "-banner.jpg");
@@ -419,16 +386,16 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
                 if (userData.getIconUrl().equals("")) {
                     glide.load(getDrawable(R.drawable.subreddit_default_icon))
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(216, 0)))
-                            .into(iconGifImageView);
-                    iconGifImageView.setOnClickListener(null);
+                            .into(binding.iconGifImageView);
+                    binding.iconGifImageView.setOnClickListener(null);
                 } else {
                     glide.load(userData.getIconUrl())
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(216, 0)))
                             .error(glide.load(R.drawable.subreddit_default_icon)
                                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(216, 0))))
-                            .into(iconGifImageView);
+                            .into(binding.iconGifImageView);
 
-                    iconGifImageView.setOnClickListener(view -> {
+                    binding.iconGifImageView.setOnClickListener(view -> {
                         Intent intent = new Intent(this, ViewImageOrGifActivity.class);
                         intent.putExtra(ViewImageOrGifActivity.EXTRA_IMAGE_URL_KEY, userData.getIconUrl());
                         intent.putExtra(ViewImageOrGifActivity.EXTRA_FILE_NAME_KEY, username + "-icon.jpg");
@@ -437,6 +404,7 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
                     });
                 }
 
+                Chip subscribeUserChip = binding.subscribeUserChip;
                 if (userData.isCanBeFollowed()) {
                     subscribeUserChip.setVisibility(View.VISIBLE);
                     subscribeUserChip.setOnClickListener(view -> {
@@ -538,21 +506,21 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
                 }
 
                 String userFullName = "u/" + userData.getName();
-                userNameTextView.setText(userFullName);
+                binding.userNameTextView.setText(userFullName);
                 if (!title.equals(userFullName)) {
                     getSupportActionBar().setTitle(userFullName);
                 }
                 String karma = getString(R.string.karma_info_user_detail, userData.getTotalKarma(), userData.getLinkKarma(), userData.getCommentKarma());
-                karmaTextView.setText(karma);
-                cakedayTextView.setText(getString(R.string.cakeday_info, new SimpleDateFormat("MMM d, yyyy",
+                binding.karmaTextView.setText(karma);
+                binding.cakedayTextView.setText(getString(R.string.cakeday_info, new SimpleDateFormat("MMM d, yyyy",
                         locale).format(userData.getCakeday())));
 
                 if (userData.getDescription() == null || userData.getDescription().equals("")) {
-                    descriptionTextView.setVisibility(View.GONE);
+                    binding.descriptionTextView.setVisibility(View.GONE);
                 } else {
-                    descriptionTextView.setVisibility(View.VISIBLE);
+                    binding.descriptionTextView.setVisibility(View.VISIBLE);
                     description = userData.getDescription();
-                    markwon.setMarkdown(descriptionTextView, description);
+                    markwon.setMarkdown(binding.descriptionTextView, description);
                 }
 
                 /*if (userData.isNSFW()) {
@@ -572,7 +540,7 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
             }
         });
 
-        karmaTextView.setOnClickListener(view -> {
+        binding.karmaTextView.setOnClickListener(view -> {
             UserData userData = userViewModel.getUserLiveData().getValue();
             if (userData != null) {
                 KarmaInfoBottomSheetFragment karmaInfoBottomSheetFragment = KarmaInfoBottomSheetFragment.newInstance(
@@ -604,38 +572,40 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        appBarLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        binding.appBarLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                appBarLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                collapsingToolbarLayout.setScrimVisibleHeightTrigger(toolbar.getHeight() + tabLayout.getHeight() + getStatusBarHeight() * 2);
+                binding.appBarLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                binding.collapsingToolbarLayout.setScrimVisibleHeightTrigger(
+                        binding.toolbar.getHeight() + binding.tabLayout.getHeight() + getStatusBarHeight() * 2);
             }
         });
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar, false);
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar, false);
         expandedTabTextColor = mCustomThemeWrapper.getTabLayoutWithExpandedCollapsingToolbarTextColor();
         expandedTabIndicatorColor = mCustomThemeWrapper.getTabLayoutWithExpandedCollapsingToolbarTabIndicator();
         expandedTabBackgroundColor = mCustomThemeWrapper.getTabLayoutWithExpandedCollapsingToolbarTabBackground();
         collapsedTabTextColor = mCustomThemeWrapper.getTabLayoutWithCollapsedCollapsingToolbarTextColor();
         collapsedTabIndicatorColor = mCustomThemeWrapper.getTabLayoutWithCollapsedCollapsingToolbarTabIndicator();
         collapsedTabBackgroundColor = mCustomThemeWrapper.getTabLayoutWithCollapsedCollapsingToolbarTabBackground();
-        linearLayout.setBackgroundColor(expandedTabBackgroundColor);
+        binding.toolbarLinearLayout.setBackgroundColor(expandedTabBackgroundColor);
         unsubscribedColor = mCustomThemeWrapper.getUnsubscribed();
         subscribedColor = mCustomThemeWrapper.getSubscribed();
-        userNameTextView.setTextColor(mCustomThemeWrapper.getUsername());
-        karmaTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-        cakedayTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        binding.userNameTextView.setTextColor(mCustomThemeWrapper.getUsername());
+        binding.karmaTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        binding.cakedayTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
         navigationWrapper.applyCustomTheme(mCustomThemeWrapper.getBottomAppBarIconColor(), mCustomThemeWrapper.getBottomAppBarBackgroundColor());
         applyFABTheme(navigationWrapper.floatingActionButton);
-        descriptionTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-        subscribeUserChip.setTextColor(mCustomThemeWrapper.getChipTextColor());
-        applyTabLayoutTheme(tabLayout);
+        binding.descriptionTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        binding.subscribeUserChip.setTextColor(mCustomThemeWrapper.getChipTextColor());
+        applyTabLayoutTheme(binding.tabLayout);
         if (typeface != null) {
-            userNameTextView.setTypeface(typeface);
-            karmaTextView.setTypeface(typeface);
-            cakedayTextView.setTypeface(typeface);
-            subscribeUserChip.setTypeface(typeface);
-            descriptionTextView.setTypeface(typeface);
+            binding.userNameTextView.setTypeface(typeface);
+            binding.karmaTextView.setTypeface(typeface);
+            binding.cakedayTextView.setTypeface(typeface);
+            binding.subscribeUserChip.setTypeface(typeface);
+            binding.descriptionTextView.setTypeface(typeface);
         }
     }
 
@@ -665,10 +635,11 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
 
     private void initializeViewPager() {
         sectionsPagerAdapter = new SectionsPagerAdapter(this);
-        viewPager2.setAdapter(sectionsPagerAdapter);
-        viewPager2.setOffscreenPageLimit(2);
-        viewPager2.setUserInputEnabled(!mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_SWIPING_BETWEEN_TABS, false));
-        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+        ViewPager2 viewPager = binding.viewPager;
+        viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setOffscreenPageLimit(2);
+        viewPager.setUserInputEnabled(!mSharedPreferences.getBoolean(SharedPreferencesUtils.DISABLE_SWIPING_BETWEEN_TABS, false));
+        new TabLayoutMediator(binding.tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
                     tab.setText(R.string.posts);
@@ -679,7 +650,7 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
             }
         }).attach();
 
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
@@ -699,7 +670,7 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
             }
         });
 
-        fixViewPager2Sensitivity(viewPager2);
+        fixViewPager2Sensitivity(viewPager);
 
         if (mMessageFullname != null) {
             ReadMessage.readMessage(mOauthRetrofit, mAccessToken, mMessageFullname, new ReadMessage.ReadMessageListener() {
@@ -1280,10 +1251,10 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
             Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
         } else {
             if (retry) {
-                Snackbar.make(coordinatorLayout, resId, Snackbar.LENGTH_SHORT).setAction(R.string.retry,
+                Snackbar.make(binding.coordinatorLayout, resId, Snackbar.LENGTH_SHORT).setAction(R.string.retry,
                         view -> fetchUserInfo()).show();
             } else {
-                Snackbar.make(coordinatorLayout, resId, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, resId, Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -1364,7 +1335,7 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
     }
 
     private void goToSubreddit() {
-        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, coordinatorLayout, false);
+        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, binding.coordinatorLayout, false);
         TextInputEditText thingEditText = rootView.findViewById(R.id.text_input_edit_text_go_to_thing_edit_text);
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_view_go_to_thing_edit_text);
         thingEditText.requestFocus();
@@ -1452,7 +1423,7 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
     }
 
     private void goToUser() {
-        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, coordinatorLayout, false);
+        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, binding.coordinatorLayout, false);
         TextInputEditText thingEditText = rootView.findViewById(R.id.text_input_edit_text_go_to_thing_edit_text);
         thingEditText.requestFocus();
         Utils.showKeyboard(this, new Handler(), thingEditText);
@@ -1651,14 +1622,14 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
 
         @Nullable
         private Fragment getCurrentFragment() {
-            if (viewPager2 == null || fragmentManager == null) {
+            if (fragmentManager == null) {
                 return null;
             }
-            return fragmentManager.findFragmentByTag("f" + viewPager2.getCurrentItem());
+            return fragmentManager.findFragmentByTag("f" + binding.viewPager.getCurrentItem());
         }
 
         public boolean handleKeyDown(int keyCode) {
-            if (viewPager2.getCurrentItem() == 0) {
+            if (binding.viewPager.getCurrentItem() == 0) {
                 Fragment fragment = getCurrentFragment();
                 if (fragment instanceof PostFragment) {
                     return ((PostFragment) fragment).handleKeyDown(keyCode);
@@ -1680,14 +1651,14 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
             Fragment fragment = getCurrentFragment();
             if (fragment instanceof PostFragment) {
                 ((PostFragment) fragment).changeSortType(sortType);
-                Utils.displaySortTypeInToolbar(sortType, toolbar);
+                Utils.displaySortTypeInToolbar(sortType, binding.toolbar);
             } else if (fragment instanceof CommentsListingFragment) {
                 mSortTypeSharedPreferences.edit().putString(SharedPreferencesUtils.SORT_TYPE_USER_COMMENT, sortType.getType().name()).apply();
                 if(sortType.getTime() != null) {
                     mSortTypeSharedPreferences.edit().putString(SharedPreferencesUtils.SORT_TIME_USER_COMMENT, sortType.getTime().name()).apply();
                 }
                 ((CommentsListingFragment) fragment).changeSortType(sortType);
-                Utils.displaySortTypeInToolbar(sortType, toolbar);
+                Utils.displaySortTypeInToolbar(sortType, binding.toolbar);
             }
         }
 
@@ -1716,13 +1687,13 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
 
         void displaySortTypeInToolbar() {
             if (fragmentManager != null) {
-                Fragment fragment = fragmentManager.findFragmentByTag("f" + viewPager2.getCurrentItem());
+                Fragment fragment = fragmentManager.findFragmentByTag("f" + binding.viewPager.getCurrentItem());
                 if (fragment instanceof PostFragment) {
                     SortType sortType = ((PostFragment) fragment).getSortType();
-                    Utils.displaySortTypeInToolbar(sortType, toolbar);
+                    Utils.displaySortTypeInToolbar(sortType, binding.toolbar);
                 } else if (fragment instanceof CommentsListingFragment) {
                     SortType sortType = ((CommentsListingFragment) fragment).getSortType();
-                    Utils.displaySortTypeInToolbar(sortType, toolbar);
+                    Utils.displaySortTypeInToolbar(sortType, binding.toolbar);
                 }
             }
         }

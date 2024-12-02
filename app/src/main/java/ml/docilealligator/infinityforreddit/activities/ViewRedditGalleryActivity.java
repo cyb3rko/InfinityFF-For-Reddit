@@ -34,15 +34,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import app.futured.hauler.DragDirection;
-import app.futured.hauler.HaulerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.SetAsWallpaperCallback;
 import ml.docilealligator.infinityforreddit.WallpaperSetter;
-import ml.docilealligator.infinityforreddit.customviews.ViewPagerBugFixed;
+import ml.docilealligator.infinityforreddit.databinding.ActivityViewRedditGalleryBinding;
 import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
 import ml.docilealligator.infinityforreddit.font.ContentFontStyle;
 import ml.docilealligator.infinityforreddit.font.FontFamily;
@@ -56,16 +53,13 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class ViewRedditGalleryActivity extends AppCompatActivity implements SetAsWallpaperCallback, CustomFontReceiver {
-
     public static final String EXTRA_REDDIT_GALLERY = "ERG";
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     public static final String EXTRA_IS_NSFW = "EIN";
     public static final String EXTRA_GALLERY_ITEM_INDEX = "EGII";
 
-    @BindView(R.id.hauler_view_view_reddit_gallery_activity)
-    HaulerView haulerView;
-    @BindView(R.id.view_pager_view_reddit_gallery_activity)
-    ViewPagerBugFixed viewPager;
+    private ActivityViewRedditGalleryBinding binding;
+
     @Inject
     @Named("default")
     SharedPreferences sharedPreferences;
@@ -135,9 +129,8 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
         getTheme().applyStyle(ContentFontFamily.valueOf(sharedPreferences
                 .getString(SharedPreferencesUtils.CONTENT_FONT_FAMILY_KEY, ContentFontFamily.Default.name())).getResId(), true);
 
-        setContentView(R.layout.activity_view_reddit_gallery);
-
-        ButterKnife.bind(this);
+        binding = ActivityViewRedditGalleryBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         useBottomAppBar = sharedPreferences.getBoolean(SharedPreferencesUtils.USE_BOTTOM_TOOLBAR_IN_MEDIA_VIEWER, false);
 
@@ -160,13 +153,13 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
         isNsfw = getIntent().getBooleanExtra(EXTRA_IS_NSFW, false);
 
         if (sharedPreferences.getBoolean(SharedPreferencesUtils.SWIPE_VERTICALLY_TO_GO_BACK_FROM_MEDIA, true)) {
-            haulerView.setOnDragDismissedListener(dragDirection -> {
+            binding.haulerView.setOnDragDismissedListener(dragDirection -> {
                 int slide = dragDirection == DragDirection.UP ? R.anim.slide_out_up : R.anim.slide_out_down;
                 finish();
                 overridePendingTransition(0, slide);
             });
         } else {
-            haulerView.setDragEnabled(false);
+            binding.haulerView.setDragEnabled(false);
         }
 
         setupViewPager(savedInstanceState);
@@ -179,7 +172,7 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
     private void setupViewPager(Bundle savedInstanceState) {
         if (!useBottomAppBar) {
             setToolbarTitle(0);
-            viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            binding.viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     setToolbarTitle(position);
@@ -187,10 +180,10 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
             });
         }
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        binding.viewPager.setAdapter(sectionsPagerAdapter);
+        binding.viewPager.setOffscreenPageLimit(3);
         if (savedInstanceState == null) {
-            viewPager.setCurrentItem(getIntent().getIntExtra(EXTRA_GALLERY_ITEM_INDEX, 0), false);
+            binding.viewPager.setCurrentItem(getIntent().getIntExtra(EXTRA_GALLERY_ITEM_INDEX, 0), false);
         }
     }
 
@@ -276,7 +269,7 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
     }
 
     public int getCurrentPagePosition() {
-        return viewPager.getCurrentItem();
+        return binding.viewPager.getCurrentItem();
     }
 
     @Override

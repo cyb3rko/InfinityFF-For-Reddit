@@ -13,20 +13,11 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.inputmethod.EditorInfoCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.appbar.AppBarLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,8 +27,6 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
@@ -45,9 +34,9 @@ import ml.docilealligator.infinityforreddit.adapters.SearchActivityRecyclerViewA
 import ml.docilealligator.infinityforreddit.adapters.SubredditAutocompleteRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.apis.GqlAPI;
 import ml.docilealligator.infinityforreddit.apis.GqlRequestBody;
-import ml.docilealligator.infinityforreddit.apis.RedditAPI;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivitySearchBinding;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.recentsearchquery.DeleteRecentSearchQuery;
 import ml.docilealligator.infinityforreddit.recentsearchquery.RecentSearchQuery;
@@ -63,7 +52,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class SearchActivity extends BaseActivity {
-
     public static final String EXTRA_QUERY = "EQ";
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     public static final String EXTRA_SUBREDDIT_IS_USER = "ESIU";
@@ -85,28 +73,8 @@ public class SearchActivity extends BaseActivity {
     private static final int SUBREDDIT_SEARCH_REQUEST_CODE = 1;
     private static final int USER_SEARCH_REQUEST_CODE = 2;
 
-    @BindView(R.id.coordinator_layout_search_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_search_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.search_edit_text_search_activity)
-    EditText searchEditText;
-    @BindView(R.id.clear_search_edit_view_search_activity)
-    ImageView clearSearchTextImageView;
-    @BindView(R.id.link_handler_image_view_search_activity)
-    ImageView linkHandlerImageView;
-    @BindView(R.id.subreddit_name_relative_layout_search_activity)
-    RelativeLayout subredditNameRelativeLayout;
-    @BindView(R.id.search_in_text_view_search_activity)
-    TextView searchInTextView;
-    @BindView(R.id.subreddit_name_text_view_search_activity)
-    TextView subredditNameTextView;
-    @BindView(R.id.divider_search_activity)
-    View divider;
-    @BindView(R.id.recycler_view_search_activity)
-    RecyclerView recyclerView;
+    private ActivitySearchBinding binding;
+
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
@@ -148,10 +116,8 @@ public class SearchActivity extends BaseActivity {
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_search);
-
-        ButterKnife.bind(this);
+        binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -161,17 +127,17 @@ public class SearchActivity extends BaseActivity {
             Slidr.attach(this);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
 
-        clearSearchTextImageView.setVisibility(View.GONE);
+        binding.clearSearchEditView.setVisibility(View.GONE);
 
         searchOnlySubreddits = getIntent().getBooleanExtra(EXTRA_SEARCH_ONLY_SUBREDDITS, false);
         searchOnlyUsers = getIntent().getBooleanExtra(EXTRA_SEARCH_ONLY_USERS, false);
 
         if (searchOnlySubreddits) {
-            searchEditText.setHint(getText(R.string.search_only_subreddits_hint));
+            binding.searchEditText.setHint(getText(R.string.search_only_subreddits_hint));
         } else if (searchOnlyUsers) {
-            searchEditText.setHint(getText(R.string.search_only_users_hint));
+            binding.searchEditText.setHint(getText(R.string.search_only_users_hint));
         }
 
         mAccountName = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, null);
@@ -200,10 +166,10 @@ public class SearchActivity extends BaseActivity {
         });
 
         if (mAccessToken == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            searchEditText.setImeOptions(searchEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            binding.searchEditText.setImeOptions(binding.searchEditText.getImeOptions() | EditorInfoCompat.IME_FLAG_NO_PERSONALIZED_LEARNING);
         }
 
-        searchEditText.addTextChangedListener(new TextWatcher() {
+        binding.searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -236,7 +202,7 @@ public class SearchActivity extends BaseActivity {
                                     @Override
                                     public void onParseSubredditListingDataSuccess(ArrayList<SubredditData> subredditData, String after) {
                                         subredditAutocompleteRecyclerViewAdapter.setSubreddits(subredditData);
-                                        recyclerView.setAdapter(subredditAutocompleteRecyclerViewAdapter);
+                                        binding.recyclerView.setAdapter(subredditAutocompleteRecyclerViewAdapter);
                                     }
 
                                     @Override
@@ -252,31 +218,31 @@ public class SearchActivity extends BaseActivity {
 
                         }
                     });
-                    clearSearchTextImageView.setVisibility(View.VISIBLE);
+                    binding.clearSearchEditView.setVisibility(View.VISIBLE);
                 } else {
-                    clearSearchTextImageView.setVisibility(View.GONE);
+                    binding.clearSearchEditView.setVisibility(View.GONE);
                 }
             }
         });
 
-        searchEditText.setOnEditorActionListener((v, actionId, event) -> {
+        binding.searchEditText.setOnEditorActionListener((v, actionId, event) -> {
             if ((actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) || (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                if (!searchEditText.getText().toString().isEmpty()) {
-                    search(searchEditText.getText().toString());
+                if (!binding.searchEditText.getText().toString().isEmpty()) {
+                    search(binding.searchEditText.getText().toString());
                     return true;
                 }
             }
             return false;
         });
 
-        clearSearchTextImageView.setOnClickListener(view -> {
-            searchEditText.getText().clear();
+        binding.clearSearchEditView.setOnClickListener(view -> {
+            binding.searchEditText.getText().clear();
         });
 
-        linkHandlerImageView.setOnClickListener(view -> {
-            if (!searchEditText.getText().toString().equals("")) {
+        binding.linkHandlerImageView.setOnClickListener(view -> {
+            if (!binding.searchEditText.getText().toString().equals("")) {
                 Intent intent = new Intent(this, LinkResolverActivity.class);
-                intent.setData(Uri.parse(searchEditText.getText().toString()));
+                intent.setData(Uri.parse(binding.searchEditText.getText().toString()));
                 startActivity(intent);
                 finish();
             }
@@ -287,9 +253,9 @@ public class SearchActivity extends BaseActivity {
             subredditIsUser = savedInstanceState.getBoolean(SUBREDDIT_IS_USER_STATE);
 
             if (subredditName == null) {
-                subredditNameTextView.setText(R.string.all_subreddits);
+                binding.subredditNameTextView.setText(R.string.all_subreddits);
             } else {
-                subredditNameTextView.setText(subredditName);
+                binding.subredditNameTextView.setText(subredditName);
             }
         } else {
             query = getIntent().getStringExtra(EXTRA_QUERY);
@@ -297,9 +263,9 @@ public class SearchActivity extends BaseActivity {
         bindView();
 
         if (searchOnlySubreddits || searchOnlyUsers) {
-            subredditNameRelativeLayout.setVisibility(View.GONE);
+            binding.subredditNameRelativeLayout.setVisibility(View.GONE);
         } else {
-            subredditNameRelativeLayout.setOnClickListener(view -> {
+            binding.subredditNameRelativeLayout.setOnClickListener(view -> {
                 Intent intent = new Intent(this, SubredditSelectionActivity.class);
                 intent.putExtra(SubredditSelectionActivity.EXTRA_EXTRA_CLEAR_SELECTION, true);
                 startActivityForResult(intent, SUBREDDIT_SELECTION_REQUEST_CODE);
@@ -309,7 +275,7 @@ public class SearchActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_SUBREDDIT_NAME)) {
             subredditName = intent.getStringExtra(EXTRA_SUBREDDIT_NAME);
-            subredditNameTextView.setText(subredditName);
+            binding.subredditNameTextView.setText(subredditName);
             subredditIsUser = intent.getBooleanExtra(EXTRA_SUBREDDIT_IS_USER, false);
         }
     }
@@ -327,9 +293,9 @@ public class SearchActivity extends BaseActivity {
                 });
             }
         });
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.recyclerView.setNestedScrollingEnabled(false);
+        binding.recyclerView.setAdapter(adapter);
 
         if (mSharedPreferences.getBoolean(SharedPreferencesUtils.ENABLE_SEARCH_HISTORY, true)) {
             mRecentSearchQueryViewModel = new ViewModelProvider(this,
@@ -338,9 +304,9 @@ public class SearchActivity extends BaseActivity {
 
             mRecentSearchQueryViewModel.getAllRecentSearchQueries().observe(this, recentSearchQueries -> {
                 if (recentSearchQueries != null && !recentSearchQueries.isEmpty()) {
-                    divider.setVisibility(View.VISIBLE);
+                    binding.divider.setVisibility(View.VISIBLE);
                 } else {
-                    divider.setVisibility(View.GONE);
+                    binding.divider.setVisibility(View.GONE);
                 }
                 adapter.setRecentSearchQueries(recentSearchQueries);
             });
@@ -395,34 +361,35 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
         int toolbarPrimaryTextAndIconColorColor = mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor();
-        searchEditText.setTextColor(toolbarPrimaryTextAndIconColorColor);
-        searchEditText.setHintTextColor(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor());
-        clearSearchTextImageView.setColorFilter(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
-        linkHandlerImageView.setColorFilter(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
+        binding.searchEditText.setTextColor(toolbarPrimaryTextAndIconColorColor);
+        binding.searchEditText.setHintTextColor(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor());
+        binding.clearSearchEditView.setColorFilter(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
+        binding.linkHandlerImageView.setColorFilter(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
         int colorAccent = mCustomThemeWrapper.getColorAccent();
-        searchInTextView.setTextColor(colorAccent);
-        subredditNameTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-        divider.setBackgroundColor(mCustomThemeWrapper.getDividerColor());
+        binding.searchInTextView.setTextColor(colorAccent);
+        binding.subredditNameTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+        binding.divider.setBackgroundColor(mCustomThemeWrapper.getDividerColor());
         if (typeface != null) {
-            Utils.setFontToAllTextViews(coordinatorLayout, typeface);
+            Utils.setFontToAllTextViews(binding.coordinatorLayout, typeface);
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        searchEditText.requestFocus();
+        binding.searchEditText.requestFocus();
 
         if (query != null) {
-            searchEditText.setText(query);
-            searchEditText.setSelection(query.length());
+            binding.searchEditText.setText(query);
+            binding.searchEditText.setSelection(query.length());
             query = null;
         }
 
-        Utils.showKeyboard(this, new Handler(), searchEditText);
+        Utils.showKeyboard(this, new Handler(), binding.searchEditText);
     }
 
     @Override
@@ -439,9 +406,9 @@ public class SearchActivity extends BaseActivity {
                 subredditIsUser = data.getBooleanExtra(SubredditSelectionActivity.EXTRA_RETURN_SUBREDDIT_IS_USER, false);
 
                 if (subredditName == null) {
-                    subredditNameTextView.setText(R.string.all_subreddits);
+                    binding.subredditNameTextView.setText(R.string.all_subreddits);
                 } else {
-                    subredditNameTextView.setText(subredditName);
+                    binding.subredditNameTextView.setText(subredditName);
                 }
             } else if (requestCode == SUBREDDIT_SEARCH_REQUEST_CODE) {
                 Intent returnIntent = new Intent();

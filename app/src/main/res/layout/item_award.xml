@@ -9,7 +9,7 @@
     android:background="?attr/selectableItemBackground">
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/icon_image_view_item_award"
+        android:id="@+id/icon_image_view"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center_vertical" />
@@ -24,14 +24,14 @@
         android:layout_marginEnd="16dp">
 
         <TextView
-            android:id="@+id/name_text_view_item_award"
+            android:id="@+id/name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/font_12"
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/description_text_view_item_award"
+            android:id="@+id/description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/font_default"
@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/coin_text_view_item_award"
+        android:id="@+id/coin_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical" />

@@ -7,7 +7,7 @@
     android:focusable="true">
 
     <TextView
-        android:id="@+id/user_flair_html_text_view_item_user_flair"
+        android:id="@+id/user_flair_html_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -18,7 +18,7 @@
         android:fontFamily="?attr/font_family" />
 
     <ImageView
-        android:id="@+id/edit_user_flair_image_view_item_user_flair"
+        android:id="@+id/edit_user_flair_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/filter_text_view_filtered_thing_fab_more_options_bottom_sheet_fragment"
+            android:id="@+id/filter_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -31,7 +31,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/hide_read_posts_text_view_filtered_thing_fab_more_options_bottom_sheet_fragment"
+            android:id="@+id/hide_read_posts_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

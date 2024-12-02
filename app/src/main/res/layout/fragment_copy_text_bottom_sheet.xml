@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/copy_raw_text_text_view_copy_text_bottom_sheet_fragment"
+            android:id="@+id/copy_raw_text_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copy_raw_text"
@@ -29,7 +29,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/copy_markdown_text_view_copy_text_bottom_sheet_fragment"
+            android:id="@+id/copy_markdown_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copy_markdown"
@@ -45,7 +45,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/copy_all_raw_text_text_view_copy_text_bottom_sheet_fragment"
+            android:id="@+id/copy_all_raw_text_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copy_all_raw_text"
@@ -61,7 +61,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/copy_all_markdown_text_view_copy_text_bottom_sheet_fragment"
+            android:id="@+id/copy_all_markdown_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copy_all_markdown"

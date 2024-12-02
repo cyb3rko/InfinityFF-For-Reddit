@@ -3,8 +3,6 @@ package ml.docilealligator.infinityforreddit.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.List;
 
@@ -20,8 +17,8 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ItemSubredditListingBinding;
 import ml.docilealligator.infinityforreddit.subreddit.SubredditData;
-import pl.droidsonroids.gif.GifImageView;
 
 public class SubredditAutocompleteRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private BaseActivity activity;
@@ -51,9 +48,9 @@ public class SubredditAutocompleteRecyclerViewAdapter extends RecyclerView.Adapt
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                     .error(glide.load(R.drawable.subreddit_default_icon)
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                    .into(((SubredditViewHolder) holder).iconImageView);
-            ((SubredditViewHolder) holder).subredditNameTextView.setText(subreddits.get(position).getName());
-            ((SubredditViewHolder) holder).subscriberCountTextView.setText(activity.getString(R.string.subscribers_number_detail, subreddits.get(position).getNSubscribers()));
+                    .into(((SubredditViewHolder) holder).binding.subredditIconGifImageView);
+            ((SubredditViewHolder) holder).binding.subredditNameTextView.setText(subreddits.get(position).getName());
+            ((SubredditViewHolder) holder).binding.subscriberCountTextView.setText(activity.getString(R.string.subscribers_number_detail, subreddits.get(position).getNSubscribers()));
         }
     }
 
@@ -66,7 +63,7 @@ public class SubredditAutocompleteRecyclerViewAdapter extends RecyclerView.Adapt
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         if (holder instanceof SubredditViewHolder) {
-            glide.clear(((SubredditViewHolder) holder).iconImageView);
+            glide.clear(((SubredditViewHolder) holder).binding.subredditIconGifImageView);
         }
     }
 
@@ -76,30 +73,21 @@ public class SubredditAutocompleteRecyclerViewAdapter extends RecyclerView.Adapt
     }
 
     class SubredditViewHolder extends RecyclerView.ViewHolder {
-
-        GifImageView iconImageView;
-        TextView subredditNameTextView;
-        TextView subscriberCountTextView;
-        ImageView subscribeImageView;
-        MaterialCheckBox checkBox;
+        private final ItemSubredditListingBinding binding;
 
         public SubredditViewHolder(@NonNull View itemView) {
             super(itemView);
-            iconImageView = itemView.findViewById(R.id.subreddit_icon_gif_image_view_item_subreddit_listing);
-            subredditNameTextView = itemView.findViewById(R.id.subreddit_name_text_view_item_subreddit_listing);
-            subscriberCountTextView = itemView.findViewById(R.id.subscriber_count_text_view_item_subreddit_listing);
-            subscribeImageView = itemView.findViewById(R.id.subscribe_image_view_item_subreddit_listing);
-            checkBox = itemView.findViewById(R.id.checkbox_item_subreddit_listing);
+            binding = ItemSubredditListingBinding.bind(itemView);
 
-            subscribeImageView.setVisibility(View.GONE);
-            checkBox.setVisibility(View.GONE);
+            binding.subscribeImageView.setVisibility(View.GONE);
+            binding.checkbox.setVisibility(View.GONE);
 
-            subredditNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
-            subscriberCountTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
+            binding.subredditNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
+            binding.subscriberCountTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
 
             if (activity.typeface != null) {
-                subredditNameTextView.setTypeface(activity.typeface);
-                subscriberCountTextView.setTypeface(activity.typeface);
+                binding.subredditNameTextView.setTypeface(activity.typeface);
+                binding.subscriberCountTextView.setTypeface(activity.typeface);
             }
 
             itemView.setOnClickListener(view -> {

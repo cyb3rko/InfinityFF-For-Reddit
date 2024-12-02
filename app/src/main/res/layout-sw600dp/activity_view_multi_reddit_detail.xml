@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator_layout_view_multi_reddit_detail_activity"
+    android:id="@+id/coordinator_layout"
     tools:context=".activities.ViewMultiRedditDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_view_multi_reddit_detail_activity"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout_view_multi_reddit_detail_activity"
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways"
             app:titleEnabled="false"
-            app:toolbarId="@+id/toolbar_view_multi_reddit_detail_activity">
+            app:toolbarId="@+id/toolbar">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_view_multi_reddit_detail_activity"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
@@ -48,7 +48,7 @@
             app:itemActiveIndicatorStyle="@style/App.Custom.Indicator" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/frame_layout_view_multi_reddit_detail_activity"
+            android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -61,7 +61,7 @@
         android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_view_multi_reddit_detail_activity"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"

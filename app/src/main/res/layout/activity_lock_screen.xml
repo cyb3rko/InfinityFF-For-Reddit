@@ -17,7 +17,7 @@
         app:lottie_rawRes="@raw/lock_screen" />
 
     <TextView
-        android:id="@+id/text_view_lock_screen_activity"
+        android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -29,12 +29,12 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/unlock_button_lock_screen_activity"
+        android:id="@+id/unlock_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/unlock"
-        app:layout_constraintTop_toBottomOf="@id/text_view_lock_screen_activity"
+        app:layout_constraintTop_toBottomOf="@id/text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

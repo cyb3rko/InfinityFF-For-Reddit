@@ -13,12 +13,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,8 +25,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.AnyAccountAccessTokenAuthenticator;
 import ml.docilealligator.infinityforreddit.FetchSubscribedThing;
@@ -42,6 +35,7 @@ import ml.docilealligator.infinityforreddit.account.Account;
 import ml.docilealligator.infinityforreddit.asynctasks.InsertSubscribedThings;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivitySubredditSelectionBinding;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.fragments.SubscribedSubredditsListingFragment;
 import ml.docilealligator.infinityforreddit.subreddit.SubredditData;
@@ -53,7 +47,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 public class SubredditSelectionActivity extends BaseActivity implements ActivityToolbarInterface {
-
     public static final String EXTRA_SPECIFIED_ACCOUNT = "ESA";
     public static final String EXTRA_EXTRA_CLEAR_SELECTION = "EECS";
     public static final String EXTRA_RETURN_SUBREDDIT_NAME = "ERSN";
@@ -64,14 +57,8 @@ public class SubredditSelectionActivity extends BaseActivity implements Activity
     private static final String INSERT_SUBSCRIBED_SUBREDDIT_STATE = "ISSS";
     private static final String FRAGMENT_OUT_STATE = "FOS";
 
-    @BindView(R.id.coordinator_layout_subreddit_selection_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_subreddit_selection_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_subreddit_selection_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.toolbar_subreddit_selection_activity)
-    Toolbar toolbar;
+    private ActivitySubredditSelectionBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -104,10 +91,8 @@ public class SubredditSelectionActivity extends BaseActivity implements Activity
         ((Infinity) getApplication()).getAppComponent().inject(this);
 
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_subreddit_selection);
-
-        ButterKnife.bind(this);
+        binding = ActivitySubredditSelectionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -121,7 +106,7 @@ public class SubredditSelectionActivity extends BaseActivity implements Activity
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -130,11 +115,11 @@ public class SubredditSelectionActivity extends BaseActivity implements Activity
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(toolbar);
+                adjustToolbar(binding.toolbar);
             }
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getIntent().hasExtra(EXTRA_SPECIFIED_ACCOUNT)) {
@@ -168,7 +153,7 @@ public class SubredditSelectionActivity extends BaseActivity implements Activity
             mInsertSuccess = savedInstanceState.getBoolean(INSERT_SUBSCRIBED_SUBREDDIT_STATE);
 
             mFragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_OUT_STATE);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_subreddit_selection_activity, mFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, mFragment).commit();
             bindView(false);
         }
     }
@@ -185,8 +170,9 @@ public class SubredditSelectionActivity extends BaseActivity implements Activity
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
     }
 
     private void bindView(boolean initializeFragment) {
@@ -208,7 +194,7 @@ public class SubredditSelectionActivity extends BaseActivity implements Activity
                         getIntent().getExtras().getBoolean(EXTRA_EXTRA_CLEAR_SELECTION));
             }
             mFragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_subreddit_selection_activity, mFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, mFragment).commit();
         }
     }
 

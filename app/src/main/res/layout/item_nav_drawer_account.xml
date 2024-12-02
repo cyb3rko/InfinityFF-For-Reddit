@@ -8,13 +8,13 @@
     android:focusable="true">
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/profile_image_item_account"
+        android:id="@+id/profile_image"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginEnd="16dp" />
 
     <TextView
-        android:id="@+id/username_text_view_item_account"
+        android:id="@+id/username_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

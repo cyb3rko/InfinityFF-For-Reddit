@@ -16,15 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.MarkwonConfiguration;
@@ -42,22 +39,20 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.CopyTextBottomS
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.UrlMenuBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
+import ml.docilealligator.infinityforreddit.databinding.FragmentSidebarBinding;
 import ml.docilealligator.infinityforreddit.markdown.MarkdownUtils;
 import ml.docilealligator.infinityforreddit.subreddit.FetchSubredditData;
 import ml.docilealligator.infinityforreddit.subreddit.SubredditData;
 import ml.docilealligator.infinityforreddit.subreddit.SubredditViewModel;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 import retrofit2.Retrofit;
 
 public class SidebarFragment extends Fragment {
-
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     public static final String EXTRA_ACCESS_TOKEN = "EAT";
+
+    private FragmentSidebarBinding binding;
     public SubredditViewModel mSubredditViewModel;
-    @BindView(R.id.swipe_refresh_layout_sidebar_fragment)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.markdown_recycler_view_sidebar_fragment)
-    RecyclerView recyclerView;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -86,13 +81,12 @@ public class SidebarFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_sidebar, container, false);
+        binding = FragmentSidebarBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
-
-        ButterKnife.bind(this, rootView);
 
         mAccessToken = getArguments().getString(EXTRA_ACCESS_TOKEN);
         subredditName = getArguments().getString(EXTRA_SUBREDDIT_NAME);
@@ -101,8 +95,8 @@ public class SidebarFragment extends Fragment {
             return rootView;
         }
 
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
-        swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
+        binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
         markdownColor = mCustomThemeWrapper.getPrimaryTextColor();
         int spoilerBackgroundColor = markdownColor | 0xFF000000;
 
@@ -150,9 +144,9 @@ public class SidebarFragment extends Fragment {
         MarkwonAdapter markwonAdapter = MarkdownUtils.createTablesAdapter();
 
         linearLayoutManager = new LinearLayoutManagerBugFixed(activity);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(markwonAdapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.markdownRecyclerView.setLayoutManager(linearLayoutManager);
+        binding.markdownRecyclerView.setAdapter(markwonAdapter);
+        binding.markdownRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
@@ -180,7 +174,7 @@ public class SidebarFragment extends Fragment {
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(this::fetchSubredditData);
+        binding.swipeRefreshLayout.setOnRefreshListener(this::fetchSubredditData);
 
         return rootView;
     }
@@ -192,18 +186,18 @@ public class SidebarFragment extends Fragment {
     }
 
     public void fetchSubredditData() {
-        swipeRefreshLayout.setRefreshing(true);
+        binding.swipeRefreshLayout.setRefreshing(true);
         FetchSubredditData.fetchSubredditData(mGQLRetrofit, mRetrofit, subredditName, mAccessToken, new FetchSubredditData.FetchSubredditDataListener() {
             @Override
             public void onFetchSubredditDataSuccess(SubredditData subredditData, int nCurrentOnlineSubscribers) {
-                swipeRefreshLayout.setRefreshing(false);
+                binding.swipeRefreshLayout.setRefreshing(false);
                 InsertSubredditData.insertSubredditData(mExecutor, new Handler(), mRedditDataRoomDatabase,
-                        subredditData, () -> swipeRefreshLayout.setRefreshing(false));
+                        subredditData, () -> binding.swipeRefreshLayout.setRefreshing(false));
             }
 
             @Override
             public void onFetchSubredditDataFail(boolean isQuarantined) {
-                swipeRefreshLayout.setRefreshing(false);
+                binding.swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(activity, R.string.cannot_fetch_sidebar, Toast.LENGTH_SHORT).show();
             }
         });
@@ -213,5 +207,11 @@ public class SidebarFragment extends Fragment {
         if (linearLayoutManager != null) {
             linearLayoutManager.scrollToPositionWithOffset(0, 0);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

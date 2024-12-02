@@ -16,7 +16,7 @@
         android:layout_marginEnd="16dp">
 
         <TextView
-            android:id="@+id/theme_item_name_text_view_item_custom_theme_switch_item"
+            android:id="@+id/theme_item_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/primaryTextColor"
@@ -24,7 +24,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/theme_item_info_text_view_item_custom_theme_switch_item"
+            android:id="@+id/theme_item_info_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/theme_item_switch_item_custom_theme_switch_item"
+        android:id="@+id/theme_item_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical" />

@@ -12,16 +12,10 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -31,18 +25,11 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.snackbar.Snackbar;
-import com.libRG.CustomTextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,8 +39,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import ml.docilealligator.infinityforreddit.Flair;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -64,11 +49,11 @@ import ml.docilealligator.infinityforreddit.asynctasks.LoadSubredditIcon;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.AccountChooserBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.FlairBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ActivityPostVideoBinding;
 import ml.docilealligator.infinityforreddit.events.SubmitVideoOrGifPostEvent;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.services.SubmitPostService;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
-import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Retrofit;
 
 public class PostVideoActivity extends BaseActivity implements FlairBottomSheetFragment.FlairSelectionCallback,
@@ -92,52 +77,8 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
     private static final int PICK_VIDEO_REQUEST_CODE = 1;
     private static final int CAPTURE_VIDEO_REQUEST_CODE = 2;
 
-    @BindView(R.id.coordinator_layout_post_video_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_post_video_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_post_video_activity)
-    Toolbar toolbar;
-    @BindView(R.id.account_linear_layout_post_video_activity)
-    LinearLayout accountLinearLayout;
-    @BindView(R.id.account_icon_gif_image_view_post_video_activity)
-    GifImageView accountIconImageView;
-    @BindView(R.id.account_name_text_view_post_video_activity)
-    TextView accountNameTextView;
-    @BindView(R.id.subreddit_icon_gif_image_view_post_video_activity)
-    GifImageView iconGifImageView;
-    @BindView(R.id.subreddit_name_text_view_post_video_activity)
-    TextView subredditNameTextView;
-    @BindView(R.id.rules_button_post_video_activity)
-    MaterialButton rulesButton;
-    @BindView(R.id.divider_1_post_video_activity)
-    MaterialDivider divider1;
-    @BindView(R.id.flair_custom_text_view_post_video_activity)
-    CustomTextView flairTextView;
-    @BindView(R.id.spoiler_custom_text_view_post_video_activity)
-    CustomTextView spoilerTextView;
-    @BindView(R.id.nsfw_custom_text_view_post_video_activity)
-    CustomTextView nsfwTextView;
-    @BindView(R.id.receive_post_reply_notifications_linear_layout_post_video_activity)
-    LinearLayout receivePostReplyNotificationsLinearLayout;
-    @BindView(R.id.receive_post_reply_notifications_text_view_post_video_activity)
-    TextView receivePostReplyNotificationsTextView;
-    @BindView(R.id.receive_post_reply_notifications_switch_material_post_video_activity)
-    MaterialSwitch receivePostReplyNotificationsSwitchMaterial;
-    @BindView(R.id.divider_2_post_video_activity)
-    MaterialDivider divider2;
-    @BindView(R.id.post_title_edit_text_post_video_activity)
-    EditText titleEditText;
-    @BindView(R.id.select_video_constraint_layout_post_video_activity)
-    ConstraintLayout constraintLayout;
-    @BindView(R.id.capture_fab_post_video_activity)
-    FloatingActionButton captureFab;
-    @BindView(R.id.select_from_library_fab_post_video_activity)
-    FloatingActionButton selectFromLibraryFab;
-    @BindView(R.id.select_again_text_view_post_video_activity)
-    TextView selectAgainTextView;
-    @BindView(R.id.player_view_post_video_activity)
-    PlayerView videoPlayerView;
+    private ActivityPostVideoBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -201,26 +142,24 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_post_video);
-
-        ButterKnife.bind(this);
+        binding = ActivityPostVideoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
         applyCustomTheme();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
-            addOnOffsetChangedListener(appBarLayout);
+            addOnOffsetChangedListener(binding.appBarLayout);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mGlide = Glide.with(this);
 
         player = new ExoPlayer.Builder(this).build();
-        videoPlayerView.setPlayer(player);
+        binding.playerView.setPlayer(player);
         dataSourceFactory = new DefaultDataSourceFactory(this,
                 Util.getUserAgent(this, "Reddit"));
         if (mSharedPreferences.getBoolean(SharedPreferencesUtils.LOOP_VIDEO, true)) {
@@ -229,7 +168,7 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             player.setRepeatMode(Player.REPEAT_MODE_OFF);
         }
 
-        mPostingSnackbar = Snackbar.make(coordinatorLayout, R.string.posting, Snackbar.LENGTH_INDEFINITE);
+        mPostingSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.posting, Snackbar.LENGTH_INDEFINITE);
 
         resources = getResources();
 
@@ -253,9 +192,9 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                         .error(mGlide.load(R.drawable.subreddit_default_icon)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                        .into(accountIconImageView);
+                        .into(binding.accountIconGifImageView);
 
-                accountNameTextView.setText(selectedAccount.getAccountName());
+                binding.accountNameTextView.setText(selectedAccount.getAccountName());
             } else {
                 loadCurrentAccount();
             }
@@ -266,9 +205,9 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             }
 
             if (subredditName != null) {
-                subredditNameTextView.setTextColor(primaryTextColor);
-                subredditNameTextView.setText(subredditName);
-                flairTextView.setVisibility(View.VISIBLE);
+                binding.subredditNameTextView.setTextColor(primaryTextColor);
+                binding.subredditNameTextView.setText(subredditName);
+                binding.flairCustomTextView.setVisibility(View.VISIBLE);
                 if (!loadSubredditIconSuccessful) {
                     loadSubredditIcon();
                 }
@@ -280,20 +219,20 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             }
 
             if (flair != null) {
-                flairTextView.setText(flair.getText());
-                flairTextView.setBackgroundColor(flairBackgroundColor);
-                flairTextView.setBorderColor(flairBackgroundColor);
-                flairTextView.setTextColor(flairTextColor);
+                binding.flairCustomTextView.setText(flair.getText());
+                binding.flairCustomTextView.setBackgroundColor(flairBackgroundColor);
+                binding.flairCustomTextView.setBorderColor(flairBackgroundColor);
+                binding.flairCustomTextView.setTextColor(flairTextColor);
             }
             if (isSpoiler) {
-                spoilerTextView.setBackgroundColor(spoilerBackgroundColor);
-                spoilerTextView.setBorderColor(spoilerBackgroundColor);
-                spoilerTextView.setTextColor(spoilerTextColor);
+                binding.spoilerCustomTextView.setBackgroundColor(spoilerBackgroundColor);
+                binding.spoilerCustomTextView.setBorderColor(spoilerBackgroundColor);
+                binding.spoilerCustomTextView.setTextColor(spoilerTextColor);
             }
             if (isNSFW) {
-                nsfwTextView.setBackgroundColor(nsfwBackgroundColor);
-                nsfwTextView.setBorderColor(nsfwBackgroundColor);
-                nsfwTextView.setTextColor(nsfwTextColor);
+                binding.nsfwCustomTextView.setBackgroundColor(nsfwBackgroundColor);
+                binding.nsfwCustomTextView.setBorderColor(nsfwBackgroundColor);
+                binding.nsfwCustomTextView.setTextColor(nsfwTextColor);
             }
         } else {
             isPosting = false;
@@ -304,14 +243,14 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                 loadSubredditIconSuccessful = false;
                 subredditName = getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME);
                 subredditSelected = true;
-                subredditNameTextView.setTextColor(primaryTextColor);
-                subredditNameTextView.setText(subredditName);
-                flairTextView.setVisibility(View.VISIBLE);
+                binding.subredditNameTextView.setTextColor(primaryTextColor);
+                binding.subredditNameTextView.setText(subredditName);
+                binding.flairCustomTextView.setVisibility(View.VISIBLE);
                 loadSubredditIcon();
             } else {
                 mGlide.load(R.drawable.subreddit_default_icon)
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                        .into(iconGifImageView);
+                        .into(binding.subredditIconGifImageView);
             }
 
             videoUri = getIntent().getData();
@@ -320,24 +259,24 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             }
         }
 
-        accountLinearLayout.setOnClickListener(view -> {
+        binding.accountLinearLayout.setOnClickListener(view -> {
             AccountChooserBottomSheetFragment fragment = new AccountChooserBottomSheetFragment();
             fragment.show(getSupportFragmentManager(), fragment.getTag());
         });
 
-        iconGifImageView.setOnClickListener(view -> {
-            subredditNameTextView.performClick();
+        binding.subredditIconGifImageView.setOnClickListener(view -> {
+            binding.subredditNameTextView.performClick();
         });
 
-        subredditNameTextView.setOnClickListener(view -> {
+        binding.subredditNameTextView.setOnClickListener(view -> {
             Intent intent = new Intent(this, SubredditSelectionActivity.class);
             intent.putExtra(SubredditSelectionActivity.EXTRA_SPECIFIED_ACCOUNT, selectedAccount);
             startActivityForResult(intent, SUBREDDIT_SELECTION_REQUEST_CODE);
         });
 
-        rulesButton.setOnClickListener(view -> {
+        binding.rulesButton.setOnClickListener(view -> {
             if (subredditName == null) {
-                Snackbar.make(coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(this, RulesActivity.class);
                 if (subredditIsUser) {
@@ -349,7 +288,7 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             }
         });
 
-        flairTextView.setOnClickListener(view -> {
+        binding.flairCustomTextView.setOnClickListener(view -> {
             if (flair == null) {
                 mFlairSelectionBottomSheetFragment = new FlairBottomSheetFragment();
                 Bundle bundle = new Bundle();
@@ -358,44 +297,44 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                 mFlairSelectionBottomSheetFragment.setArguments(bundle);
                 mFlairSelectionBottomSheetFragment.show(getSupportFragmentManager(), mFlairSelectionBottomSheetFragment.getTag());
             } else {
-                flairTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
-                flairTextView.setTextColor(primaryTextColor);
-                flairTextView.setText(getString(R.string.flair));
+                binding.flairCustomTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
+                binding.flairCustomTextView.setTextColor(primaryTextColor);
+                binding.flairCustomTextView.setText(getString(R.string.flair));
                 flair = null;
             }
         });
 
-        spoilerTextView.setOnClickListener(view -> {
+        binding.spoilerCustomTextView.setOnClickListener(view -> {
             if (!isSpoiler) {
-                spoilerTextView.setBackgroundColor(spoilerBackgroundColor);
-                spoilerTextView.setBorderColor(spoilerBackgroundColor);
-                spoilerTextView.setTextColor(spoilerTextColor);
+                binding.spoilerCustomTextView.setBackgroundColor(spoilerBackgroundColor);
+                binding.spoilerCustomTextView.setBorderColor(spoilerBackgroundColor);
+                binding.spoilerCustomTextView.setTextColor(spoilerTextColor);
                 isSpoiler = true;
             } else {
-                spoilerTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
-                spoilerTextView.setTextColor(primaryTextColor);
+                binding.spoilerCustomTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
+                binding.spoilerCustomTextView.setTextColor(primaryTextColor);
                 isSpoiler = false;
             }
         });
 
-        nsfwTextView.setOnClickListener(view -> {
+        binding.nsfwCustomTextView.setOnClickListener(view -> {
             if (!isNSFW) {
-                nsfwTextView.setBackgroundColor(nsfwBackgroundColor);
-                nsfwTextView.setBorderColor(nsfwBackgroundColor);
-                nsfwTextView.setTextColor(nsfwTextColor);
+                binding.nsfwCustomTextView.setBackgroundColor(nsfwBackgroundColor);
+                binding.nsfwCustomTextView.setBorderColor(nsfwBackgroundColor);
+                binding.nsfwCustomTextView.setTextColor(nsfwTextColor);
                 isNSFW = true;
             } else {
-                nsfwTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
-                nsfwTextView.setTextColor(primaryTextColor);
+                binding.nsfwCustomTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
+                binding.nsfwCustomTextView.setTextColor(primaryTextColor);
                 isNSFW = false;
             }
         });
 
-        receivePostReplyNotificationsLinearLayout.setOnClickListener(view -> {
-            receivePostReplyNotificationsSwitchMaterial.performClick();
+        binding.receivePostReplyNotificationsLinearLayout.setOnClickListener(view -> {
+            binding.receivePostReplyNotificationsSwitch.performClick();
         });
 
-        captureFab.setOnClickListener(view -> {
+        binding.captureFab.setOnClickListener(view -> {
             Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             try {
                 startActivityForResult(takeVideoIntent, CAPTURE_VIDEO_REQUEST_CODE);
@@ -404,20 +343,20 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             }
         });
 
-        selectFromLibraryFab.setOnClickListener(view -> {
+        binding.selectFromLibraryFab.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setType("video/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, resources.getString(R.string.select_from_gallery)), PICK_VIDEO_REQUEST_CODE);
         });
 
-        selectAgainTextView.setOnClickListener(view -> {
+        binding.selectAgainTextView.setOnClickListener(view -> {
             wasPlaying = false;
             player.setPlayWhenReady(false);
             videoUri = null;
-            videoPlayerView.setVisibility(View.GONE);
-            selectAgainTextView.setVisibility(View.GONE);
-            constraintLayout.setVisibility(View.VISIBLE);
+            binding.playerView.setVisibility(View.GONE);
+            binding.selectAgainTextView.setVisibility(View.GONE);
+            binding.selectVideoConstraintLayout.setVisibility(View.VISIBLE);
         });
     }
 
@@ -432,9 +371,9 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                             .error(mGlide.load(R.drawable.subreddit_default_icon)
                                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                            .into(accountIconImageView);
+                            .into(binding.accountIconGifImageView);
 
-                    accountNameTextView.setText(account.getAccountName());
+                    binding.accountNameTextView.setText(account.getAccountName());
                 }
             });
         });
@@ -452,48 +391,49 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
         primaryTextColor = mCustomThemeWrapper.getPrimaryTextColor();
-        accountNameTextView.setTextColor(primaryTextColor);
+        binding.accountNameTextView.setTextColor(primaryTextColor);
         int secondaryTextColor = mCustomThemeWrapper.getSecondaryTextColor();
-        subredditNameTextView.setTextColor(secondaryTextColor);
-        rulesButton.setTextColor(mCustomThemeWrapper.getButtonTextColor());
-        rulesButton.setBackgroundColor(mCustomThemeWrapper.getColorPrimaryLightTheme());
-        receivePostReplyNotificationsTextView.setTextColor(primaryTextColor);
+        binding.subredditNameTextView.setTextColor(secondaryTextColor);
+        binding.rulesButton.setTextColor(mCustomThemeWrapper.getButtonTextColor());
+        binding.rulesButton.setBackgroundColor(mCustomThemeWrapper.getColorPrimaryLightTheme());
+        binding.receivePostReplyNotificationsTextView.setTextColor(primaryTextColor);
         int dividerColor = mCustomThemeWrapper.getDividerColor();
-        divider1.setDividerColor(dividerColor);
-        divider2.setDividerColor(dividerColor);
+        binding.divider1.setDividerColor(dividerColor);
+        binding.divider2.setDividerColor(dividerColor);
         flairBackgroundColor = mCustomThemeWrapper.getFlairBackgroundColor();
         flairTextColor = mCustomThemeWrapper.getFlairTextColor();
         spoilerBackgroundColor = mCustomThemeWrapper.getSpoilerBackgroundColor();
         spoilerTextColor = mCustomThemeWrapper.getSpoilerTextColor();
         nsfwBackgroundColor = mCustomThemeWrapper.getNsfwBackgroundColor();
         nsfwTextColor = mCustomThemeWrapper.getNsfwTextColor();
-        flairTextView.setTextColor(primaryTextColor);
-        spoilerTextView.setTextColor(primaryTextColor);
-        nsfwTextView.setTextColor(primaryTextColor);
-        titleEditText.setTextColor(primaryTextColor);
-        titleEditText.setHintTextColor(secondaryTextColor);
-        applyFABTheme(captureFab);
-        applyFABTheme(selectFromLibraryFab);
-        selectAgainTextView.setTextColor(mCustomThemeWrapper.getColorAccent());
+        binding.flairCustomTextView.setTextColor(primaryTextColor);
+        binding.spoilerCustomTextView.setTextColor(primaryTextColor);
+        binding.nsfwCustomTextView.setTextColor(primaryTextColor);
+        binding.postTitleEditText.setTextColor(primaryTextColor);
+        binding.postTitleEditText.setHintTextColor(secondaryTextColor);
+        applyFABTheme(binding.captureFab);
+        applyFABTheme(binding.selectFromLibraryFab);
+        binding.selectAgainTextView.setTextColor(mCustomThemeWrapper.getColorAccent());
         if (typeface != null) {
-            subredditNameTextView.setTypeface(typeface);
-            rulesButton.setTypeface(typeface);
-            receivePostReplyNotificationsTextView.setTypeface(typeface);
-            flairTextView.setTypeface(typeface);
-            spoilerTextView.setTypeface(typeface);
-            nsfwTextView.setTypeface(typeface);
-            titleEditText.setTypeface(typeface);
-            selectAgainTextView.setTypeface(typeface);
+            binding.subredditNameTextView.setTypeface(typeface);
+            binding.rulesButton.setTypeface(typeface);
+            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
+            binding.flairCustomTextView.setTypeface(typeface);
+            binding.spoilerCustomTextView.setTypeface(typeface);
+            binding.nsfwCustomTextView.setTypeface(typeface);
+            binding.postTitleEditText.setTypeface(typeface);
+            binding.selectAgainTextView.setTypeface(typeface);
         }
     }
 
     private void loadVideo() {
-        constraintLayout.setVisibility(View.GONE);
-        selectAgainTextView.setVisibility(View.VISIBLE);
-        videoPlayerView.setVisibility(View.VISIBLE);
+        binding.selectVideoConstraintLayout.setVisibility(View.GONE);
+        binding.selectAgainTextView.setVisibility(View.VISIBLE);
+        binding.playerView.setVisibility(View.VISIBLE);
         player.prepare(new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUri)));
         player.setPlayWhenReady(true);
         wasPlaying = true;
@@ -505,11 +445,11 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                     .error(mGlide.load(R.drawable.subreddit_default_icon)
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                    .into(iconGifImageView);
+                    .into(binding.subredditIconGifImageView);
         } else {
             mGlide.load(R.drawable.subreddit_default_icon)
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                    .into(iconGifImageView);
+                    .into(binding.subredditIconGifImageView);
         }
     }
 
@@ -551,7 +491,7 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                 promptAlertDialog(R.string.exit_when_submit, R.string.exit_when_submit_post_detail);
                 return true;
             } else {
-                if (!titleEditText.getText().toString().equals("") || videoUri != null) {
+                if (!binding.postTitleEditText.getText().toString().equals("") || videoUri != null) {
                     promptAlertDialog(R.string.discard, R.string.discard_detail);
                     return true;
                 }
@@ -560,17 +500,17 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             return true;
         } else if (itemId == R.id.action_send_post_video_activity) {
             if (!subredditSelected) {
-                Snackbar.make(coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
                 return true;
             }
 
-            if (titleEditText.getText() == null || titleEditText.getText().toString().equals("")) {
-                Snackbar.make(coordinatorLayout, R.string.title_required, Snackbar.LENGTH_SHORT).show();
+            if (binding.postTitleEditText.getText() == null || binding.postTitleEditText.getText().toString().equals("")) {
+                Snackbar.make(binding.coordinatorLayout, R.string.title_required, Snackbar.LENGTH_SHORT).show();
                 return true;
             }
 
             if (videoUri == null) {
-                Snackbar.make(coordinatorLayout, R.string.select_an_image, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.select_an_image, Snackbar.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -583,20 +523,20 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
 
             String subredditName;
             if (subredditIsUser) {
-                subredditName = "u_" + subredditNameTextView.getText().toString();
+                subredditName = "u_" + binding.subredditNameTextView.getText().toString();
             } else {
-                subredditName = subredditNameTextView.getText().toString();
+                subredditName = binding.subredditNameTextView.getText().toString();
             }
 
             Intent intent = new Intent(this, SubmitPostService.class);
             intent.setData(videoUri);
             intent.putExtra(SubmitPostService.EXTRA_ACCOUNT, selectedAccount);
             intent.putExtra(SubmitPostService.EXTRA_SUBREDDIT_NAME, subredditName);
-            intent.putExtra(SubmitPostService.EXTRA_TITLE, titleEditText.getText().toString());
+            intent.putExtra(SubmitPostService.EXTRA_TITLE, binding.postTitleEditText.getText().toString());
             intent.putExtra(SubmitPostService.EXTRA_FLAIR, flair);
             intent.putExtra(SubmitPostService.EXTRA_IS_SPOILER, isSpoiler);
             intent.putExtra(SubmitPostService.EXTRA_IS_NSFW, isNSFW);
-            intent.putExtra(SubmitPostService.EXTRA_RECEIVE_POST_REPLY_NOTIFICATIONS, receivePostReplyNotificationsSwitchMaterial.isChecked());
+            intent.putExtra(SubmitPostService.EXTRA_RECEIVE_POST_REPLY_NOTIFICATIONS, binding.receivePostReplyNotificationsSwitch.isChecked());
             intent.putExtra(SubmitPostService.EXTRA_POST_TYPE, SubmitPostService.EXTRA_POST_TYPE_VIDEO);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
@@ -613,7 +553,7 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
         if (isPosting) {
             promptAlertDialog(R.string.exit_when_submit, R.string.exit_when_submit_post_detail);
         } else {
-            if (!titleEditText.getText().toString().equals("") || videoUri != null) {
+            if (!binding.postTitleEditText.getText().toString().equals("") || videoUri != null) {
                 promptAlertDialog(R.string.discard, R.string.discard_detail);
             } else {
                 finish();
@@ -664,21 +604,21 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                     subredditSelected = true;
                     subredditIsUser = data.getBooleanExtra(SubredditSelectionActivity.EXTRA_RETURN_SUBREDDIT_IS_USER, false);
 
-                    subredditNameTextView.setTextColor(primaryTextColor);
-                    subredditNameTextView.setText(subredditName);
+                    binding.subredditNameTextView.setTextColor(primaryTextColor);
+                    binding.subredditNameTextView.setText(subredditName);
                     displaySubredditIcon();
 
-                    flairTextView.setVisibility(View.VISIBLE);
-                    flairTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
-                    flairTextView.setTextColor(primaryTextColor);
-                    flairTextView.setText(getString(R.string.flair));
+                    binding.flairCustomTextView.setVisibility(View.VISIBLE);
+                    binding.flairCustomTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
+                    binding.flairCustomTextView.setTextColor(primaryTextColor);
+                    binding.flairCustomTextView.setText(getString(R.string.flair));
                     flair = null;
                 }
             }
         } else if (requestCode == PICK_VIDEO_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 if (data == null) {
-                    Snackbar.make(coordinatorLayout, R.string.error_getting_video, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.coordinatorLayout, R.string.error_getting_video, Snackbar.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -691,7 +631,7 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                     videoUri = data.getData();
                     loadVideo();
                 } else {
-                    Snackbar.make(coordinatorLayout, R.string.error_getting_video, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.coordinatorLayout, R.string.error_getting_video, Snackbar.LENGTH_SHORT).show();
                 }
             }
         }
@@ -709,10 +649,10 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
     @Override
     public void flairSelected(Flair flair) {
         this.flair = flair;
-        flairTextView.setText(flair.getText());
-        flairTextView.setBackgroundColor(flairBackgroundColor);
-        flairTextView.setBorderColor(flairBackgroundColor);
-        flairTextView.setTextColor(flairTextColor);
+        binding.flairCustomTextView.setText(flair.getText());
+        binding.flairCustomTextView.setBackgroundColor(flairBackgroundColor);
+        binding.flairCustomTextView.setBorderColor(flairBackgroundColor);
+        binding.flairCustomTextView.setTextColor(flairTextColor);
     }
 
     @Override
@@ -724,9 +664,9 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                     .error(mGlide.load(R.drawable.subreddit_default_icon)
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                    .into(accountIconImageView);
+                    .into(binding.accountIconGifImageView);
 
-            accountNameTextView.setText(selectedAccount.getAccountName());
+            binding.accountNameTextView.setText(selectedAccount.getAccountName());
         }
     }
 
@@ -749,12 +689,12 @@ public class PostVideoActivity extends BaseActivity implements FlairBottomSheetF
             startActivity(intent);
             finish();
         } else if (submitVideoOrGifPostEvent.errorProcessingVideoOrGif) {
-            Snackbar.make(coordinatorLayout, R.string.error_processing_video, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.coordinatorLayout, R.string.error_processing_video, Snackbar.LENGTH_SHORT).show();
         } else {
             if (submitVideoOrGifPostEvent.errorMessage == null || submitVideoOrGifPostEvent.errorMessage.equals("")) {
-                Snackbar.make(coordinatorLayout, R.string.post_failed, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.post_failed, Snackbar.LENGTH_SHORT).show();
             } else {
-                Snackbar.make(coordinatorLayout, submitVideoOrGifPostEvent.errorMessage.substring(0, 1).toUpperCase()
+                Snackbar.make(binding.coordinatorLayout, submitVideoOrGifPostEvent.errorMessage.substring(0, 1).toUpperCase()
                         + submitVideoOrGifPostEvent.errorMessage.substring(1), Snackbar.LENGTH_SHORT).show();
             }
         }

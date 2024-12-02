@@ -7,13 +7,13 @@
     tools:application="ml.docilealligator.infinityforreddit.fragments.SidebarFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout_sidebar_fragment"
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/markdown_recycler_view_sidebar_fragment"
+            android:id="@+id/markdown_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="8dp"

@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/playback_speed_025_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_025_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -28,7 +28,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/playback_speed_050_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_050_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -45,7 +45,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/playback_speed_075_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_075_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -62,7 +62,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/playback_speed_normal_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_normal_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -79,7 +79,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/playback_speed_125_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_125_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -96,7 +96,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/playback_speed_150_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_150_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -113,7 +113,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/playback_speed_175_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_175_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -130,7 +130,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/playback_speed_200_text_view_playback_speed_bottom_sheet_fragment"
+            android:id="@+id/playback_speed_200_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

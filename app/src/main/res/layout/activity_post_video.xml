@@ -2,19 +2,19 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinator_layout_post_video_activity"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:application=".PostImageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_post_video_activity"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_post_video_activity"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/account_linear_layout_post_video_activity"
+                android:id="@+id/account_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
@@ -44,13 +44,13 @@
                 android:background="?attr/selectableItemBackground">
 
                 <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/account_icon_gif_image_view_post_video_activity"
+                    android:id="@+id/account_icon_gif_image_view"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="16dp" />
 
                 <TextView
-                    android:id="@+id/account_name_text_view_post_video_activity"
+                    android:id="@+id/account_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -67,7 +67,7 @@
                 android:paddingBottom="8dp">
 
                 <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/subreddit_icon_gif_image_view_post_video_activity"
+                    android:id="@+id/subreddit_icon_gif_image_view"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentStart="true"
@@ -75,19 +75,19 @@
                     android:layout_marginStart="16dp" />
 
                 <TextView
-                    android:id="@+id/subreddit_name_text_view_post_video_activity"
+                    android:id="@+id/subreddit_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="32dp"
-                    android:layout_toStartOf="@id/rules_button_post_video_activity"
-                    android:layout_toEndOf="@id/subreddit_icon_gif_image_view_post_video_activity"
+                    android:layout_toStartOf="@id/rules_button"
+                    android:layout_toEndOf="@id/subreddit_icon_gif_image_view"
                     android:text="@string/choose_a_subreddit"
                     android:textSize="?attr/font_default"
                     android:fontFamily="?attr/font_family" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/rules_button_post_video_activity"
+                    android:id="@+id/rules_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -101,7 +101,7 @@
             </RelativeLayout>
 
             <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider_1_post_video_activity"
+                android:id="@+id/divider_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content">
 
                 <com.libRG.CustomTextView
-                    android:id="@+id/flair_custom_text_view_post_video_activity"
+                    android:id="@+id/flair_custom_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -125,7 +125,7 @@
                     app:lib_setShape="rectangle" />
 
                 <com.libRG.CustomTextView
-                    android:id="@+id/spoiler_custom_text_view_post_video_activity"
+                    android:id="@+id/spoiler_custom_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -139,7 +139,7 @@
                     app:lib_setShape="rectangle" />
 
                 <com.libRG.CustomTextView
-                    android:id="@+id/nsfw_custom_text_view_post_video_activity"
+                    android:id="@+id/nsfw_custom_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -155,7 +155,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/receive_post_reply_notifications_linear_layout_post_video_activity"
+                android:id="@+id/receive_post_reply_notifications_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
@@ -165,7 +165,7 @@
                 android:background="?attr/selectableItemBackground">
 
                 <TextView
-                    android:id="@+id/receive_post_reply_notifications_text_view_post_video_activity"
+                    android:id="@+id/receive_post_reply_notifications_text_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -176,7 +176,7 @@
                     android:fontFamily="?attr/font_family" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/receive_post_reply_notifications_switch_material_post_video_activity"
+                    android:id="@+id/receive_post_reply_notifications_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -185,12 +185,12 @@
             </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider_2_post_video_activity"
+                android:id="@+id/divider_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:id="@+id/post_title_edit_text_post_video_activity"
+                android:id="@+id/post_title_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
@@ -203,26 +203,26 @@
                 android:fontFamily="?attr/title_font_family" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/select_video_constraint_layout_post_video_activity"
+                android:id="@+id/select_video_constraint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="32dp">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/capture_fab_post_video_activity"
+                    android:id="@+id/capture_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:src="@drawable/ic_outline_add_a_photo_24dp"
                     app:useCompatPadding="true"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/select_from_library_fab_post_video_activity"
+                    app:layout_constraintEnd_toStartOf="@+id/select_from_library_fab"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/select_from_library_fab_post_video_activity"
+                    android:id="@+id/select_from_library_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -231,13 +231,13 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toEndOf="@+id/capture_fab_post_video_activity"
+                    app:layout_constraintStart_toEndOf="@+id/capture_fab"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/select_again_text_view_post_video_activity"
+                android:id="@+id/select_again_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -248,7 +248,7 @@
                 android:visibility="gone" />
 
             <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/player_view_post_video_activity"
+                android:id="@+id/player_view"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:visibility="gone"

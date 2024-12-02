@@ -16,26 +16,26 @@
         app:lottie_rawRes="@raw/lock_screen" />
 
     <TextView
-        android:id="@+id/text_view_lock_screen_activity"
+        android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="?attr/font_family"
         android:text="@string/lock_screen_text"
         android:textSize="?attr/font_20"
-        app:layout_constraintBottom_toTopOf="@+id/unlock_button_lock_screen_activity"
+        app:layout_constraintBottom_toTopOf="@+id/unlock_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/lottie_animation_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/unlock_button_lock_screen_activity"
+        android:id="@+id/unlock_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/unlock"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/lottie_animation_view"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_lock_screen_activity" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

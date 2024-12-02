@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/card_layout_text_view_post_layout_bottom_sheet_fragment"
+            android:id="@+id/card_layout_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -29,7 +29,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/card_layout_2_text_view_post_layout_bottom_sheet_fragment"
+            android:id="@+id/card_layout_2_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -45,7 +45,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/compact_layout_text_view_post_layout_bottom_sheet_fragment"
+            android:id="@+id/compact_layout_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -61,7 +61,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/gallery_layout_text_view_post_layout_bottom_sheet_fragment"
+            android:id="@+id/gallery_layout_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"

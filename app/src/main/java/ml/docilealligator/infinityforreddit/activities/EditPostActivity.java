@@ -11,19 +11,12 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -40,8 +33,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.UploadImageEnabledActivity;
@@ -52,6 +43,7 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.UploadedImagesB
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityEditPostBinding;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
@@ -62,7 +54,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class EditPostActivity extends BaseActivity implements UploadImageEnabledActivity {
-
     public static final String EXTRA_TITLE = "ET";
     public static final String EXTRA_CONTENT = "EC";
     public static final String EXTRA_FULLNAME = "EF";
@@ -73,20 +64,8 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
 
     private static final String UPLOADED_IMAGES_STATE = "UIS";
 
-    @BindView(R.id.coordinator_layout_edit_post_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_edit_post_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_edit_post_activity)
-    Toolbar toolbar;
-    @BindView(R.id.post_title_text_view_edit_post_activity)
-    TextView titleTextView;
-    @BindView(R.id.divider_edit_post_activity)
-    View divider;
-    @BindView(R.id.post_text_content_edit_text_edit_post_activity)
-    EditText contentEditText;
-    @BindView(R.id.markdown_bottom_bar_recycler_view_edit_post_activity)
-    RecyclerView markdownBottomBarRecyclerView;
+    private ActivityEditPostBinding binding;
+
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
@@ -118,9 +97,8 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_edit_post);
-
-        ButterKnife.bind(this);
+        binding = ActivityEditPostBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -131,17 +109,17 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
-            addOnOffsetChangedListener(appBarLayout);
+            addOnOffsetChangedListener(binding.appBarLayout);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mFullName = getIntent().getStringExtra(EXTRA_FULLNAME);
         mAccessToken = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
-        titleTextView.setText(getIntent().getStringExtra(EXTRA_TITLE));
+        binding.postTitleTextView.setText(getIntent().getStringExtra(EXTRA_TITLE));
         mPostContent = getIntent().getStringExtra(EXTRA_CONTENT);
-        contentEditText.setText(mPostContent);
+        binding.postTextContentEditText.setText(mPostContent);
 
         if (savedInstanceState != null) {
             uploadedImages = savedInstanceState.getParcelableArrayList(UPLOADED_IMAGES_STATE);
@@ -152,7 +130,7 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
             @Override
             public void onClick(int item) {
                 MarkdownBottomBarRecyclerViewAdapter.bindEditTextWithItemClickListener(
-                        EditPostActivity.this, contentEditText, item);
+                        EditPostActivity.this, binding.postTextContentEditText, item);
             }
 
             @Override
@@ -167,12 +145,12 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
             }
         });
 
-        markdownBottomBarRecyclerView.setLayoutManager(new LinearLayoutManagerBugFixed(this,
+        binding.markdownBottomBarRecyclerView.setLayoutManager(new LinearLayoutManagerBugFixed(this,
                 LinearLayoutManagerBugFixed.HORIZONTAL, false));
-        markdownBottomBarRecyclerView.setAdapter(adapter);
+        binding.markdownBottomBarRecyclerView.setAdapter(adapter);
 
-        contentEditText.requestFocus();
-        Utils.showKeyboard(this, new Handler(), contentEditText);
+        binding.postTextContentEditText.requestFocus();
+        Utils.showKeyboard(this, new Handler(), binding.postTextContentEditText);
     }
 
     @Override
@@ -187,17 +165,18 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
-        titleTextView.setTextColor(mCustomThemeWrapper.getPostTitleColor());
-        divider.setBackgroundColor(mCustomThemeWrapper.getPostTitleColor());
-        contentEditText.setTextColor(mCustomThemeWrapper.getPostContentColor());
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
+        binding.postTitleTextView.setTextColor(mCustomThemeWrapper.getPostTitleColor());
+        binding.divider.setBackgroundColor(mCustomThemeWrapper.getPostTitleColor());
+        binding.postTextContentEditText.setTextColor(mCustomThemeWrapper.getPostContentColor());
 
         if (titleTypeface != null) {
-            titleTextView.setTypeface(titleTypeface);
+            binding.postTitleTextView.setTypeface(titleTypeface);
         }
         if (contentTypeface != null) {
-            contentEditText.setTypeface(contentTypeface);
+            binding.postTextContentEditText.setTypeface(contentTypeface);
         }
     }
 
@@ -218,7 +197,7 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_preview_edit_post_activity) {
             Intent intent = new Intent(this, FullMarkdownActivity.class);
-            intent.putExtra(FullMarkdownActivity.EXTRA_COMMENT_MARKDOWN, contentEditText.getText().toString());
+            intent.putExtra(FullMarkdownActivity.EXTRA_COMMENT_MARKDOWN, binding.postTextContentEditText.getText().toString());
             intent.putExtra(FullMarkdownActivity.EXTRA_SUBMIT_POST, true);
             startActivityForResult(intent, MARKDOWN_PREVIEW_REQUEST_CODE);
         } else if (item.getItemId() == R.id.action_send_edit_post_activity) {
@@ -235,11 +214,11 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
         if (!isSubmitting) {
             isSubmitting = true;
 
-            Snackbar.make(coordinatorLayout, R.string.posting, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.coordinatorLayout, R.string.posting, Snackbar.LENGTH_SHORT).show();
 
             Map<String, String> params = new HashMap<>();
             params.put(APIUtils.THING_ID_KEY, mFullName);
-            params.put(APIUtils.TEXT_KEY, contentEditText.getText().toString());
+            params.put(APIUtils.TEXT_KEY, binding.postTextContentEditText.getText().toString());
 
             mOauthRetrofit.create(RedditAPI.class)
                     .editPostOrComment(APIUtils.getOAuthHeader(mAccessToken), params)
@@ -256,7 +235,7 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
                         @Override
                         public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                             isSubmitting = false;
-                            Snackbar.make(coordinatorLayout, R.string.post_failed, Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(binding.coordinatorLayout, R.string.post_failed, Snackbar.LENGTH_SHORT).show();
                         }
                     });
 
@@ -273,10 +252,10 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
                     return;
                 }
                 Utils.uploadImageToReddit(this, mExecutor, mOauthRetrofit, mUploadMediaRetrofit,
-                        mAccessToken, contentEditText, coordinatorLayout, data.getData(), uploadedImages);
+                        mAccessToken, binding.postTextContentEditText, binding.coordinatorLayout, data.getData(), uploadedImages);
             } else if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
                 Utils.uploadImageToReddit(this, mExecutor, mOauthRetrofit, mUploadMediaRetrofit,
-                        mAccessToken, contentEditText, coordinatorLayout, capturedImageUri, uploadedImages);
+                        mAccessToken, binding.postTextContentEditText, binding.coordinatorLayout, capturedImageUri, uploadedImages);
             } else if (requestCode == MARKDOWN_PREVIEW_REQUEST_CODE) {
                 editPost();
             }
@@ -304,7 +283,7 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
         if (isSubmitting) {
             promptAlertDialog(R.string.exit_when_submit, R.string.exit_when_edit_post_detail);
         } else {
-            if (contentEditText.getText().toString().equals(mPostContent)) {
+            if (binding.postTextContentEditText.getText().toString().equals(mPostContent)) {
                 finish();
             } else {
                 promptAlertDialog(R.string.discard, R.string.discard_detail);
@@ -349,9 +328,9 @@ public class EditPostActivity extends BaseActivity implements UploadImageEnabled
 
     @Override
     public void insertImageUrl(UploadedImage uploadedImage) {
-        int start = Math.max(contentEditText.getSelectionStart(), 0);
-        int end = Math.max(contentEditText.getSelectionEnd(), 0);
-        contentEditText.getText().replace(Math.min(start, end), Math.max(start, end),
+        int start = Math.max(binding.postTextContentEditText.getSelectionStart(), 0);
+        int end = Math.max(binding.postTextContentEditText.getSelectionEnd(), 0);
+        binding.postTextContentEditText.getText().replace(Math.min(start, end), Math.max(start, end),
                 "[" + uploadedImage.imageName + "](" + uploadedImage.imageUrl + ")",
                 0, "[]()".length() + uploadedImage.imageName.length() + uploadedImage.imageUrl.length());
     }

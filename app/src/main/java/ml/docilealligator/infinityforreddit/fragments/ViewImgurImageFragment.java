@@ -16,10 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,16 +33,12 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.google.android.material.bottomappbar.BottomAppBar;
 
 import java.io.File;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.BuildConfig;
 import ml.docilealligator.infinityforreddit.ImgurMedia;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -55,32 +47,18 @@ import ml.docilealligator.infinityforreddit.SetAsWallpaperCallback;
 import ml.docilealligator.infinityforreddit.activities.ViewImgurMediaActivity;
 import ml.docilealligator.infinityforreddit.asynctasks.SaveBitmapImageToFile;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.SetAsWallpaperBottomSheetFragment;
+import ml.docilealligator.infinityforreddit.databinding.FragmentViewImgurImageBinding;
 import ml.docilealligator.infinityforreddit.services.DownloadMediaService;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class ViewImgurImageFragment extends Fragment {
-
     public static final String EXTRA_IMGUR_IMAGES = "EII";
     public static final String EXTRA_INDEX = "EI";
     public static final String EXTRA_MEDIA_COUNT = "EMC";
     private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
 
-    @BindView(R.id.progress_bar_view_imgur_image_fragment)
-    ProgressBar progressBar;
-    @BindView(R.id.image_view_view_imgur_image_fragment)
-    SubsamplingScaleImageView imageView;
-    @BindView(R.id.load_image_error_linear_layout_view_imgur_image_fragment)
-    LinearLayout errorLinearLayout;
-    @BindView(R.id.bottom_navigation_view_imgur_image_fragment)
-    BottomAppBar bottomAppBar;
-    @BindView(R.id.title_text_view_view_imgur_image_fragment)
-    TextView titleTextView;
-    @BindView(R.id.download_image_view_view_imgur_image_fragment)
-    ImageView downloadImageView;
-    @BindView(R.id.share_image_view_view_imgur_image_fragment)
-    ImageView shareImageView;
-    @BindView(R.id.wallpaper_image_view_view_imgur_image_fragment)
-    ImageView wallpaperImageView;
+    private FragmentViewImgurImageBinding binding;
+
     @Inject
     Executor mExecutor;
 
@@ -95,13 +73,12 @@ public class ViewImgurImageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_view_imgur_image, container, false);
+        binding = FragmentViewImgurImageBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
-
-        ButterKnife.bind(this, rootView);
 
         setHasOptionsMenu(true);
 
@@ -109,7 +86,7 @@ public class ViewImgurImageFragment extends Fragment {
         glide = Glide.with(activity);
         loadImage();
 
-        imageView.setOnClickListener(view -> {
+        binding.imageView.setOnClickListener(view -> {
             if (isActionBarHidden) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -117,7 +94,7 @@ public class ViewImgurImageFragment extends Fragment {
                                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
                 isActionBarHidden = false;
                 if (activity.isUseBottomAppBar()) {
-                    bottomAppBar.setVisibility(View.VISIBLE);
+                    binding.bottomNavigation.setVisibility(View.VISIBLE);
                 }
             } else {
                 activity.getWindow().getDecorView().setSystemUiVisibility(
@@ -129,35 +106,35 @@ public class ViewImgurImageFragment extends Fragment {
                                 | View.SYSTEM_UI_FLAG_IMMERSIVE);
                 isActionBarHidden = true;
                 if (activity.isUseBottomAppBar()) {
-                    bottomAppBar.setVisibility(View.GONE);
+                    binding.bottomNavigation.setVisibility(View.GONE);
                 }
             }
         });
-        imageView.setMinimumDpi(80);
-        imageView.setDoubleTapZoomDpi(240);
-        imageView.resetScaleAndCenter();
+        binding.imageView.setMinimumDpi(80);
+        binding.imageView.setDoubleTapZoomDpi(240);
+        binding.imageView.resetScaleAndCenter();
 
-        errorLinearLayout.setOnClickListener(view -> {
-            progressBar.setVisibility(View.VISIBLE);
-            errorLinearLayout.setVisibility(View.GONE);
+        binding.loadImageErrorLinearLayout.setOnClickListener(view -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.loadImageErrorLinearLayout.setVisibility(View.GONE);
             loadImage();
         });
 
         if (activity.isUseBottomAppBar()) {
-            bottomAppBar.setVisibility(View.VISIBLE);
-            titleTextView.setText(getString(R.string.view_imgur_media_activity_image_label,
+            binding.bottomNavigation.setVisibility(View.VISIBLE);
+            binding.titleTextView.setText(getString(R.string.view_imgur_media_activity_image_label,
                     getArguments().getInt(EXTRA_INDEX) + 1, getArguments().getInt(EXTRA_MEDIA_COUNT)));
-            downloadImageView.setOnClickListener(view -> {
+            binding.downloadImageView.setOnClickListener(view -> {
                 if (isDownloading) {
                     return;
                 }
                 isDownloading = true;
                 requestPermissionAndDownload();
             });
-            shareImageView.setOnClickListener(view -> {
+            binding.shareImageView.setOnClickListener(view -> {
                 shareImage();
             });
-            wallpaperImageView.setOnClickListener(view -> {
+            binding.wallpaperImageView.setOnClickListener(view -> {
                 setWallpaper();
             });
         }
@@ -169,20 +146,20 @@ public class ViewImgurImageFragment extends Fragment {
         glide.asBitmap().load(imgurMedia.getLink()).listener(new RequestListener<Bitmap>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                progressBar.setVisibility(View.GONE);
-                errorLinearLayout.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                binding.loadImageErrorLinearLayout.setVisibility(View.VISIBLE);
                 return false;
             }
 
             @Override
             public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                progressBar.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 return false;
             }
         }).into(new CustomTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                imageView.setImage(ImageSource.bitmap(resource));
+                binding.imageView.setImage(ImageSource.bitmap(resource));
             }
 
             @Override
@@ -327,6 +304,7 @@ public class ViewImgurImageFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        glide.clear(imageView);
+        glide.clear(binding.imageView);
+        binding = null;
     }
 }

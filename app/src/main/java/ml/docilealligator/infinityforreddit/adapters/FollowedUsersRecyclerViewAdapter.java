@@ -5,8 +5,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,8 +17,6 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.zhanghai.android.fastscroll.PopupTextProvider;
 import ml.docilealligator.infinityforreddit.FavoriteThing;
@@ -29,8 +25,9 @@ import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewUserDetailActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ItemFavoriteThingDividerBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemSubscribedThingBinding;
 import ml.docilealligator.infinityforreddit.subscribeduser.SubscribedUserData;
-import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Retrofit;
 
 public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements PopupTextProvider {
@@ -111,18 +108,18 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                         .error(glide.load(R.drawable.subreddit_default_icon)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                        .into(((UserViewHolder) viewHolder).iconGifImageView);
+                        .into(((UserViewHolder) viewHolder).binding.thingIconGifImageView);
             } else {
                 glide.load(R.drawable.subreddit_default_icon)
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                        .into(((UserViewHolder) viewHolder).iconGifImageView);
+                        .into(((UserViewHolder) viewHolder).binding.thingIconGifImageView);
             }
-            ((UserViewHolder) viewHolder).userNameTextView.setText(mSubscribedUserData.get(viewHolder.getBindingAdapterPosition() - offset).getName());
+            ((UserViewHolder) viewHolder).binding.thingNameTextView.setText(mSubscribedUserData.get(viewHolder.getBindingAdapterPosition() - offset).getName());
 
             if(mSubscribedUserData.get(viewHolder.getBindingAdapterPosition() - offset).isFavorite()) {
-                ((UserViewHolder) viewHolder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                ((UserViewHolder) viewHolder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
             } else {
-                ((UserViewHolder) viewHolder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                ((UserViewHolder) viewHolder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
             }
         } else if (viewHolder instanceof FavoriteUserViewHolder) {
             if (!mFavoriteSubscribedUserData.get(viewHolder.getBindingAdapterPosition() - 1).getIconUrl().equals("")) {
@@ -130,18 +127,18 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                         .error(glide.load(R.drawable.subreddit_default_icon)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                        .into(((FavoriteUserViewHolder) viewHolder).iconGifImageView);
+                        .into(((FavoriteUserViewHolder) viewHolder).binding.thingIconGifImageView);
             } else {
                 glide.load(R.drawable.subreddit_default_icon)
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                        .into(((FavoriteUserViewHolder) viewHolder).iconGifImageView);
+                        .into(((FavoriteUserViewHolder) viewHolder).binding.thingIconGifImageView);
             }
-            ((FavoriteUserViewHolder) viewHolder).userNameTextView.setText(mFavoriteSubscribedUserData.get(viewHolder.getBindingAdapterPosition() - 1).getName());
+            ((FavoriteUserViewHolder) viewHolder).binding.thingNameTextView.setText(mFavoriteSubscribedUserData.get(viewHolder.getBindingAdapterPosition() - 1).getName());
 
             if(mFavoriteSubscribedUserData.get(viewHolder.getBindingAdapterPosition() - 1).isFavorite()) {
-                ((FavoriteUserViewHolder) viewHolder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                ((FavoriteUserViewHolder) viewHolder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
             } else {
-                ((FavoriteUserViewHolder) viewHolder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                ((FavoriteUserViewHolder) viewHolder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
             }
         }
     }
@@ -160,9 +157,9 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         if(holder instanceof UserViewHolder) {
-            glide.clear(((UserViewHolder) holder).iconGifImageView);
+            glide.clear(((UserViewHolder) holder).binding.thingIconGifImageView);
         } else if (holder instanceof FavoriteUserViewHolder) {
-            glide.clear(((FavoriteUserViewHolder) holder).iconGifImageView);
+            glide.clear(((FavoriteUserViewHolder) holder).binding.thingIconGifImageView);
         }
     }
 
@@ -192,20 +189,15 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     class FavoriteUserViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.thing_icon_gif_image_view_item_subscribed_thing)
-        GifImageView iconGifImageView;
-        @BindView(R.id.thing_name_text_view_item_subscribed_thing)
-        TextView userNameTextView;
-        @BindView(R.id.favorite_image_view_item_subscribed_thing)
-        ImageView favoriteImageView;
+        private final ItemSubscribedThingBinding binding;
 
         FavoriteUserViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemSubscribedThingBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                userNameTextView.setTypeface(mActivity.typeface);
+                binding.thingNameTextView.setTypeface(mActivity.typeface);
             }
-            userNameTextView.setTextColor(mPrimaryTextColor);
+            binding.thingNameTextView.setTextColor(mPrimaryTextColor);
 
             itemView.setOnClickListener(view -> {
                 int position = getBindingAdapterPosition() - 1;
@@ -216,11 +208,11 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                 }
             });
 
-            favoriteImageView.setOnClickListener(view -> {
+            binding.favoriteImageView.setOnClickListener(view -> {
                 int position = getBindingAdapterPosition() - 1;
                 if(position >= 0 && mFavoriteSubscribedUserData.size() > position) {
                     if(mFavoriteSubscribedUserData.get(position).isFavorite()) {
-                        favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                         mFavoriteSubscribedUserData.get(position).setFavorite(false);
                         FavoriteThing.unfavoriteUser(mExecutor, new Handler(), mOauthRetrofit,
                                 mRedditDataRoomDatabase, mAccessToken,
@@ -232,7 +224,7 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mFavoriteSubscribedUserData.size() > position) {
                                             mFavoriteSubscribedUserData.get(position).setFavorite(false);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
 
                                     @Override
@@ -242,11 +234,11 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mFavoriteSubscribedUserData.size() > position) {
                                             mFavoriteSubscribedUserData.get(position).setFavorite(true);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
                                 });
                     } else {
-                        favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                         mFavoriteSubscribedUserData.get(position).setFavorite(true);
                         FavoriteThing.favoriteUser(mExecutor, new Handler(), mOauthRetrofit,
                                 mRedditDataRoomDatabase, mAccessToken,
@@ -258,7 +250,7 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mFavoriteSubscribedUserData.size() > position) {
                                             mFavoriteSubscribedUserData.get(position).setFavorite(true);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
 
                                     @Override
@@ -268,7 +260,7 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mFavoriteSubscribedUserData.size() > position) {
                                             mFavoriteSubscribedUserData.get(position).setFavorite(false);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
                                 });
                     }
@@ -278,20 +270,15 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     class UserViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.thing_icon_gif_image_view_item_subscribed_thing)
-        GifImageView iconGifImageView;
-        @BindView(R.id.thing_name_text_view_item_subscribed_thing)
-        TextView userNameTextView;
-        @BindView(R.id.favorite_image_view_item_subscribed_thing)
-        ImageView favoriteImageView;
+        private final ItemSubscribedThingBinding binding;
 
         UserViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemSubscribedThingBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                userNameTextView.setTypeface(mActivity.typeface);
+                binding.thingNameTextView.setTypeface(mActivity.typeface);
             }
-            userNameTextView.setTextColor(mPrimaryTextColor);
+            binding.thingNameTextView.setTextColor(mPrimaryTextColor);
 
             itemView.setOnClickListener(view -> {
                 int offset = (mFavoriteSubscribedUserData != null && mFavoriteSubscribedUserData.size() > 0) ?
@@ -304,14 +291,14 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                 }
             });
 
-            favoriteImageView.setOnClickListener(view -> {
+            binding.favoriteImageView.setOnClickListener(view -> {
                 int offset = (mFavoriteSubscribedUserData != null && mFavoriteSubscribedUserData.size() > 0) ?
                         mFavoriteSubscribedUserData.size() + 2 : 0;
                 int position = getBindingAdapterPosition() - offset;
 
                 if(position >= 0 && mSubscribedUserData.size() > position) {
                     if(mSubscribedUserData.get(position).isFavorite()) {
-                        favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                         mSubscribedUserData.get(position).setFavorite(false);
                         FavoriteThing.unfavoriteUser(mExecutor, new Handler(), mOauthRetrofit,
                                 mRedditDataRoomDatabase, mAccessToken,
@@ -323,7 +310,7 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mSubscribedUserData.size() > position) {
                                             mSubscribedUserData.get(position).setFavorite(false);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
 
                                     @Override
@@ -333,11 +320,11 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mSubscribedUserData.size() > position) {
                                             mSubscribedUserData.get(position).setFavorite(true);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
                                 });
                     } else {
-                        favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                         mSubscribedUserData.get(position).setFavorite(true);
                         FavoriteThing.favoriteUser(mExecutor, new Handler(), mOauthRetrofit,
                                 mRedditDataRoomDatabase, mAccessToken,
@@ -349,7 +336,7 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mSubscribedUserData.size() > position) {
                                             mSubscribedUserData.get(position).setFavorite(true);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
 
                                     @Override
@@ -359,7 +346,7 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                                         if(position >= 0 && mSubscribedUserData.size() > position) {
                                             mSubscribedUserData.get(position).setFavorite(false);
                                         }
-                                        favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
                                 });
                     }
@@ -369,30 +356,28 @@ public class FollowedUsersRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     class FavoriteUsersDividerViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.divider_text_view_item_favorite_thing_divider) TextView dividerTextView;
-
         FavoriteUsersDividerViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemFavoriteThingDividerBinding binding =
+                    ItemFavoriteThingDividerBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                dividerTextView.setTypeface(mActivity.typeface);
+                binding.dividerTextView.setTypeface(mActivity.typeface);
             }
-            dividerTextView.setText(R.string.favorites);
-            dividerTextView.setTextColor(mSecondaryTextColor);
+            binding.dividerTextView.setText(R.string.favorites);
+            binding.dividerTextView.setTextColor(mSecondaryTextColor);
         }
     }
 
     class AllUsersDividerViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.divider_text_view_item_favorite_thing_divider) TextView dividerTextView;
-
         AllUsersDividerViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemFavoriteThingDividerBinding binding =
+                    ItemFavoriteThingDividerBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                dividerTextView.setTypeface(mActivity.typeface);
+                binding.dividerTextView.setTypeface(mActivity.typeface);
             }
-            dividerTextView.setText(R.string.all);
-            dividerTextView.setTextColor(mSecondaryTextColor);
+            binding.dividerTextView.setText(R.string.all);
+            binding.dividerTextView.setTextColor(mSecondaryTextColor);
         }
     }
 }

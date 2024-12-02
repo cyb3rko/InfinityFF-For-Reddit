@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ViewImgurImageFragment">
 
     <ProgressBar
-        android:id="@+id/progress_bar_view_imgur_image_fragment"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-        android:id="@+id/image_view_view_imgur_image_fragment"
+        android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:id="@+id/load_image_error_linear_layout_view_imgur_image_fragment"
+        android:id="@+id/load_image_error_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
@@ -38,7 +37,7 @@
     </LinearLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_navigation_view_imgur_image_fragment"
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -51,7 +50,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/title_text_view_view_imgur_image_fragment"
+                android:id="@+id/title_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -66,7 +65,7 @@
                 android:ellipsize="end" />
 
             <ImageView
-                android:id="@+id/download_image_view_view_imgur_image_fragment"
+                android:id="@+id/download_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -74,7 +73,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
             <ImageView
-                android:id="@+id/share_image_view_view_imgur_image_fragment"
+                android:id="@+id/share_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -82,7 +81,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
             <ImageView
-                android:id="@+id/wallpaper_image_view_view_imgur_image_fragment"
+                android:id="@+id/wallpaper_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

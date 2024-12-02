@@ -25,14 +25,11 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.MarkwonConfiguration;
 import io.noties.markwon.core.MarkwonTheme;
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
-import io.noties.markwon.inlineparser.AutolinkInlineProcessor;
 import io.noties.markwon.inlineparser.BangInlineProcessor;
 import io.noties.markwon.inlineparser.HtmlInlineProcessor;
 import io.noties.markwon.inlineparser.MarkwonInlineParserPlugin;
@@ -44,6 +41,8 @@ import ml.docilealligator.infinityforreddit.activities.LinkResolverActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewPrivateMessagesActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewUserDetailActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ItemPrivateMessageReceivedBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemPrivateMessageSentBinding;
 import ml.docilealligator.infinityforreddit.markdown.RedditHeadingPlugin;
 import ml.docilealligator.infinityforreddit.markdown.SpoilerAwareMovementMethod;
 import ml.docilealligator.infinityforreddit.markdown.SpoilerParserPlugin;
@@ -171,17 +170,17 @@ public class PrivateMessagesDetailRecyclerViewAdapter extends RecyclerView.Adapt
                     if (userAvatarUrl == null || userAvatarUrl.equals("")) {
                         mGlide.load(R.drawable.subreddit_default_icon)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                                .into(((ReceivedMessageViewHolder) holder).userAvatarImageView);
+                                .into(((ReceivedMessageViewHolder) holder).binding.avatarImageView);
                     } else {
                         mGlide.load(userAvatarUrl)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                                 .error(mGlide.load(R.drawable.subreddit_default_icon)
                                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                                .into(((ReceivedMessageViewHolder) holder).userAvatarImageView);
+                                .into(((ReceivedMessageViewHolder) holder).binding.avatarImageView);
                     }
                 });
 
-                ((ReceivedMessageViewHolder) holder).userAvatarImageView.setOnClickListener(view -> {
+                ((ReceivedMessageViewHolder) holder).binding.avatarImageView.setOnClickListener(view -> {
                     if (message.isAuthorDeleted()) {
                         return;
                     }
@@ -233,7 +232,7 @@ public class PrivateMessagesDetailRecyclerViewAdapter extends RecyclerView.Adapt
             ((MessageViewHolder) holder).timeTextView.setVisibility(View.GONE);
         }
         if (holder instanceof ReceivedMessageViewHolder) {
-            mGlide.clear(((ReceivedMessageViewHolder) holder).userAvatarImageView);
+            mGlide.clear(((ReceivedMessageViewHolder) holder).binding.avatarImageView);
         }
     }
 
@@ -297,38 +296,24 @@ public class PrivateMessagesDetailRecyclerViewAdapter extends RecyclerView.Adapt
     }
 
     class SentMessageViewHolder extends MessageViewHolder {
-        @BindView(R.id.message_text_view_item_private_message_sent)
-        TextView messageTextView;
-        @BindView(R.id.time_text_view_item_private_message_sent)
-        TextView timeTextView;
-        @BindView(R.id.copy_image_view_item_private_message_sent)
-        ImageView copyImageView;
-
         SentMessageViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            setBaseView(messageTextView, timeTextView, copyImageView);
+            ItemPrivateMessageSentBinding binding = ItemPrivateMessageSentBinding.bind(itemView);
+            setBaseView(binding.messageTextView, binding.timeTextView, binding.copyImageView);
 
-            messageTextView.setTextColor(mSentMessageTextColor);
+            binding.messageTextView.setTextColor(mSentMessageTextColor);
         }
     }
 
     class ReceivedMessageViewHolder extends MessageViewHolder {
-        @BindView(R.id.avatar_image_view_item_private_message_received)
-        ImageView userAvatarImageView;
-        @BindView(R.id.message_text_view_item_private_message_received)
-        TextView messageTextView;
-        @BindView(R.id.time_text_view_item_private_message_received)
-        TextView timeTextView;
-        @BindView(R.id.copy_image_view_item_private_message_received)
-        ImageView copyImageView;
+        private final ItemPrivateMessageReceivedBinding binding;
 
         ReceivedMessageViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            setBaseView(messageTextView, timeTextView, copyImageView);
+            binding = ItemPrivateMessageReceivedBinding.bind(itemView);
+            setBaseView(binding.messageTextView, binding.timeTextView, binding.copyImageView);
 
-            messageTextView.setTextColor(mReceivedMessageTextColor);
+            binding.messageTextView.setTextColor(mReceivedMessageTextColor);
         }
     }
 }

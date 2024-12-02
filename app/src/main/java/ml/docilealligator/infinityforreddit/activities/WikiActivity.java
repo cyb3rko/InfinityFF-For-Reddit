@@ -10,20 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,8 +26,6 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.MarkwonConfiguration;
@@ -51,6 +42,7 @@ import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFi
 import ml.docilealligator.infinityforreddit.customviews.SwipeLockInterface;
 import ml.docilealligator.infinityforreddit.customviews.SwipeLockLinearLayoutManager;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityWikiBinding;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.markdown.MarkdownUtils;
 import ml.docilealligator.infinityforreddit.utils.JSONUtils;
@@ -62,29 +54,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class WikiActivity extends BaseActivity {
-
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     public static final String EXTRA_WIKI_PATH = "EWP";
     private static final String WIKI_MARKDOWN_STATE = "WMS";
 
-    @BindView(R.id.coordinator_layout_comment_wiki_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_comment_wiki_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_wiki_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.toolbar_comment_wiki_activity)
-    Toolbar toolbar;
-    @BindView(R.id.swipe_refresh_layout_wiki_activity)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.content_markdown_view_comment_wiki_activity)
-    RecyclerView markdownRecyclerView;
-    @BindView(R.id.fetch_wiki_linear_layout_wiki_activity)
-    LinearLayout mFetchWikiInfoLinearLayout;
-    @BindView(R.id.fetch_wiki_image_view_wiki_activity)
-    ImageView mFetchWikiInfoImageView;
-    @BindView(R.id.fetch_wiki_text_view_wiki_activity)
-    TextView mFetchWikiInfoTextView;
+    private ActivityWikiBinding binding;
 
     @Inject
     @Named("no_oauth")
@@ -105,15 +79,14 @@ public class WikiActivity extends BaseActivity {
         ((Infinity) getApplication()).getAppComponent().inject(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wiki);
-
-        ButterKnife.bind(this);
+        binding = ActivityWikiBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
         applyCustomTheme();
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (mSharedPreferences.getBoolean(SharedPreferencesUtils.SWIPE_RIGHT_TO_GO_BACK, true)) {
@@ -124,7 +97,7 @@ public class WikiActivity extends BaseActivity {
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -133,15 +106,16 @@ public class WikiActivity extends BaseActivity {
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(toolbar);
-                markdownRecyclerView.setPadding(markdownRecyclerView.getPaddingLeft(), 0, markdownRecyclerView.getPaddingRight(), getNavBarHeight());
+                adjustToolbar(binding.toolbar);
+                RecyclerView recyclerView = binding.markdownRecyclerView;
+                recyclerView.setPadding(recyclerView.getPaddingLeft(), 0, recyclerView.getPaddingRight(), getNavBarHeight());
             }
         }
 
         mGlide = Glide.with(this);
 
-        swipeRefreshLayout.setEnabled(mSharedPreferences.getBoolean(SharedPreferencesUtils.PULL_TO_REFRESH, true));
-        swipeRefreshLayout.setOnRefreshListener(this::loadWiki);
+        binding.swipeRefreshLayout.setEnabled(mSharedPreferences.getBoolean(SharedPreferencesUtils.PULL_TO_REFRESH, true));
+        binding.swipeRefreshLayout.setOnRefreshListener(this::loadWiki);
 
         int markdownColor = mCustomThemeWrapper.getPrimaryTextColor();
         int spoilerBackgroundColor = markdownColor | 0xFF000000;
@@ -194,8 +168,8 @@ public class WikiActivity extends BaseActivity {
                 }
             }
         });
-        markdownRecyclerView.setLayoutManager(linearLayoutManager);
-        markdownRecyclerView.setAdapter(markwonAdapter);
+        binding.markdownRecyclerView.setLayoutManager(linearLayoutManager);
+        binding.markdownRecyclerView.setAdapter(markwonAdapter);
 
         if (savedInstanceState != null) {
             wikiMarkdown = savedInstanceState.getString(WIKI_MARKDOWN_STATE);
@@ -216,10 +190,10 @@ public class WikiActivity extends BaseActivity {
         }
         isRefreshing = true;
 
-        swipeRefreshLayout.setRefreshing(true);
+        binding.swipeRefreshLayout.setRefreshing(true);
 
-        Glide.with(this).clear(mFetchWikiInfoImageView);
-        mFetchWikiInfoLinearLayout.setVisibility(View.GONE);
+        Glide.with(this).clear(binding.fetchWikiImageView);
+        binding.fetchWikiLinearLayout.setVisibility(View.GONE);
 
         retrofit.create(RedditAPI.class).getWikiPage(getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME), getIntent().getStringExtra(EXTRA_WIKI_PATH)).enqueue(new Callback<String>() {
             @Override
@@ -243,23 +217,23 @@ public class WikiActivity extends BaseActivity {
                     }
                 }
                 isRefreshing = false;
-                swipeRefreshLayout.setRefreshing(false);
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 showErrorView(R.string.error_loading_wiki);
                 isRefreshing = false;
-                swipeRefreshLayout.setRefreshing(false);
+                binding.swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
     private void showErrorView(int stringResId) {
-        swipeRefreshLayout.setRefreshing(false);
-        mFetchWikiInfoLinearLayout.setVisibility(View.VISIBLE);
-        mFetchWikiInfoTextView.setText(stringResId);
-        mGlide.load(R.drawable.error_image).into(mFetchWikiInfoImageView);
+        binding.swipeRefreshLayout.setRefreshing(false);
+        binding.fetchWikiLinearLayout.setVisibility(View.VISIBLE);
+        binding.fetchWikiTextView.setText(stringResId);
+        mGlide.load(R.drawable.error_image).into(binding.fetchWikiImageView);
     }
 
     @Override
@@ -296,13 +270,14 @@ public class WikiActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
-        swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
-        mFetchWikiInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
+        binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
+        binding.fetchWikiTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
         if (typeface != null) {
-            mFetchWikiInfoTextView.setTypeface(typeface);
+            binding.fetchWikiTextView.setTypeface(typeface);
         }
     }
 

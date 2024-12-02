@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linear_layout_exo_playback_control_view"
+    android:id="@+id/linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
@@ -31,12 +31,12 @@
             style="@style/ExoMediaButton.FastForward" />
 
         <ImageButton
-            android:id="@+id/mute_exo_playback_control_view"
+            android:id="@+id/mute"
             style="@style/ExoMediaButton"
             android:visibility="gone" />
 
         <ImageButton
-            android:id="@+id/hd_exo_playback_control_view"
+            android:id="@+id/hd"
             android:src="@drawable/ic_video_quality_24dp"
             style="@style/ExoMediaButton"
             android:visibility="gone" />
@@ -84,7 +84,7 @@
     </LinearLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_navigation_exo_playback_control_view"
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/title_text_view_exo_playback_control_view"
+                android:id="@+id/title_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,7 +113,7 @@
                 android:ellipsize="end" />
 
             <ImageView
-                android:id="@+id/download_image_view_exo_playback_control_view"
+                android:id="@+id/download_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -121,7 +121,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
             <ImageView
-                android:id="@+id/playback_speed_image_view_exo_playback_control_view"
+                android:id="@+id/playback_speed_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"

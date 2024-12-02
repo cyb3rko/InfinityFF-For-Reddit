@@ -15,11 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
@@ -28,8 +24,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
@@ -38,25 +32,19 @@ import ml.docilealligator.infinityforreddit.award.GiveAward;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityGiveAwardBinding;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import retrofit2.Retrofit;
 
 public class GiveAwardActivity extends BaseActivity {
-
     public static final String EXTRA_THING_FULLNAME = "ETF";
     public static final String EXTRA_ITEM_POSITION = "EIP";
     public static final String EXTRA_RETURN_ITEM_POSITION = "ERIP";
     public static final String EXTRA_RETURN_NEW_AWARDS = "ERNA";
     public static final String EXTRA_RETURN_NEW_AWARDS_COUNT = "ERNAC";
 
-    @BindView(R.id.coordinator_layout_give_award_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_give_award_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_give_award_activity)
-    Toolbar toolbar;
-    @BindView(R.id.recycler_view_give_award_activity)
-    RecyclerView recyclerView;
+    private ActivityGiveAwardBinding binding;
+
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
@@ -84,13 +72,12 @@ public class GiveAwardActivity extends BaseActivity {
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_give_award);
-
-        ButterKnife.bind(this);
+        binding = ActivityGiveAwardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         applyCustomTheme();
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (mSharedPreferences.getBoolean(SharedPreferencesUtils.SWIPE_RIGHT_TO_GO_BACK, true)) {
@@ -99,7 +86,7 @@ public class GiveAwardActivity extends BaseActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
         }
 
@@ -163,8 +150,8 @@ public class GiveAwardActivity extends BaseActivity {
                     .setNegativeButton(R.string.no, null)
                     .show();
         });
-        recyclerView.setLayoutManager(new LinearLayoutManagerBugFixed(this));
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManagerBugFixed(this));
+        binding.recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -189,7 +176,8 @@ public class GiveAwardActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
     }
 }

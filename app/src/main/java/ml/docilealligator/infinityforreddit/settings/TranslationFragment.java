@@ -8,22 +8,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.adapters.TranslationFragmentRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.FragmentTranslationBinding;
 
 public class TranslationFragment extends Fragment {
-
-    @BindView(R.id.recycler_view_translation_fragment)
-    RecyclerView recyclerView;
     @Inject
     CustomThemeWrapper customThemeWrapper;
     private BaseActivity activity;
@@ -33,17 +27,15 @@ public class TranslationFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_translation, container, false);
+        FragmentTranslationBinding binding = FragmentTranslationBinding.inflate(getLayoutInflater(), container, false);
+        View rootView = binding.getRoot();
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
 
-        ButterKnife.bind(this, rootView);
-
         TranslationFragmentRecyclerViewAdapter adapter = new TranslationFragmentRecyclerViewAdapter(activity, customThemeWrapper);
-        recyclerView.setAdapter(adapter);
+        binding.recyclerViewTranslationFragment.setAdapter(adapter);
 
         rootView.setBackgroundColor(customThemeWrapper.getBackgroundColor());
 

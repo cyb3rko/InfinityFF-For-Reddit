@@ -7,30 +7,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.SetAsWallpaperCallback;
 import ml.docilealligator.infinityforreddit.activities.ViewImgurMediaActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewRedditGalleryActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewVideoActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
+import ml.docilealligator.infinityforreddit.databinding.FragmentSetAsWallpaperBottomSheetBinding;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class SetAsWallpaperBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
-
     public static final String EXTRA_VIEW_PAGER_POSITION = "EVPP";
 
-    @BindView(R.id.home_screen_text_view_set_as_wallpaper_bottom_sheet_fragment)
-    TextView homeScreenTextvView;
-    @BindView(R.id.lock_screen_text_view_set_as_wallpaper_bottom_sheet_fragment)
-    TextView lockScreenTextView;
-    @BindView(R.id.both_text_view_set_as_wallpaper_bottom_sheet_fragment)
-    TextView bothTextView;
     private Activity mActivity;
 
     public SetAsWallpaperBottomSheetFragment() {
@@ -38,15 +28,16 @@ public class SetAsWallpaperBottomSheetFragment extends LandscapeExpandedRoundedB
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_set_as_wallpaper_bottom_sheet, container, false);
-        ButterKnife.bind(this, rootView);
+        FragmentSetAsWallpaperBottomSheetBinding binding =
+                FragmentSetAsWallpaperBottomSheetBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         Bundle bundle = getArguments();
         int viewPagerPosition = bundle == null ? -1 : bundle.getInt(EXTRA_VIEW_PAGER_POSITION);
 
-        bothTextView.setOnClickListener(view -> {
+        binding.bothTextView.setOnClickListener(view -> {
             if (mActivity instanceof SetAsWallpaperCallback) {
                 ((SetAsWallpaperCallback) mActivity).setToBoth(viewPagerPosition);
             }
@@ -54,17 +45,17 @@ public class SetAsWallpaperBottomSheetFragment extends LandscapeExpandedRoundedB
         });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            homeScreenTextvView.setVisibility(View.VISIBLE);
-            lockScreenTextView.setVisibility(View.VISIBLE);
+            binding.homeScreenTextView.setVisibility(View.VISIBLE);
+            binding.lockScreenTextView.setVisibility(View.VISIBLE);
 
-            homeScreenTextvView.setOnClickListener(view -> {
+            binding.homeScreenTextView.setOnClickListener(view -> {
                 if (mActivity instanceof SetAsWallpaperCallback) {
                     ((SetAsWallpaperCallback) mActivity).setToHomeScreen(viewPagerPosition);
                 }
                 dismiss();
             });
 
-            lockScreenTextView.setOnClickListener(view -> {
+            binding.lockScreenTextView.setOnClickListener(view -> {
                 if (mActivity instanceof SetAsWallpaperCallback) {
                     ((SetAsWallpaperCallback) mActivity).setToLockScreen(viewPagerPosition);
                 }

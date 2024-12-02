@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/linear_layout_suicide_prevention_activity"
+    android:id="@+id/linear_layout"
     tools:context=".activities.SuicidePreventionActivity">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -19,7 +19,7 @@
         app:lottie_rawRes="@raw/love" />
 
     <TextView
-        android:id="@+id/quote_text_view_suicide_prevention_activity"
+        android:id="@+id/quote_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -29,7 +29,7 @@
         android:textSize="?attr/font_20" />
 
     <LinearLayout
-        android:id="@+id/linear_layout_check_box_wrapper_suicide_prevention_activity"
+        android:id="@+id/linear_layout_check_box_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
@@ -50,7 +50,7 @@
             android:textSize="?attr/font_default" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/continue_button_suicide_prevention_activity"
+            android:id="@+id/continue_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

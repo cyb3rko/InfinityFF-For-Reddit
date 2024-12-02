@@ -18,13 +18,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -37,8 +34,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.FragmentCommunicator;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -60,6 +55,7 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.SortTypeBottomS
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.NavigationWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityViewMultiRedditDetailBinding;
 import ml.docilealligator.infinityforreddit.events.GoBackToMainPageEvent;
 import ml.docilealligator.infinityforreddit.events.RefreshMultiRedditsEvent;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
@@ -89,14 +85,8 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
 
     private static final String FRAGMENT_OUT_STATE_KEY = "FOSK";
 
-    @BindView(R.id.coordinator_layout_view_multi_reddit_detail_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_view_multi_reddit_detail_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_view_multi_reddit_detail_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.toolbar_view_multi_reddit_detail_activity)
-    Toolbar toolbar;
+    private ActivityViewMultiRedditDetailBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -152,9 +142,8 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
     protected void onCreate(Bundle savedInstanceState) {
         ((Infinity) getApplication()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_multi_reddit_detail);
-
-        ButterKnife.bind(this);
+        binding = ActivityViewMultiRedditDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -164,7 +153,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
         navigationWrapper = new NavigationWrapper(findViewById(R.id.bottom_app_bar_bottom_app_bar), findViewById(R.id.linear_layout_bottom_app_bar),
                 findViewById(R.id.option_1_bottom_app_bar), findViewById(R.id.option_2_bottom_app_bar),
                 findViewById(R.id.option_3_bottom_app_bar), findViewById(R.id.option_4_bottom_app_bar),
-                findViewById(R.id.fab_view_multi_reddit_detail_activity),
+                findViewById(R.id.fab),
                 findViewById(R.id.navigation_rail), showBottomAppBar);
 
         applyCustomTheme();
@@ -177,7 +166,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -186,7 +175,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(toolbar);
+                adjustToolbar(binding.toolbar);
 
                 int navBarHeight = getNavBarHeight();
                 if (navBarHeight > 0) {
@@ -203,7 +192,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
         if (multiReddit == null) {
             multiPath = getIntent().getStringExtra(EXTRA_MULTIREDDIT_PATH);
             if (multiPath != null) {
-                toolbar.setTitle(multiPath.substring(multiPath.lastIndexOf("/", multiPath.length() - 2) + 1));
+                binding.toolbar.setTitle(multiPath.substring(multiPath.lastIndexOf("/", multiPath.length() - 2) + 1));
             } else {
                 Toast.makeText(this, R.string.error_getting_multi_reddit_data, Toast.LENGTH_SHORT).show();
                 finish();
@@ -211,12 +200,12 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
             }
         } else {
             multiPath = multiReddit.getPath();
-            toolbar.setTitle(multiReddit.getDisplayName());
+            binding.toolbar.setTitle(multiReddit.getDisplayName());
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarGoToTop(toolbar);
+        setToolbarGoToTop(binding.toolbar);
 
         mAccessToken = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
         mAccountName = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCOUNT_NAME, null);
@@ -224,7 +213,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
 
         if (savedInstanceState != null) {
             mFragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_OUT_STATE_KEY);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_view_multi_reddit_detail_activity, mFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, mFragment).commit();
         } else {
             initializeFragment();
         }
@@ -426,7 +415,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
         bundle.putString(PostFragment.EXTRA_ACCESS_TOKEN, mAccessToken);
         bundle.putString(PostFragment.EXTRA_ACCOUNT_NAME, mAccountName);
         mFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_view_multi_reddit_detail_activity, mFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, mFragment).commit();
     }
 
     private void bottomAppBarOptionAction(int option) {
@@ -597,7 +586,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
     }
 
     private void goToSubreddit() {
-        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, coordinatorLayout, false);
+        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, binding.coordinatorLayout, false);
         TextInputEditText thingEditText = rootView.findViewById(R.id.text_input_edit_text_go_to_thing_edit_text);
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_view_go_to_thing_edit_text);
         thingEditText.requestFocus();
@@ -685,7 +674,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
     }
 
     private void goToUser() {
-        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, coordinatorLayout, false);
+        View rootView = getLayoutInflater().inflate(R.layout.dialog_go_to_thing_edit_text, binding.coordinatorLayout, false);
         TextInputEditText thingEditText = rootView.findViewById(R.id.text_input_edit_text_go_to_thing_edit_text);
         thingEditText.requestFocus();
         Utils.showKeyboard(this, new Handler(), thingEditText);
@@ -844,8 +833,9 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
         navigationWrapper.applyCustomTheme(mCustomThemeWrapper.getBottomAppBarIconColor(), mCustomThemeWrapper.getBottomAppBarBackgroundColor());
         applyFABTheme(navigationWrapper.floatingActionButton);
     }
@@ -861,7 +851,7 @@ public class ViewMultiRedditDetailActivity extends BaseActivity implements SortT
     public void displaySortType() {
         if (mFragment != null) {
             SortType sortType = ((PostFragment) mFragment).getSortType();
-            Utils.displaySortTypeInToolbar(sortType, toolbar);
+            Utils.displaySortTypeInToolbar(sortType, binding.toolbar);
         }
     }
 

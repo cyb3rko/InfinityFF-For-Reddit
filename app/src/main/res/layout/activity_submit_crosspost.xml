@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator_layout_submit_crosspost_activity"
+    android:id="@+id/coordinator_layout"
     tools:context=".activities.SubmitCrosspostActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_submit_crosspost_activity"
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_submit_crosspost_activity"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/account_linear_layout_submit_crosspost_activity"
+                android:id="@+id/account_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
@@ -44,13 +44,13 @@
                 android:background="?attr/selectableItemBackground">
 
                 <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/account_icon_gif_image_view_submit_crosspost_activity"
+                    android:id="@+id/account_icon_gif_image_view"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="16dp" />
 
                 <TextView
-                    android:id="@+id/account_name_text_view_submit_crosspost_activity"
+                    android:id="@+id/account_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -69,27 +69,27 @@
                 android:paddingBottom="8dp">
 
                 <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/subreddit_icon_gif_image_view_submit_crosspost_activity"
+                    android:id="@+id/subreddit_icon_gif_image_view"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true" />
 
                 <TextView
-                    android:id="@+id/subreddit_name_text_view_submit_crosspost_activity"
+                    android:id="@+id/subreddit_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_toStartOf="@id/rules_button_submit_crosspost_activity"
-                    android:layout_toEndOf="@id/subreddit_icon_gif_image_view_submit_crosspost_activity"
+                    android:layout_toStartOf="@id/rules_button"
+                    android:layout_toEndOf="@id/subreddit_icon_gif_image_view"
                     android:text="@string/choose_a_subreddit"
                     android:textSize="?attr/font_default"
                     android:fontFamily="?attr/font_family" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/rules_button_submit_crosspost_activity"
+                    android:id="@+id/rules_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -101,7 +101,7 @@
             </RelativeLayout>
 
             <View
-                android:id="@+id/divider_1_submit_crosspost_activity"
+                android:id="@+id/divider_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
 
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content">
 
                 <com.libRG.CustomTextView
-                    android:id="@+id/flair_custom_text_view_submit_crosspost_activity"
+                    android:id="@+id/flair_custom_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -125,7 +125,7 @@
                     app:lib_setShape="rectangle" />
 
                 <com.libRG.CustomTextView
-                    android:id="@+id/spoiler_custom_text_view_submit_crosspost_activity"
+                    android:id="@+id/spoiler_custom_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -139,7 +139,7 @@
                     app:lib_setShape="rectangle" />
 
                 <com.libRG.CustomTextView
-                    android:id="@+id/nsfw_custom_text_view_submit_crosspost_activity"
+                    android:id="@+id/nsfw_custom_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -155,12 +155,12 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider_2_submit_crosspost_activity"
+                android:id="@+id/divider_2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
 
             <LinearLayout
-                android:id="@+id/receive_post_reply_notifications_linear_layout_submit_crosspost_activity"
+                android:id="@+id/receive_post_reply_notifications_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
@@ -172,7 +172,7 @@
                 android:background="?attr/selectableItemBackground">
 
                 <TextView
-                    android:id="@+id/receive_post_reply_notifications_text_view_submit_crosspost_activity"
+                    android:id="@+id/receive_post_reply_notifications_text_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -183,7 +183,7 @@
                     android:fontFamily="?attr/font_family" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/receive_post_reply_notifications_switch_material_submit_crosspost_activity"
+                    android:id="@+id/receive_post_reply_notifications_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -192,12 +192,12 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider_3_submit_crosspost_activity"
+                android:id="@+id/divider_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
 
             <EditText
-                android:id="@+id/post_title_edit_text_submit_crosspost_activity"
+                android:id="@+id/post_title_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
@@ -210,12 +210,12 @@
                 android:fontFamily="?attr/title_font_family" />
 
             <View
-                android:id="@+id/divider_4_submit_crosspost_activity"
+                android:id="@+id/divider_4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
 
             <TextView
-                android:id="@+id/post_content_text_view_submit_crosspost_activity"
+                android:id="@+id/post_content_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -224,20 +224,20 @@
                 android:visibility="gone" />
 
             <FrameLayout
-                android:id="@+id/frame_layout_submit_crosspost_activity"
+                android:id="@+id/frame_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
 
                 <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-                    android:id="@+id/image_view_submit_crosspost_activity"
+                    android:id="@+id/image_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:scaleType="fitStart" />
 
                 <ImageView
-                    android:id="@+id/play_button_image_view_submit_crosspost_activity"
+                    android:id="@+id/play_button_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"

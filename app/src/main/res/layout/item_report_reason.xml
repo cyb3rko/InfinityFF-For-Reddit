@@ -11,7 +11,7 @@
     android:background="?attr/selectableItemBackground">
 
     <TextView
-        android:id="@+id/reason_text_view_item_report_reason"
+        android:id="@+id/reason_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -21,7 +21,7 @@
         android:fontFamily="?attr/font_family" />
 
     <CheckBox
-        android:id="@+id/check_box_item_report_reason"
+        android:id="@+id/check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical" />

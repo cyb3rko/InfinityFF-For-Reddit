@@ -8,14 +8,14 @@
     android:background="?attr/selectableItemBackground">
 
     <View
-        android:id="@+id/color_primary_item_user_custom_theme"
+        android:id="@+id/color_primary"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/circular_background" />
 
     <TextView
-        android:id="@+id/name_text_view_item_user_custom_theme"
+        android:id="@+id/name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -26,7 +26,7 @@
         android:fontFamily="?attr/font_family" />
 
     <ImageView
-        android:id="@+id/share_image_view_item_user_custom_theme"
+        android:id="@+id/share_image_view"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
@@ -35,7 +35,7 @@
         android:background="?attr/selectableItemBackgroundBorderless" />
 
     <ImageView
-        android:id="@+id/add_image_view_item_user_custom_theme"
+        android:id="@+id/add_image_view"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"

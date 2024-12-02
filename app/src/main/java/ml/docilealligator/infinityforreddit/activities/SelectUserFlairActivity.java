@@ -11,11 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,8 +20,6 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.FetchUserFlairs;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -36,23 +30,17 @@ import ml.docilealligator.infinityforreddit.adapters.UserFlairRecyclerViewAdapte
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivitySelectUserFlairBinding;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 import retrofit2.Retrofit;
 
 public class SelectUserFlairActivity extends BaseActivity implements ActivityToolbarInterface {
-
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     private static final String USER_FLAIRS_STATE = "UFS";
 
-    @BindView(R.id.coordinator_layout_select_user_flair_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_select_user_flair_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_select_user_flair_activity)
-    Toolbar toolbar;
-    @BindView(R.id.recycler_view_select_user_flair_activity)
-    RecyclerView recyclerView;
+    private ActivitySelectUserFlairBinding binding;
+
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
@@ -79,23 +67,22 @@ public class SelectUserFlairActivity extends BaseActivity implements ActivityToo
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_user_flair);
-
-        ButterKnife.bind(this);
+        binding = ActivitySelectUserFlairBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         applyCustomTheme();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
-            addOnOffsetChangedListener(appBarLayout);
+            addOnOffsetChangedListener(binding.appBarLayout);
         }
 
         if (mSharedPreferences.getBoolean(SharedPreferencesUtils.SWIPE_RIGHT_TO_GO_BACK, true)) {
             Slidr.attach(this);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarGoToTop(toolbar);
+        setToolbarGoToTop(binding.toolbar);
 
         mSubredditName = getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME);
         setTitle(mSubredditName);
@@ -171,8 +158,8 @@ public class SelectUserFlairActivity extends BaseActivity implements ActivityToo
             }
         });
         mLinearLayoutManager = new LinearLayoutManagerBugFixed(SelectUserFlairActivity.this);
-        recyclerView.setLayoutManager(mLinearLayoutManager);
-        recyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setLayoutManager(mLinearLayoutManager);
+        binding.recyclerView.setAdapter(mAdapter);
     }
 
     private void selectUserFlair(@Nullable UserFlair userFlair) {
@@ -192,12 +179,12 @@ public class SelectUserFlairActivity extends BaseActivity implements ActivityToo
                     public void failed(String errorMessage) {
                         if (errorMessage == null || errorMessage.equals("")) {
                             if (userFlair == null) {
-                                Snackbar.make(coordinatorLayout, R.string.clear_user_flair_success, Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(binding.coordinatorLayout, R.string.clear_user_flair_success, Snackbar.LENGTH_SHORT).show();
                             } else {
-                                Snackbar.make(coordinatorLayout, R.string.select_user_flair_success, Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(binding.coordinatorLayout, R.string.select_user_flair_success, Snackbar.LENGTH_SHORT).show();
                             }
                         } else {
-                            Snackbar.make(coordinatorLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(binding.coordinatorLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -230,8 +217,9 @@ public class SelectUserFlairActivity extends BaseActivity implements ActivityToo
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
     }
 
     @Override

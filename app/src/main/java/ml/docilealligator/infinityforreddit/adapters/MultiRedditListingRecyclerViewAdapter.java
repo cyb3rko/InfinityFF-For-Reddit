@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,8 +16,6 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.zhanghai.android.fastscroll.PopupTextProvider;
 import ml.docilealligator.infinityforreddit.R;
@@ -27,9 +23,10 @@ import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.asynctasks.InsertMultireddit;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ItemFavoriteThingDividerBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemMultiRedditBinding;
 import ml.docilealligator.infinityforreddit.multireddit.FavoriteMultiReddit;
 import ml.docilealligator.infinityforreddit.multireddit.MultiReddit;
-import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Retrofit;
 
 public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  implements PopupTextProvider {
@@ -121,14 +118,14 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
             name = multiReddit.getDisplayName();
             iconUrl = multiReddit.getIconUrl();
             if(multiReddit.isFavorite()) {
-                ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
             } else {
-                ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
             }
 
-            ((MultiRedditViewHolder) holder).favoriteImageView.setOnClickListener(view -> {
+            ((MultiRedditViewHolder) holder).binding.favoriteImageView.setOnClickListener(view -> {
                 if(multiReddit.isFavorite()) {
-                    ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                    ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                     multiReddit.setFavorite(false);
                     if (mAccessToken == null) {
                         InsertMultireddit.insertMultireddit(mExecutor, new Handler(), mRedditDataRoomDatabase, multiReddit,
@@ -145,7 +142,7 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mMultiReddits.size() > position) {
                                             mMultiReddits.get(position).setFavorite(false);
                                         }
-                                        ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
 
                                     @Override
@@ -155,13 +152,13 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mMultiReddits.size() > position) {
                                             mMultiReddits.get(position).setFavorite(true);
                                         }
-                                        ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
                                 }
                         );
                     }
                 } else {
-                    ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                    ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                     multiReddit.setFavorite(true);
                     if (mAccessToken == null) {
                         InsertMultireddit.insertMultireddit(mExecutor, new Handler(), mRedditDataRoomDatabase, multiReddit,
@@ -178,7 +175,7 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mMultiReddits.size() > position) {
                                             mMultiReddits.get(position).setFavorite(true);
                                         }
-                                        ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
 
                                     @Override
@@ -188,7 +185,7 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mMultiReddits.size() > position) {
                                             mMultiReddits.get(position).setFavorite(false);
                                         }
-                                        ((MultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        ((MultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
                                 }
                         );
@@ -209,26 +206,26 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                         .error(mGlide.load(R.drawable.subreddit_default_icon)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                        .into(((MultiRedditViewHolder) holder).iconImageView);
+                        .into(((MultiRedditViewHolder) holder).binding.multiRedditIconGifImageView);
             } else {
                 mGlide.load(R.drawable.subreddit_default_icon)
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                        .into(((MultiRedditViewHolder) holder).iconImageView);
+                        .into(((MultiRedditViewHolder) holder).binding.favoriteImageView);
             }
-            ((MultiRedditViewHolder) holder).multiRedditNameTextView.setText(name);
+            ((MultiRedditViewHolder) holder).binding.multiRedditNameTextView.setText(name);
         } else if (holder instanceof FavoriteMultiRedditViewHolder) {
             MultiReddit multiReddit = mFavoriteMultiReddits.get(holder.getBindingAdapterPosition() - 1);
             String name = multiReddit.getDisplayName();
             String iconUrl = multiReddit.getIconUrl();
             if(multiReddit.isFavorite()) {
-                ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
             } else {
-                ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
             }
 
-            ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setOnClickListener(view -> {
+            ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setOnClickListener(view -> {
                 if(multiReddit.isFavorite()) {
-                    ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                    ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                     multiReddit.setFavorite(false);
                     if (mAccessToken == null) {
                         InsertMultireddit.insertMultireddit(mExecutor, new Handler(), mRedditDataRoomDatabase, multiReddit,
@@ -245,7 +242,7 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mFavoriteMultiReddits.size() > position) {
                                             mFavoriteMultiReddits.get(position).setFavorite(false);
                                         }
-                                        ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
 
                                     @Override
@@ -255,13 +252,13 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mFavoriteMultiReddits.size() > position) {
                                             mFavoriteMultiReddits.get(position).setFavorite(true);
                                         }
-                                        ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
                                 }
                         );
                     }
                 } else {
-                    ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                    ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                     multiReddit.setFavorite(true);
                     if (mAccessToken == null) {
                         InsertMultireddit.insertMultireddit(mExecutor, new Handler(), mRedditDataRoomDatabase, multiReddit,
@@ -278,7 +275,7 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mFavoriteMultiReddits.size() > position) {
                                             mFavoriteMultiReddits.get(position).setFavorite(true);
                                         }
-                                        ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
+                                        ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_24dp);
                                     }
 
                                     @Override
@@ -288,7 +285,7 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                                         if(position >= 0 && mFavoriteMultiReddits.size() > position) {
                                             mFavoriteMultiReddits.get(position).setFavorite(false);
                                         }
-                                        ((FavoriteMultiRedditViewHolder) holder).favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
+                                        ((FavoriteMultiRedditViewHolder) holder).binding.favoriteImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
                                     }
                                 }
                         );
@@ -309,13 +306,13 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                         .error(mGlide.load(R.drawable.subreddit_default_icon)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                        .into(((FavoriteMultiRedditViewHolder) holder).iconImageView);
+                        .into(((FavoriteMultiRedditViewHolder) holder).binding.multiRedditIconGifImageView);
             } else {
                 mGlide.load(R.drawable.subreddit_default_icon)
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                        .into(((FavoriteMultiRedditViewHolder) holder).iconImageView);
+                        .into(((FavoriteMultiRedditViewHolder) holder).binding.multiRedditIconGifImageView);
             }
-            ((FavoriteMultiRedditViewHolder) holder).multiRedditNameTextView.setText(name);
+            ((FavoriteMultiRedditViewHolder) holder).binding.multiRedditNameTextView.setText(name);
         }
     }
 
@@ -335,9 +332,9 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         if(holder instanceof MultiRedditViewHolder) {
-            mGlide.clear(((MultiRedditViewHolder) holder).iconImageView);
+            mGlide.clear(((MultiRedditViewHolder) holder).binding.multiRedditIconGifImageView);
         } else if (holder instanceof FavoriteMultiRedditViewHolder) {
-            mGlide.clear(((FavoriteMultiRedditViewHolder) holder).iconImageView);
+            mGlide.clear(((FavoriteMultiRedditViewHolder) holder).binding.multiRedditIconGifImageView);
         }
     }
 
@@ -367,66 +364,54 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
     }
 
     class MultiRedditViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.multi_reddit_icon_gif_image_view_item_multi_reddit)
-        GifImageView iconImageView;
-        @BindView(R.id.multi_reddit_name_text_view_item_multi_reddit)
-        TextView multiRedditNameTextView;
-        @BindView(R.id.favorite_image_view_item_multi_reddit)
-        ImageView favoriteImageView;
+        private final ItemMultiRedditBinding binding;
 
         MultiRedditViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemMultiRedditBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                multiRedditNameTextView.setTypeface(mActivity.typeface);
+                binding.multiRedditNameTextView.setTypeface(mActivity.typeface);
             }
-            multiRedditNameTextView.setTextColor(mPrimaryTextColor);
+            binding.multiRedditNameTextView.setTextColor(mPrimaryTextColor);
         }
     }
 
     class FavoriteMultiRedditViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.multi_reddit_icon_gif_image_view_item_multi_reddit)
-        GifImageView iconImageView;
-        @BindView(R.id.multi_reddit_name_text_view_item_multi_reddit)
-        TextView multiRedditNameTextView;
-        @BindView(R.id.favorite_image_view_item_multi_reddit)
-        ImageView favoriteImageView;
+        private final ItemMultiRedditBinding binding;
 
         FavoriteMultiRedditViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemMultiRedditBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                multiRedditNameTextView.setTypeface(mActivity.typeface);
+                binding.multiRedditNameTextView.setTypeface(mActivity.typeface);
             }
-            multiRedditNameTextView.setTextColor(mPrimaryTextColor);
+            binding.multiRedditNameTextView.setTextColor(mPrimaryTextColor);
         }
     }
 
     class FavoriteMultiRedditsDividerViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.divider_text_view_item_favorite_thing_divider) TextView dividerTextView;
-
         FavoriteMultiRedditsDividerViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemFavoriteThingDividerBinding binding =
+                    ItemFavoriteThingDividerBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                dividerTextView.setTypeface(mActivity.typeface);
+                binding.dividerTextView.setTypeface(mActivity.typeface);
             }
-            dividerTextView.setText(R.string.favorites);
-            dividerTextView.setTextColor(mSecondaryTextColor);
+            binding.dividerTextView.setText(R.string.favorites);
+            binding.dividerTextView.setTextColor(mSecondaryTextColor);
         }
     }
 
     class AllMultiRedditsDividerViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.divider_text_view_item_favorite_thing_divider) TextView dividerTextView;
-
         AllMultiRedditsDividerViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemFavoriteThingDividerBinding binding =
+                    ItemFavoriteThingDividerBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                dividerTextView.setTypeface(mActivity.typeface);
+                binding.dividerTextView.setTypeface(mActivity.typeface);
             }
-            dividerTextView.setText(R.string.all);
-            dividerTextView.setTextColor(mSecondaryTextColor);
+            binding.dividerTextView.setText(R.string.all);
+            binding.dividerTextView.setTextColor(mSecondaryTextColor);
         }
     }
 }

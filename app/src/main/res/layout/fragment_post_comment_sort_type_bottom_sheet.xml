@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/best_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/best_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -28,7 +28,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/top_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/top_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -44,7 +44,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/new_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/new_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -60,7 +60,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/controversial_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/controversial_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -76,7 +76,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/old_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/old_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -92,7 +92,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/random_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/random_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -108,7 +108,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/qa_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/qa_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -124,7 +124,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/live_type_text_view_post_comment_sort_type_bottom_sheet_fragment"
+            android:id="@+id/live_type_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"

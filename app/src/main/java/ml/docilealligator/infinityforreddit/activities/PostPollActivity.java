@@ -14,28 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.materialswitch.MaterialSwitch;
-import com.google.android.material.slider.Slider;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.libRG.CustomTextView;
 
@@ -49,8 +38,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import ml.docilealligator.infinityforreddit.Flair;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -62,12 +49,12 @@ import ml.docilealligator.infinityforreddit.asynctasks.LoadSubredditIcon;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.AccountChooserBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.FlairBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
+import ml.docilealligator.infinityforreddit.databinding.ActivityPostPollBinding;
 import ml.docilealligator.infinityforreddit.events.SubmitPollPostEvent;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.services.SubmitPostService;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
-import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Retrofit;
 
 public class PostPollActivity extends BaseActivity implements FlairBottomSheetFragment.FlairSelectionCallback,
@@ -88,72 +75,8 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
 
     private static final int SUBREDDIT_SELECTION_REQUEST_CODE = 0;
 
-    @BindView(R.id.coordinator_layout_post_poll_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_post_poll_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_post_poll_activity)
-    Toolbar toolbar;
-    @BindView(R.id.account_linear_layout_post_poll_activity)
-    LinearLayout accountLinearLayout;
-    @BindView(R.id.account_icon_gif_image_view_post_poll_activity)
-    GifImageView accountIconImageView;
-    @BindView(R.id.account_name_text_view_post_poll_activity)
-    TextView accountNameTextView;
-    @BindView(R.id.subreddit_icon_gif_image_view_post_poll_activity)
-    GifImageView iconGifImageView;
-    @BindView(R.id.subreddit_name_text_view_post_poll_activity)
-    TextView subredditNameTextView;
-    @BindView(R.id.rules_button_post_poll_activity)
-    MaterialButton rulesButton;
-    @BindView(R.id.divider_1_post_poll_activity)
-    MaterialDivider divider1;
-    @BindView(R.id.flair_custom_text_view_post_poll_activity)
-    CustomTextView flairTextView;
-    @BindView(R.id.spoiler_custom_text_view_post_poll_activity)
-    CustomTextView spoilerTextView;
-    @BindView(R.id.nsfw_custom_text_view_post_poll_activity)
-    CustomTextView nsfwTextView;
-    @BindView(R.id.receive_post_reply_notifications_linear_layout_post_poll_activity)
-    LinearLayout receivePostReplyNotificationsLinearLayout;
-    @BindView(R.id.receive_post_reply_notifications_text_view_post_poll_activity)
-    TextView receivePostReplyNotificationsTextView;
-    @BindView(R.id.receive_post_reply_notifications_switch_material_post_poll_activity)
-    MaterialSwitch receivePostReplyNotificationsSwitchMaterial;
-    @BindView(R.id.divider_2_post_poll_activity)
-    MaterialDivider divider2;
-    @BindView(R.id.post_title_edit_text_post_poll_activity)
-    EditText titleEditText;
-    @BindView(R.id.divider_3_post_poll_activity)
-    MaterialDivider divider3;
-    @BindView(R.id.voting_length_text_view_post_poll_activity)
-    TextView votingLengthTextView;
-    @BindView(R.id.voting_length_seek_bar_post_poll_activity)
-    Slider votingLengthSlider;
-    @BindView(R.id.option_1_text_input_layout_post_poll_activity)
-    TextInputLayout option1TextInputLayout;
-    @BindView(R.id.option_1_text_input_layout_edit_text_post_poll_activity)
-    TextInputEditText option1TextInputEditText;
-    @BindView(R.id.option_2_text_input_layout_post_poll_activity)
-    TextInputLayout option2TextInputLayout;
-    @BindView(R.id.option_2_text_input_layout_edit_text_post_poll_activity)
-    TextInputEditText option2TextInputEditText;
-    @BindView(R.id.option_3_text_input_layout_post_poll_activity)
-    TextInputLayout option3TextInputLayout;
-    @BindView(R.id.option_3_text_input_layout_edit_text_post_poll_activity)
-    TextInputEditText option3TextInputEditText;
-    @BindView(R.id.option_4_text_input_layout_post_poll_activity)
-    TextInputLayout option4TextInputLayout;
-    @BindView(R.id.option_4_text_input_layout_edit_text_post_poll_activity)
-    TextInputEditText option4TextInputEditText;
-    @BindView(R.id.option_5_text_input_layout_post_poll_activity)
-    TextInputLayout option5TextInputLayout;
-    @BindView(R.id.option_5_text_input_layout_edit_text_post_poll_activity)
-    TextInputEditText option5TextInputEditText;
-    @BindView(R.id.option_6_text_input_layout_post_poll_activity)
-    TextInputLayout option6TextInputLayout;
-    @BindView(R.id.option_6_text_input_layout_edit_text_post_poll_activity)
-    TextInputEditText option6TextInputEditText;
+    private ActivityPostPollBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -207,24 +130,23 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_poll);
-
-        ButterKnife.bind(this);
+        binding = ActivityPostPollBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
         applyCustomTheme();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
-            addOnOffsetChangedListener(appBarLayout);
+            addOnOffsetChangedListener(binding.appBarLayout);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mGlide = Glide.with(this);
 
-        mPostingSnackbar = Snackbar.make(coordinatorLayout, R.string.posting, Snackbar.LENGTH_INDEFINITE);
+        mPostingSnackbar = Snackbar.make(binding.coordinatorLayout, R.string.posting, Snackbar.LENGTH_INDEFINITE);
 
         resources = getResources();
 
@@ -250,17 +172,17 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                         .error(mGlide.load(R.drawable.subreddit_default_icon)
                                 .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                        .into(accountIconImageView);
+                        .into(binding.accountIconGifImageView);
 
-                accountNameTextView.setText(selectedAccount.getAccountName());
+                binding.accountNameTextView.setText(selectedAccount.getAccountName());
             } else {
                 loadCurrentAccount();
             }
 
             if (subredditName != null) {
-                subredditNameTextView.setTextColor(primaryTextColor);
-                subredditNameTextView.setText(subredditName);
-                flairTextView.setVisibility(View.VISIBLE);
+                binding.subredditNameTextView.setTextColor(primaryTextColor);
+                binding.subredditNameTextView.setText(subredditName);
+                binding.flairCustomTextView.setVisibility(View.VISIBLE);
                 if (!loadSubredditIconSuccessful) {
                     loadSubredditIcon();
                 }
@@ -272,20 +194,20 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             }
 
             if (flair != null) {
-                flairTextView.setText(flair.getText());
-                flairTextView.setBackgroundColor(flairBackgroundColor);
-                flairTextView.setBorderColor(flairBackgroundColor);
-                flairTextView.setTextColor(flairTextColor);
+                binding.flairCustomTextView.setText(flair.getText());
+                binding.flairCustomTextView.setBackgroundColor(flairBackgroundColor);
+                binding.flairCustomTextView.setBorderColor(flairBackgroundColor);
+                binding.flairCustomTextView.setTextColor(flairTextColor);
             }
             if (isSpoiler) {
-                spoilerTextView.setBackgroundColor(spoilerBackgroundColor);
-                spoilerTextView.setBorderColor(spoilerBackgroundColor);
-                spoilerTextView.setTextColor(spoilerTextColor);
+                binding.spoilerCustomTextView.setBackgroundColor(spoilerBackgroundColor);
+                binding.spoilerCustomTextView.setBorderColor(spoilerBackgroundColor);
+                binding.spoilerCustomTextView.setTextColor(spoilerTextColor);
             }
             if (isNSFW) {
-                nsfwTextView.setBackgroundColor(nsfwBackgroundColor);
-                nsfwTextView.setBorderColor(nsfwBackgroundColor);
-                nsfwTextView.setTextColor(nsfwTextColor);
+                binding.nsfwCustomTextView.setBackgroundColor(nsfwBackgroundColor);
+                binding.nsfwCustomTextView.setBorderColor(nsfwBackgroundColor);
+                binding.nsfwCustomTextView.setTextColor(nsfwTextColor);
             }
         } else {
             isPosting = false;
@@ -296,33 +218,33 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                 loadSubredditIconSuccessful = false;
                 subredditName = getIntent().getStringExtra(EXTRA_SUBREDDIT_NAME);
                 subredditSelected = true;
-                subredditNameTextView.setTextColor(primaryTextColor);
-                subredditNameTextView.setText(subredditName);
-                flairTextView.setVisibility(View.VISIBLE);
+                binding.subredditNameTextView.setTextColor(primaryTextColor);
+                binding.subredditNameTextView.setText(subredditName);
+                binding.flairCustomTextView.setVisibility(View.VISIBLE);
                 loadSubredditIcon();
             } else {
                 mGlide.load(R.drawable.subreddit_default_icon)
                         .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                        .into(iconGifImageView);
+                        .into(binding.subredditIconGifImageView);
             }
         }
 
-        accountLinearLayout.setOnClickListener(view -> {
+        binding.accountLinearLayout.setOnClickListener(view -> {
             AccountChooserBottomSheetFragment fragment = new AccountChooserBottomSheetFragment();
             fragment.show(getSupportFragmentManager(), fragment.getTag());
         });
 
-        iconGifImageView.setOnClickListener(view -> subredditNameTextView.performClick());
+        binding.subredditIconGifImageView.setOnClickListener(view -> binding.subredditNameTextView.performClick());
 
-        subredditNameTextView.setOnClickListener(view -> {
+        binding.subredditNameTextView.setOnClickListener(view -> {
             Intent intent = new Intent(this, SubredditSelectionActivity.class);
             intent.putExtra(SubredditSelectionActivity.EXTRA_SPECIFIED_ACCOUNT, selectedAccount);
             startActivityForResult(intent, SUBREDDIT_SELECTION_REQUEST_CODE);
         });
 
-        rulesButton.setOnClickListener(view -> {
+        binding.rulesButton.setOnClickListener(view -> {
             if (subredditName == null) {
-                Snackbar.make(coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(this, RulesActivity.class);
                 if (subredditIsUser) {
@@ -334,7 +256,7 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             }
         });
 
-        flairTextView.setOnClickListener(view -> {
+        binding.flairCustomTextView.setOnClickListener(view -> {
             if (flair == null) {
                 flairSelectionBottomSheetFragment = new FlairBottomSheetFragment();
                 Bundle bundle = new Bundle();
@@ -343,13 +265,14 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                 flairSelectionBottomSheetFragment.setArguments(bundle);
                 flairSelectionBottomSheetFragment.show(getSupportFragmentManager(), flairSelectionBottomSheetFragment.getTag());
             } else {
-                flairTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
-                flairTextView.setTextColor(primaryTextColor);
-                flairTextView.setText(getString(R.string.flair));
+                binding.flairCustomTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
+                binding.flairCustomTextView.setTextColor(primaryTextColor);
+                binding.flairCustomTextView.setText(getString(R.string.flair));
                 flair = null;
             }
         });
 
+        CustomTextView spoilerTextView = binding.nsfwCustomTextView;
         spoilerTextView.setOnClickListener(view -> {
             if (!isSpoiler) {
                 spoilerTextView.setBackgroundColor(spoilerBackgroundColor);
@@ -363,6 +286,7 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             }
         });
 
+        CustomTextView nsfwTextView = binding.nsfwCustomTextView;
         nsfwTextView.setOnClickListener(view -> {
             if (!isNSFW) {
                 nsfwTextView.setBackgroundColor(nsfwBackgroundColor);
@@ -376,12 +300,12 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             }
         });
 
-        receivePostReplyNotificationsLinearLayout.setOnClickListener(view -> {
-            receivePostReplyNotificationsSwitchMaterial.performClick();
+        binding.receivePostReplyNotificationsLinearLayout.setOnClickListener(view -> {
+            binding.receivePostReplyNotificationsSwitch.performClick();
         });
 
-        votingLengthTextView.setText(getString(R.string.voting_length, (int) votingLengthSlider.getValue()));
-        votingLengthSlider.addOnChangeListener((slider, value, fromUser) -> votingLengthTextView.setText(getString(R.string.voting_length, (int) value)));
+        binding.votingLengthTextView.setText(getString(R.string.voting_length, (int) binding.votingLengthSlider.getValue()));
+        binding.votingLengthSlider.addOnChangeListener((slider, value, fromUser) -> binding.votingLengthTextView.setText(getString(R.string.voting_length, (int) value)));
     }
 
     private void loadCurrentAccount() {
@@ -395,9 +319,9 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                             .error(mGlide.load(R.drawable.subreddit_default_icon)
                                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                            .into(accountIconImageView);
+                            .into(binding.accountIconGifImageView);
 
-                    accountNameTextView.setText(account.getAccountName());
+                    binding.accountNameTextView.setText(account.getAccountName());
                 }
             });
         });
@@ -415,85 +339,86 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
         primaryTextColor = mCustomThemeWrapper.getPrimaryTextColor();
-        accountNameTextView.setTextColor(primaryTextColor);
+        binding.accountNameTextView.setTextColor(primaryTextColor);
         int secondaryTextColor = mCustomThemeWrapper.getSecondaryTextColor();
-        subredditNameTextView.setTextColor(secondaryTextColor);
-        rulesButton.setTextColor(mCustomThemeWrapper.getButtonTextColor());
-        rulesButton.setBackgroundColor(mCustomThemeWrapper.getColorPrimaryLightTheme());
-        receivePostReplyNotificationsTextView.setTextColor(primaryTextColor);
+        binding.subredditNameTextView.setTextColor(secondaryTextColor);
+        binding.rulesButton.setTextColor(mCustomThemeWrapper.getButtonTextColor());
+        binding.rulesButton.setBackgroundColor(mCustomThemeWrapper.getColorPrimaryLightTheme());
+        binding.receivePostReplyNotificationsTextView.setTextColor(primaryTextColor);
         int dividerColor = mCustomThemeWrapper.getDividerColor();
-        divider1.setDividerColor(dividerColor);
-        divider2.setDividerColor(dividerColor);
-        divider3.setDividerColor(dividerColor);
+        binding.divider1.setDividerColor(dividerColor);
+        binding.divider2.setDividerColor(dividerColor);
+        binding.divider3.setDividerColor(dividerColor);
         flairBackgroundColor = mCustomThemeWrapper.getFlairBackgroundColor();
         flairTextColor = mCustomThemeWrapper.getFlairTextColor();
         spoilerBackgroundColor = mCustomThemeWrapper.getSpoilerBackgroundColor();
         spoilerTextColor = mCustomThemeWrapper.getSpoilerTextColor();
         nsfwBackgroundColor = mCustomThemeWrapper.getNsfwBackgroundColor();
         nsfwTextColor = mCustomThemeWrapper.getNsfwTextColor();
-        flairTextView.setTextColor(primaryTextColor);
-        spoilerTextView.setTextColor(primaryTextColor);
-        nsfwTextView.setTextColor(primaryTextColor);
-        titleEditText.setTextColor(primaryTextColor);
-        titleEditText.setHintTextColor(secondaryTextColor);
-        option1TextInputLayout.setBoxStrokeColor(primaryTextColor);
-        option1TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        option1TextInputEditText.setTextColor(primaryTextColor);
+        binding.flairCustomTextView.setTextColor(primaryTextColor);
+        binding.spoilerCustomTextView.setTextColor(primaryTextColor);
+        binding.nsfwCustomTextView.setTextColor(primaryTextColor);
+        binding.postTitleEditText.setTextColor(primaryTextColor);
+        binding.postTitleEditText.setHintTextColor(secondaryTextColor);
+        binding.option1TextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.option1TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.option1TextInputLayoutEditText.setTextColor(primaryTextColor);
 
-        option2TextInputLayout.setBoxStrokeColor(primaryTextColor);
-        option2TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        option2TextInputEditText.setTextColor(primaryTextColor);
+        binding.option2TextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.option2TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.option2TextInputLayoutEditText.setTextColor(primaryTextColor);
 
-        option3TextInputLayout.setBoxStrokeColor(primaryTextColor);
-        option3TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        option3TextInputEditText.setTextColor(primaryTextColor);
+        binding.option3TextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.option3TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.option3TextInputLayoutEditText.setTextColor(primaryTextColor);
 
-        option4TextInputLayout.setBoxStrokeColor(primaryTextColor);
-        option4TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        option4TextInputEditText.setTextColor(primaryTextColor);
+        binding.option4TextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.option4TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.option4TextInputLayoutEditText.setTextColor(primaryTextColor);
 
-        option5TextInputLayout.setBoxStrokeColor(primaryTextColor);
-        option5TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        option5TextInputEditText.setTextColor(primaryTextColor);
+        binding.option5TextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.option5TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.option5TextInputLayoutEditText.setTextColor(primaryTextColor);
 
-        option6TextInputLayout.setBoxStrokeColor(primaryTextColor);
-        option6TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
-        option6TextInputEditText.setTextColor(primaryTextColor);
+        binding.option6TextInputLayout.setBoxStrokeColor(primaryTextColor);
+        binding.option6TextInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(primaryTextColor));
+        binding.option6TextInputLayoutEditText.setTextColor(primaryTextColor);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             Drawable cursorDrawable = Utils.getTintedDrawable(this, R.drawable.edit_text_cursor, primaryTextColor);
-            option1TextInputEditText.setTextCursorDrawable(cursorDrawable);
-            option2TextInputEditText.setTextCursorDrawable(cursorDrawable);
-            option3TextInputEditText.setTextCursorDrawable(cursorDrawable);
-            option4TextInputEditText.setTextCursorDrawable(cursorDrawable);
-            option5TextInputEditText.setTextCursorDrawable(cursorDrawable);
-            option6TextInputEditText.setTextCursorDrawable(cursorDrawable);
+            binding.option1TextInputLayoutEditText.setTextCursorDrawable(cursorDrawable);
+            binding.option2TextInputLayoutEditText.setTextCursorDrawable(cursorDrawable);
+            binding.option3TextInputLayoutEditText.setTextCursorDrawable(cursorDrawable);
+            binding.option4TextInputLayoutEditText.setTextCursorDrawable(cursorDrawable);
+            binding.option5TextInputLayoutEditText.setTextCursorDrawable(cursorDrawable);
+            binding.option6TextInputLayoutEditText.setTextCursorDrawable(cursorDrawable);
         } else {
-            setCursorDrawableColor(option1TextInputEditText, primaryTextColor);
-            setCursorDrawableColor(option2TextInputEditText, primaryTextColor);
-            setCursorDrawableColor(option3TextInputEditText, primaryTextColor);
-            setCursorDrawableColor(option4TextInputEditText, primaryTextColor);
-            setCursorDrawableColor(option5TextInputEditText, primaryTextColor);
-            setCursorDrawableColor(option6TextInputEditText, primaryTextColor);
+            setCursorDrawableColor(binding.option1TextInputLayoutEditText, primaryTextColor);
+            setCursorDrawableColor(binding.option2TextInputLayoutEditText, primaryTextColor);
+            setCursorDrawableColor(binding.option3TextInputLayoutEditText, primaryTextColor);
+            setCursorDrawableColor(binding.option4TextInputLayoutEditText, primaryTextColor);
+            setCursorDrawableColor(binding.option5TextInputLayoutEditText, primaryTextColor);
+            setCursorDrawableColor(binding.option6TextInputLayoutEditText, primaryTextColor);
         }
 
         if (typeface != null) {
-            subredditNameTextView.setTypeface(typeface);
-            rulesButton.setTypeface(typeface);
-            receivePostReplyNotificationsTextView.setTypeface(typeface);
-            flairTextView.setTypeface(typeface);
-            spoilerTextView.setTypeface(typeface);
-            nsfwTextView.setTypeface(typeface);
-            titleEditText.setTypeface(typeface);
-            option1TextInputEditText.setTypeface(typeface);
-            option2TextInputEditText.setTypeface(typeface);
-            option3TextInputEditText.setTypeface(typeface);
-            option4TextInputEditText.setTypeface(typeface);
-            option5TextInputEditText.setTypeface(typeface);
-            option6TextInputEditText.setTypeface(typeface);
+            binding.subredditNameTextView.setTypeface(typeface);
+            binding.rulesButton.setTypeface(typeface);
+            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
+            binding.flairCustomTextView.setTypeface(typeface);
+            binding.spoilerCustomTextView.setTypeface(typeface);
+            binding.nsfwCustomTextView.setTypeface(typeface);
+            binding.postTitleEditText.setTypeface(typeface);
+            binding.option1TextInputLayoutEditText.setTypeface(typeface);
+            binding.option2TextInputLayoutEditText.setTypeface(typeface);
+            binding.option3TextInputLayoutEditText.setTypeface(typeface);
+            binding.option4TextInputLayoutEditText.setTypeface(typeface);
+            binding.option5TextInputLayoutEditText.setTypeface(typeface);
+            binding.option6TextInputLayoutEditText.setTypeface(typeface);
         }
     }
 
@@ -523,11 +448,11 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                     .error(mGlide.load(R.drawable.subreddit_default_icon)
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                    .into(iconGifImageView);
+                    .into(binding.subredditIconGifImageView);
         } else {
             mGlide.load(R.drawable.subreddit_default_icon)
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
-                    .into(iconGifImageView);
+                    .into(binding.subredditIconGifImageView);
         }
     }
 
@@ -569,13 +494,13 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                 promptAlertDialog(R.string.exit_when_submit, R.string.exit_when_submit_post_detail);
                 return true;
             } else {
-                if (!titleEditText.getText().toString().equals("")
-                        || !option1TextInputEditText.getText().toString().equals("")
-                        || !option2TextInputEditText.getText().toString().equals("")
-                        || !option3TextInputEditText.getText().toString().equals("")
-                        || !option4TextInputEditText.getText().toString().equals("")
-                        || !option5TextInputEditText.getText().toString().equals("")
-                        || !option6TextInputEditText.getText().toString().equals("")) {
+                if (!binding.postTitleEditText.getText().toString().equals("")
+                        || !binding.option1TextInputLayoutEditText.getText().toString().equals("")
+                        || !binding.option2TextInputLayoutEditText.getText().toString().equals("")
+                        || !binding.option3TextInputLayoutEditText.getText().toString().equals("")
+                        || !binding.option4TextInputLayoutEditText.getText().toString().equals("")
+                        || !binding.option5TextInputLayoutEditText.getText().toString().equals("")
+                        || !binding.option6TextInputLayoutEditText.getText().toString().equals("")) {
                     promptAlertDialog(R.string.discard, R.string.discard_detail);
                     return true;
                 }
@@ -584,44 +509,44 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             return true;
         } else if (itemId == R.id.action_send_post_poll_activity) {
             if (!subredditSelected) {
-                Snackbar.make(coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.select_a_subreddit, Snackbar.LENGTH_SHORT).show();
                 return true;
             }
 
-            if (titleEditText.getText() == null) {
-                Snackbar.make(coordinatorLayout, R.string.title_required, Snackbar.LENGTH_SHORT).show();
+            if (binding.postTitleEditText.getText() == null) {
+                Snackbar.make(binding.coordinatorLayout, R.string.title_required, Snackbar.LENGTH_SHORT).show();
                 return true;
             }
 
             String subredditName;
             if (subredditIsUser) {
-                subredditName = "u_" + subredditNameTextView.getText().toString();
+                subredditName = "u_" + binding.subredditNameTextView.getText().toString();
             } else {
-                subredditName = subredditNameTextView.getText().toString();
+                subredditName = binding.subredditNameTextView.getText().toString();
             }
 
             ArrayList<String> optionList = new ArrayList<>();
-            if (!option1TextInputEditText.getText().toString().equals("")) {
-                optionList.add(option1TextInputEditText.getText().toString());
+            if (!binding.option1TextInputLayoutEditText.getText().toString().equals("")) {
+                optionList.add(binding.option1TextInputLayoutEditText.getText().toString());
             }
-            if (!option2TextInputEditText.getText().toString().equals("")) {
-                optionList.add(option2TextInputEditText.getText().toString());
+            if (!binding.option2TextInputLayoutEditText.getText().toString().equals("")) {
+                optionList.add(binding.option2TextInputLayoutEditText.getText().toString());
             }
-            if (!option3TextInputEditText.getText().toString().equals("")) {
-                optionList.add(option3TextInputEditText.getText().toString());
+            if (!binding.option3TextInputLayoutEditText.getText().toString().equals("")) {
+                optionList.add(binding.option3TextInputLayoutEditText.getText().toString());
             }
-            if (!option4TextInputEditText.getText().toString().equals("")) {
-                optionList.add(option4TextInputEditText.getText().toString());
+            if (!binding.option4TextInputLayoutEditText.getText().toString().equals("")) {
+                optionList.add(binding.option4TextInputLayoutEditText.getText().toString());
             }
-            if (!option5TextInputEditText.getText().toString().equals("")) {
-                optionList.add(option5TextInputEditText.getText().toString());
+            if (!binding.option5TextInputLayoutEditText.getText().toString().equals("")) {
+                optionList.add(binding.option5TextInputLayoutEditText.getText().toString());
             }
-            if (!option6TextInputEditText.getText().toString().equals("")) {
-                optionList.add(option6TextInputEditText.getText().toString());
+            if (!binding.option6TextInputLayoutEditText.getText().toString().equals("")) {
+                optionList.add(binding.option6TextInputLayoutEditText.getText().toString());
             }
             
             if (optionList.size() < 2) {
-                Snackbar.make(coordinatorLayout, R.string.two_options_required, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.two_options_required, Snackbar.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -636,8 +561,8 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             intent.putExtra(SubmitPostService.EXTRA_ACCOUNT, selectedAccount);
             intent.putExtra(SubmitPostService.EXTRA_SUBREDDIT_NAME, subredditName);
             intent.putExtra(SubmitPostService.EXTRA_POST_TYPE, SubmitPostService.EXTRA_POST_TYPE_POLL);
-            PollPayload payload = new PollPayload(subredditName, titleEditText.getText().toString(),
-                    optionList.toArray(new String[0]), (int) votingLengthSlider.getValue(), isNSFW, isSpoiler, flair, receivePostReplyNotificationsSwitchMaterial.isChecked(),
+            PollPayload payload = new PollPayload(subredditName, binding.postTitleEditText.getText().toString(),
+                    optionList.toArray(new String[0]), (int) binding.votingLengthSlider.getValue(), isNSFW, isSpoiler, flair, binding.receivePostReplyNotificationsSwitch.isChecked(),
                     subredditIsUser ? "profile" : "subreddit");
             intent.putExtra(SubmitPostService.EXTRA_POLL_PAYLOAD, new Gson().toJson(payload));
 
@@ -654,13 +579,13 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
         if (isPosting) {
             promptAlertDialog(R.string.exit_when_submit, R.string.exit_when_submit_post_detail);
         } else {
-            if (!titleEditText.getText().toString().equals("")
-                    || !option1TextInputEditText.getText().toString().equals("")
-                    || !option2TextInputEditText.getText().toString().equals("")
-                    || !option3TextInputEditText.getText().toString().equals("")
-                    || !option4TextInputEditText.getText().toString().equals("")
-                    || !option5TextInputEditText.getText().toString().equals("")
-                    || !option6TextInputEditText.getText().toString().equals("")) {
+            if (!binding.postTitleEditText.getText().toString().equals("")
+                    || !binding.option1TextInputLayoutEditText.getText().toString().equals("")
+                    || !binding.option2TextInputLayoutEditText.getText().toString().equals("")
+                    || !binding.option3TextInputLayoutEditText.getText().toString().equals("")
+                    || !binding.option4TextInputLayoutEditText.getText().toString().equals("")
+                    || !binding.option5TextInputLayoutEditText.getText().toString().equals("")
+                    || !binding.option6TextInputLayoutEditText.getText().toString().equals("")) {
                 promptAlertDialog(R.string.discard, R.string.discard_detail);
             } else {
                 finish();
@@ -693,14 +618,14 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                 subredditSelected = true;
                 subredditIsUser = data.getExtras().getBoolean(SubredditSelectionActivity.EXTRA_RETURN_SUBREDDIT_IS_USER);
 
-                subredditNameTextView.setTextColor(primaryTextColor);
-                subredditNameTextView.setText(subredditName);
+                binding.subredditNameTextView.setTextColor(primaryTextColor);
+                binding.subredditNameTextView.setText(subredditName);
                 displaySubredditIcon();
 
-                flairTextView.setVisibility(View.VISIBLE);
-                flairTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
-                flairTextView.setTextColor(primaryTextColor);
-                flairTextView.setText(getString(R.string.flair));
+                binding.flairCustomTextView.setVisibility(View.VISIBLE);
+                binding.flairCustomTextView.setBackgroundColor(resources.getColor(android.R.color.transparent));
+                binding.flairCustomTextView.setTextColor(primaryTextColor);
+                binding.flairCustomTextView.setText(getString(R.string.flair));
                 flair = null;
             }
         }
@@ -709,10 +634,10 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
     @Override
     public void flairSelected(Flair flair) {
         this.flair = flair;
-        flairTextView.setText(flair.getText());
-        flairTextView.setBackgroundColor(flairBackgroundColor);
-        flairTextView.setBorderColor(flairBackgroundColor);
-        flairTextView.setTextColor(flairTextColor);
+        binding.flairCustomTextView.setText(flair.getText());
+        binding.flairCustomTextView.setBackgroundColor(flairBackgroundColor);
+        binding.flairCustomTextView.setBorderColor(flairBackgroundColor);
+        binding.flairCustomTextView.setTextColor(flairTextColor);
     }
 
     @Override
@@ -724,9 +649,9 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                     .error(mGlide.load(R.drawable.subreddit_default_icon)
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                    .into(accountIconImageView);
+                    .into(binding.accountIconGifImageView);
 
-            accountNameTextView.setText(selectedAccount.getAccountName());
+            binding.accountNameTextView.setText(selectedAccount.getAccountName());
         }
     }
 
@@ -748,9 +673,9 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             mMemu.findItem(R.id.action_send_post_poll_activity).setEnabled(true);
             mMemu.findItem(R.id.action_send_post_poll_activity).getIcon().setAlpha(255);
             if (submitPollPostEvent.errorMessage == null || submitPollPostEvent.errorMessage.equals("")) {
-                Snackbar.make(coordinatorLayout, R.string.post_failed, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.post_failed, Snackbar.LENGTH_SHORT).show();
             } else {
-                Snackbar.make(coordinatorLayout, submitPollPostEvent.errorMessage.substring(0, 1).toUpperCase()
+                Snackbar.make(binding.coordinatorLayout, submitPollPostEvent.errorMessage.substring(0, 1).toUpperCase()
                         + submitPollPostEvent.errorMessage.substring(1), Snackbar.LENGTH_SHORT).show();
             }
         }

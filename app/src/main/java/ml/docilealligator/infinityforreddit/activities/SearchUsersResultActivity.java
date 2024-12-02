@@ -11,11 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.material.appbar.AppBarLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -25,19 +21,17 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivitySearchUsersResultBinding;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.fragments.UserListingFragment;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class SearchUsersResultActivity extends BaseActivity implements ActivityToolbarInterface {
-
     static final String EXTRA_QUERY = "EQ";
     static final String EXTRA_IS_MULTI_SELECTION = "EIMS";
     static final String EXTRA_RETURN_USER_NAME = "ERUN";
@@ -46,12 +40,8 @@ public class SearchUsersResultActivity extends BaseActivity implements ActivityT
 
     private static final String FRAGMENT_OUT_STATE = "FOS";
 
-    @BindView(R.id.coordinator_layout_search_users_result_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_search_users_result_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_search_users_result_activity)
-    Toolbar toolbar;
+    private ActivitySearchUsersResultBinding binding;
+
     Fragment mFragment;
     @Inject
     @Named("default")
@@ -69,9 +59,8 @@ public class SearchUsersResultActivity extends BaseActivity implements ActivityT
         ((Infinity) getApplication()).getAppComponent().inject(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_users_result);
-
-        ButterKnife.bind(this);
+        binding = ActivitySearchUsersResultBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -85,7 +74,7 @@ public class SearchUsersResultActivity extends BaseActivity implements ActivityT
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -94,13 +83,13 @@ public class SearchUsersResultActivity extends BaseActivity implements ActivityT
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(toolbar);
+                adjustToolbar(binding.toolbar);
             }
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarGoToTop(toolbar);
+        setToolbarGoToTop(binding.toolbar);
 
         String query = getIntent().getExtras().getString(EXTRA_QUERY);
 
@@ -120,7 +109,7 @@ public class SearchUsersResultActivity extends BaseActivity implements ActivityT
             mFragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_OUT_STATE);
         }
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout_search_users_result_activity, mFragment)
+                .replace(R.id.frame_layout, mFragment)
                 .commit();
     }
 
@@ -136,8 +125,9 @@ public class SearchUsersResultActivity extends BaseActivity implements ActivityT
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
     }
 
     public void getSelectedUser(String name, String iconUrl) {

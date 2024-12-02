@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator_layout_send_private_message_activity"
+    android:id="@+id/coordinator_layout"
     tools:context=".activities.SendPrivateMessageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_send_private_message_activity"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_send_private_message_activity"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/username_edit_text_send_private_message_activity"
+                android:id="@+id/username_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#00000000"
@@ -50,13 +50,13 @@
                 android:fontFamily="?attr/content_font_family" />
 
             <View
-                android:id="@+id/divider_1_send_private_message_activity"
+                android:id="@+id/divider_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="16dp" />
 
             <EditText
-                android:id="@+id/subjet_edit_text_send_private_message_activity"
+                android:id="@+id/subject_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#00000000"
@@ -72,13 +72,13 @@
                 android:fontFamily="?attr/content_font_family" />
 
             <View
-                android:id="@+id/divider_2_send_private_message_activity"
+                android:id="@+id/divider_2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="16dp" />
 
             <EditText
-                android:id="@+id/content_edit_text_send_private_message_activity"
+                android:id="@+id/content_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#00000000"

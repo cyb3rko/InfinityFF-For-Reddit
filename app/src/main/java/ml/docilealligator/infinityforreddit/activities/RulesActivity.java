@@ -9,16 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,8 +22,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.FetchRules;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
@@ -38,30 +29,17 @@ import ml.docilealligator.infinityforreddit.Rule;
 import ml.docilealligator.infinityforreddit.adapters.RulesRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
-import ml.docilealligator.infinityforreddit.customviews.slidr.model.SlidrInterface;
 import ml.docilealligator.infinityforreddit.customviews.slidr.widget.SliderPanel;
+import ml.docilealligator.infinityforreddit.databinding.ActivityRulesBinding;
 import ml.docilealligator.infinityforreddit.events.SwitchAccountEvent;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import retrofit2.Retrofit;
 
 public class RulesActivity extends BaseActivity {
-
     static final String EXTRA_SUBREDDIT_NAME = "ESN";
 
-    @BindView(R.id.coordinator_layout_rules_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_rules_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar_layout_rules_activity)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.toolbar_rules_activity)
-    Toolbar toolbar;
-    @BindView(R.id.progress_bar_rules_activity)
-    ProgressBar progressBar;
-    @BindView(R.id.recycler_view_rules_activity)
-    RecyclerView recyclerView;
-    @BindView(R.id.error_text_view_rules_activity)
-    TextView errorTextView;
+    private ActivityRulesBinding binding;
+
     @Inject
     @Named("no_oauth")
     Retrofit mRetrofit;
@@ -90,9 +68,8 @@ public class RulesActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_rules);
-
-        ButterKnife.bind(this);
+        binding = ActivityRulesBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EventBus.getDefault().register(this);
 
@@ -107,7 +84,7 @@ public class RulesActivity extends BaseActivity {
             Window window = getWindow();
 
             if (isChangeStatusBarIconColor()) {
-                addOnOffsetChangedListener(appBarLayout);
+                addOnOffsetChangedListener(binding.appBarLayout);
             }
 
             if (isImmersiveInterface()) {
@@ -116,33 +93,33 @@ public class RulesActivity extends BaseActivity {
                 } else {
                     window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 }
-                adjustToolbar(toolbar);
+                adjustToolbar(binding.toolbar);
 
                 int navBarHeight = getNavBarHeight();
                 if (navBarHeight > 0) {
-                    recyclerView.setPadding(0, 0, 0, navBarHeight);
+                    binding.recyclerView.setPadding(0, 0, 0, navBarHeight);
                 }
             }
         }
         mAccessToken = mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null);
 
-        appBarLayout.setBackgroundColor(mCustomThemeWrapper.getColorPrimary());
-        setSupportActionBar(toolbar);
+        binding.appBarLayout.setBackgroundColor(mCustomThemeWrapper.getColorPrimary());
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSubredditName = getIntent().getExtras().getString(EXTRA_SUBREDDIT_NAME);
 
         mAdapter = new RulesRecyclerViewAdapter(this, mCustomThemeWrapper, sliderPanel);
-        recyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setAdapter(mAdapter);
 
         FetchRules.fetchRules(mExecutor, new Handler(), mAccessToken == null ? mRetrofit : mOauthRetrofit, mAccessToken, mSubredditName, new FetchRules.FetchRulesListener() {
             @Override
             public void success(ArrayList<Rule> rules) {
-                progressBar.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 if (rules == null || rules.size() == 0) {
-                    errorTextView.setVisibility(View.VISIBLE);
-                    errorTextView.setText(R.string.no_rule);
-                    errorTextView.setOnClickListener(view -> {
+                    binding.errorTextView.setVisibility(View.VISIBLE);
+                    binding.errorTextView.setText(R.string.no_rule);
+                    binding.errorTextView.setOnClickListener(view -> {
                     });
                 }
                 mAdapter.changeDataset(rules);
@@ -168,26 +145,28 @@ public class RulesActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, collapsingToolbarLayout, toolbar);
-        progressBar.setIndeterminateTintList(ColorStateList.valueOf(mCustomThemeWrapper.getColorAccent()));
-        errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
+        binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(mCustomThemeWrapper.getColorAccent()));
+        binding.errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
         if (typeface != null) {
-            errorTextView.setTypeface(typeface);
+            binding.errorTextView.setTypeface(typeface);
         }
     }
 
     private void displayError() {
-        progressBar.setVisibility(View.GONE);
+        TextView errorTextView = binding.errorTextView;
+        binding.progressBar.setVisibility(View.GONE);
         errorTextView.setVisibility(View.VISIBLE);
         errorTextView.setText(R.string.error_loading_rules);
         errorTextView.setOnClickListener(view -> {
-            progressBar.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
             errorTextView.setVisibility(View.GONE);
             FetchRules.fetchRules(mExecutor, new Handler(), mAccessToken == null ? mRetrofit : mOauthRetrofit, mAccessToken, mSubredditName, new FetchRules.FetchRulesListener() {
                 @Override
                 public void success(ArrayList<Rule> rules) {
-                    progressBar.setVisibility(View.GONE);
+                    binding.progressBar.setVisibility(View.GONE);
                     if (rules == null || rules.size() == 0) {
                         errorTextView.setVisibility(View.VISIBLE);
                         errorTextView.setText(R.string.no_rule);

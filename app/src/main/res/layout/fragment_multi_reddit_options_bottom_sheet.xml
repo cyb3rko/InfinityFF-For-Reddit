@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/copy_multi_reddit_path_text_view_multi_reddit_options_bottom_sheet_fragment"
+            android:id="@+id/copy_multi_reddit_path_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -30,7 +30,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/edit_multi_reddit_text_view_multi_reddit_options_bottom_sheet_fragment"
+            android:id="@+id/edit_multi_reddit_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -49,7 +49,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/delete_multi_reddit_text_view_multi_reddit_options_bottom_sheet_fragment"
+            android:id="@+id/delete_multi_reddit_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

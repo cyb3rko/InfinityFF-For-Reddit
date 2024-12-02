@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/import_theme_text_view_create_theme_bottom_sheet_fragment"
+            android:id="@+id/import_theme_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -30,7 +30,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/light_theme_text_view_create_theme_bottom_sheet_fragment"
+            android:id="@+id/light_theme_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -49,7 +49,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/dark_theme_text_view_create_theme_bottom_sheet_fragment"
+            android:id="@+id/dark_theme_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -68,7 +68,7 @@
             android:background="?attr/selectableItemBackground" />
 
         <TextView
-            android:id="@+id/amoled_theme_text_view_create_theme_bottom_sheet_fragment"
+            android:id="@+id/amoled_theme_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

@@ -23,9 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DimenRes;
@@ -40,7 +37,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
@@ -61,9 +57,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import ml.docilealligator.infinityforreddit.FetchPostFilterReadPostsAndConcatenatedSubredditNames;
 import ml.docilealligator.infinityforreddit.FragmentCommunicator;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -73,13 +66,12 @@ import ml.docilealligator.infinityforreddit.RedditDataRoomDatabase;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.adapters.HistoryPostRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.adapters.Paging3LoadingStateAdapter;
-import ml.docilealligator.infinityforreddit.adapters.PostRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.apis.StreamableAPI;
 import ml.docilealligator.infinityforreddit.asynctasks.LoadSubredditIcon;
 import ml.docilealligator.infinityforreddit.asynctasks.LoadUserData;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import ml.docilealligator.infinityforreddit.customviews.CustomToroContainer;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
+import ml.docilealligator.infinityforreddit.databinding.FragmentHistoryPostBinding;
 import ml.docilealligator.infinityforreddit.events.ChangeAutoplayNsfwVideosEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeCompactLayoutToolbarHiddenByDefaultEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeDataSavingModeEvent;
@@ -134,7 +126,6 @@ import ml.docilealligator.infinityforreddit.videoautoplay.media.VolumeInfo;
 import retrofit2.Retrofit;
 
 public class HistoryPostFragment extends Fragment implements FragmentCommunicator {
-
     public static final String EXTRA_ACCESS_TOKEN = "EAT";
     public static final String EXTRA_ACCOUNT_NAME = "EAN";
     public static final String EXTRA_HISTORY_TYPE = "EHT";
@@ -147,16 +138,8 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     private static final String POST_FILTER_STATE = "PFS";
     private static final String POST_FRAGMENT_ID_STATE = "PFIS";
 
-    @BindView(R.id.swipe_refresh_layout_history_post_fragment)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.recycler_view_history_post_fragment)
-    CustomToroContainer mPostRecyclerView;
-    @BindView(R.id.fetch_post_info_linear_layout_history_post_fragment)
-    LinearLayout mFetchPostInfoLinearLayout;
-    @BindView(R.id.fetch_post_info_image_view_history_post_fragment)
-    ImageView mFetchPostInfoImageView;
-    @BindView(R.id.fetch_post_info_text_view_history_post_fragment)
-    TextView mFetchPostInfoTextView;
+    private FragmentHistoryPostBinding binding;
+
     HistoryPostViewModel mHistoryPostViewModel;
     @Inject
     @Named("no_oauth")
@@ -235,7 +218,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     private float swipeActionThreshold;
     private ItemTouchHelper touchHelper;
     private ArrayList<String> readPosts;
-    private Unbinder unbinder;
     private Map<String, String> subredditOrUserIcons = new HashMap<>();
     private String accessToken;
     private int historyType;
@@ -252,14 +234,12 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_history_post, container, false);
+        binding = FragmentHistoryPostBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
-
-        unbinder = ButterKnife.bind(this, rootView);
 
         setHasOptionsMenu(true);
 
@@ -267,7 +247,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
         applyTheme();
 
-        mPostRecyclerView.addOnWindowFocusChangedListener(this::onWindowFocusChanged);
+        binding.recyclerView.addOnWindowFocusChangedListener(this::onWindowFocusChanged);
 
         lazyModeHandler = new Handler();
 
@@ -285,12 +265,12 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         Resources resources = getResources();
 
         if ((activity != null && activity.isImmersiveInterface())) {
-            mPostRecyclerView.setPadding(0, 0, 0, ((BaseActivity) activity).getNavBarHeight());
+            binding.recyclerView.setPadding(0, 0, 0, ((BaseActivity) activity).getNavBarHeight());
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 && mSharedPreferences.getBoolean(SharedPreferencesUtils.IMMERSIVE_INTERFACE_KEY, true)) {
             int navBarResourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
             if (navBarResourceId > 0) {
-                mPostRecyclerView.setPadding(0, 0, 0, resources.getDimensionPixelSize(navBarResourceId));
+                binding.recyclerView.setPadding(0, 0, 0, resources.getDimensionPixelSize(navBarResourceId));
             }
         }
 
@@ -337,8 +317,8 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             }
         };
 
-        mSwipeRefreshLayout.setEnabled(mSharedPreferences.getBoolean(SharedPreferencesUtils.PULL_TO_REFRESH, true));
-        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
+        binding.swipeRefreshLayout.setEnabled(mSharedPreferences.getBoolean(SharedPreferencesUtils.PULL_TO_REFRESH, true));
+        binding.swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         int recyclerViewPosition = 0;
         if (savedInstanceState != null) {
@@ -353,7 +333,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             historyPostFragmentId = System.currentTimeMillis() + new Random().nextInt(1000);
         }
 
-        mPostRecyclerView.setOnTouchListener((view, motionEvent) -> {
+        binding.recyclerView.setOnTouchListener((view, motionEvent) -> {
             if (isInLazyMode) {
                 pauseLazyMode(true);
             }
@@ -361,7 +341,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         });
 
         if (activity instanceof RecyclerViewContentScrollingInterface) {
-            mPostRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     if (dy > 0) {
@@ -427,7 +407,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
                 @Override
                 public void delayTransition() {
-                    TransitionManager.beginDelayedTransition(mPostRecyclerView, new AutoTransition());
+                    TransitionManager.beginDelayedTransition(binding.recyclerView, new AutoTransition());
                 }
             });
         }
@@ -435,17 +415,17 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         int nColumns = getNColumns(resources);
         if (nColumns == 1) {
             mLinearLayoutManager = new LinearLayoutManagerBugFixed(activity);
-            mPostRecyclerView.setLayoutManager(mLinearLayoutManager);
+            binding.recyclerView.setLayoutManager(mLinearLayoutManager);
         } else {
             mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(nColumns, StaggeredGridLayoutManager.VERTICAL);
-            mPostRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.recyclerView.setLayoutManager(mStaggeredGridLayoutManager);
             StaggeredGridLayoutManagerItemOffsetDecoration itemDecoration =
                     new StaggeredGridLayoutManagerItemOffsetDecoration(activity, R.dimen.staggeredLayoutManagerItemOffset, nColumns);
-            mPostRecyclerView.addItemDecoration(itemDecoration);
+            binding.recyclerView.addItemDecoration(itemDecoration);
         }
 
         if (recyclerViewPosition > 0) {
-            mPostRecyclerView.scrollToPosition(recyclerViewPosition);
+            binding.recyclerView.scrollToPosition(recyclerViewPosition);
         }
 
         if (postFilter == null) {
@@ -499,7 +479,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
                 if (touchHelper != null) {
                     exceedThreshold = false;
                     touchHelper.attachToRecyclerView(null);
-                    touchHelper.attachToRecyclerView(mPostRecyclerView);
+                    touchHelper.attachToRecyclerView(binding.recyclerView);
                 }
             }
 
@@ -568,11 +548,11 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
         if (nColumns == 1 && mSharedPreferences.getBoolean(SharedPreferencesUtils.ENABLE_SWIPE_ACTION, false)) {
             swipeActionEnabled = true;
-            touchHelper.attachToRecyclerView(mPostRecyclerView);
+            touchHelper.attachToRecyclerView(binding.recyclerView);
         }
-        mPostRecyclerView.setAdapter(mAdapter);
-        mPostRecyclerView.setCacheManager(mAdapter);
-        mPostRecyclerView.setPlayerInitializer(order -> {
+        binding.recyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setCacheManager(mAdapter);
+        binding.recyclerView.setPlayerInitializer(order -> {
             VolumeInfo volumeInfo = new VolumeInfo(true, 0f);
             return new PlaybackInfo(INDEX_UNSET, TIME_UNSET, volumeInfo);
         });
@@ -589,8 +569,8 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         if (isInLazyMode) {
             resumeLazyMode(false);
         }
-        if (mAdapter != null && mPostRecyclerView != null) {
-            mPostRecyclerView.onWindowVisibilityChanged(View.VISIBLE);
+        if (mAdapter != null && binding.recyclerView != null) {
+            binding.recyclerView.onWindowVisibilityChanged(View.VISIBLE);
         }
     }
 
@@ -677,7 +657,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             LoadState refreshLoadState = combinedLoadStates.getRefresh();
             LoadState appendLoadState = combinedLoadStates.getAppend();
 
-            mSwipeRefreshLayout.setRefreshing(refreshLoadState instanceof LoadState.Loading);
+            binding.swipeRefreshLayout.setRefreshing(refreshLoadState instanceof LoadState.Loading);
             if (refreshLoadState instanceof LoadState.NotLoading) {
                 if (refreshLoadState.getEndOfPaginationReached() && mAdapter.getItemCount() < 1) {
                     noPostFound();
@@ -685,7 +665,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
                     hasPost = true;
                 }
             } else if (refreshLoadState instanceof LoadState.Error) {
-                mFetchPostInfoLinearLayout.setOnClickListener(view -> refresh());
+                binding.fetchPostInfoLinearLayout.setOnClickListener(view -> refresh());
                 showErrorView(R.string.load_posts_error);
             }
             if (!(refreshLoadState instanceof LoadState.Loading) && appendLoadState instanceof LoadState.NotLoading) {
@@ -696,7 +676,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             return null;
         });
 
-        mPostRecyclerView.setAdapter(mAdapter.withLoadStateFooter(new Paging3LoadingStateAdapter(activity, mCustomThemeWrapper, R.string.load_more_posts_error,
+        binding.recyclerView.setAdapter(mAdapter.withLoadStateFooter(new Paging3LoadingStateAdapter(activity, mCustomThemeWrapper, R.string.load_more_posts_error,
                 view -> mAdapter.retry())));
     }
 
@@ -706,7 +686,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             stopLazyMode();
         }
 
-        mFetchPostInfoLinearLayout.setOnClickListener(null);
+        binding.fetchPostInfoLinearLayout.setOnClickListener(null);
         showErrorView(R.string.no_posts);
     }
 
@@ -756,7 +736,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
     @Override
     public void refresh() {
-        mFetchPostInfoLinearLayout.setVisibility(View.GONE);
+        binding.fetchPostInfoLinearLayout.setVisibility(View.GONE);
         hasPost = false;
         if (isInLazyMode) {
             stopLazyMode();
@@ -767,10 +747,10 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
     private void showErrorView(int stringResId) {
         if (activity != null && isAdded()) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            mFetchPostInfoLinearLayout.setVisibility(View.VISIBLE);
-            mFetchPostInfoTextView.setText(stringResId);
-            mGlide.load(R.drawable.error_image).into(mFetchPostInfoImageView);
+            binding.swipeRefreshLayout.setRefreshing(false);
+            binding.fetchPostInfoLinearLayout.setVisibility(View.VISIBLE);
+            binding.fetchPostInfoTextView.setText(stringResId);
+            mGlide.load(R.drawable.error_image).into(binding.fetchPostInfoImageView);
         }
     }
 
@@ -882,25 +862,25 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         int nColumns = getNColumns(getResources());
         if (nColumns == 1) {
             mLinearLayoutManager = new LinearLayoutManagerBugFixed(activity);
-            if (mPostRecyclerView.getItemDecorationCount() > 0) {
-                mPostRecyclerView.removeItemDecorationAt(0);
+            if (binding.recyclerView.getItemDecorationCount() > 0) {
+                binding.recyclerView.removeItemDecorationAt(0);
             }
-            mPostRecyclerView.setLayoutManager(mLinearLayoutManager);
+            binding.recyclerView.setLayoutManager(mLinearLayoutManager);
             mStaggeredGridLayoutManager = null;
         } else {
             mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(nColumns, StaggeredGridLayoutManager.VERTICAL);
-            if (mPostRecyclerView.getItemDecorationCount() > 0) {
-                mPostRecyclerView.removeItemDecorationAt(0);
+            if (binding.recyclerView.getItemDecorationCount() > 0) {
+                binding.recyclerView.removeItemDecorationAt(0);
             }
-            mPostRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.recyclerView.setLayoutManager(mStaggeredGridLayoutManager);
             StaggeredGridLayoutManagerItemOffsetDecoration itemDecoration =
                     new StaggeredGridLayoutManagerItemOffsetDecoration(activity, R.dimen.staggeredLayoutManagerItemOffset, nColumns);
-            mPostRecyclerView.addItemDecoration(itemDecoration);
+            binding.recyclerView.addItemDecoration(itemDecoration);
             mLinearLayoutManager = null;
         }
 
         if (previousPosition > 0) {
-            mPostRecyclerView.scrollToPosition(previousPosition);
+            binding.recyclerView.scrollToPosition(previousPosition);
         }
 
         if (mAdapter != null) {
@@ -911,11 +891,11 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
     @Override
     public void applyTheme() {
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
-        mSwipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
-        mFetchPostInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
+        binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
+        binding.fetchPostInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
         if (activity.typeface != null) {
-            mFetchPostInfoTextView.setTypeface(activity.typeface);
+            binding.fetchPostInfoTextView.setTypeface(activity.typeface);
         }
     }
 
@@ -960,13 +940,13 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             previousPosition = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(into)[0];
         }
 
-        RecyclerView.LayoutManager layoutManager = mPostRecyclerView.getLayoutManager();
-        mPostRecyclerView.setAdapter(null);
-        mPostRecyclerView.setLayoutManager(null);
-        mPostRecyclerView.setAdapter(mAdapter);
-        mPostRecyclerView.setLayoutManager(layoutManager);
+        RecyclerView.LayoutManager layoutManager = binding.recyclerView.getLayoutManager();
+        binding.recyclerView.setAdapter(null);
+        binding.recyclerView.setLayoutManager(null);
+        binding.recyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setLayoutManager(layoutManager);
         if (previousPosition > 0) {
-            mPostRecyclerView.scrollToPosition(previousPosition);
+            binding.recyclerView.scrollToPosition(previousPosition);
         }
     }
 
@@ -990,22 +970,22 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         if (isInLazyMode) {
             pauseLazyMode(false);
         }
-        if (mAdapter != null && mPostRecyclerView != null) {
-            mPostRecyclerView.onWindowVisibilityChanged(View.GONE);
+        if (mAdapter != null) {
+            binding.recyclerView.onWindowVisibilityChanged(View.GONE);
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        binding = null;
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        if (mPostRecyclerView != null) {
-            mPostRecyclerView.addOnWindowFocusChangedListener(null);
+        if (binding.recyclerView != null) {
+            binding.recyclerView.addOnWindowFocusChangedListener(null);
         }
         super.onDestroy();
     }
@@ -1219,7 +1199,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         if (getNColumns(getResources()) == 1 && touchHelper != null) {
             swipeActionEnabled = changeEnableSwipeActionSwitchEvent.enableSwipeAction;
             if (changeEnableSwipeActionSwitchEvent.enableSwipeAction) {
-                touchHelper.attachToRecyclerView(mPostRecyclerView);
+                touchHelper.attachToRecyclerView(binding.recyclerView);
             } else {
                 touchHelper.attachToRecyclerView(null);
             }
@@ -1228,7 +1208,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
     @Subscribe
     public void onChangePullToRefreshEvent(ChangePullToRefreshEvent changePullToRefreshEvent) {
-        mSwipeRefreshLayout.setEnabled(changePullToRefreshEvent.pullToRefresh);
+        binding.swipeRefreshLayout.setEnabled(changePullToRefreshEvent.pullToRefresh);
     }
 
     @Subscribe

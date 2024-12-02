@@ -18,10 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,7 +34,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -46,9 +41,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.loader.ImageLoader;
 import com.github.piasy.biv.loader.glide.GlideImageLoader;
-import com.github.piasy.biv.view.BigImageView;
 import com.github.piasy.biv.view.GlideImageViewFactory;
-import com.google.android.material.bottomappbar.BottomAppBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,8 +50,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.BuildConfig;
 import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.Infinity;
@@ -71,6 +62,7 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.SetAsWallpaperB
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
 import ml.docilealligator.infinityforreddit.customviews.slidr.model.SlidrConfig;
 import ml.docilealligator.infinityforreddit.customviews.slidr.model.SlidrPosition;
+import ml.docilealligator.infinityforreddit.databinding.ActivityViewImageOrGifBinding;
 import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
 import ml.docilealligator.infinityforreddit.font.ContentFontStyle;
 import ml.docilealligator.infinityforreddit.font.FontFamily;
@@ -86,7 +78,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWallpaperCallback, CustomFontReceiver {
-
     public static final String EXTRA_IMAGE_URL_KEY = "EIUK";
     public static final String EXTRA_GIF_URL_KEY = "EGUK";
     public static final String EXTRA_FILE_NAME_KEY = "EFNK";
@@ -94,22 +85,9 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
     public static final String EXTRA_POST_TITLE_KEY = "EPTK";
     public static final String EXTRA_IS_NSFW = "EIN";
     private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
-    @BindView(R.id.progress_bar_view_image_or_gif_activity)
-    ProgressBar mProgressBar;
-    @BindView(R.id.image_view_view_image_or_gif_activity)
-    BigImageView mImageView;
-    @BindView(R.id.load_image_error_linear_layout_view_image_or_gif_activity)
-    LinearLayout mLoadErrorLinearLayout;
-    @BindView(R.id.bottom_navigation_view_image_or_gif_activity)
-    BottomAppBar bottomAppBar;
-    @BindView(R.id.title_text_view_view_image_or_gif_activity)
-    TextView titleTextView;
-    @BindView(R.id.download_image_view_view_image_or_gif_activity)
-    ImageView downloadImageView;
-    @BindView(R.id.share_image_view_view_image_or_gif_activity)
-    ImageView shareImageView;
-    @BindView(R.id.wallpaper_image_view_view_image_or_gif_activity)
-    ImageView wallpaperImageView;
+
+    private ActivityViewImageOrGifBinding binding;
+
     @Inject
     @Named("default")
     SharedPreferences mSharedPreferences;
@@ -169,9 +147,8 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
                 .build();
         BigImageViewer.initialize(GlideImageLoader.with(this.getApplicationContext(), client));
 
-        setContentView(R.layout.activity_view_image_or_gif);
-
-        ButterKnife.bind(this);
+        binding = ActivityViewImageOrGifBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -201,7 +178,7 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
         if (postTitle != null) {
             Spanned title = Html.fromHtml(String.format("<font color=\"#FFFFFF\"><small>%s</small></font>", postTitle));
             if (useBottomAppBar) {
-                titleTextView.setText(title);
+                binding.titleTextView.setText(title);
             } else {
                 setTitle(Utils.getTabTextWithCustomFont(typeface, title));
             }
@@ -213,21 +190,21 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
 
         if (useBottomAppBar) {
             getSupportActionBar().hide();
-            bottomAppBar.setVisibility(View.VISIBLE);
-            downloadImageView.setOnClickListener(view -> {
+            binding.bottomNavigation.setVisibility(View.VISIBLE);
+            binding.downloadImageView.setOnClickListener(view -> {
                 if (isDownloading) {
                     return;
                 }
                 isDownloading = true;
                 requestPermissionAndDownload();
             });
-            shareImageView.setOnClickListener(view -> {
+            binding.shareImageView.setOnClickListener(view -> {
                 if (isGif)
                     shareGif();
                 else
                     shareImage();
             });
-            wallpaperImageView.setOnClickListener(view -> {
+            binding.wallpaperImageView.setOnClickListener(view -> {
                 setWallpaper();
             });
         } else {
@@ -237,13 +214,13 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
             actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparentActionBarAndExoPlayerControllerColor)));
         }
 
-        mLoadErrorLinearLayout.setOnClickListener(view -> {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mLoadErrorLinearLayout.setVisibility(View.GONE);
+        binding.loadImageErrorLinearLayout.setOnClickListener(view -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.loadImageErrorLinearLayout.setVisibility(View.GONE);
             loadImage();
         });
 
-        mImageView.setOnClickListener(view -> {
+        binding.imageView.setOnClickListener(view -> {
             if (isActionBarHidden) {
                 getWindow().getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -251,7 +228,7 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
                                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
                 isActionBarHidden = false;
                 if (useBottomAppBar) {
-                    bottomAppBar.setVisibility(View.VISIBLE);
+                    binding.bottomNavigation.setVisibility(View.VISIBLE);
                 }
             } else {
                 getWindow().getDecorView().setSystemUiVisibility(
@@ -263,14 +240,14 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
                                 | View.SYSTEM_UI_FLAG_IMMERSIVE);
                 isActionBarHidden = true;
                 if (useBottomAppBar) {
-                    bottomAppBar.setVisibility(View.GONE);
+                    binding.bottomNavigation.setVisibility(View.GONE);
                 }
             }
         });
 
-        mImageView.setImageViewFactory(new GlideImageViewFactory());
+        binding.imageView.setImageViewFactory(new GlideImageViewFactory());
 
-        mImageView.setImageLoaderCallback(new ImageLoader.Callback() {
+        binding.imageView.setImageLoaderCallback(new ImageLoader.Callback() {
             @Override
             public void onCacheHit(int imageType, File image) {
 
@@ -298,9 +275,9 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
 
             @Override
             public void onSuccess(File image) {
-                mProgressBar.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
 
-                final SubsamplingScaleImageView view = mImageView.getSSIV();
+                final SubsamplingScaleImageView view = binding.imageView.getSSIV();
 
                 if (view != null) {
                     view.setOnImageEventListener(new SubsamplingScaleImageView.DefaultOnImageEventListener() {
@@ -318,8 +295,8 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
 
             @Override
             public void onFail(Exception error) {
-                mProgressBar.setVisibility(View.GONE);
-                mLoadErrorLinearLayout.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                binding.loadImageErrorLinearLayout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -334,7 +311,7 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
     }
 
     private void loadImage() {
-        mImageView.showImage(Uri.parse(mImageUrl));
+        binding.imageView.showImage(Uri.parse(mImageUrl));
     }
 
     @Override

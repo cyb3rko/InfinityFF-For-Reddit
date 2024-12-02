@@ -9,11 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -22,8 +18,6 @@ import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.FetchRules;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
@@ -34,24 +28,18 @@ import ml.docilealligator.infinityforreddit.Rule;
 import ml.docilealligator.infinityforreddit.adapters.ReportReasonRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.Slidr;
+import ml.docilealligator.infinityforreddit.databinding.ActivityReportBinding;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import retrofit2.Retrofit;
 
 public class ReportActivity extends BaseActivity {
-
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     public static final String EXTRA_THING_FULLNAME = "ETF";
     private static final String GENERAL_REASONS_STATE = "GRS";
     private static final String RULES_REASON_STATE = "RRS";
 
-    @BindView(R.id.coordinator_layout_report_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_report_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_report_activity)
-    Toolbar toolbar;
-    @BindView(R.id.recycler_view_report_activity)
-    RecyclerView recyclerView;
+    private ActivityReportBinding binding;
+
     @Inject
     @Named("oauth")
     Retrofit mOauthRetrofit;
@@ -84,9 +72,8 @@ public class ReportActivity extends BaseActivity {
         setImmersiveModeNotApplicable();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
-
-        ButterKnife.bind(this);
+        binding = ActivityReportBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         applyCustomTheme();
 
@@ -95,10 +82,10 @@ public class ReportActivity extends BaseActivity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isChangeStatusBarIconColor()) {
-            addOnOffsetChangedListener(appBarLayout);
+            addOnOffsetChangedListener(binding.appBarLayout);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mFullname = getIntent().getStringExtra(EXTRA_THING_FULLNAME);
@@ -116,7 +103,7 @@ public class ReportActivity extends BaseActivity {
         } else {
             mAdapter = new ReportReasonRecyclerViewAdapter(this, mCustomThemeWrapper, ReportReason.getGeneralReasons(this));
         }
-        recyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setAdapter(mAdapter);
 
         if (rulesReasons == null) {
             FetchRules.fetchRules(mExecutor, new Handler(), mAccessToken == null ? mRetrofit : mOauthRetrofit, mAccessToken, mSubredditName, new FetchRules.FetchRulesListener() {
@@ -127,7 +114,7 @@ public class ReportActivity extends BaseActivity {
 
                 @Override
                 public void failed() {
-                    Snackbar.make(coordinatorLayout, R.string.error_loading_rules_without_retry, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.coordinatorLayout, R.string.error_loading_rules_without_retry, Snackbar.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -195,7 +182,8 @@ public class ReportActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
     }
 }

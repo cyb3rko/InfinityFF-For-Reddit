@@ -21,33 +21,20 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
-import com.google.android.material.appbar.AppBarLayout;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import ml.docilealligator.infinityforreddit.customviews.LollipopBugFixedWebView;
+import ml.docilealligator.infinityforreddit.databinding.ActivityWebViewBinding;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class WebViewActivity extends BaseActivity {
+    private ActivityWebViewBinding binding;
 
-    @BindView(R.id.coordinator_layout_web_view_activity)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar_layout_web_view_activity)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar_web_view_activity)
-    Toolbar toolbar;
-    @BindView(R.id.web_view_web_view_activity)
-    LollipopBugFixedWebView webView;
     @Inject
     @Named("default")
     SharedPreferences mSharedPreferences;
@@ -67,7 +54,8 @@ public class WebViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         try {
-            setContentView(R.layout.activity_web_view);
+            binding = ActivityWebViewBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
         } catch (InflateException ie) {
             Log.e("LoginActivity", "Failed to inflate LoginActivity: " + ie.getMessage());
             Toast.makeText(WebViewActivity.this, R.string.no_system_webview_error, Toast.LENGTH_SHORT).show();
@@ -75,38 +63,36 @@ public class WebViewActivity extends BaseActivity {
             return;
         }
 
-        ButterKnife.bind(this);
-
         applyCustomTheme();
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
 
         if (mCurrentAccountSharedPreferences.getString(SharedPreferencesUtils.ACCESS_TOKEN, null) == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            webView.setAnonymous(true);
+            binding.webView.setAnonymous(true);
         }
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
+        binding.webView.getSettings().setJavaScriptEnabled(true);
+        binding.webView.getSettings().setDomStorageEnabled(true);
 
         url = getIntent().getDataString();
         if (savedInstanceState == null) {
-            toolbar.setTitle(url);
-            webView.loadUrl(url);
+            binding.toolbar.setTitle(url);
+            binding.webView.loadUrl(url);
         }
 
         WebViewClient client = new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 WebViewActivity.this.url = url;
-                toolbar.setTitle(url);
+                binding.toolbar.setTitle(url);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                toolbar.setTitle(view.getTitle());
+                binding.toolbar.setTitle(view.getTitle());
             }
         };
-        webView.setWebViewClient(client);
+        binding.webView.setWebViewClient(client);
     }
 
     @Override
@@ -121,10 +107,11 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void applyCustomTheme() {
-        coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
-        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(appBarLayout, null, toolbar);
+        binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
+        applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
+                binding.appBarLayout, null, binding.toolbar);
         Drawable closeIcon = Utils.getTintedDrawable(this, R.drawable.ic_close_24dp, mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor());
-        toolbar.setNavigationIcon(closeIcon);
+        binding.toolbar.setNavigationIcon(closeIcon);
     }
 
     @Override
@@ -140,7 +127,7 @@ public class WebViewActivity extends BaseActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_refresh_web_view_activity) {
-            webView.reload();
+            binding.webView.reload();
             return true;
         } else if (item.getItemId() == R.id.action_share_link_web_view_activity) {
             try {
@@ -180,8 +167,8 @@ public class WebViewActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                if (webView.canGoBack()) {
-                    webView.goBack();
+                if (binding.webView.canGoBack()) {
+                    binding.webView.goBack();
                 } else {
                     finish();
                 }
@@ -195,12 +182,12 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        webView.saveState(outState);
+        binding.webView.saveState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        webView.restoreState(savedInstanceState);
+        binding.webView.restoreState(savedInstanceState);
     }
 }

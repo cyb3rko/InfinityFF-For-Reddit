@@ -13,10 +13,7 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,14 +27,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.MarkwonConfiguration;
@@ -59,12 +53,19 @@ import ml.docilealligator.infinityforreddit.bottomsheetfragments.UrlMenuBottomSh
 import ml.docilealligator.infinityforreddit.comment.Comment;
 import ml.docilealligator.infinityforreddit.comment.FetchComment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
-import ml.docilealligator.infinityforreddit.customviews.CommentIndentationView;
 import ml.docilealligator.infinityforreddit.customviews.CustomMarkwonAdapter;
 import ml.docilealligator.infinityforreddit.customviews.LinearLayoutManagerBugFixed;
 import ml.docilealligator.infinityforreddit.customviews.SpoilerOnClickTextView;
 import ml.docilealligator.infinityforreddit.customviews.SwipeLockInterface;
 import ml.docilealligator.infinityforreddit.customviews.SwipeLockLinearLayoutManager;
+import ml.docilealligator.infinityforreddit.databinding.ItemCommentBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemCommentFooterErrorBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemCommentFooterLoadingBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemCommentFullyCollapsedBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemLoadCommentsBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemLoadCommentsFailedPlaceholderBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemLoadMoreCommentsPlaceholderBinding;
+import ml.docilealligator.infinityforreddit.databinding.ItemNoCommentPlaceholderBinding;
 import ml.docilealligator.infinityforreddit.fragments.ViewPostDetailFragment;
 import ml.docilealligator.infinityforreddit.markdown.MarkdownUtils;
 import ml.docilealligator.infinityforreddit.post.Post;
@@ -370,33 +371,33 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
 
                 String authorPrefixed = "u/" + comment.getAuthor();
-                ((CommentViewHolder) holder).authorTextView.setText(authorPrefixed);
+                ((CommentViewHolder) holder).binding.authorTextView.setText(authorPrefixed);
 
                 if (comment.getAuthorFlairHTML() != null && !comment.getAuthorFlairHTML().equals("")) {
-                    ((CommentViewHolder) holder).authorFlairTextView.setVisibility(View.VISIBLE);
-                    Utils.setHTMLWithImageToTextView(((CommentViewHolder) holder).authorFlairTextView, comment.getAuthorFlairHTML(), true);
+                    ((CommentViewHolder) holder).binding.authorFlairTextView.setVisibility(View.VISIBLE);
+                    Utils.setHTMLWithImageToTextView(((CommentViewHolder) holder).binding.authorFlairTextView, comment.getAuthorFlairHTML(), true);
                 } else if (comment.getAuthorFlair() != null && !comment.getAuthorFlair().equals("")) {
-                    ((CommentViewHolder) holder).authorFlairTextView.setVisibility(View.VISIBLE);
-                    ((CommentViewHolder) holder).authorFlairTextView.setText(comment.getAuthorFlair());
+                    ((CommentViewHolder) holder).binding.authorFlairTextView.setVisibility(View.VISIBLE);
+                    ((CommentViewHolder) holder).binding.authorFlairTextView.setText(comment.getAuthorFlair());
                 }
 
                 if (comment.isSubmitter()) {
-                    ((CommentViewHolder) holder).authorTextView.setTextColor(mSubmitterColor);
+                    ((CommentViewHolder) holder).binding.authorTextView.setTextColor(mSubmitterColor);
                     Drawable submitterDrawable = Utils.getTintedDrawable(mActivity, R.drawable.ic_mic_14dp, mSubmitterColor);
-                    ((CommentViewHolder) holder).authorTextView.setCompoundDrawablesWithIntrinsicBounds(
+                    ((CommentViewHolder) holder).binding.authorTextView.setCompoundDrawablesWithIntrinsicBounds(
                             submitterDrawable, null, null, null);
                 } else if (comment.isModerator()) {
-                    ((CommentViewHolder) holder).authorTextView.setTextColor(mModeratorColor);
+                    ((CommentViewHolder) holder).binding.authorTextView.setTextColor(mModeratorColor);
                     Drawable moderatorDrawable = Utils.getTintedDrawable(mActivity, R.drawable.ic_verified_user_14dp, mModeratorColor);
-                    ((CommentViewHolder) holder).authorTextView.setCompoundDrawablesWithIntrinsicBounds(
+                    ((CommentViewHolder) holder).binding.authorTextView.setCompoundDrawablesWithIntrinsicBounds(
                             moderatorDrawable, null, null, null);
                 } else if (comment.getAuthor().equals(mAccountName)) {
-                    ((CommentViewHolder) holder).authorTextView.setTextColor(mCurrentUserColor);
+                    ((CommentViewHolder) holder).binding.authorTextView.setTextColor(mCurrentUserColor);
                     Drawable currentUserDrawable = Utils.getTintedDrawable(mActivity, R.drawable.ic_current_user_14dp, mCurrentUserColor);
-                    ((CommentViewHolder) holder).authorTextView.setCompoundDrawablesWithIntrinsicBounds(
+                    ((CommentViewHolder) holder).binding.authorTextView.setCompoundDrawablesWithIntrinsicBounds(
                             currentUserDrawable, null, null, null);
                 }else if (comment.isAuthorDeleted()) {
-                    ((CommentViewHolder) holder).authorTextView.setTextColor(mDeletedColor);
+                    ((CommentViewHolder) holder).binding.authorTextView.setTextColor(mDeletedColor);
                 }
 
                 if (comment.getAuthorIconUrl() == null) {
@@ -411,7 +412,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                                     .error(mGlide.load(R.drawable.subreddit_default_icon)
                                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                                    .into(((CommentViewHolder) holder).authorIconImageView);
+                                    .into(((CommentViewHolder) holder).binding.authorIconImageView);
                         }
                     });
                 } else {
@@ -419,29 +420,29 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                             .error(mGlide.load(R.drawable.subreddit_default_icon)
                                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                            .into(((CommentViewHolder) holder).authorIconImageView);
+                            .into(((CommentViewHolder) holder).binding.authorIconImageView);
                 }
 
                 if (mShowElapsedTime) {
-                    ((CommentViewHolder) holder).commentTimeTextView.setText(
+                    ((CommentViewHolder) holder).binding.commentTimeTextView.setText(
                             Utils.getElapsedTime(mActivity, comment.getCommentTimeMillis()));
                 } else {
-                    ((CommentViewHolder) holder).commentTimeTextView.setText(Utils.getFormattedTime(mLocale, comment.getCommentTimeMillis(), mTimeFormatPattern));
+                    ((CommentViewHolder) holder).binding.commentTimeTextView.setText(Utils.getFormattedTime(mLocale, comment.getCommentTimeMillis(), mTimeFormatPattern));
                 }
 
                 if (mCommentToolbarHidden) {
-                    ((CommentViewHolder) holder).bottomConstraintLayout.getLayoutParams().height = 0;
+                    ((CommentViewHolder) holder).binding.bottomConstraintLayout.getLayoutParams().height = 0;
                     if (!mHideTheNumberOfVotes) {
-                        ((CommentViewHolder) holder).topScoreTextView.setVisibility(View.VISIBLE);
+                        ((CommentViewHolder) holder).binding.topScoreTextView.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    ((CommentViewHolder) holder).bottomConstraintLayout.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                    ((CommentViewHolder) holder).topScoreTextView.setVisibility(View.GONE);
+                    ((CommentViewHolder) holder).binding.bottomConstraintLayout.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                    ((CommentViewHolder) holder).binding.topScoreTextView.setVisibility(View.GONE);
                 }
 
                 if (!mHideCommentAwards && comment.getAwards() != null && !comment.getAwards().equals("")) {
-                    ((CommentViewHolder) holder).awardsTextView.setVisibility(View.VISIBLE);
-                    Utils.setHTMLWithImageToTextView(((CommentViewHolder) holder).awardsTextView, comment.getAwards(), true);
+                    ((CommentViewHolder) holder).binding.awardsTextView.setVisibility(View.VISIBLE);
+                    Utils.setHTMLWithImageToTextView(((CommentViewHolder) holder).binding.awardsTextView, comment.getAwards(), true);
                 }
 
                 ((CommentViewHolder) holder).mMarkwonAdapter.setMarkdown(mCommentMarkwon, comment.getCommentMarkdown());
@@ -460,77 +461,77 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                 Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                         comment.getScore() + comment.getVoteType()));
                     }
-                    ((CommentViewHolder) holder).scoreTextView.setText(commentText);
-                    ((CommentViewHolder) holder).topScoreTextView.setText(topScoreText);
+                    ((CommentViewHolder) holder).binding.scoreTextView.setText(commentText);
+                    ((CommentViewHolder) holder).binding.topScoreTextView.setText(topScoreText);
                 } else {
-                    ((CommentViewHolder) holder).scoreTextView.setText(mActivity.getString(R.string.vote));
+                    ((CommentViewHolder) holder).binding.scoreTextView.setText(mActivity.getString(R.string.vote));
                 }
 
                 if (comment.isEdited()) {
-                    ((CommentViewHolder) holder).editedTextView.setVisibility(View.VISIBLE);
+                    ((CommentViewHolder) holder).binding.editedTextView.setVisibility(View.VISIBLE);
                 } else {
-                    ((CommentViewHolder) holder).editedTextView.setVisibility(View.GONE);
+                    ((CommentViewHolder) holder).binding.editedTextView.setVisibility(View.GONE);
                 }
 
-                ((CommentViewHolder) holder).commentIndentationView.setShowOnlyOneDivider(mShowOnlyOneCommentLevelIndicator);
-                ((CommentViewHolder) holder).commentIndentationView.setLevelAndColors(comment.getDepth(), verticalBlockColors);
+                ((CommentViewHolder) holder).binding.commentIndentationView.setShowOnlyOneDivider(mShowOnlyOneCommentLevelIndicator);
+                ((CommentViewHolder) holder).binding.commentIndentationView.setLevelAndColors(comment.getDepth(), verticalBlockColors);
                 if (comment.getDepth() >= mDepthThreshold) {
-                    ((CommentViewHolder) holder).saveButton.setVisibility(View.GONE);
-                    ((CommentViewHolder) holder).replyButton.setVisibility(View.GONE);
+                    ((CommentViewHolder) holder).binding.saveButton.setVisibility(View.GONE);
+                    ((CommentViewHolder) holder).binding.replyButton.setVisibility(View.GONE);
                 } else {
-                    ((CommentViewHolder) holder).saveButton.setVisibility(View.VISIBLE);
-                    ((CommentViewHolder) holder).replyButton.setVisibility(View.VISIBLE);
+                    ((CommentViewHolder) holder).binding.saveButton.setVisibility(View.VISIBLE);
+                    ((CommentViewHolder) holder).binding.replyButton.setVisibility(View.VISIBLE);
                 }
 
                 if (comment.hasReply()) {
                     if (comment.getChildCount() > 0 && (mAlwaysShowChildCommentCount || !comment.isExpanded())) {
-                        ((CommentViewHolder) holder).expandButton.setText("+" + comment.getChildCount());
+                        ((CommentViewHolder) holder).binding.expandButton.setText("+" + comment.getChildCount());
                     }
                     if (comment.isExpanded()) {
-                        ((CommentViewHolder) holder).expandButton.setCompoundDrawablesWithIntrinsicBounds(collapseDrawable, null, null, null);
+                        ((CommentViewHolder) holder).binding.expandButton.setCompoundDrawablesWithIntrinsicBounds(collapseDrawable, null, null, null);
                     } else {
-                        ((CommentViewHolder) holder).expandButton.setCompoundDrawablesWithIntrinsicBounds(expandDrawable, null, null, null);
+                        ((CommentViewHolder) holder).binding.expandButton.setCompoundDrawablesWithIntrinsicBounds(expandDrawable, null, null, null);
                     }
-                    ((CommentViewHolder) holder).expandButton.setVisibility(View.VISIBLE);
+                    ((CommentViewHolder) holder).binding.expandButton.setVisibility(View.VISIBLE);
                 }
 
                 switch (comment.getVoteType()) {
                     case Comment.VOTE_TYPE_UPVOTE:
-                        ((CommentViewHolder) holder).upvoteButton
+                        ((CommentViewHolder) holder).binding.upvoteButton
                                 .setColorFilter(mUpvotedColor, PorterDuff.Mode.SRC_IN);
-                        ((CommentViewHolder) holder).scoreTextView.setTextColor(mUpvotedColor);
-                        ((CommentViewHolder) holder).topScoreTextView.setTextColor(mUpvotedColor);
+                        ((CommentViewHolder) holder).binding.scoreTextView.setTextColor(mUpvotedColor);
+                        ((CommentViewHolder) holder).binding.topScoreTextView.setTextColor(mUpvotedColor);
                         break;
                     case Comment.VOTE_TYPE_DOWNVOTE:
-                        ((CommentViewHolder) holder).downvoteButton
+                        ((CommentViewHolder) holder).binding.downvoteButton
                                 .setColorFilter(mDownvotedColor, PorterDuff.Mode.SRC_IN);
-                        ((CommentViewHolder) holder).scoreTextView.setTextColor(mDownvotedColor);
-                        ((CommentViewHolder) holder).topScoreTextView.setTextColor(mDownvotedColor);
+                        ((CommentViewHolder) holder).binding.scoreTextView.setTextColor(mDownvotedColor);
+                        ((CommentViewHolder) holder).binding.topScoreTextView.setTextColor(mDownvotedColor);
                         break;
                 }
 
                 if (mPost.isArchived()) {
-                    ((CommentViewHolder) holder).replyButton
+                    ((CommentViewHolder) holder).binding.replyButton
                             .setColorFilter(mVoteAndReplyUnavailableVoteButtonColor,
                                     PorterDuff.Mode.SRC_IN);
-                    ((CommentViewHolder) holder).upvoteButton
+                    ((CommentViewHolder) holder).binding.upvoteButton
                             .setColorFilter(mVoteAndReplyUnavailableVoteButtonColor,
                                     PorterDuff.Mode.SRC_IN);
-                    ((CommentViewHolder) holder).downvoteButton
+                    ((CommentViewHolder) holder).binding.downvoteButton
                             .setColorFilter(mVoteAndReplyUnavailableVoteButtonColor,
                                     PorterDuff.Mode.SRC_IN);
                 }
 
                 if (mPost.isLocked()) {
-                    ((CommentViewHolder) holder).replyButton
+                    ((CommentViewHolder) holder).binding.replyButton
                             .setColorFilter(mVoteAndReplyUnavailableVoteButtonColor,
                                     PorterDuff.Mode.SRC_IN);
                 }
 
                 if (comment.isSaved()) {
-                    ((CommentViewHolder) holder).saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
+                    ((CommentViewHolder) holder).binding.saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
                 } else {
-                    ((CommentViewHolder) holder).saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
+                    ((CommentViewHolder) holder).binding.saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
                 }
 
                 if (position == mSearchCommentIndex) {
@@ -548,7 +549,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             Comment comment = getCurrentComment(position);
             if (comment != null) {
                 String authorWithPrefix = "u/" + comment.getAuthor();
-                ((CommentFullyCollapsedViewHolder) holder).usernameTextView.setText(authorWithPrefix);
+                ((CommentFullyCollapsedViewHolder) holder).binding.userNameTextView.setText(authorWithPrefix);
 
                 if (comment.getAuthorIconUrl() == null) {
                     mFragment.loadIcon(comment.getAuthor(), (authorName, iconUrl) -> {
@@ -562,7 +563,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                                     .error(mGlide.load(R.drawable.subreddit_default_icon)
                                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                                    .into(((CommentFullyCollapsedViewHolder) holder).authorIconImageView);
+                                    .into(((CommentFullyCollapsedViewHolder) holder).binding.authorIconImageView);
                         }
                     });
                 } else {
@@ -570,30 +571,30 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0)))
                             .error(mGlide.load(R.drawable.subreddit_default_icon)
                                     .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(72, 0))))
-                            .into(((CommentFullyCollapsedViewHolder) holder).authorIconImageView);
+                            .into(((CommentFullyCollapsedViewHolder) holder).binding.authorIconImageView);
                 }
 
                 if (comment.getChildCount() > 0) {
-                    ((CommentFullyCollapsedViewHolder) holder).childCountTextView.setVisibility(View.VISIBLE);
-                    ((CommentFullyCollapsedViewHolder) holder).childCountTextView.setText("+" + comment.getChildCount());
+                    ((CommentFullyCollapsedViewHolder) holder).binding.childCountTextView.setVisibility(View.VISIBLE);
+                    ((CommentFullyCollapsedViewHolder) holder).binding.childCountTextView.setText("+" + comment.getChildCount());
                 } else {
-                    ((CommentFullyCollapsedViewHolder) holder).childCountTextView.setVisibility(View.GONE);
+                    ((CommentFullyCollapsedViewHolder) holder).binding.childCountTextView.setVisibility(View.GONE);
                 }
                 if (mShowElapsedTime) {
-                    ((CommentFullyCollapsedViewHolder) holder).commentTimeTextView.setText(Utils.getElapsedTime(mActivity, comment.getCommentTimeMillis()));
+                    ((CommentFullyCollapsedViewHolder) holder).binding.timeTextView.setText(Utils.getElapsedTime(mActivity, comment.getCommentTimeMillis()));
                 } else {
-                    ((CommentFullyCollapsedViewHolder) holder).commentTimeTextView.setText(Utils.getFormattedTime(mLocale, comment.getCommentTimeMillis(), mTimeFormatPattern));
+                    ((CommentFullyCollapsedViewHolder) holder).binding.timeTextView.setText(Utils.getFormattedTime(mLocale, comment.getCommentTimeMillis(), mTimeFormatPattern));
                 }
                 if (!comment.isScoreHidden() && !mHideTheNumberOfVotes) {
-                    ((CommentFullyCollapsedViewHolder) holder).scoreTextView.setText(mActivity.getString(R.string.top_score,
+                    ((CommentFullyCollapsedViewHolder) holder).binding.scoreTextView.setText(mActivity.getString(R.string.top_score,
                             Utils.getNVotes(mShowAbsoluteNumberOfVotes, comment.getScore() + comment.getVoteType())));
                 } else if (mHideTheNumberOfVotes) {
-                    ((CommentFullyCollapsedViewHolder) holder).scoreTextView.setText(mActivity.getString(R.string.vote));
+                    ((CommentFullyCollapsedViewHolder) holder).binding.scoreTextView.setText(mActivity.getString(R.string.vote));
                 } else {
-                    ((CommentFullyCollapsedViewHolder) holder).scoreTextView.setText(mActivity.getString(R.string.hidden));
+                    ((CommentFullyCollapsedViewHolder) holder).binding.scoreTextView.setText(mActivity.getString(R.string.hidden));
                 }
-                ((CommentFullyCollapsedViewHolder) holder).commentIndentationView.setShowOnlyOneDivider(mShowOnlyOneCommentLevelIndicator);
-                ((CommentFullyCollapsedViewHolder) holder).commentIndentationView.setLevelAndColors(comment.getDepth(), verticalBlockColors);
+                ((CommentFullyCollapsedViewHolder) holder).binding.commentIndentationView.setShowOnlyOneDivider(mShowOnlyOneCommentLevelIndicator);
+                ((CommentFullyCollapsedViewHolder) holder).binding.commentIndentationView.setLevelAndColors(comment.getDepth(), verticalBlockColors);
 
                 if (mShowCommentDivider) {
                     if (mDividerType == DIVIDER_PARENT && comment.getDepth() == 0) {
@@ -607,23 +608,23 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             placeholder = mIsSingleCommentThreadMode ? mVisibleComments.get(holder.getBindingAdapterPosition() - 1)
                     : mVisibleComments.get(holder.getBindingAdapterPosition());
 
-            ((LoadMoreChildCommentsViewHolder) holder).commentIndentationView.setShowOnlyOneDivider(mShowOnlyOneCommentLevelIndicator);
-            ((LoadMoreChildCommentsViewHolder) holder).commentIndentationView.setLevelAndColors(placeholder.getDepth(), verticalBlockColors);
+            ((LoadMoreChildCommentsViewHolder) holder).binding.commentIndentationView.setShowOnlyOneDivider(mShowOnlyOneCommentLevelIndicator);
+            ((LoadMoreChildCommentsViewHolder) holder).binding.commentIndentationView.setLevelAndColors(placeholder.getDepth(), verticalBlockColors);
 
             if (placeholder.getPlaceholderType() == Comment.PLACEHOLDER_LOAD_MORE_COMMENTS) {
                 if (placeholder.isLoadingMoreChildren()) {
-                    ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.loading);
+                    ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.loading);
                 } else if (placeholder.isLoadMoreChildrenFailed()) {
-                    ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.comment_load_more_comments_failed);
+                    ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.comment_load_more_comments_failed);
                 } else {
-                    ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.comment_load_more_comments);
+                    ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.comment_load_more_comments);
                 }
             } else {
-                ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.comment_continue_thread);
+                ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.comment_continue_thread);
             }
 
             if (placeholder.getPlaceholderType() == Comment.PLACEHOLDER_LOAD_MORE_COMMENTS) {
-                ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setOnClickListener(view -> {
+                ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setOnClickListener(view -> {
                     int commentPosition = mIsSingleCommentThreadMode ? holder.getBindingAdapterPosition() - 1 : holder.getBindingAdapterPosition();
                     int parentPosition = getParentPosition(commentPosition);
                     if (parentPosition >= 0) {
@@ -631,7 +632,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
                         mVisibleComments.get(commentPosition).setLoadingMoreChildren(true);
                         mVisibleComments.get(commentPosition).setLoadMoreChildrenFailed(false);
-                        ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.loading);
+                        ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.loading);
 
                         Retrofit retrofit = mAccessToken == null ? mRetrofit : mGQLRetrofit;
                         SortType.Type sortType = mCommentRecyclerViewAdapterCallback.getSortType();
@@ -656,7 +657,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                                     if (placeholderPosition != -1) {
                                                         mVisibleComments.get(placeholderPosition).setLoadingMoreChildren(false);
                                                         mVisibleComments.get(placeholderPosition).setLoadMoreChildrenFailed(false);
-                                                        ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.comment_load_more_comments);
+                                                        ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.comment_load_more_comments);
 
                                                         mVisibleComments.addAll(placeholderPosition, expandedComments);
                                                         if (mIsSingleCommentThreadMode) {
@@ -711,7 +712,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                                         if (placeholderPosition != -1) {
                                                             mVisibleComments.get(placeholderPosition).setLoadingMoreChildren(false);
                                                             mVisibleComments.get(placeholderPosition).setLoadMoreChildrenFailed(false);
-                                                            ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.comment_load_more_comments);
+                                                            ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.comment_load_more_comments);
 
                                                             mVisibleComments.addAll(placeholderPosition, expandedComments);
                                                             if (mIsSingleCommentThreadMode) {
@@ -757,7 +758,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                                 mVisibleComments.get(placeholderPosition).setLoadingMoreChildren(false);
                                                 mVisibleComments.get(placeholderPosition).setLoadMoreChildrenFailed(true);
                                             }
-                                            ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setText(R.string.comment_load_more_comments_failed);
+                                            ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setText(R.string.comment_load_more_comments_failed);
                                         }
                                         currentParentComment.getChildren().get(currentParentComment.getChildren().size() - 1)
                                                 .setLoadingMoreChildren(false);
@@ -768,7 +769,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 });
             } else {
-                ((LoadMoreChildCommentsViewHolder) holder).placeholderTextView.setOnClickListener(view -> {
+                ((LoadMoreChildCommentsViewHolder) holder).binding.placeholderTextView.setOnClickListener(view -> {
                     Comment comment = getCurrentComment(holder);
                     if (comment != null) {
                         Intent intent = new Intent(mActivity, ViewPostDetailActivity.class);
@@ -1083,15 +1084,15 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         if (viewHolder instanceof CommentViewHolder) {
             if (direction == ItemTouchHelper.LEFT || direction == ItemTouchHelper.START) {
                 if (swipeLeftAction == SharedPreferencesUtils.SWIPE_ACITON_UPVOTE) {
-                    ((CommentViewHolder) viewHolder).upvoteButton.performClick();
+                    ((CommentViewHolder) viewHolder).binding.upvoteButton.performClick();
                 } else if (swipeLeftAction == SharedPreferencesUtils.SWIPE_ACITON_DOWNVOTE) {
-                    ((CommentViewHolder) viewHolder).downvoteButton.performClick();
+                    ((CommentViewHolder) viewHolder).binding.downvoteButton.performClick();
                 }
             } else {
                 if (swipeRightAction == SharedPreferencesUtils.SWIPE_ACITON_UPVOTE) {
-                    ((CommentViewHolder) viewHolder).upvoteButton.performClick();
+                    ((CommentViewHolder) viewHolder).binding.upvoteButton.performClick();
                 } else if (swipeRightAction == SharedPreferencesUtils.SWIPE_ACITON_DOWNVOTE) {
-                    ((CommentViewHolder) viewHolder).downvoteButton.performClick();
+                    ((CommentViewHolder) viewHolder).binding.downvoteButton.performClick();
                 }
             }
         }
@@ -1129,19 +1130,19 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         if (holder instanceof CommentViewHolder) {
             holder.itemView.setBackgroundColor(mCommentBackgroundColor);
-            ((CommentViewHolder) holder).authorTextView.setTextColor(mUsernameColor);
-            ((CommentViewHolder) holder).authorFlairTextView.setVisibility(View.GONE);
-            ((CommentViewHolder) holder).authorTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-            mGlide.clear(((CommentViewHolder) holder).authorIconImageView);
-            ((CommentViewHolder) holder).topScoreTextView.setTextColor(mSecondaryTextColor);
-            ((CommentViewHolder) holder).awardsTextView.setText("");
-            ((CommentViewHolder) holder).awardsTextView.setVisibility(View.GONE);
-            ((CommentViewHolder) holder).expandButton.setVisibility(View.GONE);
-            ((CommentViewHolder) holder).upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            ((CommentViewHolder) holder).scoreTextView.setTextColor(mCommentIconAndInfoColor);
-            ((CommentViewHolder) holder).downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            ((CommentViewHolder) holder).expandButton.setText("");
-            ((CommentViewHolder) holder).replyButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            ((CommentViewHolder) holder).binding.authorTextView.setTextColor(mUsernameColor);
+            ((CommentViewHolder) holder).binding.authorFlairTextView.setVisibility(View.GONE);
+            ((CommentViewHolder) holder).binding.authorTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            mGlide.clear(((CommentViewHolder) holder).binding.authorIconImageView);
+            ((CommentViewHolder) holder).binding.topScoreTextView.setTextColor(mSecondaryTextColor);
+            ((CommentViewHolder) holder).binding.awardsTextView.setText("");
+            ((CommentViewHolder) holder).binding.awardsTextView.setVisibility(View.GONE);
+            ((CommentViewHolder) holder).binding.expandButton.setVisibility(View.GONE);
+            ((CommentViewHolder) holder).binding.upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            ((CommentViewHolder) holder).binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
+            ((CommentViewHolder) holder).binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            ((CommentViewHolder) holder).binding.expandButton.setText("");
+            ((CommentViewHolder) holder).binding.replyButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
             params.setMargins(0, 0, 0, 0);
         }
@@ -1177,118 +1178,79 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.linear_layout_item_comment)
-        LinearLayout linearLayout;
-        @BindView(R.id.author_icon_image_view_item_post_comment)
-        ImageView authorIconImageView;
-        @BindView(R.id.author_text_view_item_post_comment)
-        TextView authorTextView;
-        @BindView(R.id.author_flair_text_view_item_post_comment)
-        TextView authorFlairTextView;
-        @BindView(R.id.comment_time_text_view_item_post_comment)
-        TextView commentTimeTextView;
-        @BindView(R.id.top_score_text_view_item_post_comment)
-        TextView topScoreTextView;
-        @BindView(R.id.awards_text_view_item_comment)
-        TextView awardsTextView;
-        @BindView(R.id.comment_markdown_view_item_post_comment)
-        RecyclerView commentMarkdownView;
-        @BindView(R.id.edited_text_view_item_post_comment)
-        TextView editedTextView;
-        @BindView(R.id.bottom_constraint_layout_item_post_comment)
-        ConstraintLayout bottomConstraintLayout;
-        @BindView(R.id.up_vote_button_item_post_comment)
-        ImageView upvoteButton;
-        @BindView(R.id.score_text_view_item_post_comment)
-        TextView scoreTextView;
-        @BindView(R.id.down_vote_button_item_post_comment)
-        ImageView downvoteButton;
-        @BindView(R.id.placeholder_item_post_comment)
-        View placeholder;
-        @BindView(R.id.more_button_item_post_comment)
-        ImageView moreButton;
-        @BindView(R.id.save_button_item_post_comment)
-        ImageView saveButton;
-        @BindView(R.id.expand_button_item_post_comment)
-        TextView expandButton;
-        @BindView(R.id.reply_button_item_post_comment)
-        ImageView replyButton;
-        @BindView(R.id.vertical_block_indentation_item_comment)
-        CommentIndentationView commentIndentationView;
-        @BindView(R.id.divider_item_comment)
-        View commentDivider;
+        private final ItemCommentBinding binding;
         CustomMarkwonAdapter mMarkwonAdapter;
 
         CommentViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemCommentBinding.bind(itemView);
 
             if (mVoteButtonsOnTheRight) {
                 ConstraintSet constraintSet = new ConstraintSet();
-                constraintSet.clone(bottomConstraintLayout);
-                constraintSet.clear(upvoteButton.getId(), ConstraintSet.START);
-                constraintSet.clear(upvoteButton.getId(), ConstraintSet.END);
-                constraintSet.clear(scoreTextView.getId(), ConstraintSet.START);
-                constraintSet.clear(scoreTextView.getId(), ConstraintSet.END);
-                constraintSet.clear(downvoteButton.getId(), ConstraintSet.START);
-                constraintSet.clear(downvoteButton.getId(), ConstraintSet.END);
-                constraintSet.clear(expandButton.getId(), ConstraintSet.START);
-                constraintSet.clear(expandButton.getId(), ConstraintSet.END);
-                constraintSet.clear(saveButton.getId(), ConstraintSet.START);
-                constraintSet.clear(saveButton.getId(), ConstraintSet.END);
-                constraintSet.clear(replyButton.getId(), ConstraintSet.START);
-                constraintSet.clear(replyButton.getId(), ConstraintSet.END);
-                constraintSet.clear(moreButton.getId(), ConstraintSet.START);
-                constraintSet.clear(moreButton.getId(), ConstraintSet.END);
-                constraintSet.connect(upvoteButton.getId(), ConstraintSet.END, scoreTextView.getId(), ConstraintSet.START);
-                constraintSet.connect(upvoteButton.getId(), ConstraintSet.START, placeholder.getId(), ConstraintSet.END);
-                constraintSet.connect(scoreTextView.getId(), ConstraintSet.END, downvoteButton.getId(), ConstraintSet.START);
-                constraintSet.connect(scoreTextView.getId(), ConstraintSet.START, upvoteButton.getId(), ConstraintSet.END);
-                constraintSet.connect(downvoteButton.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
-                constraintSet.connect(downvoteButton.getId(), ConstraintSet.START, scoreTextView.getId(), ConstraintSet.END);
-                constraintSet.connect(placeholder.getId(), ConstraintSet.END, upvoteButton.getId(), ConstraintSet.START);
-                constraintSet.connect(placeholder.getId(), ConstraintSet.START, moreButton.getId(), ConstraintSet.END);
-                constraintSet.connect(moreButton.getId(), ConstraintSet.START, expandButton.getId(), ConstraintSet.END);
-                constraintSet.connect(moreButton.getId(), ConstraintSet.END, placeholder.getId(), ConstraintSet.START);
-                constraintSet.connect(expandButton.getId(), ConstraintSet.START, saveButton.getId(), ConstraintSet.END);
-                constraintSet.connect(expandButton.getId(), ConstraintSet.END, moreButton.getId(), ConstraintSet.START);
-                constraintSet.connect(saveButton.getId(), ConstraintSet.START, replyButton.getId(), ConstraintSet.END);
-                constraintSet.connect(saveButton.getId(), ConstraintSet.END, expandButton.getId(), ConstraintSet.START);
-                constraintSet.connect(replyButton.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
-                constraintSet.connect(replyButton.getId(), ConstraintSet.END, saveButton.getId(), ConstraintSet.START);
-                constraintSet.applyTo(bottomConstraintLayout);
+                constraintSet.clone(binding.bottomConstraintLayout);
+                constraintSet.clear(binding.upvoteButton.getId(), ConstraintSet.START);
+                constraintSet.clear(binding.upvoteButton.getId(), ConstraintSet.END);
+                constraintSet.clear(binding.scoreTextView.getId(), ConstraintSet.START);
+                constraintSet.clear(binding.scoreTextView.getId(), ConstraintSet.END);
+                constraintSet.clear(binding.downvoteButton.getId(), ConstraintSet.START);
+                constraintSet.clear(binding.downvoteButton.getId(), ConstraintSet.END);
+                constraintSet.clear(binding.expandButton.getId(), ConstraintSet.START);
+                constraintSet.clear(binding.expandButton.getId(), ConstraintSet.END);
+                constraintSet.clear(binding.saveButton.getId(), ConstraintSet.START);
+                constraintSet.clear(binding.saveButton.getId(), ConstraintSet.END);
+                constraintSet.clear(binding.replyButton.getId(), ConstraintSet.START);
+                constraintSet.clear(binding.replyButton.getId(), ConstraintSet.END);
+                constraintSet.clear(binding.moreButton.getId(), ConstraintSet.START);
+                constraintSet.clear(binding.moreButton.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.upvoteButton.getId(), ConstraintSet.END, binding.scoreTextView.getId(), ConstraintSet.START);
+                constraintSet.connect(binding.upvoteButton.getId(), ConstraintSet.START, binding.placeholder.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.scoreTextView.getId(), ConstraintSet.END, binding.downvoteButton.getId(), ConstraintSet.START);
+                constraintSet.connect(binding.scoreTextView.getId(), ConstraintSet.START, binding.upvoteButton.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.downvoteButton.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+                constraintSet.connect(binding.downvoteButton.getId(), ConstraintSet.START, binding.scoreTextView.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.placeholder.getId(), ConstraintSet.END, binding.upvoteButton.getId(), ConstraintSet.START);
+                constraintSet.connect(binding.placeholder.getId(), ConstraintSet.START, binding.moreButton.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.moreButton.getId(), ConstraintSet.START, binding.expandButton.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.moreButton.getId(), ConstraintSet.END, binding.placeholder.getId(), ConstraintSet.START);
+                constraintSet.connect(binding.expandButton.getId(), ConstraintSet.START, binding.saveButton.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.expandButton.getId(), ConstraintSet.END, binding.moreButton.getId(), ConstraintSet.START);
+                constraintSet.connect(binding.saveButton.getId(), ConstraintSet.START, binding.replyButton.getId(), ConstraintSet.END);
+                constraintSet.connect(binding.saveButton.getId(), ConstraintSet.END, binding.expandButton.getId(), ConstraintSet.START);
+                constraintSet.connect(binding.replyButton.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+                constraintSet.connect(binding.replyButton.getId(), ConstraintSet.END, binding.saveButton.getId(), ConstraintSet.START);
+                constraintSet.applyTo(binding.bottomConstraintLayout);
             }
 
-            if (linearLayout.getLayoutTransition() != null) {
-                linearLayout.getLayoutTransition().setAnimateParentHierarchy(false);
+            if (binding.linearLayout.getLayoutTransition() != null) {
+                binding.linearLayout.getLayoutTransition().setAnimateParentHierarchy(false);
             }
 
             if (mShowCommentDivider) {
                 if (mDividerType == DIVIDER_NORMAL) {
-                    commentDivider.setBackgroundColor(mDividerColor);
-                    commentDivider.setVisibility(View.VISIBLE);
+                    binding.divider.setBackgroundColor(mDividerColor);
+                    binding.divider.setVisibility(View.VISIBLE);
                 }
             }
 
             if (mActivity.typeface != null) {
-                authorTextView.setTypeface(mActivity.typeface);
-                commentTimeTextView.setTypeface(mActivity.typeface);
-                authorFlairTextView.setTypeface(mActivity.typeface);
-                topScoreTextView.setTypeface(mActivity.typeface);
-                editedTextView.setTypeface(mActivity.typeface);
-                awardsTextView.setTypeface(mActivity.typeface);
-                scoreTextView.setTypeface(mActivity.typeface);
-                expandButton.setTypeface(mActivity.typeface);
+                binding.authorTextView.setTypeface(mActivity.typeface);
+                binding.commentTimeTextView.setTypeface(mActivity.typeface);
+                binding.authorFlairTextView.setTypeface(mActivity.typeface);
+                binding.topScoreTextView.setTypeface(mActivity.typeface);
+                binding.editedTextView.setTypeface(mActivity.typeface);
+                binding.awardsTextView.setTypeface(mActivity.typeface);
+                binding.scoreTextView.setTypeface(mActivity.typeface);
+                binding.expandButton.setTypeface(mActivity.typeface);
             }
 
             if (mShowAuthorAvatar) {
-                authorIconImageView.setVisibility(View.VISIBLE);
+                binding.authorIconImageView.setVisibility(View.VISIBLE);
             } else {
-                ((ConstraintLayout.LayoutParams) authorTextView.getLayoutParams()).leftMargin = 0;
-                ((ConstraintLayout.LayoutParams) authorFlairTextView.getLayoutParams()).leftMargin = 0;
+                ((ConstraintLayout.LayoutParams) binding.authorTextView.getLayoutParams()).leftMargin = 0;
+                ((ConstraintLayout.LayoutParams) binding.authorFlairTextView.getLayoutParams()).leftMargin = 0;
             }
 
-            commentMarkdownView.setRecycledViewPool(recycledViewPool);
+            binding.commentMarkdownView.setRecycledViewPool(recycledViewPool);
             LinearLayoutManagerBugFixed linearLayoutManager = new SwipeLockLinearLayoutManager(mActivity, new SwipeLockInterface() {
                 @Override
                 public void lockSwipe() {
@@ -1300,29 +1262,29 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     ((ViewPostDetailActivity) mActivity).unlockSwipeRightToGoBack();
                 }
             });
-            commentMarkdownView.setLayoutManager(linearLayoutManager);
+            binding.commentMarkdownView.setLayoutManager(linearLayoutManager);
             mMarkwonAdapter = MarkdownUtils.createCustomTablesAdapter();
-            commentMarkdownView.setAdapter(mMarkwonAdapter);
+            binding.commentMarkdownView.setAdapter(mMarkwonAdapter);
 
             itemView.setBackgroundColor(mCommentBackgroundColor);
-            authorTextView.setTextColor(mUsernameColor);
-            commentTimeTextView.setTextColor(mSecondaryTextColor);
-            authorFlairTextView.setTextColor(mAuthorFlairTextColor);
-            topScoreTextView.setTextColor(mSecondaryTextColor);
-            editedTextView.setTextColor(mSecondaryTextColor);
-            awardsTextView.setTextColor(mSecondaryTextColor);
-            commentDivider.setBackgroundColor(mDividerColor);
-            upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            scoreTextView.setTextColor(mCommentIconAndInfoColor);
-            downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            moreButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            expandButton.setTextColor(mCommentIconAndInfoColor);
-            saveButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            replyButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            binding.authorTextView.setTextColor(mUsernameColor);
+            binding.commentTimeTextView.setTextColor(mSecondaryTextColor);
+            binding.authorFlairTextView.setTextColor(mAuthorFlairTextColor);
+            binding.topScoreTextView.setTextColor(mSecondaryTextColor);
+            binding.editedTextView.setTextColor(mSecondaryTextColor);
+            binding.awardsTextView.setTextColor(mSecondaryTextColor);
+            binding.divider.setBackgroundColor(mDividerColor);
+            binding.upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
+            binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            binding.moreButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            binding.expandButton.setTextColor(mCommentIconAndInfoColor);
+            binding.saveButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            binding.replyButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
 
-            authorFlairTextView.setOnClickListener(view -> authorTextView.performClick());
+            binding.authorFlairTextView.setOnClickListener(view -> binding.authorTextView.performClick());
 
-            editedTextView.setOnClickListener(view -> {
+            binding.editedTextView.setOnClickListener(view -> {
                 Comment comment = getCurrentComment(this);
                 if (comment != null) {
                     Toast.makeText(view.getContext(), view.getContext().getString(R.string.edited_time, mShowElapsedTime ?
@@ -1332,7 +1294,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-            moreButton.setOnClickListener(view -> {
+            binding.moreButton.setOnClickListener(view -> {
                 getItemCount();
                 Comment comment = getCurrentComment(this);
                 if (comment != null) {
@@ -1357,7 +1319,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-            replyButton.setOnClickListener(view -> {
+            binding.replyButton.setOnClickListener(view -> {
                 if (mAccessToken == null) {
                     Toast.makeText(mActivity, R.string.login_first, Toast.LENGTH_SHORT).show();
                     return;
@@ -1388,7 +1350,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-            upvoteButton.setOnClickListener(view -> {
+            binding.upvoteButton.setOnClickListener(view -> {
                 if (mPost.isArchived()) {
                     Toast.makeText(mActivity, R.string.archived_post_vote_unavailable, Toast.LENGTH_SHORT).show();
                     return;
@@ -1404,28 +1366,28 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     int previousVoteType = comment.getVoteType();
                     String newVoteType;
 
-                    downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                    binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
 
                     if (previousVoteType != Comment.VOTE_TYPE_UPVOTE) {
                         //Not upvoted before
                         comment.setVoteType(Comment.VOTE_TYPE_UPVOTE);
                         newVoteType = APIUtils.DIR_UPVOTE;
-                        upvoteButton.setColorFilter(mUpvotedColor, PorterDuff.Mode.SRC_IN);
-                        scoreTextView.setTextColor(mUpvotedColor);
-                        topScoreTextView.setTextColor(mUpvotedColor);
+                        binding.upvoteButton.setColorFilter(mUpvotedColor, PorterDuff.Mode.SRC_IN);
+                        binding.scoreTextView.setTextColor(mUpvotedColor);
+                        binding.topScoreTextView.setTextColor(mUpvotedColor);
                     } else {
                         //Upvoted before
                         comment.setVoteType(Comment.VOTE_TYPE_NO_VOTE);
                         newVoteType = APIUtils.DIR_UNVOTE;
-                        upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-                        scoreTextView.setTextColor(mCommentIconAndInfoColor);
-                        topScoreTextView.setTextColor(mSecondaryTextColor);
+                        binding.upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                        binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
+                        binding.topScoreTextView.setTextColor(mSecondaryTextColor);
                     }
 
                     if (!comment.isScoreHidden() && !mHideTheNumberOfVotes) {
-                        scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
+                        binding.scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                 comment.getScore() + comment.getVoteType()));
-                        topScoreTextView.setText(mActivity.getString(R.string.top_score,
+                        binding.topScoreTextView.setText(mActivity.getString(R.string.top_score,
                                 Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                         comment.getScore() + comment.getVoteType())));
                     }
@@ -1437,25 +1399,25 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             if (newVoteType.equals(APIUtils.DIR_UPVOTE)) {
                                 comment.setVoteType(Comment.VOTE_TYPE_UPVOTE);
                                 if (currentPosition == position) {
-                                    upvoteButton.setColorFilter(mUpvotedColor, PorterDuff.Mode.SRC_IN);
-                                    scoreTextView.setTextColor(mUpvotedColor);
-                                    topScoreTextView.setTextColor(mUpvotedColor);
+                                    binding.upvoteButton.setColorFilter(mUpvotedColor, PorterDuff.Mode.SRC_IN);
+                                    binding.scoreTextView.setTextColor(mUpvotedColor);
+                                    binding.topScoreTextView.setTextColor(mUpvotedColor);
                                 }
                             } else {
                                 comment.setVoteType(Comment.VOTE_TYPE_NO_VOTE);
                                 if (currentPosition == position) {
-                                    upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-                                    scoreTextView.setTextColor(mCommentIconAndInfoColor);
-                                    topScoreTextView.setTextColor(mSecondaryTextColor);
+                                    binding.upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                                    binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
+                                    binding.topScoreTextView.setTextColor(mSecondaryTextColor);
                                 }
                             }
 
                             if (currentPosition == position) {
-                                downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                                binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
                                 if (!comment.isScoreHidden() && !mHideTheNumberOfVotes) {
-                                    scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
+                                    binding.scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                             comment.getScore() + comment.getVoteType()));
-                                    topScoreTextView.setText(mActivity.getString(R.string.top_score,
+                                    binding.topScoreTextView.setText(mActivity.getString(R.string.top_score,
                                             Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                                     comment.getScore() + comment.getVoteType())));
                                 }
@@ -1469,7 +1431,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-            downvoteButton.setOnClickListener(view -> {
+            binding.downvoteButton.setOnClickListener(view -> {
                 if (mPost.isArchived()) {
                     Toast.makeText(mActivity, R.string.archived_post_vote_unavailable, Toast.LENGTH_SHORT).show();
                     return;
@@ -1485,28 +1447,28 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     int previousVoteType = comment.getVoteType();
                     String newVoteType;
 
-                    upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                    binding.upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
 
                     if (previousVoteType != Comment.VOTE_TYPE_DOWNVOTE) {
                         //Not downvoted before
                         comment.setVoteType(Comment.VOTE_TYPE_DOWNVOTE);
                         newVoteType = APIUtils.DIR_DOWNVOTE;
-                        downvoteButton.setColorFilter(mDownvotedColor, PorterDuff.Mode.SRC_IN);
-                        scoreTextView.setTextColor(mDownvotedColor);
-                        topScoreTextView.setTextColor(mDownvotedColor);
+                        binding.downvoteButton.setColorFilter(mDownvotedColor, PorterDuff.Mode.SRC_IN);
+                        binding.scoreTextView.setTextColor(mDownvotedColor);
+                        binding.topScoreTextView.setTextColor(mDownvotedColor);
                     } else {
                         //Downvoted before
                         comment.setVoteType(Comment.VOTE_TYPE_NO_VOTE);
                         newVoteType = APIUtils.DIR_UNVOTE;
-                        downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-                        scoreTextView.setTextColor(mCommentIconAndInfoColor);
-                        topScoreTextView.setTextColor(mSecondaryTextColor);
+                        binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                        binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
+                        binding.topScoreTextView.setTextColor(mSecondaryTextColor);
                     }
 
                     if (!comment.isScoreHidden() && !mHideTheNumberOfVotes) {
-                        scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
+                        binding.scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                 comment.getScore() + comment.getVoteType()));
-                        topScoreTextView.setText(mActivity.getString(R.string.top_score,
+                        binding.topScoreTextView.setText(mActivity.getString(R.string.top_score,
                                 Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                         comment.getScore() + comment.getVoteType())));
                     }
@@ -1519,25 +1481,25 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             if (newVoteType.equals(APIUtils.DIR_DOWNVOTE)) {
                                 comment.setVoteType(Comment.VOTE_TYPE_DOWNVOTE);
                                 if (currentPosition == position) {
-                                    downvoteButton.setColorFilter(mDownvotedColor, PorterDuff.Mode.SRC_IN);
-                                    scoreTextView.setTextColor(mDownvotedColor);
-                                    topScoreTextView.setTextColor(mDownvotedColor);
+                                    binding.downvoteButton.setColorFilter(mDownvotedColor, PorterDuff.Mode.SRC_IN);
+                                    binding.scoreTextView.setTextColor(mDownvotedColor);
+                                    binding.topScoreTextView.setTextColor(mDownvotedColor);
                                 }
                             } else {
                                 comment.setVoteType(Comment.VOTE_TYPE_NO_VOTE);
                                 if (currentPosition == position) {
-                                    downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-                                    scoreTextView.setTextColor(mCommentIconAndInfoColor);
-                                    topScoreTextView.setTextColor(mSecondaryTextColor);
+                                    binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                                    binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
+                                    binding.topScoreTextView.setTextColor(mSecondaryTextColor);
                                 }
                             }
 
                             if (currentPosition == position) {
-                                upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+                                binding.upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
                                 if (!comment.isScoreHidden() && !mHideTheNumberOfVotes) {
-                                    scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
+                                    binding.scoreTextView.setText(Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                             comment.getScore() + comment.getVoteType()));
-                                    topScoreTextView.setText(mActivity.getString(R.string.top_score,
+                                    binding.topScoreTextView.setText(mActivity.getString(R.string.top_score,
                                             Utils.getNVotes(mShowAbsoluteNumberOfVotes,
                                                     comment.getScore() + comment.getVoteType())));
                                 }
@@ -1551,7 +1513,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-            saveButton.setOnClickListener(view -> {
+            binding.saveButton.setOnClickListener(view -> {
                 Comment comment = getCurrentComment(this);
                 if (comment != null) {
                     int position = getBindingAdapterPosition();
@@ -1562,7 +1524,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void success() {
                                 comment.setSaved(false);
                                 if (getBindingAdapterPosition() == position) {
-                                    saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
+                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_unsaved_success, Toast.LENGTH_SHORT).show();
                             }
@@ -1571,7 +1533,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void failed() {
                                 comment.setSaved(true);
                                 if (getBindingAdapterPosition() == position) {
-                                    saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
+                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_unsaved_failed, Toast.LENGTH_SHORT).show();
                             }
@@ -1583,7 +1545,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void success() {
                                 comment.setSaved(true);
                                 if (getBindingAdapterPosition() == position) {
-                                    saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
+                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_saved_success, Toast.LENGTH_SHORT).show();
                             }
@@ -1592,7 +1554,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void failed() {
                                 comment.setSaved(false);
                                 if (getBindingAdapterPosition() == position) {
-                                    saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
+                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_saved_failed, Toast.LENGTH_SHORT).show();
                             }
@@ -1601,7 +1563,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-            authorTextView.setOnClickListener(view -> {
+            binding.authorTextView.setOnClickListener(view -> {
                 Comment comment = getCurrentComment(this);
                 if (comment == null || comment.isAuthorDeleted()) {
                     return;
@@ -1611,21 +1573,21 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 mActivity.startActivity(intent);
             });
 
-            authorIconImageView.setOnClickListener(view -> {
-                authorTextView.performClick();
+            binding.authorIconImageView.setOnClickListener(view -> {
+                binding.authorTextView.performClick();
             });
 
-            expandButton.setOnClickListener(view -> {
-                if (expandButton.getVisibility() == View.VISIBLE) {
+            binding.expandButton.setOnClickListener(view -> {
+                if (binding.expandButton.getVisibility() == View.VISIBLE) {
                     int commentPosition = mIsSingleCommentThreadMode ? getBindingAdapterPosition() - 1 : getBindingAdapterPosition();
                     Comment comment = getCurrentComment(this);
                     if (comment != null) {
                         if (mVisibleComments.get(commentPosition).isExpanded()) {
                             collapseChildren(commentPosition);
                             if (comment.getChildCount() > 0) {
-                                expandButton.setText("+" + comment.getChildCount());
+                                binding.expandButton.setText("+" + comment.getChildCount());
                             }
-                            expandButton.setCompoundDrawablesWithIntrinsicBounds(expandDrawable, null, null, null);
+                            binding.expandButton.setCompoundDrawablesWithIntrinsicBounds(expandDrawable, null, null, null);
                         } else {
                             comment.setExpanded(true);
                             ArrayList<Comment> newList = new ArrayList<>();
@@ -1639,11 +1601,11 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                                 notifyItemRangeInserted(commentPosition + 1, newList.size());
                             }
                             if (mAlwaysShowChildCommentCount && comment.getChildCount() > 0) {
-                                expandButton.setText("+" + comment.getChildCount());
+                                binding.expandButton.setText("+" + comment.getChildCount());
                             } else {
-                                expandButton.setText("");
+                                binding.expandButton.setText("");
                             }
-                            expandButton.setCompoundDrawablesWithIntrinsicBounds(collapseDrawable, null, null, null);
+                            binding.expandButton.setCompoundDrawablesWithIntrinsicBounds(collapseDrawable, null, null, null);
                         }
                     }
                 } else if (mFullyCollapseComment) {
@@ -1658,7 +1620,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 if (mCommentToolbarHideOnClick) {
                     View.OnLongClickListener hideToolbarOnLongClickListener = view -> hideToolbar();
                     itemView.setOnLongClickListener(hideToolbarOnLongClickListener);
-                    commentTimeTextView.setOnLongClickListener(hideToolbarOnLongClickListener);
+                    binding.commentTimeTextView.setOnLongClickListener(hideToolbarOnLongClickListener);
                     mMarkwonAdapter.setOnLongClickListener(v -> {
                         if (v instanceof TextView) {
                             if (((TextView) v).getSelectionStart() == -1 && ((TextView) v).getSelectionEnd() == -1) {
@@ -1691,7 +1653,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     });
                     View.OnClickListener hideToolbarOnClickListener = view -> hideToolbar();
                     itemView.setOnClickListener(hideToolbarOnClickListener);
-                    commentTimeTextView.setOnClickListener(hideToolbarOnClickListener);
+                    binding.commentTimeTextView.setOnClickListener(hideToolbarOnClickListener);
                 }
                 mMarkwonAdapter.setOnLongClickListener(view -> {
                     if (view instanceof TextView) {
@@ -1709,20 +1671,20 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         }
 
         private boolean expandComments() {
-            expandButton.performClick();
+            binding.expandButton.performClick();
             return true;
         }
 
         private boolean hideToolbar() {
-            if (bottomConstraintLayout.getLayoutParams().height == 0) {
-                bottomConstraintLayout.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                topScoreTextView.setVisibility(View.GONE);
+            if (binding.bottomConstraintLayout.getLayoutParams().height == 0) {
+                binding.bottomConstraintLayout.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                binding.topScoreTextView.setVisibility(View.GONE);
                 mFragment.delayTransition();
             } else {
                 mFragment.delayTransition();
-                bottomConstraintLayout.getLayoutParams().height = 0;
+                binding.bottomConstraintLayout.getLayoutParams().height = 0;
                 if (!mHideTheNumberOfVotes) {
-                    topScoreTextView.setVisibility(View.VISIBLE);
+                    binding.topScoreTextView.setVisibility(View.VISIBLE);
                 }
             }
             return true;
@@ -1750,48 +1712,35 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     class CommentFullyCollapsedViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.vertical_block_indentation_item_comment_fully_collapsed)
-        CommentIndentationView commentIndentationView;
-        @BindView(R.id.author_icon_image_view_item_comment_fully_collapsed)
-        ImageView authorIconImageView;
-        @BindView(R.id.user_name_text_view_item_comment_fully_collapsed)
-        TextView usernameTextView;
-        @BindView(R.id.child_count_text_view_item_comment_fully_collapsed)
-        TextView childCountTextView;
-        @BindView(R.id.score_text_view_item_comment_fully_collapsed)
-        TextView scoreTextView;
-        @BindView(R.id.time_text_view_item_comment_fully_collapsed)
-        TextView commentTimeTextView;
-        @BindView(R.id.divider_item_comment_fully_collapsed)
-        View commentDivider;
+        private final ItemCommentFullyCollapsedBinding binding;
 
         public CommentFullyCollapsedViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            binding = ItemCommentFullyCollapsedBinding.bind(itemView);
 
             if (mActivity.typeface != null) {
-                usernameTextView.setTypeface(mActivity.typeface);
-                childCountTextView.setTypeface(mActivity.typeface);
-                scoreTextView.setTypeface(mActivity.typeface);
-                commentTimeTextView.setTypeface(mActivity.typeface);
+                binding.userNameTextView.setTypeface(mActivity.typeface);
+                binding.childCountTextView.setTypeface(mActivity.typeface);
+                binding.scoreTextView.setTypeface(mActivity.typeface);
+                binding.timeTextView.setTypeface(mActivity.typeface);
             }
             itemView.setBackgroundColor(mFullyCollapsedCommentBackgroundColor);
-            usernameTextView.setTextColor(mUsernameColor);
-            childCountTextView.setTextColor(mSecondaryTextColor);
-            scoreTextView.setTextColor(mSecondaryTextColor);
-            commentTimeTextView.setTextColor(mSecondaryTextColor);
+            binding.userNameTextView.setTextColor(mUsernameColor);
+            binding.childCountTextView.setTextColor(mSecondaryTextColor);
+            binding.scoreTextView.setTextColor(mSecondaryTextColor);
+            binding.timeTextView.setTextColor(mSecondaryTextColor);
 
             if (mShowCommentDivider) {
                 if (mDividerType == DIVIDER_NORMAL) {
-                    commentDivider.setBackgroundColor(mDividerColor);
-                    commentDivider.setVisibility(View.VISIBLE);
+                    binding.commentDivider.setBackgroundColor(mDividerColor);
+                    binding.commentDivider.setVisibility(View.VISIBLE);
                 }
             }
 
             if (mShowAuthorAvatar) {
-                authorIconImageView.setVisibility(View.VISIBLE);
+                binding.authorIconImageView.setVisibility(View.VISIBLE);
             } else {
-                usernameTextView.setPaddingRelative(0, usernameTextView.getPaddingTop(), usernameTextView.getPaddingEnd(), usernameTextView.getPaddingBottom());
+                binding.userNameTextView.setPaddingRelative(0, binding.userNameTextView.getPaddingTop(), binding.userNameTextView.getPaddingEnd(), binding.userNameTextView.getPaddingBottom());
             }
 
             itemView.setOnClickListener(view -> {
@@ -1824,102 +1773,80 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     class LoadMoreChildCommentsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.vertical_block_indentation_item_load_more_comments_placeholder)
-        CommentIndentationView commentIndentationView;
-        @BindView(R.id.placeholder_text_view_item_load_more_comments)
-        TextView placeholderTextView;
-        @BindView(R.id.divider_item_load_more_comments_placeholder)
-        View commentDivider;
+        private final ItemLoadMoreCommentsPlaceholderBinding binding;
 
         LoadMoreChildCommentsViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-
+            binding = ItemLoadMoreCommentsPlaceholderBinding.bind(itemView);
             if (mShowCommentDivider) {
                 if (mDividerType == DIVIDER_NORMAL) {
-                    commentDivider.setBackgroundColor(mDividerColor);
-                    commentDivider.setVisibility(View.VISIBLE);
+                    binding.dividerPlaceholder.setBackgroundColor(mDividerColor);
+                    binding.dividerPlaceholder.setVisibility(View.VISIBLE);
                 }
             }
 
             if (mActivity.typeface != null) {
-                placeholderTextView.setTypeface(mActivity.typeface);
+                binding.placeholderTextView.setTypeface(mActivity.typeface);
             }
             itemView.setBackgroundColor(mCommentBackgroundColor);
-            placeholderTextView.setTextColor(mPrimaryTextColor);
+            binding.placeholderTextView.setTextColor(mPrimaryTextColor);
         }
     }
 
     class LoadCommentsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.comment_progress_bar_item_load_comments)
-        CircleProgressBar circleProgressBar;
-
         LoadCommentsViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            circleProgressBar.setBackgroundTintList(ColorStateList.valueOf(mCircularProgressBarBackgroundColor));
-            circleProgressBar.setColorSchemeColors(mColorAccent);
+            ItemLoadCommentsBinding binding = ItemLoadCommentsBinding.bind(itemView);
+            binding.commentProgressBar.setBackgroundTintList(ColorStateList.valueOf(mCircularProgressBarBackgroundColor));
+            binding.commentProgressBar.setColorSchemeColors(mColorAccent);
         }
     }
 
     class LoadCommentsFailedViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.error_text_view_item_load_comments_failed_placeholder)
-        TextView errorTextView;
-
         LoadCommentsFailedViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemLoadCommentsFailedPlaceholderBinding binding =
+                    ItemLoadCommentsFailedPlaceholderBinding.bind(itemView);
             itemView.setOnClickListener(view -> mCommentRecyclerViewAdapterCallback.retryFetchingComments());
             if (mActivity.typeface != null) {
-                errorTextView.setTypeface(mActivity.typeface);
+                binding.errorTextView.setTypeface(mActivity.typeface);
             }
-            errorTextView.setTextColor(mSecondaryTextColor);
+            binding.errorTextView.setTextColor(mSecondaryTextColor);
         }
     }
 
     class NoCommentViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.error_text_view_item_no_comment_placeholder)
-        TextView errorTextView;
-
         NoCommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemNoCommentPlaceholderBinding binding = ItemNoCommentPlaceholderBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                errorTextView.setTypeface(mActivity.typeface);
+                binding.errorTextView.setTypeface(mActivity.typeface);
             }
-            errorTextView.setTextColor(mSecondaryTextColor);
+            binding.errorTextView.setTextColor(mSecondaryTextColor);
         }
     }
 
     class IsLoadingMoreCommentsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.progress_bar_item_comment_footer_loading)
-        ProgressBar progressbar;
-
         IsLoadingMoreCommentsViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            progressbar.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
+            ItemCommentFooterLoadingBinding binding = ItemCommentFooterLoadingBinding.bind(itemView);
+            binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
         }
     }
 
     class LoadMoreCommentsFailedViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.error_text_view_item_comment_footer_error)
-        TextView errorTextView;
-        @BindView(R.id.retry_button_item_comment_footer_error)
-        Button retryButton;
-
         LoadMoreCommentsFailedViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemCommentFooterErrorBinding binding = ItemCommentFooterErrorBinding.bind(itemView);
             if (mActivity.typeface != null) {
-                errorTextView.setTypeface(mActivity.typeface);
-                retryButton.setTypeface(mActivity.typeface);
+                binding.errorTextView.setTypeface(mActivity.typeface);
+                binding.retryButton.setTypeface(mActivity.typeface);
             }
-            errorTextView.setText(R.string.load_comments_failed);
-            retryButton.setOnClickListener(view -> mCommentRecyclerViewAdapterCallback.retryFetchingMoreComments());
-            errorTextView.setTextColor(mSecondaryTextColor);
-            retryButton.setBackgroundTintList(ColorStateList.valueOf(mColorPrimaryLightTheme));
-            retryButton.setTextColor(mButtonTextColor);
+            binding.errorTextView.setText(R.string.load_comments_failed);
+            binding.retryButton.setOnClickListener(view -> mCommentRecyclerViewAdapterCallback.retryFetchingMoreComments());
+            binding.errorTextView.setTextColor(mSecondaryTextColor);
+            binding.retryButton.setBackgroundTintList(ColorStateList.valueOf(mColorPrimaryLightTheme));
+            binding.retryButton.setTextColor(mButtonTextColor);
         }
     }
 

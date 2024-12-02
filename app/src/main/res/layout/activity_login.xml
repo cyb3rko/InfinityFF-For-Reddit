@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator_layout_login_activity"
+    android:id="@+id/coordinator_layout"
     tools:application="ml.docilealligator.infinityforreddit.activities.LoginActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_login_activity"
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_login_activity"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
@@ -24,7 +24,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_login_activity"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
@@ -64,7 +64,7 @@
             app:layout_constraintTop_toBottomOf="@+id/password_label" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_btn"
+            android:id="@+id/login_button"
             style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="166dp"
             android:layout_height="48dp"
@@ -77,7 +77,7 @@
             app:strokeWidth="2dp" />
 
         <TextView
-            android:id="@+id/two_fa_infO_text_view_login_activity"
+            android:id="@+id/two_fa_info_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -98,7 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/two_fa_infO_text_view_login_activity" />
+            app:layout_constraintTop_toBottomOf="@+id/two_fa_infO_text_view" />
 
         <TextView
             android:id="@+id/password_label"

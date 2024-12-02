@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/edit_text_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/edit_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -30,7 +30,7 @@
             app:drawableStartCompat="@drawable/ic_edit_24dp" />
 
         <TextView
-            android:id="@+id/delete_text_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/delete_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -49,7 +49,7 @@
             app:drawableStartCompat="@drawable/ic_delete_24dp" />
 
         <TextView
-            android:id="@+id/reply_text_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/reply_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -69,7 +69,7 @@
             app:drawableStartCompat="@drawable/ic_reply_24dp" />
 
         <TextView
-            android:id="@+id/save_text_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/save_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -87,7 +87,7 @@
             android:fontFamily="?attr/font_family" />
 
         <TextView
-            android:id="@+id/share_text_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/share_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -106,7 +106,7 @@
             app:drawableStartCompat="@drawable/ic_share_24dp" />
 
         <TextView
-            android:id="@+id/copy_text_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/copy_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -125,7 +125,7 @@
             app:drawableStartCompat="@drawable/ic_copy_24dp" />
 
         <TextView
-            android:id="@+id/give_award_text_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/give_award_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -145,7 +145,7 @@
             app:drawableStartCompat="@drawable/ic_give_award_24dp" />
 
         <TextView
-            android:id="@+id/report_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/report_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -164,7 +164,7 @@
             app:drawableStartCompat="@drawable/ic_report_24dp" />
 
         <TextView
-            android:id="@+id/see_removed_view_comment_more_bottom_sheet_fragment"
+            android:id="@+id/see_removed_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
