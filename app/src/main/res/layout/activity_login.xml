@@ -98,7 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/two_fa_infO_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/two_fa_info_text_view" />
 
         <TextView
             android:id="@+id/password_label"

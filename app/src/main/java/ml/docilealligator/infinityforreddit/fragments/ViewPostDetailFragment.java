@@ -1224,15 +1224,14 @@ public class ViewPostDetailFragment extends Fragment implements FragmentCommunic
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding.postDetailRecyclerView.addOnWindowFocusChangedListener(null);
+        binding = null;
         Bridge.clear(this);
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        if (binding.postDetailRecyclerView != null) {
-            binding.postDetailRecyclerView.addOnWindowFocusChangedListener(null);
-        }
         super.onDestroy();
     }
 

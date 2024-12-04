@@ -1544,29 +1544,30 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             super(itemView);
             binding = ItemPostDetailVideoAutoplayBinding.bind(itemView);
             exoBinding = ExoAutoplayPlaybackControlViewBinding.bind(binding.playerView.getVideoSurfaceView());
-            setBaseView(mIconGifImageView,
-                    mSubredditTextView,
-                    mUserTextView,
-                    mAuthorFlairTextView,
-                    mPostTimeTextView,
-                    mTitleTextView,
-                    mTypeTextView,
-                    mCrosspostImageView,
-                    mArchivedImageView,
-                    mLockedImageView,
-                    mNSFWTextView,
-                    mSpoilerTextView,
-                    mFlairTextView,
-                    mAwardsTextView,
-                    mUpvoteRatioTextView,
-                    mContentMarkdownView,
-                    mBottomConstraintLayout,
-                    mUpvoteButton,
-                    mScoreTextView,
-                    mDownvoteButton,
-                    commentsCountTextView,
-                    mSaveButton,
-                    mShareButton);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.subredditTextView,
+                    binding.userTextView,
+                    binding.authorFlairTextView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.crosspostImageView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.upvoteRatioTextView,
+                    binding.contentMarkdownView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             binding.aspectRatioFrameLayout.setOnClickListener(null);
 
@@ -1781,29 +1782,30 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         PostDetailVideoAndGifPreviewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemPostDetailVideoAndGifPreviewBinding.bind(itemView);
-            setBaseView(mIconGifImageView,
-                    mSubredditTextView,
-                    mUserTextView,
-                    mAuthorFlairTextView,
-                    mPostTimeTextView,
-                    mTitleTextView,
-                    mTypeTextView,
-                    mCrosspostImageView,
-                    mArchivedImageView,
-                    mLockedImageView,
-                    mNSFWTextView,
-                    mSpoilerTextView,
-                    mFlairTextView,
-                    mAwardsTextView,
-                    mUpvoteRatioTextView,
-                    mContentMarkdownView,
-                    mBottomConstraintLayout,
-                    mUpvoteButton,
-                    mScoreTextView,
-                    mDownvoteButton,
-                    commentsCountTextView,
-                    mSaveButton,
-                    mShareButton);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.subredditTextView,
+                    binding.userTextView,
+                    binding.authorFlairTextView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.crosspostImageView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.upvoteRatioTextView,
+                    binding.contentMarkdownView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             binding.videoOrGifIndicatorImageViewItemPostDetail.setColorFilter(mMediaIndicatorIconTint, PorterDuff.Mode.SRC_IN);
             binding.videoOrGifIndicatorImageViewItemPostDetail.setBackgroundTintList(ColorStateList.valueOf(mMediaIndicatorBackgroundColor));
@@ -1856,29 +1858,30 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         PostDetailImageAndGifAutoplayViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemPostDetailImageAndGifAutoplayBinding.bind(itemView);
-            setBaseView(mIconGifImageView,
-                    mSubredditTextView,
-                    mUserTextView,
-                    mAuthorFlairTextView,
-                    mPostTimeTextView,
-                    mTitleTextView,
-                    mTypeTextView,
-                    mCrosspostImageView,
-                    mArchivedImageView,
-                    mLockedImageView,
-                    mNSFWTextView,
-                    mSpoilerTextView,
-                    mFlairTextView,
-                    mAwardsTextView,
-                    mUpvoteRatioTextView,
-                    mContentMarkdownView,
-                    mBottomConstraintLayout,
-                    mUpvoteButton,
-                    mScoreTextView,
-                    mDownvoteButton,
-                    commentsCountTextView,
-                    mSaveButton,
-                    mShareButton);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.subredditTextView,
+                    binding.userTextView,
+                    binding.authorFlairTextView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.crosspostImageView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.upvoteRatioTextView,
+                    binding.contentMarkdownView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
             binding.loadImageErrorTextView.setTextColor(mPrimaryTextColor);
@@ -1914,29 +1917,30 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         PostDetailLinkViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemPostDetailLinkBinding.bind(itemView);
-            setBaseView(mIconGifImageView,
-                    mSubredditTextView,
-                    mUserTextView,
-                    mAuthorFlairTextView,
-                    mPostTimeTextView,
-                    mTitleTextView,
-                    mTypeTextView,
-                    mCrosspostImageView,
-                    mArchivedImageView,
-                    mLockedImageView,
-                    mNSFWTextView,
-                    mSpoilerTextView,
-                    mFlairTextView,
-                    mAwardsTextView,
-                    mUpvoteRatioTextView,
-                    mContentMarkdownView,
-                    mBottomConstraintLayout,
-                    mUpvoteButton,
-                    mScoreTextView,
-                    mDownvoteButton,
-                    commentsCountTextView,
-                    mSaveButton,
-                    mShareButton);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.subredditTextView,
+                    binding.userTextView,
+                    binding.authorFlairTextView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.crosspostImageView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.upvoteRatioTextView,
+                    binding.contentMarkdownView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             if (mActivity.typeface != null) {
                 binding.linkTextView.setTypeface(mActivity.typeface);
@@ -1961,29 +1965,30 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         PostDetailNoPreviewViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemPostDetailNoPreviewBinding.bind(itemView);
-            setBaseView(mIconGifImageView,
-                    mSubredditTextView,
-                    mUserTextView,
-                    mAuthorFlairTextView,
-                    mPostTimeTextView,
-                    mTitleTextView,
-                    mTypeTextView,
-                    mCrosspostImageView,
-                    mArchivedImageView,
-                    mLockedImageView,
-                    mNSFWTextView,
-                    mSpoilerTextView,
-                    mFlairTextView,
-                    mAwardsTextView,
-                    mUpvoteRatioTextView,
-                    mContentMarkdownView,
-                    mBottomConstraintLayout,
-                    mUpvoteButton,
-                    mScoreTextView,
-                    mDownvoteButton,
-                    commentsCountTextView,
-                    mSaveButton,
-                    mShareButton);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.subredditTextView,
+                    binding.userTextView,
+                    binding.authorFlairTextView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.crosspostImageView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.upvoteRatioTextView,
+                    binding.contentMarkdownView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             if (mActivity.typeface != null) {
                 binding.linkTextView.setTypeface(mActivity.typeface);
@@ -2054,29 +2059,30 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         PostDetailGalleryViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemPostDetailGalleryBinding.bind(itemView);
-            setBaseView(mIconGifImageView,
-                    mSubredditTextView,
-                    mUserTextView,
-                    mAuthorFlairTextView,
-                    mPostTimeTextView,
-                    mTitleTextView,
-                    mTypeTextView,
-                    mCrosspostImageView,
-                    mArchivedImageView,
-                    mLockedImageView,
-                    mNSFWTextView,
-                    mSpoilerTextView,
-                    mFlairTextView,
-                    mAwardsTextView,
-                    mUpvoteRatioTextView,
-                    mContentMarkdownView,
-                    mBottomConstraintLayout,
-                    mUpvoteButton,
-                    mScoreTextView,
-                    mDownvoteButton,
-                    commentsCountTextView,
-                    mSaveButton,
-                    mShareButton);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.subredditTextView,
+                    binding.userTextView,
+                    binding.authorFlairTextView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.crosspostImageView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.upvoteRatioTextView,
+                    binding.contentMarkdownView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             if (mActivity.typeface != null) {
                 binding.imageIndexTextView.setTypeface(mActivity.typeface);
@@ -2190,12 +2196,11 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
     class PostDetailTextViewHolder extends PostDetailBaseViewHolder {
-        private final ItemPostDetailTextBinding binding;
-
         PostDetailTextViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ItemPostDetailTextBinding.bind(itemView);
-            setBaseView(binding.iconGifImageView,
+            ItemPostDetailTextBinding binding = ItemPostDetailTextBinding.bind(itemView);
+            setBaseView(
+                    binding.iconGifImageView,
                     binding.subredditTextView,
                     binding.userTextView,
                     binding.authorFlairTextView,

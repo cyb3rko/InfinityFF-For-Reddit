@@ -2657,27 +2657,27 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             binding = ItemPostVideoTypeAutoplayBinding.bind(itemView);
             exoBinding = ExoAutoplayPlaybackControlViewBinding.bind(binding.playerView.getOverlayFrameLayout());
             setBaseView(
-                    iconGifImageView,
-                    subredditTextView,
-                    userTextView,
-                    stickiedPostImageView,
-                    postTimeTextView,
-                    titleTextView,
-                    typeTextView,
-                    archivedImageView,
-                    lockedImageView,
-                    crosspostImageView,
-                    nsfwTextView,
-                    spoilerTextView,
-                    flairTextView,
-                    awardsTextView,
-                    bottomConstraintLayout,
-                    upvoteButton,
-                    scoreTextView,
-                    downvoteButton,
-                    commentsCountTextView,
-                    saveButton,
-                    shareButton);
+                    binding.iconGifImageView,
+                    binding.subredditNameTextView,
+                    binding.userTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             binding.aspectRatioFrameLayout.setOnClickListener(null);
 
@@ -2908,27 +2908,27 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             super(itemView);
             binding = ItemPostWithPreviewBinding.bind(itemView);
             setBaseView(
-                    iconGifImageView,
-                    subredditTextView,
-                    userTextView,
-                    stickiedPostImageView,
-                    postTimeTextView,
-                    titleTextView,
-                    typeTextView,
-                    archivedImageView,
-                    lockedImageView,
-                    crosspostImageView,
-                    nsfwTextView,
-                    spoilerTextView,
-                    flairTextView,
-                    awardsTextView,
-                    bottomConstraintLayout,
-                    upvoteButton,
-                    scoreTextView,
-                    downvoteButton,
-                    commentsCountTextView,
-                    saveButton,
-                    shareButton);
+                    binding.iconGifImageView,
+                    binding.subredditNameTextView,
+                    binding.userTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             if (mActivity.typeface != null) {
                 binding.linkTextView.setTypeface(mActivity.typeface);
@@ -3203,27 +3203,27 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             super(itemView);
             binding = ItemPostTextBinding.bind(itemView);
             setBaseView(
-                    iconGifImageView,
-                    subredditTextView,
-                    userTextView,
-                    stickiedPostImageView,
-                    postTimeTextView,
-                    titleTextView,
-                    typeTextView,
-                    archivedImageView,
-                    lockedImageView,
-                    crosspostImageView,
-                    nsfwTextView,
-                    spoilerTextView,
-                    flairTextView,
-                    awardsTextView,
-                    bottomConstraintLayout,
-                    upvoteButton,
-                    scoreTextView,
-                    downvoteButton,
-                    commentsCountTextView,
-                    saveButton,
-                    shareButton);
+                    binding.iconGifImageView,
+                    binding.subredditNameTextView,
+                    binding.userTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton);
 
             if (mActivity.contentTypeface != null) {
                 binding.contentTextView.setTypeface(mActivity.titleTypeface);
@@ -3800,36 +3800,80 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
     }
 
     class PostCompactLeftThumbnailViewHolder extends PostCompactBaseViewHolder {
-        private final ItemPostCompactBinding binding;
-
         PostCompactLeftThumbnailViewHolder(View itemView) {
             super(itemView);
-            binding = ItemPostCompactBinding.bind(itemView);
+            ItemPostCompactBinding binding = ItemPostCompactBinding.bind(itemView);
 
-            setBaseView(iconGifImageView, nameTextView, stickiedPostImageView, postTimeTextView,
-                    titleAndImageConstraintLayout, titleTextView, typeTextView, archivedImageView,
-                    lockedImageView, crosspostImageView, nsfwTextView, spoilerTextView,
-                    flairTextView, awardsTextView, linkTextView, relativeLayout, progressBar, imageView,
-                    playButtonImageView, binding.frameLayoutImageViewNoPreviewLink, binding.imageViewNoPreviewLink,
-                    imageBarrier, bottomConstraintLayout, upvoteButton, scoreTextView, downvoteButton,
-                    commentsCountTextView, saveButton, shareButton, divider);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.nameTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleAndImageConstraintLayout,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.linkTextView,
+                    binding.imageViewWrapper,
+                    binding.progressBar,
+                    binding.imageView,
+                    binding.playButtonImageView,
+                    binding.frameLayoutImageViewNoPreviewLink,
+                    binding.imageViewNoPreviewLink,
+                    binding.barrier2,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton,
+                    binding.divider);
         }
     }
 
     class PostCompactRightThumbnailViewHolder extends PostCompactBaseViewHolder {
-        private final ItemPostCompactRightThumbnailBinding binding;
-
         PostCompactRightThumbnailViewHolder(View itemView) {
             super(itemView);
-            binding = ItemPostCompactRightThumbnailBinding.bind(itemView);
+            ItemPostCompactRightThumbnailBinding binding = ItemPostCompactRightThumbnailBinding.bind(itemView);
 
-            setBaseView(iconGifImageView, nameTextView, stickiedPostImageView, postTimeTextView,
-                    titleAndImageConstraintLayout, titleTextView, typeTextView, archivedImageView,
-                    lockedImageView, crosspostImageView, nsfwTextView, spoilerTextView,
-                    flairTextView, awardsTextView, linkTextView, relativeLayout, progressBar, imageView,
-                    playButtonImageView, binding.frameLayoutImageViewNoPreviewLink, binding.imageViewNoPreviewLink,
-                    imageBarrier, bottomConstraintLayout, upvoteButton, scoreTextView, downvoteButton,
-                    commentsCountTextView, saveButton, shareButton, divider);
+            setBaseView(
+                    binding.iconGifImageView,
+                    binding.nameTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleAndImageConstraintLayout,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.linkTextView,
+                    binding.imageViewWrapper,
+                    binding.progressBar,
+                    binding.imageView,
+                    binding.playButtonImageView,
+                    binding.frameLayoutImageViewNoPreviewLink,
+                    binding.imageViewNoPreviewLink,
+                    binding.barrier2,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton,
+                    binding.divider);
         }
     }
 
@@ -4114,27 +4158,27 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             binding = ItemPostCard2VideoAutoplayBinding.bind(itemView);
             exoBinding = ExoAutoplayPlaybackControlViewBinding.bind(binding.playerView.getOverlayFrameLayout());
             setBaseView(
-                    iconGifImageView,
-                    subredditTextView,
-                    userTextView,
-                    stickiedPostImageView,
-                    postTimeTextView,
-                    titleTextView,
-                    typeTextView,
-                    archivedImageView,
-                    lockedImageView,
-                    crosspostImageView,
-                    nsfwTextView,
-                    spoilerTextView,
-                    flairTextView,
-                    awardsTextView,
-                    bottomConstraintLayout,
-                    upvoteButton,
-                    scoreTextView,
-                    downvoteButton,
-                    commentsCountTextView,
-                    saveButton,
-                    shareButton,
+                    binding.iconGifImageView,
+                    binding.subredditNameTextView,
+                    binding.userTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton,
                     true);
 
             binding.divider.setBackgroundColor(mDividerColor);
@@ -4365,27 +4409,27 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             super(itemView);
             binding = ItemPostCard2WithPreviewBinding.bind(itemView);
             setBaseView(
-                    iconGifImageView,
-                    subredditTextView,
-                    userTextView,
-                    stickiedPostImageView,
-                    postTimeTextView,
-                    titleTextView,
-                    typeTextView,
-                    archivedImageView,
-                    lockedImageView,
-                    crosspostImageView,
-                    nsfwTextView,
-                    spoilerTextView,
-                    flairTextView,
-                    awardsTextView,
-                    bottomConstraintLayout,
-                    upvoteButton,
-                    scoreTextView,
-                    downvoteButton,
-                    commentsCountTextView,
-                    saveButton,
-                    shareButton,
+                    binding.iconGifImageView,
+                    binding.subredditNameTextView,
+                    binding.userTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton,
                     true);
 
             if (mActivity.typeface != null) {
@@ -4482,27 +4526,27 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             super(itemView);
             binding = ItemPostCard2TextBinding.bind(itemView);
             setBaseView(
-                    iconGifImageView,
-                    subredditTextView,
-                    userTextView,
-                    stickiedPostImageView,
-                    postTimeTextView,
-                    titleTextView,
-                    typeTextView,
-                    archivedImageView,
-                    lockedImageView,
-                    crosspostImageView,
-                    nsfwTextView,
-                    spoilerTextView,
-                    flairTextView,
-                    awardsTextView,
-                    bottomConstraintLayout,
-                    upvoteButton,
-                    scoreTextView,
-                    downvoteButton,
-                    commentsCountTextView,
-                    saveButton,
-                    shareButton,
+                    binding.iconGifImageView,
+                    binding.subredditNameTextView,
+                    binding.userTextView,
+                    binding.stickiedPostImageView,
+                    binding.postTimeTextView,
+                    binding.titleTextView,
+                    binding.typeTextView,
+                    binding.archivedImageView,
+                    binding.lockedImageView,
+                    binding.crosspostImageView,
+                    binding.nsfwTextView,
+                    binding.spoilerCustomTextView,
+                    binding.flairCustomTextView,
+                    binding.awardsTextView,
+                    binding.bottomConstraintLayout,
+                    binding.plusButton,
+                    binding.scoreTextView,
+                    binding.minusButton,
+                    binding.commentsCount,
+                    binding.saveButton,
+                    binding.shareButton,
                     true);
 
             if (mActivity.contentTypeface != null) {

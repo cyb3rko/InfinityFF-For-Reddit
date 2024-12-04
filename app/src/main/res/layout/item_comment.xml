@@ -177,9 +177,9 @@
                 android:textSize="?attr/font_12"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/down_vote_button"
+                app:layout_constraintEnd_toStartOf="@+id/downvote_button"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/up_vote_button"
+                app:layout_constraintStart_toEndOf="@+id/upvote_button"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView

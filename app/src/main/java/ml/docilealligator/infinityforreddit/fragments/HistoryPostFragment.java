@@ -976,15 +976,13 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding.recyclerView.addOnWindowFocusChangedListener(null);
         binding = null;
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        if (binding.recyclerView != null) {
-            binding.recyclerView.addOnWindowFocusChangedListener(null);
-        }
         super.onDestroy();
     }
 

@@ -2204,13 +2204,13 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding.recyclerView.addOnWindowFocusChangedListener(null);
         binding = null;
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        binding.recyclerView.addOnWindowFocusChangedListener(null);
         super.onDestroy();
     }
 
