@@ -40,8 +40,6 @@
     <string name="action_save_post">"Salvar post"</string>
     <string name="action_view_crosspost_parent">"Ver origem do crosspost"</string>
     <string name="action_search">"Buscar"</string>
-    <string name="action_start_lazy_mode">"Iniciar Modo Preguiçoso"</string>
-    <string name="action_stop_lazy_mode">"Parar Modo Preguiçoso"</string>
     <string name="action_send">"Enviar"</string>
     <string name="action_sort">"Classificar"</string>
     <string name="action_hide_post">"Ocultar Post"</string>
@@ -138,8 +136,6 @@ Toque para tentar novamente."</string>
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Busque qualquer coisa"</string>
     <string name="no_posts_no_lazy_mode">"Nenhum post disponível"</string>
-    <string name="lazy_mode_start">"Modo Preguiçoso inicia em %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Modo Preguiçoso parou"</string>
     <string name="write_comment_hint">"Escreva algo interessante"</string>
     <string name="comment_content_required">"Onde está seu comentário?"</string>
     <string name="sending_comment">"Enviando"</string>
@@ -341,7 +337,6 @@ Toque para tentar novamente."</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Bloquear Botão de Avanço para Próximo Comentário Mais Votado"</string>
     <string name="settings_lock_bottom_app_bar_title">"Bloquear Barra de Navegação Inferior"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Deslizar para Cima para Ocultar o Botão de Avanço para Próximo Comentário Mais Votado"</string>
-    <string name="settings_lazy_mode_interval_title">"Intervalo do Modo Preguiçoso"</string>
     <string name="settings_font_title">"Fonte"</string>
     <string name="settings_preview_font_title">"Pré-visualizar Fonte"</string>
     <string name="settings_font_summary">"Fonte"</string>

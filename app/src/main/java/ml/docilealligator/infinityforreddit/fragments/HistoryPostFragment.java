@@ -12,17 +12,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
@@ -33,7 +28,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.ItemSnapshotList;
 import androidx.paging.LoadState;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.transition.AutoTransition;
@@ -131,7 +125,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     public static final String EXTRA_FILTER = "EF";
     public static final int HISTORY_TYPE_READ_POSTS = 1;
 
-    private static final String IS_IN_LAZY_MODE_STATE = "IILMS";
     private static final String RECYCLER_VIEW_POSITION_STATE = "RVPS";
     private static final String READ_POST_LIST_STATE = "RPLS";
     private static final String POST_FILTER_STATE = "PFS";
@@ -187,22 +180,12 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     private BaseActivity activity;
     private LinearLayoutManagerBugFixed mLinearLayoutManager;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-    private MenuItem lazyModeItem;
     private long historyPostFragmentId;
     private int postType;
-    private boolean isInLazyMode = false;
-    private boolean isLazyModePaused = false;
-    private boolean hasPost = false;
     private boolean rememberMutingOptionInPostFeed;
     private boolean swipeActionEnabled;
     private Boolean masterMutingOption;
     private HistoryPostRecyclerViewAdapter mAdapter;
-    private RecyclerView.SmoothScroller smoothScroller;
-    private Window window;
-    private Handler lazyModeHandler;
-    private LazyModeRunnable lazyModeRunnable;
-    private CountDownTimer resumeLazyModeCountDownTimer;
-    private float lazyModeInterval;
     private String accountName;
     private int maxPosition = -1;
     private int postLayout;
@@ -248,19 +231,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
         binding.recyclerView.addOnWindowFocusChangedListener(this::onWindowFocusChanged);
 
-        lazyModeHandler = new Handler();
-
-        lazyModeInterval = Float.parseFloat(mSharedPreferences.getString(SharedPreferencesUtils.LAZY_MODE_INTERVAL_KEY, "2.5"));
-
-        smoothScroller = new LinearSmoothScroller(activity) {
-            @Override
-            protected int getVerticalSnapPreference() {
-                return LinearSmoothScroller.SNAP_TO_START;
-            }
-        };
-
-        window = activity.getWindow();
-
         Resources resources = getResources();
 
         if ((activity != null && activity.isImmersiveInterface())) {
@@ -274,47 +244,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
 
         mGlide = Glide.with(activity);
 
-        lazyModeRunnable = new LazyModeRunnable() {
-
-            @Override
-            public void run() {
-                if (isInLazyMode && !isLazyModePaused && mAdapter != null) {
-                    int nPosts = mAdapter.getItemCount();
-                    if (getCurrentPosition() == -1) {
-                        if (mLinearLayoutManager != null) {
-                            setCurrentPosition(mLinearLayoutManager.findFirstVisibleItemPosition());
-                        } else {
-                            int[] into = new int[2];
-                            setCurrentPosition(mStaggeredGridLayoutManager.findFirstVisibleItemPositions(into)[1]);
-                        }
-                    }
-
-                    if (getCurrentPosition() != RecyclerView.NO_POSITION && nPosts > getCurrentPosition()) {
-                        incrementCurrentPosition();
-                        smoothScroller.setTargetPosition(getCurrentPosition());
-                        if (mLinearLayoutManager != null) {
-                            mLinearLayoutManager.startSmoothScroll(smoothScroller);
-                        } else {
-                            mStaggeredGridLayoutManager.startSmoothScroll(smoothScroller);
-                        }
-                    }
-                }
-                lazyModeHandler.postDelayed(this, (long) (lazyModeInterval * 1000));
-            }
-        };
-
-        resumeLazyModeCountDownTimer = new CountDownTimer((long) (lazyModeInterval * 1000), (long) (lazyModeInterval * 1000)) {
-            @Override
-            public void onTick(long l) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                resumeLazyMode(true);
-            }
-        };
-
         binding.swipeRefreshLayout.setEnabled(mSharedPreferences.getBoolean(SharedPreferencesUtils.PULL_TO_REFRESH, true));
         binding.swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
@@ -322,7 +251,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         if (savedInstanceState != null) {
             recyclerViewPosition = savedInstanceState.getInt(RECYCLER_VIEW_POSITION_STATE);
 
-            isInLazyMode = savedInstanceState.getBoolean(IS_IN_LAZY_MODE_STATE);
             readPosts = savedInstanceState.getStringArrayList(READ_POST_LIST_STATE);
             postFilter = savedInstanceState.getParcelable(POST_FILTER_STATE);
             historyPostFragmentId = savedInstanceState.getLong(POST_FRAGMENT_ID_STATE);
@@ -332,9 +260,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         }
 
         binding.recyclerView.setOnTouchListener((view, motionEvent) -> {
-            if (isInLazyMode) {
-                pauseLazyMode(true);
-            }
             return false;
         });
 
@@ -564,10 +489,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         if (mAdapter != null) {
             mAdapter.setCanStartActivity(true);
         }
-        if (isInLazyMode) {
-            resumeLazyMode(false);
-        }
-        if (mAdapter != null && binding.recyclerView != null) {
+        if (mAdapter != null) {
             binding.recyclerView.onWindowVisibilityChanged(View.VISIBLE);
         }
     }
@@ -659,8 +581,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             if (refreshLoadState instanceof LoadState.NotLoading) {
                 if (refreshLoadState.getEndOfPaginationReached() && mAdapter.getItemCount() < 1) {
                     noPostFound();
-                } else {
-                    hasPost = true;
                 }
             } else if (refreshLoadState instanceof LoadState.Error) {
                 binding.fetchPostInfoLinearLayout.setOnClickListener(view -> refresh());
@@ -679,11 +599,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     }
 
     private void noPostFound() {
-        hasPost = false;
-        if (isInLazyMode) {
-            stopLazyMode();
-        }
-
         binding.fetchPostInfoLinearLayout.setOnClickListener(null);
         showErrorView(R.string.no_posts);
     }
@@ -719,7 +634,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(IS_IN_LAZY_MODE_STATE, isInLazyMode);
         outState.putStringArrayList(READ_POST_LIST_STATE, readPosts);
         if (mLinearLayoutManager != null) {
             outState.putInt(RECYCLER_VIEW_POSITION_STATE, mLinearLayoutManager.findFirstVisibleItemPosition());
@@ -735,10 +649,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     @Override
     public void refresh() {
         binding.fetchPostInfoLinearLayout.setVisibility(View.GONE);
-        hasPost = false;
-        if (isInLazyMode) {
-            stopLazyMode();
-        }
         mAdapter.refresh();
         goBackToTop();
     }
@@ -750,90 +660,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             binding.fetchPostInfoTextView.setText(stringResId);
             mGlide.load(R.drawable.error_image).into(binding.fetchPostInfoImageView);
         }
-    }
-
-    @Override
-    public boolean startLazyMode() {
-        if (!hasPost) {
-            Toast.makeText(activity, R.string.no_posts_no_lazy_mode, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        Utils.setTitleWithCustomFontToMenuItem(activity.typeface, lazyModeItem, getString(R.string.action_stop_lazy_mode));
-
-        if (mAdapter != null && mAdapter.isAutoplay()) {
-            mAdapter.setAutoplay(false);
-            refreshAdapter();
-        }
-
-        isInLazyMode = true;
-        isLazyModePaused = false;
-
-        lazyModeInterval = Float.parseFloat(mSharedPreferences.getString(SharedPreferencesUtils.LAZY_MODE_INTERVAL_KEY, "2.5"));
-        lazyModeHandler.postDelayed(lazyModeRunnable, (long) (lazyModeInterval * 1000));
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Toast.makeText(activity, getString(R.string.lazy_mode_start, lazyModeInterval),
-                Toast.LENGTH_SHORT).show();
-
-        return true;
-    }
-
-    @Override
-    public void stopLazyMode() {
-        Utils.setTitleWithCustomFontToMenuItem(activity.typeface, lazyModeItem, getString(R.string.action_start_lazy_mode));
-        if (mAdapter != null) {
-            String autoplayString = mSharedPreferences.getString(SharedPreferencesUtils.VIDEO_AUTOPLAY, SharedPreferencesUtils.VIDEO_AUTOPLAY_VALUE_NEVER);
-            if (autoplayString.equals(SharedPreferencesUtils.VIDEO_AUTOPLAY_VALUE_ALWAYS_ON) ||
-                    (autoplayString.equals(SharedPreferencesUtils.VIDEO_AUTOPLAY_VALUE_ON_WIFI) && Utils.isConnectedToWifi(activity))) {
-                mAdapter.setAutoplay(true);
-                refreshAdapter();
-            }
-        }
-        isInLazyMode = false;
-        isLazyModePaused = false;
-        lazyModeRunnable.resetOldPosition();
-        lazyModeHandler.removeCallbacks(lazyModeRunnable);
-        resumeLazyModeCountDownTimer.cancel();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Toast.makeText(activity, getString(R.string.lazy_mode_stop), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void resumeLazyMode(boolean resumeNow) {
-        if (isInLazyMode) {
-            if (mAdapter != null && mAdapter.isAutoplay()) {
-                mAdapter.setAutoplay(false);
-                refreshAdapter();
-            }
-            isLazyModePaused = false;
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-            lazyModeRunnable.resetOldPosition();
-
-            if (resumeNow) {
-                lazyModeHandler.post(lazyModeRunnable);
-            } else {
-                lazyModeHandler.postDelayed(lazyModeRunnable, (long) (lazyModeInterval * 1000));
-            }
-        }
-    }
-
-    @Override
-    public void pauseLazyMode(boolean startTimer) {
-        resumeLazyModeCountDownTimer.cancel();
-        isInLazyMode = true;
-        isLazyModePaused = true;
-        lazyModeHandler.removeCallbacks(lazyModeRunnable);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        if (startTimer) {
-            resumeLazyModeCountDownTimer.start();
-        }
-    }
-
-    @Override
-    public boolean isInLazyMode() {
-        return isInLazyMode;
     }
 
     @Override
@@ -951,23 +777,14 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     public void goBackToTop() {
         if (mLinearLayoutManager != null) {
             mLinearLayoutManager.scrollToPositionWithOffset(0, 0);
-            if (isInLazyMode) {
-                lazyModeRunnable.resetOldPosition();
-            }
         } else if (mStaggeredGridLayoutManager != null) {
             mStaggeredGridLayoutManager.scrollToPositionWithOffset(0, 0);
-            if (isInLazyMode) {
-                lazyModeRunnable.resetOldPosition();
-            }
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (isInLazyMode) {
-            pauseLazyMode(false);
-        }
         if (mAdapter != null) {
             binding.recyclerView.onWindowVisibilityChanged(View.GONE);
         }
@@ -1358,26 +1175,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
     public void onChangeEasierToWatchInFullScreenEvent(ChangeEasierToWatchInFullScreenEvent event) {
         if (mAdapter != null) {
             mAdapter.setEasierToWatchInFullScreen(event.easierToWatchInFullScreen);
-        }
-    }
-
-    private static abstract class LazyModeRunnable implements Runnable {
-        private int currentPosition = -1;
-
-        int getCurrentPosition() {
-            return currentPosition;
-        }
-
-        void setCurrentPosition(int currentPosition) {
-            this.currentPosition = currentPosition;
-        }
-
-        void incrementCurrentPosition() {
-            currentPosition++;
-        }
-
-        void resetOldPosition() {
-            currentPosition = -1;
         }
     }
 

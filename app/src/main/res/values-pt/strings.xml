@@ -38,8 +38,6 @@
     <string name="action_save_post">"Guardar publicação"</string>
     <string name="action_view_crosspost_parent">"Ver crosspost parent"</string>
     <string name="action_search">"Pesquisar"</string>
-    <string name="action_start_lazy_mode">"Iniciar Modo Preguiça"</string>
-    <string name="action_stop_lazy_mode">"Parar Modo Preguiça"</string>
     <string name="action_send">"Enviar"</string>
     <string name="action_sort">"Ordenar"</string>
     <string name="action_hide_post">"Esconder publicação"</string>
@@ -132,8 +130,6 @@ Toque para tentar novamente."</string>
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Pesquisar por qualquer coisa"</string>
     <string name="no_posts_no_lazy_mode">"Sem publicações disponíveis"</string>
-    <string name="lazy_mode_start">"Modo Preguiça inicia em %1$.1fs"</string>
-    <string name="lazy_mode_stop">"O Modo Perguiça parou"</string>
     <string name="write_comment_hint">"Os seus pensamentos interessantes aqui"</string>
     <string name="comment_content_required">"Onde está o seu pensamento interessante?"</string>
     <string name="sending_comment">"A enviar"</string>
@@ -346,7 +342,6 @@ Toque para tentar novamente."</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Prender botão Saltar para Próximo Comentário de Topo"</string>
     <string name="settings_lock_bottom_app_bar_title">"Prender Barra de Navegação na Parte Inferior"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Deslizar para Cima para Esconder o Botão de Saltar para Próximo Comentário de Topo"</string>
-    <string name="settings_lazy_mode_interval_title">"Intervalo do Modo Preguiça"</string>
     <string name="settings_font_title">"Tipo de Letra"</string>
     <string name="settings_preview_font_title">"Pré-visualizar Tipo de Letra"</string>
     <string name="settings_font_summary">"Tipo de Letra"</string>

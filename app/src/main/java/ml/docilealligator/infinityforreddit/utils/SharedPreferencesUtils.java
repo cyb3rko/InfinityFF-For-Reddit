@@ -7,7 +7,6 @@ package ml.docilealligator.infinityforreddit.utils;
 public class SharedPreferencesUtils {
     public static final String ENABLE_NOTIFICATION_KEY = "enable_notification";
     public static final String NOTIFICATION_INTERVAL_KEY = "notificaiton_interval";
-    public static final String LAZY_MODE_INTERVAL_KEY = "lazy_mode_interval";
     public static final String THEME_KEY = "theme";
     public static final String ICON_FOREGROUND_KEY = "icon_foreground";
     public static final String ICON_BACKGROUND_KEY = "icon_background";

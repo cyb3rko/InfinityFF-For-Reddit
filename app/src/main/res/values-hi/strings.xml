@@ -42,8 +42,6 @@
     <!-- Fuzzy -->
     <string name="action_view_crosspost_parent">"क्रॉसपोस्ट पैरेंट देखें "</string>
     <string name="action_search">"खोजें"</string>
-    <string name="action_start_lazy_mode">"औटो मोड शुरू करे"</string>
-    <string name="action_stop_lazy_mode">"औटो मोड बन्द करें "</string>
     <string name="action_send">"भेजें"</string>
 
     <!-- क्रमबन्धन? -->
@@ -143,8 +141,6 @@
     <string name="app_label">"इनफिनिटी"</string>
     <string name="search_hint">"कुछ खोजिए"</string>
     <string name="no_posts_no_lazy_mode">"कोई पोस्ट उपलब्ध नहीं"</string>
-    <string name="lazy_mode_start">"औटो मोड शुरू होगी %1$.1fs"</string>
-    <string name="lazy_mode_stop">"औटो मोड रुक गयी"</string>
     <string name="write_comment_hint">"यहां आपके रुचिकर विचार"</string>
     <string name="comment_content_required">"आपका रूचिकर विचार कहाँ है?"</string>
     <string name="sending_comment">"जा रहा है"</string>
@@ -388,7 +384,6 @@ Behavior -->
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"नया उच्चा मात्रा के मतमात मे जाने से रोके"</string>
     <string name="settings_lock_bottom_app_bar_title">"निचे के कण्ट्रोल बार को छुपाने से रोके"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"अगली शीर्ष स्तर की टिप्पणी पर जाने वाले बटन को छुपाने के  लिए ऊपर की ओर स्वाइप"</string>
-    <string name="settings_lazy_mode_interval_title">"आलस्य प्रणाली अंतराल "</string>
     <string name="settings_font_title">"फॉन्ट "</string>
     <string name="settings_preview_font_title">"फॉन्ट पूर्वदर्शन "</string>
     <string name="settings_font_summary">"फॉन्ट"</string>

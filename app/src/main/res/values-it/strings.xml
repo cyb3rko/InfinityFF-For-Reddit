@@ -38,8 +38,6 @@
     <string name="action_save_post">"Salva post"</string>
     <string name="action_view_crosspost_parent">"Mostra origine del crosspost"</string>
     <string name="action_search">"Cerca"</string>
-    <string name="action_start_lazy_mode">"Attiva la modalità di scorrimento automatico"</string>
-    <string name="action_stop_lazy_mode">"Disattiva la modalità di scorrimento automatico"</string>
     <string name="action_send">"Invia"</string>
     <string name="action_sort">"Ordina"</string>
     <string name="action_hide_post">"Nascondi"</string>
@@ -129,8 +127,6 @@ Tocca per riprovare."</string>
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Cerca qualcosa"</string>
     <string name="no_posts_no_lazy_mode">"Nessun post disponibile"</string>
-    <string name="lazy_mode_start">"Modalità di scorrimento automatico partirà tra %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Modalità scorrimento automatico disattivata"</string>
     <string name="write_comment_hint">"Commenta qui con i tuoi pensieri"</string>
     <string name="comment_content_required">"Dove sono i tuoi pensieri interessanti?"</string>
     <string name="sending_comment">"Invio..."</string>
@@ -332,7 +328,6 @@ Tocca per riprovare."</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Blocca il Tasto per Saltare al Prossimo Commento di Primo Livello"</string>
     <string name="settings_lock_bottom_app_bar_title">"Blocca la barra di navigazione inferiore"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Scorri Verso l'Alto per Nascondere il Tasto per Saltare al Prossimo Commento di Primo Livello"</string>
-    <string name="settings_lazy_mode_interval_title">"Intervallo Modalità Pigra"</string>
     <string name="settings_font_title">"Caratteri"</string>
     <string name="settings_preview_font_title">"Anteprima carattere"</string>
     <string name="settings_font_summary">"Caratteri"</string>

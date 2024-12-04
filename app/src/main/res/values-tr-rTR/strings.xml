@@ -38,8 +38,6 @@
     <string name="action_save_post">"Gönderiyi Kaydet"</string>
     <string name="action_view_crosspost_parent">"Çapraz Gönderi kaynağı"</string>
     <string name="action_search">"Arama"</string>
-    <string name="action_start_lazy_mode">"Uyuşuk Modu Başlat"</string>
-    <string name="action_stop_lazy_mode">"Uyuşuk Modu Durdur"</string>
     <string name="action_send">"Gönder"</string>
     <string name="action_sort">"Sırala"</string>
     <string name="action_hide_post">"Gönderiyi Gizle"</string>
@@ -137,8 +135,6 @@ This translation does it work well in this kinda format. People use "since" in s
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Bir şey arayın"</string>
     <string name="no_posts_no_lazy_mode">"Hiç gönderi yok"</string>
-    <string name="lazy_mode_start">"Uyuşuk Modu %1$.1fs'da başlıyor"</string>
-    <string name="lazy_mode_stop">"Uyuşuk Modu durdu"</string>
     <string name="write_comment_hint">"Buradaki ilginç düşünceleriniz"</string>
     <string name="comment_content_required">"İlginç düşünceniz nerede?"</string>
     <string name="sending_comment">"Gönderiliyor"</string>
@@ -352,7 +348,6 @@ Tekrar denemek için tıklayın."</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Bir Sonraki En İyi Yorumlar Düğmesine Geçmeyi Kilitle"</string>
     <string name="settings_lock_bottom_app_bar_title">"Alt Navigasyon Çubuğunu Kilitle"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Gizlemek İçin Yukarı Kaydır ve Sonraki En İyi Yorumlar Düğmesine Git"</string>
-    <string name="settings_lazy_mode_interval_title">"Uyuşuk Mod Aralığı"</string>
     <string name="settings_font_title">"Yazı Tipi"</string>
     <string name="settings_preview_font_title">"Yazı Tipi Önizlemesi"</string>
     <string name="settings_font_summary">"Yazı Tipi"</string>

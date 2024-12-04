@@ -40,10 +40,8 @@
     <string name="action_search">"検索"</string>
 
     <!-- Fuzzy -->
-    <string name="action_start_lazy_mode">"自動スクロールを開始"</string>
 
     <!-- Fuzzy -->
-    <string name="action_stop_lazy_mode">"自動スクロールを停止"</string>
     <string name="action_send">"送信"</string>
     <string name="action_sort">"並べ替え"</string>
     <string name="action_hide_post">"投稿を非表示"</string>
@@ -145,8 +143,6 @@
     <string name="app_label">"ホーム - Infinity"</string>
     <string name="search_hint">"何でも検索してみてください"</string>
     <string name="no_posts_no_lazy_mode">"投稿がありません"</string>
-    <string name="lazy_mode_start">"%1$.1f秒後に自動スクロールが始まります"</string>
-    <string name="lazy_mode_stop">"自動スクロールを停止しました"</string>
     <string name="write_comment_hint">"面白いコメントを書いてみましょう"</string>
     <string name="comment_content_required">"コメント内容が必要です"</string>
     <string name="sending_comment">"送信中"</string>
@@ -385,7 +381,6 @@
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"次の最上位コメントへ移動ボタンを常に表示"</string>
     <string name="settings_lock_bottom_app_bar_title">"下部ナビゲーションバーを常に表示"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"次の最上位コメントへ移動ボタンを上スクロールで非表示(OFF=下スクロールで非表示)"</string>
-    <string name="settings_lazy_mode_interval_title">"自動スクロール間隔"</string>
     <string name="settings_font_title">"フォント"</string>
     <string name="settings_preview_font_title">"フォントのプレビュー"</string>
     <string name="settings_font_summary">"フォント"</string>

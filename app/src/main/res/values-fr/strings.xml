@@ -47,10 +47,8 @@
     <string name="action_search">"Rechercher"</string>
 
     <!-- Fuzzy -->
-    <string name="action_start_lazy_mode">"Lancer le mode automatique "</string>
 
     <!-- Fuzzy -->
-    <string name="action_stop_lazy_mode">"Arrêter le mode automatique"</string>
     <string name="action_send">"Envoyer"</string>
     <string name="action_sort">"Trier"</string>
     <string name="action_hide_post">"Masquer la publication"</string>
@@ -140,8 +138,6 @@
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Rechercher n'importe quoi"</string>
     <string name="no_posts_no_lazy_mode">"Aucune publication disponible"</string>
-    <string name="lazy_mode_start">"Le Mode Parasseux commence dans %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Le Mode Parasseux arrêté"</string>
     <string name="write_comment_hint">"Vos réflexions intéressantes ici"</string>
     <string name="comment_content_required">"Où se trouve votre réflexion intéressante ?"</string>
     <string name="sending_comment">"Envoi"</string>
@@ -396,7 +392,6 @@ peut ne pas fonctionner sur Android 11"</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Verrouiller le Bouton « Passer au Commentaire de Niveau Supérieur Suivant »"</string>
     <string name="settings_lock_bottom_app_bar_title">"Verrouiller la Barre de Navigation Inférieure"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Balayer pour Masquer le Bouton « Passer au Commentaire de Niveau Supérieur Suivant »"</string>
-    <string name="settings_lazy_mode_interval_title">"Intervalle du Mode Parasseux"</string>
     <string name="settings_font_title">"Police"</string>
     <string name="settings_preview_font_title">"Prévisualisation de la Police"</string>
     <string name="settings_font_summary">"Police"</string>

@@ -38,8 +38,6 @@
     <string name="action_save_post">"Bericht opslaan"</string>
     <string name="action_view_crosspost_parent">"Bovenliggende crosspost bekijken"</string>
     <string name="action_search">"Zoeken"</string>
-    <string name="action_start_lazy_mode">"Luie modus inschakelen"</string>
-    <string name="action_stop_lazy_mode">"Luie modus uitschakelen"</string>
     <string name="action_send">"Versturen"</string>
     <string name="action_sort">"Sorteren"</string>
     <string name="action_hide_post">"Bericht verbergen"</string>
@@ -129,8 +127,6 @@ Druk om opnieuw te proberen."</string>
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Zoek iets"</string>
     <string name="no_posts_no_lazy_mode">"Geen berichten beschikbaar"</string>
-    <string name="lazy_mode_start">"De luie modus start over %1$.1fs"</string>
-    <string name="lazy_mode_stop">"De luie modus is gestopt"</string>
     <string name="write_comment_hint">"Zeg waar je aan denkt"</string>
     <string name="comment_content_required">"Waar denk je aan?"</string>
     <string name="sending_comment">"Bezig met versturen…"</string>
@@ -342,7 +338,6 @@ Druk om opnieuw te proberen."</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Verspringen beperken tot volgende reactie op het hoogste niveau"</string>
     <string name="settings_lock_bottom_app_bar_title">"Onderste navigatiebalk vergrendelen"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Omhoog vegen beperken tot volgende reactie op het hoogste niveau"</string>
-    <string name="settings_lazy_mode_interval_title">"Luie modus: tussenpoos"</string>
     <string name="settings_font_title">"Lettertype"</string>
     <string name="settings_preview_font_title">"Voorvertoning"</string>
     <string name="settings_font_summary">"Lettertype"</string>

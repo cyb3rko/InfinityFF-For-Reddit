@@ -38,8 +38,6 @@
     <string name="action_save_post">"Bejegyzés elmentése"</string>
     <string name="action_view_crosspost_parent">"Crosspost szülő megtekintése"</string>
     <string name="action_search">"Keresés"</string>
-    <string name="action_start_lazy_mode">"Lusta mód elkezdése"</string>
-    <string name="action_stop_lazy_mode">"Lusta mód megállítása"</string>
     <string name="action_send">"Küldés"</string>
     <string name="action_sort">"Rendezés"</string>
     <string name="action_hide_post">"Bejegyzés elrejtése"</string>
@@ -126,8 +124,6 @@
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Keress rá bármire"</string>
     <string name="no_posts_no_lazy_mode">"Nincs rendelkezésre álló poszt"</string>
-    <string name="lazy_mode_start">"Lusta mód kezdődik: %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Lusta mód megállt"</string>
     <string name="write_comment_hint">"Ide jöhetnek az érdekes gondolataid"</string>
     <string name="comment_content_required">"Hol vannak az érdekes gondolataid?"</string>
     <string name="sending_comment">"Küldés"</string>
@@ -343,7 +339,6 @@
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Záró ugrás a következő felső szintű komment gombhoz"</string>
     <string name="settings_lock_bottom_app_bar_title">"Alsó navigációs sáv lezárása"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Húzz fefelé, hogy elrejtsd a következő felső szintű komment gombot"</string>
-    <string name="settings_lazy_mode_interval_title">"Lusta mód entervallum"</string>
     <string name="settings_font_title">"Betűtípus"</string>
     <string name="settings_preview_font_title">"Betűtípus előnézet"</string>
     <string name="settings_font_summary">"Betűtípus"</string>

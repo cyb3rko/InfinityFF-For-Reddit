@@ -27,15 +27,6 @@
         android:icon="@drawable/ic_outline_video_24dp"
         app:fragment="ml.docilealligator.infinityforreddit.settings.VideoPreferenceFragment" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
-        app:defaultValue="2.5"
-        android:entries="@array/settings_lazy_mode_interval"
-        app:entryValues="@array/settings_lazy_mode_interval_values"
-        app:key="lazy_mode_interval"
-        app:icon="@drawable/ic_outline_access_time_24dp"
-        app:title="@string/settings_lazy_mode_interval_title"
-        app:useSimpleSummaryProvider="true" />
-
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:title="@string/settings_download_location_title"
         android:icon="@drawable/ic_download_24dp"

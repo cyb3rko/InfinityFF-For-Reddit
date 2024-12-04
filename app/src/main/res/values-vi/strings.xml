@@ -38,8 +38,6 @@
     <string name="action_save_post">"Lưu bài đăng"</string>
     <string name="action_view_crosspost_parent">"Xem bài đăng gốc của bài đăng chia sẻ"</string>
     <string name="action_search">"Tìm kiếm"</string>
-    <string name="action_start_lazy_mode">"Bật chế độ lười biếng"</string>
-    <string name="action_stop_lazy_mode">"Tắt chế độ lười biếng"</string>
     <string name="action_send">"Gửi"</string>
     <string name="action_sort">"Sắp xếp"</string>
     <string name="action_hide_post">"Ẩn bài đăng"</string>
@@ -128,8 +126,6 @@
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Tìm bất cứ thứ gì"</string>
     <string name="no_posts_no_lazy_mode">"Không bài đăng nào có sẵn"</string>
-    <string name="lazy_mode_start">"Chế độ lười biếng bắt đầu trong %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Chế độ lười biếng đã dừng"</string>
     <string name="write_comment_hint">"Viết những ý nghĩ thú vị của bạn ở đây"</string>
     <string name="comment_content_required">"Những ý nghĩ thú vị của bạn đâu rồi?"</string>
     <string name="sending_comment">"Đang gửi bình luận"</string>
@@ -348,7 +344,6 @@ Nhấn để thử lại."</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Khoá nút Nhảy đến bình luận cấp trên cùng tiếp theo"</string>
     <string name="settings_lock_bottom_app_bar_title">"Khoá thanh điều hướng ở dưới cùng"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Vuốt lên để ẩn nút Nhảy đến bình luận cấp trên cùng tiếp theo"</string>
-    <string name="settings_lazy_mode_interval_title">"Khoảng thời gian Chế độ lười biếng"</string>
     <string name="settings_font_title">"Phông chữ"</string>
     <string name="settings_preview_font_title">"Xem trước phông chữ"</string>
     <string name="settings_font_summary">"Phông chữ"</string>

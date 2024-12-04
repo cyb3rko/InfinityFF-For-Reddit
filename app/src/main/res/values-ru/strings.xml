@@ -44,8 +44,6 @@
     <string name="action_save_post">"Сохранить пост"</string>
     <string name="action_view_crosspost_parent">"Посмотреть родительский кросспост"</string>
     <string name="action_search">"Поиск"</string>
-    <string name="action_start_lazy_mode">"Включить ленивый режим"</string>
-    <string name="action_stop_lazy_mode">"Остановить ленивый режим"</string>
     <string name="action_send">"Отправить"</string>
     <string name="action_sort">"Сортировка"</string>
     <string name="action_hide_post">"Скрыть пост"</string>
@@ -136,8 +134,6 @@
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Ищите что угодно"</string>
     <string name="no_posts_no_lazy_mode">"Нет доступных постов"</string>
-    <string name="lazy_mode_start">"Ленивый режим начнётся через %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Ленивый режим остановлен"</string>
     <string name="write_comment_hint">"Ваши интересные мысли здесь"</string>
     <string name="comment_content_required">"А где ваши интересные размышления?"</string>
     <string name="sending_comment">"Отправка"</string>
@@ -347,7 +343,6 @@
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Блокировать переход к следующей кнопке комментариев верхнего уровня"</string>
     <string name="settings_lock_bottom_app_bar_title">"Заблокировать нижнюю панель навигации"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Жест вверх, чтобы скрыть кнопку перехода к следующему верхнему уровню комментария"</string>
-    <string name="settings_lazy_mode_interval_title">"Интервал ленивого режима"</string>
     <string name="settings_font_title">"Шрифт"</string>
     <string name="settings_preview_font_title">"Предпросмотр шрифтов"</string>
     <string name="settings_font_summary">"Шрифт"</string>

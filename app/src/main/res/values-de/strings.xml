@@ -40,8 +40,6 @@
     <string name="action_save_post">"Beitrag speichern"</string>
     <string name="action_view_crosspost_parent">"Originalbeitrag crossposten"</string>
     <string name="action_search">"Suchen"</string>
-    <string name="action_start_lazy_mode">"Lazy Mode starten"</string>
-    <string name="action_stop_lazy_mode">"Lazy Mode stoppen"</string>
     <string name="action_send">"Senden"</string>
     <string name="action_sort">"Sortieren"</string>
     <string name="action_hide_post">"Beitrag verstecken"</string>
@@ -134,8 +132,6 @@ Tippen für Neuversuch."</string>
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Alles durchsuchen"</string>
     <string name="no_posts_no_lazy_mode">"Keine Beiträge verfügbar"</string>
-    <string name="lazy_mode_start">"Faulheitsmodus startet in %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Faulheitsmodus gestoppt"</string>
     <string name="write_comment_hint">"Deine interessanten Gedanken hier"</string>
     <string name="comment_content_required">"Wo bleibt dein interessanter Gedanke?"</string>
     <string name="sending_comment">"Sende"</string>
@@ -367,7 +363,6 @@ Tippen für Neuversuch."</string>
 
     <!-- Fuzzy -->
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Nach oben wischen, um den \"Zum nächsten Top-Level-Kommentar springen\"-Knopf zu verstecken"</string>
-    <string name="settings_lazy_mode_interval_title">"Intervall für Faulen Modus"</string>
     <string name="settings_font_title">"Schriftart"</string>
     <string name="settings_preview_font_title">"Schriftart-Vorschau"</string>
     <string name="settings_font_summary">"Schriftart"</string>

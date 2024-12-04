@@ -56,8 +56,6 @@
     <string name="action_save_post">Save post</string>
     <string name="action_view_crosspost_parent">View crosspost parent</string>
     <string name="action_search">Search</string>
-    <string name="action_start_lazy_mode">Start Lazy Mode</string>
-    <string name="action_stop_lazy_mode">Stop Lazy Mode</string>
     <string name="action_send">Send</string>
     <string name="action_sort">Sort</string>
     <string name="action_hide_post">Hide Post</string>
@@ -177,8 +175,6 @@
     <string name="search_only_users_hint">Search users</string>
 
     <string name="no_posts_no_lazy_mode">No posts available</string>
-    <string name="lazy_mode_start">Lazy Mode starts in %1$.1fs</string>
-    <string name="lazy_mode_stop">Lazy Mode stopped</string>
 
     <string name="write_comment_hint">Your interesting thoughts here</string>
     <string name="comment_content_required">Where is your interesting thought?</string>
@@ -433,7 +429,6 @@
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">Lock Jump to Next Top-level Comment Button</string>
     <string name="settings_lock_bottom_app_bar_title">Lock Bottom Navigation Bar</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">Swipe Up to Hide Jump to Next Top-level Comment Button</string>
-    <string name="settings_lazy_mode_interval_title">Lazy Mode Interval</string>
     <string name="settings_font_title">Font</string>
     <string name="settings_preview_font_title">Font Preview</string>
     <string name="settings_font_summary">Font</string>

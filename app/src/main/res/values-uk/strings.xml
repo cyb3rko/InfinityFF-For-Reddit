@@ -38,8 +38,6 @@
     <string name="action_save_post">"Зберегти допис"</string>
     <string name="action_view_crosspost_parent">"Переглянути батьківський передопис"</string>
     <string name="action_search">"Пошук"</string>
-    <string name="action_start_lazy_mode">"Розпочати лінивий режим"</string>
-    <string name="action_stop_lazy_mode">"Зупинити лінивий режим"</string>
     <string name="action_send">"Надіслати"</string>
     <string name="action_sort">"Сортувати"</string>
     <string name="action_hide_post">"Сховати допис"</string>
@@ -132,8 +130,6 @@
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Шукати все"</string>
     <string name="no_posts_no_lazy_mode">"Нема доступних дописів"</string>
-    <string name="lazy_mode_start">"Лінивий режим розпочато %1$.1fс"</string>
-    <string name="lazy_mode_stop">"Лінивий режим зупинено"</string>
     <string name="write_comment_hint">"Ваші цікаві думки тут"</string>
     <string name="comment_content_required">"Де Ваші цікаві думки?"</string>
     <string name="sending_comment">"Надсилання"</string>
@@ -335,7 +331,6 @@
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Блокувати стрибок до наступної кнопки коментаря верхнього рівня"</string>
     <string name="settings_lock_bottom_app_bar_title">"Замкнути нижню панель пересування"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Ковзніть уверх, щоб приховати стрибок до наступної кнопки коментаря верхнього рівня"</string>
-    <string name="settings_lazy_mode_interval_title">"Крок лінивого режиму"</string>
     <string name="settings_font_title">"Шрифт"</string>
     <string name="settings_preview_font_title">"Перегляд шрифтів"</string>
     <string name="settings_font_summary">"Шрифт"</string>

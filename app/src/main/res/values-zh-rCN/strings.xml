@@ -38,8 +38,6 @@
     <string name="action_save_post">"保存帖子"</string>
     <string name="action_view_crosspost_parent">"查看转发原帖"</string>
     <string name="action_search">"搜索"</string>
-    <string name="action_start_lazy_mode">"启用懒人模式"</string>
-    <string name="action_stop_lazy_mode">"停用懒人模式"</string>
     <string name="action_send">"发送"</string>
     <string name="action_sort">"排序"</string>
     <string name="action_hide_post">"隐藏帖子"</string>
@@ -130,8 +128,6 @@
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"搜索您要找的"</string>
     <string name="no_posts_no_lazy_mode">"暂无可用帖子"</string>
-    <string name="lazy_mode_start">"懒人模式已启用，滑动间隔 %1$.1f 秒"</string>
-    <string name="lazy_mode_stop">"懒人模式已停用"</string>
     <string name="write_comment_hint">"在此写下您的想法"</string>
     <string name="comment_content_required">"在想些什么？"</string>
     <string name="sending_comment">"发送中"</string>
@@ -351,7 +347,6 @@
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"锁定跳转到下一个顶层评论按钮"</string>
     <string name="settings_lock_bottom_app_bar_title">"锁定底部导航栏"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"向上滑动以隐藏跳转到下一个顶层评论按钮"</string>
-    <string name="settings_lazy_mode_interval_title">"懒人模式间隔时间"</string>
     <string name="settings_font_title">"字体"</string>
     <string name="settings_preview_font_title">"字体预览"</string>
     <string name="settings_font_summary">"字体"</string>

@@ -38,8 +38,6 @@
     <string name="action_save_post">"Uložit příspěvek"</string>
     <string name="action_view_crosspost_parent">"Zobrazit nadřazený crosspost"</string>
     <string name="action_search">"Hledat"</string>
-    <string name="action_start_lazy_mode">"Spustit líný režim"</string>
-    <string name="action_stop_lazy_mode">"Zastavit líný režim"</string>
     <string name="action_send">"Odeslat"</string>
     <string name="action_sort">"Řazení"</string>
     <string name="action_hide_post">"Skrýt příspěvek"</string>
@@ -132,8 +130,6 @@
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Hledat cokoli"</string>
     <string name="no_posts_no_lazy_mode">"Nejsou dostupné žádné příspěvky"</string>
-    <string name="lazy_mode_start">"Líný režim bude spuštěn za %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Líný režim zastaven"</string>
     <string name="write_comment_hint">"Vaše zajímavé myšlenky patří sem"</string>
     <string name="comment_content_required">"Kde je vaše zajímavá myšlenka?"</string>
     <string name="sending_comment">"Odesílání"</string>
@@ -339,7 +335,6 @@
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Uzamknout tlačítko ke skoku na další komentář nejvyšší úrovně"</string>
     <string name="settings_lock_bottom_app_bar_title">"Uzamknout spodní navigační lištu"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Posunutí nahoru pro skrytí skoku na další komentář nejvyšší úrovně"</string>
-    <string name="settings_lazy_mode_interval_title">"Interval líného režimu"</string>
     <string name="settings_font_title">"Písmo"</string>
     <string name="settings_preview_font_title">"Náhled písma"</string>
     <string name="settings_font_summary">"Písmo"</string>

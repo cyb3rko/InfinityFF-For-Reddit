@@ -48,8 +48,6 @@
     <string name="action_save_post">"Salvează postarea"</string>
     <string name="action_view_crosspost_parent">"Vezi crosspost-ul principal"</string>
     <string name="action_search">"Caută"</string>
-    <string name="action_start_lazy_mode">"Pornește Mod Leneș"</string>
-    <string name="action_stop_lazy_mode">"Oprește Mod Leneș"</string>
     <string name="action_send">"Trimite"</string>
     <string name="action_sort">"Sortează"</string>
     <string name="action_hide_post">"Ascunde Postarea"</string>
@@ -150,8 +148,6 @@ Atinge pentru a reîncerca."</string>
     <string name="app_label">"Infinit"</string>
     <string name="search_hint">"Caută orice"</string>
     <string name="no_posts_no_lazy_mode">"Nicio postare disponibilă"</string>
-    <string name="lazy_mode_start">"Mod Leneș începe în %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Mod Leneș oprit"</string>
     <string name="write_comment_hint">"Împărtășește gânduri tale interesante aici"</string>
     <string name="comment_content_required">"Unde-ți sunt gândurile interesante?"</string>
     <string name="sending_comment">"Se trimite"</string>
@@ -361,7 +357,6 @@ Atinge pentru a reîncerca."</string>
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Blochează Saltului la Următorul Comentariu de Top"</string>
     <string name="settings_lock_bottom_app_bar_title">"Blochează Bara de Navigare de Jos"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Glisează în Sus pentru a Ascunde Butonul pentru Salt spre Următorul Comentariu de Top"</string>
-    <string name="settings_lazy_mode_interval_title">"Intervalul Modului Leneș"</string>
     <string name="settings_font_title">"Font"</string>
     <string name="settings_preview_font_title">"Previzualizare font"</string>
     <string name="settings_font_summary">"Font"</string>

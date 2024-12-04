@@ -40,8 +40,6 @@
     <string name="action_save_post">"Guardar publicación"</string>
     <string name="action_view_crosspost_parent">"Ver origen de crosspost"</string>
     <string name="action_search">"Buscar"</string>
-    <string name="action_start_lazy_mode">"Iniciar modo automático"</string>
-    <string name="action_stop_lazy_mode">"Detener modo automático"</string>
     <string name="action_send">"Enviar"</string>
     <string name="action_sort">"Ordenar"</string>
     <string name="action_hide_post">"Ocultar publicación"</string>
@@ -138,8 +136,6 @@ Toca para reintentar."</string>
     <string name="app_label">"Infinity"</string>
     <string name="search_hint">"Busca cualquier cosa"</string>
     <string name="no_posts_no_lazy_mode">"No hay publicaciones disponibles"</string>
-    <string name="lazy_mode_start">"El modo automático empieza en %1$.1fs"</string>
-    <string name="lazy_mode_stop">"Se ha detenido el modo automático"</string>
     <string name="write_comment_hint">"Escribe tus ideas aquí"</string>
     <string name="comment_content_required">"¿Dónde ha quedado ese pensamiento interesante?"</string>
     <string name="sending_comment">"Enviando"</string>
@@ -358,7 +354,6 @@ Premio means prize, so it's better suited the first word instead of the second o
     <string name="settings_lock_jump_to_next_top_level_comment_button_title">"Bloquear el botón de siguiente comentario más alto"</string>
     <string name="settings_lock_bottom_app_bar_title">"Bloquear la barra de navegación inferior"</string>
     <string name="settings_swipe_up_to_hide_jump_to_next_top_level_comment_button_title">"Deslizar hacia arriba para ocultar el botón de siguiente comentario más alto"</string>
-    <string name="settings_lazy_mode_interval_title">"Tiempo para la pausa del modo automático"</string>
     <string name="settings_font_title">"Fuente"</string>
     <string name="settings_preview_font_title">"Previsualización de la fuente"</string>
     <string name="settings_font_summary">"Fuente"</string>
