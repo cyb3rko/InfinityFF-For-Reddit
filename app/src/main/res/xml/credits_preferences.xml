@@ -42,11 +42,6 @@
         app:title="@string/settings_credits_material_icons_title"/>
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
-        app:key="national_flags"
-        app:title="@string/settings_credits_national_flags"
-        android:summary="@string/settings_credits_national_flags_summary" />
-
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="ufo_capturing_animation"
         app:title="@string/settings_credits_ufo_capturing_animation_title"
         android:summary="https://lottiefiles.com/33858-ufo-capturing-animation" />

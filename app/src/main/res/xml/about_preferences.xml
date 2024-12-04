@@ -11,12 +11,6 @@
         app:fragment="ml.docilealligator.infinityforreddit.settings.CreditsPreferenceFragment" />
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
-        android:key="translation"
-        app:title="@string/settings_translation_title"
-        app:summary="@string/settings_translation_summary"
-        app:fragment="ml.docilealligator.infinityforreddit.settings.TranslationFragment"/>
-
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         android:key="open_source"
         app:title="@string/settings_open_source_title"
         app:summary="@string/settings_open_source_summary" />

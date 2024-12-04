@@ -102,7 +102,6 @@ import ml.docilealligator.infinityforreddit.settings.NsfwAndSpoilerFragment;
 import ml.docilealligator.infinityforreddit.settings.PostHistoryFragment;
 import ml.docilealligator.infinityforreddit.settings.SecurityPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.ThemePreferenceFragment;
-import ml.docilealligator.infinityforreddit.settings.TranslationFragment;
 import ml.docilealligator.infinityforreddit.settings.VideoPreferenceFragment;
 import ml.docilealligator.infinityforreddit.ui.RoomDetailFragment;
 import ml.docilealligator.infinityforreddit.ui.RoomListFragment;
@@ -250,8 +249,6 @@ public interface AppComponent {
     void inject(CustomizeBottomAppBarFragment customizeBottomAppBarFragment);
 
     void inject(GiveAwardActivity giveAwardActivity);
-
-    void inject(TranslationFragment translationFragment);
 
     void inject(FetchRandomSubredditOrPostActivity fetchRandomSubredditOrPostActivity);
 

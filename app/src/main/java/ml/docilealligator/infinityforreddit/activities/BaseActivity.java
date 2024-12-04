@@ -41,7 +41,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.lang.reflect.Field;
-import java.util.Locale;
 
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.AppBarStateChangeListener;
@@ -83,23 +82,8 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
 
         SharedPreferences mSharedPreferences = getDefaultSharedPreferences();
 
-        String language = mSharedPreferences.getString(SharedPreferencesUtils.LANGUAGE, SharedPreferencesUtils.LANGUAGE_DEFAULT_VALUE);
-        Locale systemLocale = Resources.getSystem().getConfiguration().locale;
-        Locale locale;
-        if (language.equals(SharedPreferencesUtils.LANGUAGE_DEFAULT_VALUE)) {
-            language = systemLocale.getLanguage();
-            locale = new Locale(language, systemLocale.getCountry());
-        } else {
-            if (language.contains("-")) {
-                locale = new Locale(language.substring(0, 2), language.substring(4));
-            } else {
-                locale = new Locale(language);
-            }
-        }
-        Locale.setDefault(locale);
         Resources resources = getResources();
         Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
 
         boolean systemDefault = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;

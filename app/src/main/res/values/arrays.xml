@@ -428,56 +428,6 @@
         <item>1</item>
     </string-array>
 
-    <string-array name="settings_language">
-        <item>Auto</item>
-        <item>简体中文</item>
-        <item>Hrvatski</item>
-        <item>čeština</item>
-        <item>Nederlands</item>
-        <item>English</item>
-        <item>Française</item>
-        <item>Deutsche</item>
-        <item>हिंदी</item>
-        <item>Magyar</item>
-        <item>Italiana</item>
-        <item>日本語</item>
-        <item>Polskie</item>
-        <item>Português</item>
-        <item>Português (BR)</item>
-        <item>Română</item>
-        <item>русский</item>
-        <item>Soomaali</item>
-        <item>Español</item>
-        <item>Türkçe</item>
-        <item>Українська</item>
-        <item>Tiếng Việt</item>
-    </string-array>
-
-    <string-array name="settings_language_values">
-        <item>auto</item>
-        <item>zh-rCN</item>
-        <item>hr</item>
-        <item>cs</item>
-        <item>nl</item>
-        <item>en</item>
-        <item>fr</item>
-        <item>de</item>
-        <item>hi</item>
-        <item>hu</item>
-        <item>it</item>
-        <item>ja</item>
-        <item>pl</item>
-        <item>pt</item>
-        <item>pt-rBR</item>
-        <item>ro</item>
-        <item>ru</item>
-        <item>so</item>
-        <item>es</item>
-        <item>tr-rTR</item>
-        <item>uk</item>
-        <item>vi</item>
-    </string-array>
-
     <string-array name="settings_subreddit_default_sort_type">
         <item>Hot</item>
         <item>New</item>

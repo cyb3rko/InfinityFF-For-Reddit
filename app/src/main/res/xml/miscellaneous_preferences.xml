@@ -31,15 +31,6 @@
         app:title="@string/settings_enable_search_history_title"
         app:summary="@string/only_for_logged_in_user" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
-        app:defaultValue="auto"
-        app:entries="@array/settings_language"
-        app:entryValues="@array/settings_language_values"
-        app:key="language"
-        app:icon="@drawable/ic_language_24dp"
-        app:title="@string/settings_language_title"
-        app:useSimpleSummaryProvider="true" />
-
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceCategory
         app:title="@string/settings_miscellaneous_dangerous_group_title" />
 

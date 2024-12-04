@@ -10,6 +10,7 @@ android {
         targetSdk 33
         versionCode 1391236
         versionName "2024.04.0"
+        resValue("string", "application_name", "InfinityFF Dev")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -23,6 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         minifiedRelease {
+            resValue("string", "application_name", "InfinityFF")
             initWith buildTypes.release
             zipAlignEnabled true
             minifyEnabled true
@@ -30,16 +32,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
+            resValue("string", "application_name", "InfinityFF")
             applicationIdSuffix '.debug'
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-    lint {
-        disable 'MissingTranslation'
     }
 
     bundle {

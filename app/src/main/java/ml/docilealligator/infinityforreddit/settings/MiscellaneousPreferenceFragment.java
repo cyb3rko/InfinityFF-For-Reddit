@@ -39,7 +39,6 @@ public class MiscellaneousPreferenceFragment extends CustomFontPreferenceFragmen
 
         ListPreference mainPageBackButtonActionListPreference = findPreference(SharedPreferencesUtils.MAIN_PAGE_BACK_BUTTON_ACTION);
         SwitchPreference savePostFeedScrolledPositionSwitch = findPreference(SharedPreferencesUtils.SAVE_FRONT_PAGE_SCROLLED_POSITION);
-        ListPreference languageListPreference = findPreference(SharedPreferencesUtils.LANGUAGE);
         EditTextPreference postFeedMaxResolution = findPreference(SharedPreferencesUtils.POST_FEED_MAX_RESOLUTION);
 
         if (mainPageBackButtonActionListPreference != null) {
@@ -55,13 +54,6 @@ public class MiscellaneousPreferenceFragment extends CustomFontPreferenceFragmen
                     cache.edit().clear().apply();
                 }
                 EventBus.getDefault().post(new ChangeSavePostFeedScrolledPositionEvent((Boolean) newValue));
-                return true;
-            });
-        }
-
-        if (languageListPreference != null) {
-            languageListPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                EventBus.getDefault().post(new RecreateActivityEvent());
                 return true;
             });
         }
