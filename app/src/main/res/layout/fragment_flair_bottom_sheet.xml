@@ -22,8 +22,7 @@
         android:gravity="center"
         android:padding="48dp"
         android:visibility="gone"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

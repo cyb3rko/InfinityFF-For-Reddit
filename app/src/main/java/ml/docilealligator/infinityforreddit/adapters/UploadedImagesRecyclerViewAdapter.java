@@ -1,6 +1,5 @@
 package ml.docilealligator.infinityforreddit.adapters;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,12 @@ import java.util.ArrayList;
 
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.UploadedImage;
-import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 
 public class UploadedImagesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private BaseActivity activity;
     private ArrayList<UploadedImage> uploadedImages;
     private ItemClickListener itemClickListener;
 
-    public UploadedImagesRecyclerViewAdapter(Activity activity, ArrayList<UploadedImage> uploadedImages, ItemClickListener itemClickListener) {
-        if (activity instanceof BaseActivity) {
-            this.activity = (BaseActivity) activity;
-        }
+    public UploadedImagesRecyclerViewAdapter(ArrayList<UploadedImage> uploadedImages, ItemClickListener itemClickListener) {
         this.uploadedImages = uploadedImages;
         this.itemClickListener = itemClickListener;
     }
@@ -54,11 +48,6 @@ public class UploadedImagesRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             super(itemView);
             imageNameTextView = itemView.findViewById(R.id.image_name_item_uploaded_image);
             imageUrlTextView = itemView.findViewById(R.id.image_url_item_uploaded_image);
-
-            if (activity != null && activity.typeface != null) {
-                imageNameTextView.setTypeface(activity.typeface);
-                imageUrlTextView.setTypeface(activity.typeface);
-            }
 
             itemView.setOnClickListener(view -> {
                 itemClickListener.onClick(uploadedImages.get(getBindingAdapterPosition()));

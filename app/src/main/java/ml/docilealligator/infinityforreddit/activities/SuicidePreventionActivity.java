@@ -66,10 +66,5 @@ public class SuicidePreventionActivity extends BaseActivity {
         binding.doNotShowThisAgainTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
         binding.continueButton.setBackgroundTintList(ColorStateList.valueOf(mCustomThemeWrapper.getColorPrimaryLightTheme()));
         binding.continueButton.setTextColor(mCustomThemeWrapper.getButtonTextColor());
-        if (typeface != null) {
-            binding.quoteTextView.setTypeface(typeface);
-            binding.doNotShowThisAgainTextView.setTypeface(typeface);
-            binding.continueButton.setTypeface(typeface);
-        }
     }
 }

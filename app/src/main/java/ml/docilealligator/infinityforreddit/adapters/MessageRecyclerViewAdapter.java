@@ -301,12 +301,6 @@ public class MessageRecyclerViewAdapter extends PagedListAdapter<Message, Recycl
         DataViewHolder(View itemView) {
             super(itemView);
             binding = ItemMessageBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.authorTextView.setTypeface(mActivity.typeface);
-                binding.subjectTextView.setTypeface(mActivity.typeface);
-                binding.titleTextView.setTypeface(mActivity.titleTypeface);
-                binding.contentCustomMarkwonView.setTypeface(mActivity.contentTypeface);
-            }
             itemView.setBackgroundColor(mMessageBackgroundColor);
             binding.authorTextView.setTextColor(mUsernameColor);
             binding.subjectTextView.setTextColor(mPrimaryTextColor);
@@ -327,10 +321,6 @@ public class MessageRecyclerViewAdapter extends PagedListAdapter<Message, Recycl
         ErrorViewHolder(View itemView) {
             super(itemView);
             ItemFooterErrorBinding binding = ItemFooterErrorBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.errorTextView.setTypeface(mActivity.typeface);
-                binding.retryButton.setTypeface(mActivity.typeface);
-            }
             binding.errorTextView.setText(R.string.load_comments_failed);
             binding.errorTextView.setTextColor(mSecondaryTextColor);
             binding.retryButton.setOnClickListener(view -> mRetryLoadingMoreCallback.retryLoadingMore());

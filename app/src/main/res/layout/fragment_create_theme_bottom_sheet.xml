@@ -22,7 +22,6 @@
             android:text="@string/import_theme"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_import_day_night_24dp"
             android:drawablePadding="48dp"
             android:clickable="true"
@@ -41,7 +40,6 @@
             android:text="@string/create_light_theme"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_light_theme_preference_24dp"
             android:drawablePadding="48dp"
             android:clickable="true"
@@ -60,7 +58,6 @@
             android:text="@string/create_dark_theme"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_dark_theme_preference_24dp"
             android:drawablePadding="48dp"
             android:clickable="true"
@@ -79,7 +76,6 @@
             android:text="@string/create_amoled_theme"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_amoled_theme_preference_24dp"
             android:drawablePadding="48dp"
             android:clickable="true"
@@ -96,8 +92,7 @@
             android:paddingEnd="32dp"
             android:text="@string/create_theme_info"
             android:textColor="?attr/secondaryTextColor"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
     </LinearLayout>
 

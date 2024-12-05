@@ -180,9 +180,6 @@ public class CommentActivity extends BaseActivity implements UploadImageEnabledA
             MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
                 @Override
                 public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                    if (contentTypeface != null) {
-                        textView.setTypeface(contentTypeface);
-                    }
                     textView.setTextColor(parentTextColor);
                     textView.setOnLongClickListener(view -> {
                         Utils.hideKeyboard(CommentActivity.this);
@@ -331,13 +328,6 @@ public class CommentActivity extends BaseActivity implements UploadImageEnabledA
         }
         parentSpoilerBackgroundColor = parentTextColor | 0xFF000000;
         binding.commentAccountNameTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-
-        if (typeface != null) {
-            binding.commentCommentEditText.setTypeface(typeface);
-        }
-        if (titleTypeface != null) {
-            binding.commentParentTitleTextView.setTypeface(titleTypeface);
-        }
     }
 
     @Override

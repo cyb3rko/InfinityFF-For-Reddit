@@ -14,7 +14,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -44,7 +42,6 @@ import java.lang.reflect.Field;
 
 import ml.docilealligator.infinityforreddit.ActivityToolbarInterface;
 import ml.docilealligator.infinityforreddit.AppBarStateChangeListener;
-import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.slidr.widget.SliderPanel;
@@ -56,9 +53,8 @@ import ml.docilealligator.infinityforreddit.font.TitleFontFamily;
 import ml.docilealligator.infinityforreddit.font.TitleFontStyle;
 import ml.docilealligator.infinityforreddit.utils.CustomThemeSharedPreferencesUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
-public abstract class BaseActivity extends AppCompatActivity implements CustomFontReceiver {
+public abstract class BaseActivity extends AppCompatActivity {
     private boolean immersiveInterface;
     private boolean changeStatusBarIconColor;
     private boolean transparentStatusBarAfterToolbarCollapsed;
@@ -67,9 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
     private int systemVisibilityToolbarExpanded = 0;
     private int systemVisibilityToolbarCollapsed = 0;
     public CustomThemeWrapper customThemeWrapper;
-    public Typeface typeface;
-    public Typeface titleTypeface;
-    public Typeface contentTypeface;
     @Nullable
     public SliderPanel mSliderPanel;
     @Nullable
@@ -308,15 +301,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
         if (toolbar.getOverflowIcon() != null) {
             toolbar.getOverflowIcon().setColorFilter(customThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
         }
-        if (typeface != null) {
-            toolbar.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
-                for (int j = 0; j < toolbar.getChildCount(); j++) {
-                    if (toolbar.getChildAt(j) instanceof TextView) {
-                        ((TextView) toolbar.getChildAt(j)).setTypeface(typeface);
-                    }
-                }
-            });
-        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -328,7 +312,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
                     MenuItemCompat.setIconTintList(item, ColorStateList
                             .valueOf(customThemeWrapper.getToolbarPrimaryTextAndIconColor()));
                 }
-                Utils.setTitleWithCustomFontToMenuItem(typeface, item, null);
             }
         }
         return true;
@@ -364,14 +347,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomFo
             }
         } catch (NoSuchFieldException | IllegalAccessException ignore) {}
     }
-
-    @Override
-    public void setCustomFont(Typeface typeface, Typeface titleTypeface, Typeface contentTypeface) {
-        this.typeface = typeface;
-        this.titleTypeface = titleTypeface;
-        this.contentTypeface = contentTypeface;
-    }
-
 
     public void lockSwipeRightToGoBack() {
 

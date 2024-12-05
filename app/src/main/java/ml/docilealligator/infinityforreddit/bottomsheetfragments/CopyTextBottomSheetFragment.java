@@ -24,7 +24,6 @@ import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewRedditGalleryActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentCopyTextBottomSheetBinding;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,13 +93,6 @@ public class CopyTextBottomSheetFragment extends LandscapeExpandedRoundedBottomS
             binding.copyMarkdownTextView.setVisibility(View.GONE);
             binding.copyAllMarkdownTextView.setVisibility(View.GONE);
         }
-
-        if (baseActivity != null && baseActivity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, baseActivity.typeface);
-        } else if (viewRedditGalleryActivity != null && viewRedditGalleryActivity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, viewRedditGalleryActivity.typeface);
-        }
-
         return rootView;
     }
 

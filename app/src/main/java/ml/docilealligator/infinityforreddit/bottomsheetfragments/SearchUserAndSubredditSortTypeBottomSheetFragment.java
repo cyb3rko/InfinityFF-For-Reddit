@@ -1,6 +1,5 @@
 package ml.docilealligator.infinityforreddit.bottomsheetfragments;
 
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -18,8 +17,6 @@ import ml.docilealligator.infinityforreddit.SortTypeSelectionCallback;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentSearchUserAndSubredditSortTypeBottomSheetBinding;
-import ml.docilealligator.infinityforreddit.utils.Utils;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,11 +73,6 @@ public class SearchUserAndSubredditSortTypeBottomSheetFragment extends Landscape
             ((SortTypeSelectionCallback) activity).searchUserAndSubredditSortTypeSelected(new SortType(SortType.Type.ACTIVITY), position);
             dismiss();
         });
-
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         return rootView;
     }
 

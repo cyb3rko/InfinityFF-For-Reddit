@@ -18,8 +18,7 @@
             android:drawablePadding="32dp"
             android:text="@string/restart_app_see_changes"
             android:gravity="center_vertical"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <View
             android:layout_width="match_parent"
@@ -34,8 +33,7 @@
             android:paddingStart="72dp"
             android:paddingEnd="16dp"
             android:text="@string/settings_main_activity_bottom_app_bar_group_summary"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <LinearLayout
             android:id="@+id/main_activity_option_count_linear_layout"
@@ -58,8 +56,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_bottom_app_bar_option_count"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/main_activity_option_count_text_view"
@@ -68,8 +65,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -93,8 +89,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_1"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/main_activity_option_1_text_view"
@@ -102,8 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -127,8 +121,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_2"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/main_activity_option_2_text_view"
@@ -136,8 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -161,8 +153,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_3"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/main_activity_option_3_text_view"
@@ -170,8 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -195,8 +185,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_4"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/main_activity_option_4_text_view"
@@ -204,8 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -229,8 +217,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_fab"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/main_activity_fab_text_view"
@@ -238,8 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -257,8 +243,7 @@
             android:paddingStart="72dp"
             android:paddingEnd="16dp"
             android:text="@string/settings_other_activities_bottom_app_bar_group_summary"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <LinearLayout
             android:id="@+id/other_activities_option_count_linear_layout"
@@ -281,8 +266,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_bottom_app_bar_option_count"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/other_activities_option_count_text_view"
@@ -291,8 +275,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -316,8 +299,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_1"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/other_activities_option_1_text_view"
@@ -325,8 +307,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -350,8 +331,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_2"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/other_activities_option_2_text_view"
@@ -359,8 +339,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -384,8 +363,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_3"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/other_activities_option_3_text_view"
@@ -393,8 +371,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -418,8 +395,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_option_4"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/other_activities_option_4_text_view"
@@ -427,8 +403,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -452,8 +427,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/settings_bottom_app_bar_fab"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/other_activities_fab_text_view"
@@ -461,8 +435,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:textColor="?attr/secondaryTextColor"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 

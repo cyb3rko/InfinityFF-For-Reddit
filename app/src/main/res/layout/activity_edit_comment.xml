@@ -44,8 +44,7 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:padding="16dp"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/content_font_18"
-                android:fontFamily="?attr/content_font_family" />
+                android:textSize="?attr/content_font_18" />
 
         </androidx.core.widget.NestedScrollView>
 

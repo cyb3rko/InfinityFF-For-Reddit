@@ -1,7 +1,6 @@
 package ml.docilealligator.infinityforreddit.adapters;
 
 import android.content.res.ColorStateList;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -32,7 +31,6 @@ import ml.docilealligator.infinityforreddit.post.Post;
 
 public class PostGalleryTypeImageRecyclerViewAdapter extends RecyclerView.Adapter<PostGalleryTypeImageRecyclerViewAdapter.ImageViewHolder> {
     private RequestManager glide;
-    private Typeface typeface;
     private Markwon mPostDetailMarkwon;
     private SaveMemoryCenterInisdeDownsampleStrategy saveMemoryCenterInisdeDownsampleStrategy;
     private int mColorAccent;
@@ -45,11 +43,10 @@ public class PostGalleryTypeImageRecyclerViewAdapter extends RecyclerView.Adapte
     private float ratio;
     private boolean showCaption;
 
-    public PostGalleryTypeImageRecyclerViewAdapter(RequestManager glide, Typeface typeface,
+    public PostGalleryTypeImageRecyclerViewAdapter(RequestManager glide,
                                                    SaveMemoryCenterInisdeDownsampleStrategy saveMemoryCenterInisdeDownsampleStrategy,
                                                    int mColorAccent, int mPrimaryTextColor, float scale) {
         this.glide = glide;
-        this.typeface = typeface;
         this.saveMemoryCenterInisdeDownsampleStrategy = saveMemoryCenterInisdeDownsampleStrategy;
         this.mColorAccent = mColorAccent;
         this.mPrimaryTextColor = mPrimaryTextColor;
@@ -57,12 +54,11 @@ public class PostGalleryTypeImageRecyclerViewAdapter extends RecyclerView.Adapte
         showCaption = false;
     }
 
-    public PostGalleryTypeImageRecyclerViewAdapter(RequestManager glide, Typeface typeface, Markwon postDetailMarkwon,
+    public PostGalleryTypeImageRecyclerViewAdapter(RequestManager glide, Markwon postDetailMarkwon,
                                                    SaveMemoryCenterInisdeDownsampleStrategy saveMemoryCenterInisdeDownsampleStrategy,
                                                    int mColorAccent, int mPrimaryTextColor, int mCardViewColor,
                                                    int mCommentColor, float scale) {
         this.glide = glide;
-        this.typeface = typeface;
         this.mPostDetailMarkwon = postDetailMarkwon;
         this.saveMemoryCenterInisdeDownsampleStrategy = saveMemoryCenterInisdeDownsampleStrategy;
         this.mColorAccent = mColorAccent;
@@ -203,9 +199,6 @@ public class PostGalleryTypeImageRecyclerViewAdapter extends RecyclerView.Adapte
 
             this.binding = binding;
 
-            if (typeface != null) {
-                binding.errorTextViewItemGalleryImageInPostFeed.setTypeface(typeface);
-            }
             binding.progressBarItemGalleryImageInPostFeed.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
             binding.errorTextViewItemGalleryImageInPostFeed.setTextColor(mPrimaryTextColor);
 

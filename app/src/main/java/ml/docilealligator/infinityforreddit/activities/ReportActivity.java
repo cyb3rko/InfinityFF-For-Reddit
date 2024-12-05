@@ -98,9 +98,9 @@ public class ReportActivity extends BaseActivity {
         }
 
         if (generalReasons != null) {
-            mAdapter = new ReportReasonRecyclerViewAdapter(this, mCustomThemeWrapper, generalReasons);
+            mAdapter = new ReportReasonRecyclerViewAdapter(mCustomThemeWrapper, generalReasons);
         } else {
-            mAdapter = new ReportReasonRecyclerViewAdapter(this, mCustomThemeWrapper, ReportReason.getGeneralReasons(this));
+            mAdapter = new ReportReasonRecyclerViewAdapter(mCustomThemeWrapper, ReportReason.getGeneralReasons(this));
         }
         binding.recyclerView.setAdapter(mAdapter);
 

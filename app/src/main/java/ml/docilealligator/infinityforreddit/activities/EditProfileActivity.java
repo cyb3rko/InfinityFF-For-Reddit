@@ -42,7 +42,7 @@ import ml.docilealligator.infinityforreddit.services.EditProfileService;
 import ml.docilealligator.infinityforreddit.user.UserViewModel;
 import ml.docilealligator.infinityforreddit.utils.EditProfileUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
-import ml.docilealligator.infinityforreddit.utils.Utils;
+
 import retrofit2.Retrofit;
 
 public class EditProfileActivity extends BaseActivity {
@@ -313,9 +313,6 @@ public class EditProfileActivity extends BaseActivity {
                 binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
         binding.coordinatorLayout.setBackgroundColor(mCustomThemeWrapper.getBackgroundColor());
         changeColorTextView(binding.contentView, mCustomThemeWrapper.getPrimaryTextColor());
-        if (typeface != null) {
-            Utils.setFontToAllTextViews(binding.coordinatorLayout, typeface);
-        }
     }
 
     private void changeColorTextView(ViewGroup viewGroup, int color) {

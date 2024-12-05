@@ -357,9 +357,6 @@ public class CommentsListingFragment extends Fragment implements FragmentCommuni
         binding.swipeRefreshLayoutView.setProgressBackgroundColorSchemeColor(customThemeWrapper.getCircularProgressBarBackground());
         binding.swipeRefreshLayoutView.setColorSchemeColors(customThemeWrapper.getColorAccent());
         binding.fetchCommentsInfoTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
-        if (mActivity.typeface != null) {
-            binding.fetchCommentsInfoTextView.setTypeface(mActivity.typeface);
-        }
     }
 
     private void showErrorView(int stringResId) {

@@ -1208,7 +1208,7 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
             return null;
         });
 
-        binding.recyclerView.setAdapter(mAdapter.withLoadStateFooter(new Paging3LoadingStateAdapter(activity, mCustomThemeWrapper, R.string.load_more_posts_error,
+        binding.recyclerView.setAdapter(mAdapter.withLoadStateFooter(new Paging3LoadingStateAdapter(mCustomThemeWrapper, R.string.load_more_posts_error,
                 view -> mAdapter.retry())));
     }
 
@@ -1216,7 +1216,7 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.post_fragment, menu);
         for (int i = 0; i < menu.size(); i++) {
-            Utils.setTitleWithCustomFontToMenuItem(activity.typeface, menu.getItem(i), null);
+            Utils.setTitleToMenuItem(menu.getItem(i), null);
         }
 
         if (activity instanceof FilteredPostsActivity) {
@@ -1453,9 +1453,6 @@ public class PostFragment extends Fragment implements FragmentCommunicator {
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
         binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
         binding.fetchPostInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (activity.typeface != null) {
-            binding.fetchPostInfoTextView.setTypeface(activity.typeface);
-        }
     }
 
     @Override

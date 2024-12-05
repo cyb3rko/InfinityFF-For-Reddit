@@ -167,8 +167,7 @@ public class ViewImgurVideoFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.view_imgur_video_fragment, menu);
         for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            Utils.setTitleWithCustomFontToMenuItem(activity.typeface, item, null);
+            Utils.setTitleToMenuItem(menu.getItem(i), null);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }

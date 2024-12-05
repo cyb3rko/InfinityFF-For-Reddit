@@ -21,7 +21,6 @@
             android:paddingEnd="32dp"
             android:textColor="?attr/secondaryTextColor"
             android:textSize="?attr/font_12"
-            android:fontFamily="?attr/font_family"
             android:drawablePadding="48dp" />
 
         <TextView
@@ -36,7 +35,6 @@
             android:text="@string/share_post_link"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_link"
             android:drawablePadding="48dp"
             android:clickable="true"
@@ -55,7 +53,6 @@
             android:text="@string/copy_post_link"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_copy_24dp"
             android:drawablePadding="48dp"
             android:clickable="true"
@@ -73,7 +70,6 @@
             android:paddingEnd="32dp"
             android:textColor="?attr/secondaryTextColor"
             android:textSize="?attr/font_12"
-            android:fontFamily="?attr/font_family"
             android:drawablePadding="48dp"
             android:visibility="gone" />
 
@@ -88,7 +84,6 @@
             android:paddingEnd="32dp"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_link"
             android:drawablePadding="48dp"
             android:clickable="true"
@@ -107,7 +102,6 @@
             android:paddingEnd="32dp"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:drawableStart="@drawable/ic_copy_24dp"
             android:drawablePadding="48dp"
             android:clickable="true"

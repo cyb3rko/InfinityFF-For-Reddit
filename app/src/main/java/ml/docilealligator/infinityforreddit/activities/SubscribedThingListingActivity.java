@@ -480,11 +480,11 @@ public class SubscribedThingListingActivity extends BaseActivity implements Acti
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return Utils.getTabTextWithCustomFont(typeface, getString(R.string.subreddits));
+                    return getString(R.string.subreddits);
                 case 1:
-                    return Utils.getTabTextWithCustomFont(typeface, getString(R.string.users));
+                    return getString(R.string.users);
                 case 2:
-                    return Utils.getTabTextWithCustomFont(typeface, getString(R.string.multi_reddits));
+                    return getString(R.string.multi_reddits);
             }
 
             return null;

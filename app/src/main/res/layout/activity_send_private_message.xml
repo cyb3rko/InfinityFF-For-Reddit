@@ -46,8 +46,7 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/content_font_18"
-                android:fontFamily="?attr/content_font_family" />
+                android:textSize="?attr/content_font_18" />
 
             <View
                 android:id="@+id/divider_1"
@@ -68,8 +67,7 @@
                 android:paddingBottom="16dp"
                 android:textColor="?attr/primaryTextColor"
                 android:textSize="?attr/content_font_18"
-                android:maxLength="100"
-                android:fontFamily="?attr/content_font_family" />
+                android:maxLength="100" />
 
             <View
                 android:id="@+id/divider_2"
@@ -89,8 +87,7 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/content_font_18"
-                android:fontFamily="?attr/content_font_family" />
+                android:textSize="?attr/content_font_18" />
 
         </LinearLayout>
 

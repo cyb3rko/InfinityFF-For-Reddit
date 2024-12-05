@@ -32,7 +32,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:drawableTop="@drawable/ic_error_outline_white_24dp"
-            android:fontFamily="?attr/font_family"
             android:gravity="center"
             android:text="@string/error_loading_image_tap_to_retry"
             android:textColor="@android:color/white"
@@ -64,7 +63,6 @@
                 android:paddingBottom="8dp"
                 android:textColor="#FFFFFF"
                 android:textSize="?attr/font_20"
-                android:fontFamily="?attr/font_family"
                 android:maxLines="1"
                 android:ellipsize="end" />
 

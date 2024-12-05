@@ -81,10 +81,6 @@ public class PostFilterRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
             textView.setTextColor(customThemeWrapper.getPrimaryTextColor());
 
-            if (activity.typeface != null) {
-                textView.setTypeface(activity.typeface);
-            }
-
             itemView.setOnClickListener(view -> {
                 onItemClickListener.onItemClick(postFilterList.get(getBindingAdapterPosition() - 1));
             });

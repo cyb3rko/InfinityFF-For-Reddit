@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -51,7 +50,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.BuildConfig;
-import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.SetAsWallpaperCallback;
@@ -77,7 +75,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWallpaperCallback, CustomFontReceiver {
+public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWallpaperCallback {
     public static final String EXTRA_IMAGE_URL_KEY = "EIUK";
     public static final String EXTRA_GIF_URL_KEY = "EGUK";
     public static final String EXTRA_FILE_NAME_KEY = "EFNK";
@@ -101,7 +99,6 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
     private String mSubredditName;
     private boolean isGif = true;
     private boolean isNsfw;
-    private Typeface typeface;
     private Handler handler;
 
     @Override
@@ -180,7 +177,7 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
             if (useBottomAppBar) {
                 binding.titleTextView.setText(title);
             } else {
-                setTitle(Utils.getTabTextWithCustomFont(typeface, title));
+                setTitle(title);
             }
         } else {
             if (!useBottomAppBar) {
@@ -318,7 +315,7 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.view_image_or_gif_activity, menu);
         for (int i = 0; i < menu.size(); i++) {
-            Utils.setTitleWithCustomFontToMenuItem(typeface, menu.getItem(i), null);
+            Utils.setTitleToMenuItem(menu.getItem(i), null);
         }
         if (!isGif) {
             menu.findItem(R.id.action_set_wallpaper_view_image_or_gif_activity).setVisible(true);
@@ -538,10 +535,5 @@ public class ViewImageOrGifActivity extends AppCompatActivity implements SetAsWa
     public void onDestroy() {
         super.onDestroy();
         BigImageViewer.imageLoader().cancelAll();
-    }
-
-    @Override
-    public void setCustomFont(Typeface typeface, Typeface titleTypeface, Typeface contentTypeface) {
-        this.typeface = typeface;
     }
 }

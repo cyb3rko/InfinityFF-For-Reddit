@@ -362,10 +362,6 @@ public class CustomizePostFilterActivity extends BaseActivity {
             setCursorDrawableColor(binding.minAwardsTextInputEditText, primaryTextColor);
             setCursorDrawableColor(binding.maxAwardsTextInputEditText, primaryTextColor);
         }
-
-        if (typeface != null) {
-            Utils.setFontToAllTextViews(binding.coordinatorLayout, typeface);
-        }
     }
 
     public void setCursorDrawableColor(EditText editText, int color) {

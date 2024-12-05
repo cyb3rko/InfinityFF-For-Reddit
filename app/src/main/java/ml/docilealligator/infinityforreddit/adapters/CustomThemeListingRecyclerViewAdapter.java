@@ -121,47 +121,33 @@ public class CustomThemeListingRecyclerViewAdapter extends RecyclerView.Adapter<
         notifyDataSetChanged();
     }
 
-    class PredefinedCustomThemeViewHolder extends RecyclerView.ViewHolder {
+    static class PredefinedCustomThemeViewHolder extends RecyclerView.ViewHolder {
         private final ItemPredefinedCustomThemeBinding binding;
 
         PredefinedCustomThemeViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemPredefinedCustomThemeBinding.bind(itemView);
-            if (activity.typeface != null) {
-                binding.nameTextView.setTypeface(activity.typeface);
-            }
         }
     }
 
-    class UserCustomThemeViewHolder extends RecyclerView.ViewHolder {
+    static class UserCustomThemeViewHolder extends RecyclerView.ViewHolder {
         private final ItemUserCustomThemeBinding binding;
 
         UserCustomThemeViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemUserCustomThemeBinding.bind(itemView);
-            if (activity.typeface != null) {
-                binding.nameTextView.setTypeface(activity.typeface);
-            }
         }
     }
 
-    class PreDefinedThemeDividerViewHolder extends RecyclerView.ViewHolder {
-
+    static class PreDefinedThemeDividerViewHolder extends RecyclerView.ViewHolder {
         PreDefinedThemeDividerViewHolder(@NonNull View itemView) {
             super(itemView);
-            if (activity.typeface != null) {
-                ((TextView) itemView).setTypeface(activity.typeface);
-            }
         }
     }
 
-    class UserThemeDividerViewHolder extends RecyclerView.ViewHolder {
-
+    static class UserThemeDividerViewHolder extends RecyclerView.ViewHolder {
         UserThemeDividerViewHolder(@NonNull View itemView) {
             super(itemView);
-            if (activity.typeface != null) {
-                ((TextView) itemView).setTypeface(activity.typeface);
-            }
         }
     }
 }

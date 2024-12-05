@@ -59,8 +59,8 @@ public class NavigationDrawerRecyclerViewMergedAdapter {
         preferenceSectionRecyclerViewAdapter = new PreferenceSectionRecyclerViewAdapter(baseActivity, customThemeWrapper,
                 accountName, nsfwAndSpoilerSharedPreferences, navigationDrawerSharedPreferences, itemClickListener);
         favoriteSubscribedSubredditsSectionRecyclerViewAdapter = new FavoriteSubscribedSubredditsSectionRecyclerViewAdapter(
-                baseActivity, glide, customThemeWrapper, navigationDrawerSharedPreferences, itemClickListener);
-        subscribedSubredditsRecyclerViewAdapter = new SubscribedSubredditsRecyclerViewAdapter(baseActivity, glide,
+                glide, customThemeWrapper, navigationDrawerSharedPreferences, itemClickListener);
+        subscribedSubredditsRecyclerViewAdapter = new SubscribedSubredditsRecyclerViewAdapter(glide,
                 customThemeWrapper, navigationDrawerSharedPreferences, itemClickListener);
         accountManagementSectionRecyclerViewAdapter = new AccountManagementSectionRecyclerViewAdapter(baseActivity,
                 customThemeWrapper, glide, accountName != null, itemClickListener);

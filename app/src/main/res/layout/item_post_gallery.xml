@@ -51,7 +51,6 @@
         android:layout_centerInParent="true"
         android:text="@string/error_loading_image_tap_to_retry"
         android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family"
         android:visibility="gone" />
 
     <TextView
@@ -63,7 +62,6 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textSize="?attr/title_font_18"
-        android:fontFamily="?attr/title_font_family"
         android:visibility="gone" />
 
 </com.google.android.material.card.MaterialCardView>

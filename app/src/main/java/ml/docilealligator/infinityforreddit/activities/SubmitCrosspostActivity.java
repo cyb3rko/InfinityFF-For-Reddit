@@ -411,18 +411,6 @@ public class SubmitCrosspostActivity extends BaseActivity implements FlairBottom
         binding.postContentTextView.setHintTextColor(secondaryTextColor);
         binding.playButtonImageView.setColorFilter(mCustomThemeWrapper.getMediaIndicatorIconColor(), PorterDuff.Mode.SRC_IN);
         binding.playButtonImageView.setBackgroundTintList(ColorStateList.valueOf(mCustomThemeWrapper.getMediaIndicatorBackgroundColor()));
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.rulesButton.setTypeface(typeface);
-            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
-            binding.flairCustomTextView.setTypeface(typeface);
-            binding.spoilerCustomTextView.setTypeface(typeface);
-            binding.nsfwCustomTextView.setTypeface(typeface);
-            binding.postTitleEditText.setTypeface(typeface);
-        }
-        if (contentTypeface != null) {
-            binding.postContentTextView.setTypeface(contentTypeface);
-        }
     }
 
     private void displaySubredditIcon() {

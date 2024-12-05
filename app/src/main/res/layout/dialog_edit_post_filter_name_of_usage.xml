@@ -13,8 +13,7 @@
         android:paddingEnd="24dp"
         android:text="@string/edit_post_filter_name_of_usage_info"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_edit_post_filter_name_of_usage_dialog"
@@ -30,7 +29,6 @@
             android:id="@+id/text_input_edit_text_edit_post_filter_name_of_usage_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="?attr/font_family"
             android:textSize="?attr/font_default" />
 
     </com.google.android.material.textfield.TextInputLayout>

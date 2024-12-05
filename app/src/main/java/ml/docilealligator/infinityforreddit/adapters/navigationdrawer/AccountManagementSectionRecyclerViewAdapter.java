@@ -135,9 +135,6 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
         AccountViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNavDrawerAccountBinding.bind(itemView);
-            if (baseActivity.typeface != null) {
-                binding.usernameTextView.setTypeface(baseActivity.typeface);
-            }
             binding.usernameTextView.setTextColor(primaryTextColor);
         }
     }
@@ -148,9 +145,6 @@ public class AccountManagementSectionRecyclerViewAdapter extends RecyclerView.Ad
         MenuItemViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNavDrawerMenuItemBinding.bind(itemView);
-            if (baseActivity.typeface != null) {
-                binding.textView.setTypeface(baseActivity.typeface);
-            }
             binding.textView.setTextColor(primaryTextColor);
             binding.imageView.setColorFilter(primaryIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
         }

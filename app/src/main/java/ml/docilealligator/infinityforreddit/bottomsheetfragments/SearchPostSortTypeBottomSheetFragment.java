@@ -18,8 +18,6 @@ import ml.docilealligator.infinityforreddit.SortTypeSelectionCallback;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentSearchPostSortTypeBottomSheetBinding;
-import ml.docilealligator.infinityforreddit.utils.Utils;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,11 +87,6 @@ public class SearchPostSortTypeBottomSheetFragment extends LandscapeExpandedRoun
             ((SortTypeSelectionCallback) activity).sortTypeSelected(SortType.Type.COMMENTS.name());
             dismiss();
         });
-
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         return rootView;
     }
 

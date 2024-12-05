@@ -24,15 +24,12 @@ import ml.docilealligator.infinityforreddit.subreddit.SubredditWithSelection;
 import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubredditData;
 
 public class SubredditMultiselectionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private BaseActivity activity;
     private ArrayList<SubredditWithSelection> subscribedSubreddits;
     private RequestManager glide;
     private int primaryTextColor;
     private int colorAccent;
 
     public SubredditMultiselectionRecyclerViewAdapter(BaseActivity activity, CustomThemeWrapper customThemeWrapper) {
-        this.activity = activity;
         glide = Glide.with(activity);
         primaryTextColor = customThemeWrapper.getPrimaryTextColor();
         colorAccent = customThemeWrapper.getColorAccent();
@@ -105,10 +102,6 @@ public class SubredditMultiselectionRecyclerViewAdapter extends RecyclerView.Ada
             binding = ItemSubscribedSubredditMultiSelectionBinding.bind(itemView);
             binding.nameTextView.setTextColor(primaryTextColor);
             binding.checkbox.setButtonTintList(ColorStateList.valueOf(colorAccent));
-
-            if (activity.typeface != null) {
-                binding.nameTextView.setTypeface(activity.typeface);
-            }
         }
     }
 }

@@ -121,7 +121,7 @@ public class CrashReportsFragment extends Fragment {
                     MenuItemCompat.setIconTintList(item, ColorStateList
                             .valueOf(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor()));
                 }
-                Utils.setTitleWithCustomFontToMenuItem(activity.typeface, item, null);
+                Utils.setTitleToMenuItem(item, null);
             }
         }
         return true;

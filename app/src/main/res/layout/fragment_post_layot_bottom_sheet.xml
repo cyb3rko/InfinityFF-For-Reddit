@@ -25,8 +25,7 @@
             android:paddingBottom="16dp"
             android:text="@string/post_layout_card"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <TextView
             android:id="@+id/card_layout_2_text_view"
@@ -41,8 +40,7 @@
             android:paddingBottom="16dp"
             android:text="@string/post_layout_card_2"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <TextView
             android:id="@+id/compact_layout_text_view"
@@ -57,8 +55,7 @@
             android:paddingBottom="16dp"
             android:text="@string/post_layout_compact"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <TextView
             android:id="@+id/gallery_layout_text_view"
@@ -73,8 +70,7 @@
             android:paddingBottom="16dp"
             android:text="@string/post_layout_gallery"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
     </LinearLayout>
 

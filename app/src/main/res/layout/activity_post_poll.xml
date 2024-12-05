@@ -55,8 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="32dp"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
             </LinearLayout>
 
@@ -83,8 +82,7 @@
                     android:layout_toStartOf="@id/rules_button"
                     android:layout_toEndOf="@id/subreddit_icon_gif_image_view"
                     android:text="@string/choose_a_subreddit"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/rules_button"
@@ -95,8 +93,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:text="@string/rules"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
             </RelativeLayout>
 
@@ -118,7 +115,6 @@
                     android:text="@string/flair"
                     android:textColor="?attr/primaryTextColor"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     android:visibility="gone"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
@@ -133,7 +129,6 @@
                     android:text="@string/spoiler"
                     android:textColor="?attr/primaryTextColor"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -147,7 +142,6 @@
                     android:text="@string/nsfw"
                     android:textColor="?attr/primaryTextColor"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -172,8 +166,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="16dp"
                     android:text="@string/receive_post_reply_notifications"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/receive_post_reply_notifications_switch"
@@ -199,8 +192,7 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:padding="16dp"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/title_font_18"
-                android:fontFamily="?attr/title_font_family" />
+                android:textSize="?attr/title_font_18" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider_3"
@@ -212,8 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/voting_length_slider"
@@ -240,7 +231,6 @@
                     android:id="@+id/option_1_text_input_layout_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/option_1_hint" />
 
@@ -260,7 +250,6 @@
                     android:id="@+id/option_2_text_input_layout_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/option_2_hint" />
 
@@ -280,7 +269,6 @@
                     android:id="@+id/option_3_text_input_layout_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/option_3_hint" />
 
@@ -300,7 +288,6 @@
                     android:id="@+id/option_4_text_input_layout_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/option_4_hint" />
 
@@ -320,7 +307,6 @@
                     android:id="@+id/option_5_text_input_layout_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/option_5_hint" />
 
@@ -340,7 +326,6 @@
                     android:id="@+id/option_6_text_input_layout_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/option_6_hint" />
 

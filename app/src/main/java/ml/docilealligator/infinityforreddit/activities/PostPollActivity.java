@@ -404,22 +404,6 @@ public class PostPollActivity extends BaseActivity implements FlairBottomSheetFr
             setCursorDrawableColor(binding.option5TextInputLayoutEditText, primaryTextColor);
             setCursorDrawableColor(binding.option6TextInputLayoutEditText, primaryTextColor);
         }
-
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.rulesButton.setTypeface(typeface);
-            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
-            binding.flairCustomTextView.setTypeface(typeface);
-            binding.spoilerCustomTextView.setTypeface(typeface);
-            binding.nsfwCustomTextView.setTypeface(typeface);
-            binding.postTitleEditText.setTypeface(typeface);
-            binding.option1TextInputLayoutEditText.setTypeface(typeface);
-            binding.option2TextInputLayoutEditText.setTypeface(typeface);
-            binding.option3TextInputLayoutEditText.setTypeface(typeface);
-            binding.option4TextInputLayoutEditText.setTypeface(typeface);
-            binding.option5TextInputLayoutEditText.setTypeface(typeface);
-            binding.option6TextInputLayoutEditText.setTypeface(typeface);
-        }
     }
 
     public void setCursorDrawableColor(EditText editText, int color) {

@@ -105,12 +105,6 @@ public class ViewRedditGalleryImageOrGifFragment extends Fragment {
         isNsfw = getArguments().getBoolean(EXTRA_IS_NSFW, false);
         glide = Glide.with(activity);
 
-        if (activity.typeface != null) {
-            binding.titleTextView.setTypeface(activity.typeface);
-            binding.captionTextView.setTypeface(activity.typeface);
-            binding.captionUrlTextView.setTypeface(activity.typeface);
-        }
-
         binding.imageView.setImageViewFactory(new GlideImageViewFactory());
 
         binding.imageView.setImageLoaderCallback(new ImageLoader.Callback() {
@@ -320,7 +314,7 @@ public class ViewRedditGalleryImageOrGifFragment extends Fragment {
         inflater.inflate(R.menu.view_reddit_gallery_image_or_gif_fragment, menu);
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
-            Utils.setTitleWithCustomFontToMenuItem(activity.typeface, item, null);
+            Utils.setTitleToMenuItem(item, null);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }

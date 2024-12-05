@@ -11,14 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.activities.ViewImgurMediaActivity;
-import ml.docilealligator.infinityforreddit.activities.ViewRedditGalleryActivity;
 import ml.docilealligator.infinityforreddit.activities.ViewVideoActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentPlaybackSpeedBinding;
 import ml.docilealligator.infinityforreddit.fragments.ViewImgurVideoFragment;
 import ml.docilealligator.infinityforreddit.fragments.ViewRedditGalleryVideoFragment;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class PlaybackSpeedBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
     public static final String EXTRA_PLAYBACK_SPEED = "EPS";
@@ -102,20 +99,6 @@ public class PlaybackSpeedBottomSheetFragment extends LandscapeExpandedRoundedBo
             setPlaybackSpeed(ViewVideoActivity.PLAYBACK_SPEED_200);
             dismiss();
         });
-
-        if (activity instanceof ViewVideoActivity) {
-            if (((ViewVideoActivity) activity).typeface != null) {
-                Utils.setFontToAllTextViews(rootView, ((ViewVideoActivity) activity).typeface);
-            }
-        } else if (activity instanceof ViewImgurMediaActivity) {
-            if (((ViewImgurMediaActivity) activity).typeface != null) {
-                Utils.setFontToAllTextViews(rootView, ((ViewImgurMediaActivity) activity).typeface);
-            }
-        } else if (activity instanceof ViewRedditGalleryActivity) {
-            if (((ViewRedditGalleryActivity) activity).typeface != null) {
-                Utils.setFontToAllTextViews(rootView, ((ViewRedditGalleryActivity) activity).typeface);
-            }
-        }
         return rootView;
     }
 

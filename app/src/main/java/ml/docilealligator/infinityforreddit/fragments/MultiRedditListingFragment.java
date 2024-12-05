@@ -203,9 +203,6 @@ public class MultiRedditListingFragment extends Fragment implements FragmentComm
         }
 
         binding.fetchMultiRedditListingInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (mActivity.typeface != null) {
-            binding.fetchMultiRedditListingInfoTextView.setTypeface(mActivity.typeface);
-        }
     }
 
     @Override

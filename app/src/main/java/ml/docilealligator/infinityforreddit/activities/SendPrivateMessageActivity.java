@@ -166,10 +166,5 @@ public class SendPrivateMessageActivity extends BaseActivity {
         int dividerColor = mCustomThemeWrapper.getDividerColor();
         binding.divider1.setBackgroundColor(dividerColor);
         binding.divider2.setBackgroundColor(dividerColor);
-        if (typeface != null) {
-            binding.usernameEditText.setTypeface(typeface);
-            binding.subjectEditText.setTypeface(typeface);
-            binding.contentEditText.setTypeface(typeface);
-        }
     }
 }

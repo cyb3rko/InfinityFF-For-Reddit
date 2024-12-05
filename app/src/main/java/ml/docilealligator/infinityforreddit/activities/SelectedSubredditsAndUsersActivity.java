@@ -74,7 +74,7 @@ public class SelectedSubredditsAndUsersActivity extends BaseActivity implements 
 
         Collections.sort(subreddits);
 
-        adapter = new SelectedSubredditsRecyclerViewAdapter(this, mCustomThemeWrapper, subreddits);
+        adapter = new SelectedSubredditsRecyclerViewAdapter(mCustomThemeWrapper, subreddits);
         linearLayoutManager = new LinearLayoutManagerBugFixed(this);
         binding.recyclerView.setLayoutManager(linearLayoutManager);
         binding.recyclerView.setAdapter(adapter);

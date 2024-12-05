@@ -158,10 +158,10 @@ public class AccountSavedThingActivity extends BaseActivity implements ActivityT
         new TabLayoutMediator(binding.accountSavedThingTabLayout, binding.accountSavedThingViewPager2, (tab, position) -> {
             switch (position) {
                 case 0:
-                    Utils.setTitleWithCustomFontToTab(typeface, tab, getString(R.string.posts));
+                    Utils.setTitleToTab(tab, getString(R.string.posts));
                     break;
                 case 1:
-                    Utils.setTitleWithCustomFontToTab(typeface, tab, getString(R.string.comments));
+                    Utils.setTitleToTab(tab, getString(R.string.comments));
                     break;
             }
         }).attach();

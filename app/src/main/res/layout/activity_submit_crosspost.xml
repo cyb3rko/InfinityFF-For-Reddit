@@ -55,8 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="32dp"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
             </LinearLayout>
 
@@ -85,8 +84,7 @@
                     android:layout_toStartOf="@id/rules_button"
                     android:layout_toEndOf="@id/subreddit_icon_gif_image_view"
                     android:text="@string/choose_a_subreddit"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/rules_button"
@@ -95,8 +93,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="@string/rules"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
             </RelativeLayout>
 
@@ -118,7 +115,6 @@
                     android:text="@string/flair"
                     android:textColor="?attr/primaryTextColor"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     android:visibility="gone"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
@@ -133,7 +129,6 @@
                     android:text="@string/spoiler"
                     android:textColor="?attr/primaryTextColor"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -147,7 +142,6 @@
                     android:text="@string/nsfw"
                     android:textColor="?attr/primaryTextColor"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -179,8 +173,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="16dp"
                     android:text="@string/receive_post_reply_notifications"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/receive_post_reply_notifications_switch"
@@ -206,8 +199,7 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:padding="16dp"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/title_font_18"
-                android:fontFamily="?attr/title_font_family" />
+                android:textSize="?attr/title_font_18" />
 
             <View
                 android:id="@+id/divider_4"
@@ -220,7 +212,6 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:textSize="?attr/content_font_default"
-                android:fontFamily="?attr/content_font_family"
                 android:visibility="gone" />
 
             <FrameLayout

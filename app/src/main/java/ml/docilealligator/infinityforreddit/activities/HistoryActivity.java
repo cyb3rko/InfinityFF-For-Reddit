@@ -140,7 +140,7 @@ public class HistoryActivity extends BaseActivity implements ActivityToolbarInte
         /*new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             switch (position) {
                 case 0:
-                    Utils.setTitleWithCustomFontToTab(typeface, tab, getString(R.string.posts));
+                    Utils.setTitleToTab(tab, getString(R.string.posts));
                     break;
             }
         }).attach();*/

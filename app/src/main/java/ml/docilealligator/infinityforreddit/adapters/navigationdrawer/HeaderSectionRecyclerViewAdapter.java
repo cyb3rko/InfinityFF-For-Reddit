@@ -209,11 +209,6 @@ public class HeaderSectionRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             super(itemView);
             binding = NavHeaderMainBinding.bind(itemView);
 
-            if (baseActivity.typeface != null) {
-                binding.nameTextView.setTypeface(baseActivity.typeface);
-                binding.karmaTextView.setTypeface(baseActivity.typeface);
-            }
-
             itemView.setBackgroundColor(customThemeWrapper.getColorPrimary());
             binding.nameTextView.setTextColor(customThemeWrapper.getToolbarPrimaryTextAndIconColor());
             binding.karmaTextView.setTextColor(customThemeWrapper.getToolbarSecondaryTextColor());

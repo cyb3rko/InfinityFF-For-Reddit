@@ -136,9 +136,6 @@ public class CommentsListingRecyclerViewAdapter extends PagedListAdapter<Comment
         MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
             @Override
             public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                if (mActivity.contentTypeface != null) {
-                    textView.setTypeface(mActivity.contentTypeface);
-                }
                 textView.setTextColor(mCommentColor);
                 textView.setHighlightColor(Color.TRANSPARENT);
             }
@@ -399,13 +396,6 @@ public class CommentsListingRecyclerViewAdapter extends PagedListAdapter<Comment
                 binding.divider.setVisibility(View.VISIBLE);
             }
 
-            if (mActivity.typeface != null) {
-                binding.authorTextView.setTypeface(mActivity.typeface);
-                binding.authorFlairTextView.setTypeface(mActivity.typeface);
-                binding.commentTimeTextView.setTypeface(mActivity.typeface);
-                binding.awardsTextView.setTypeface(mActivity.typeface);
-                binding.scoreTextView.setTypeface(mActivity.typeface);
-            }
             itemView.setBackgroundColor(mCommentBackgroundColor);
             binding.authorTextView.setTextColor(mUsernameColor);
             binding.authorFlairTextView.setTextColor(mAuthorFlairColor);
@@ -691,10 +681,6 @@ public class CommentsListingRecyclerViewAdapter extends PagedListAdapter<Comment
         ErrorViewHolder(View itemView) {
             super(itemView);
             ItemFooterErrorBinding binding = ItemFooterErrorBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.errorTextView.setTypeface(mActivity.typeface);
-                binding.retryButton.setTypeface(mActivity.typeface);
-            }
             binding.errorTextView.setText(R.string.load_comments_failed);
             binding.retryButton.setOnClickListener(view -> mRetryLoadingMoreCallback.retryLoadingMore());
             binding.errorTextView.setTextColor(mSecondaryTextColor);

@@ -12,7 +12,6 @@
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:textIsSelectable="true"
-        android:fontFamily="?attr/font_family"
         android:enabled="true"
         android:focusable="true"
         android:longClickable="true" />

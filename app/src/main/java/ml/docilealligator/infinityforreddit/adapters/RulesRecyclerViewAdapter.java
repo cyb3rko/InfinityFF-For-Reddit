@@ -51,10 +51,6 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
         MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
             @Override
             public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                if (activity.typeface != null) {
-                    textView.setTypeface(activity.typeface);
-                }
-
                 textView.setTextColor(mPrimaryTextColor);
             }
 
@@ -130,9 +126,6 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
             binding = ItemRuleBinding.bind(itemView);
             binding.shortNameTextView.setTextColor(mPrimaryTextColor);
 
-            if (activity.typeface != null) {
-                binding.shortNameTextView.setTypeface(activity.typeface);
-            }
             markwonAdapter = MarkdownUtils.createTablesAdapter();
             SwipeLockLinearLayoutManager swipeLockLinearLayoutManager = new SwipeLockLinearLayoutManager(activity,
                     new SwipeLockInterface() {

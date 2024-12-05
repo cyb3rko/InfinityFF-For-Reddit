@@ -198,9 +198,6 @@ public class SubredditMultiselectionActivity extends BaseActivity implements Act
         applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
                 binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
         binding.errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (typeface != null) {
-            binding.errorTextView.setTypeface(typeface);
-        }
     }
 
     @Override

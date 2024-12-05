@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/no_comments_yet"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
 </LinearLayout>

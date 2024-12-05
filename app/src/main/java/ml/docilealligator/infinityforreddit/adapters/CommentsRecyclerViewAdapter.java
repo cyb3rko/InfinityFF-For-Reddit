@@ -178,9 +178,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
             @Override
             public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                if (mActivity.contentTypeface != null) {
-                    textView.setTypeface(mActivity.contentTypeface);
-                }
                 textView.setTextColor(mCommentTextColor);
                 textView.setHighlightColor(Color.TRANSPARENT);
             }
@@ -1232,17 +1229,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             }
 
-            if (mActivity.typeface != null) {
-                binding.authorTextView.setTypeface(mActivity.typeface);
-                binding.commentTimeTextView.setTypeface(mActivity.typeface);
-                binding.authorFlairTextView.setTypeface(mActivity.typeface);
-                binding.topScoreTextView.setTypeface(mActivity.typeface);
-                binding.editedTextView.setTypeface(mActivity.typeface);
-                binding.awardsTextView.setTypeface(mActivity.typeface);
-                binding.scoreTextView.setTypeface(mActivity.typeface);
-                binding.expandButton.setTypeface(mActivity.typeface);
-            }
-
             if (mShowAuthorAvatar) {
                 binding.authorIconImageView.setVisibility(View.VISIBLE);
             } else {
@@ -1718,12 +1704,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             super(itemView);
             binding = ItemCommentFullyCollapsedBinding.bind(itemView);
 
-            if (mActivity.typeface != null) {
-                binding.userNameTextView.setTypeface(mActivity.typeface);
-                binding.childCountTextView.setTypeface(mActivity.typeface);
-                binding.scoreTextView.setTypeface(mActivity.typeface);
-                binding.timeTextView.setTypeface(mActivity.typeface);
-            }
             itemView.setBackgroundColor(mFullyCollapsedCommentBackgroundColor);
             binding.userNameTextView.setTextColor(mUsernameColor);
             binding.childCountTextView.setTextColor(mSecondaryTextColor);
@@ -1785,9 +1765,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             }
 
-            if (mActivity.typeface != null) {
-                binding.placeholderTextView.setTypeface(mActivity.typeface);
-            }
             itemView.setBackgroundColor(mCommentBackgroundColor);
             binding.placeholderTextView.setTextColor(mPrimaryTextColor);
         }
@@ -1808,9 +1785,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             ItemLoadCommentsFailedPlaceholderBinding binding =
                     ItemLoadCommentsFailedPlaceholderBinding.bind(itemView);
             itemView.setOnClickListener(view -> mCommentRecyclerViewAdapterCallback.retryFetchingComments());
-            if (mActivity.typeface != null) {
-                binding.errorTextView.setTypeface(mActivity.typeface);
-            }
             binding.errorTextView.setTextColor(mSecondaryTextColor);
         }
     }
@@ -1819,9 +1793,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         NoCommentViewHolder(@NonNull View itemView) {
             super(itemView);
             ItemNoCommentPlaceholderBinding binding = ItemNoCommentPlaceholderBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.errorTextView.setTypeface(mActivity.typeface);
-            }
             binding.errorTextView.setTextColor(mSecondaryTextColor);
         }
     }
@@ -1838,10 +1809,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         LoadMoreCommentsFailedViewHolder(@NonNull View itemView) {
             super(itemView);
             ItemCommentFooterErrorBinding binding = ItemCommentFooterErrorBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.errorTextView.setTypeface(mActivity.typeface);
-                binding.retryButton.setTypeface(mActivity.typeface);
-            }
             binding.errorTextView.setText(R.string.load_comments_failed);
             binding.retryButton.setOnClickListener(view -> mCommentRecyclerViewAdapterCallback.retryFetchingMoreComments());
             binding.errorTextView.setTextColor(mSecondaryTextColor);
@@ -1864,9 +1831,6 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-            if (mActivity.typeface != null) {
-                ((TextView) itemView).setTypeface(mActivity.typeface);
-            }
             itemView.setBackgroundTintList(ColorStateList.valueOf(mCommentBackgroundColor));
             ((TextView) itemView).setTextColor(mColorAccent);
         }

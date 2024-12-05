@@ -159,9 +159,6 @@ public class FollowedUsersListingFragment extends Fragment implements FragmentCo
             binding.swipeRefreshLayout.setEnabled(false);
         }
         binding.errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (mActivity.typeface != null) {
-            binding.errorTextView.setTypeface(mActivity.typeface);
-        }
     }
 
     public void goBackToTop() {

@@ -29,7 +29,6 @@ import ml.docilealligator.infinityforreddit.databinding.ItemTrendingSearchBindin
 import ml.docilealligator.infinityforreddit.post.Post;
 
 public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private BaseActivity activity;
     private ArrayList<TrendingSearch> trendingSearches;
     private CustomThemeWrapper customThemeWrapper;
     private RequestManager glide;
@@ -42,7 +41,6 @@ public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     public TrendingSearchRecyclerViewAdapter(BaseActivity activity, CustomThemeWrapper customThemeWrapper,
                                              int imageViewWidth, boolean dataSavingMode, boolean disableImagePreview,
                                              ItemClickListener itemClickListener) {
-        this.activity = activity;
         this.customThemeWrapper = customThemeWrapper;
         this.glide = Glide.with(activity);
         this.imageViewWidth = imageViewWidth;
@@ -198,11 +196,6 @@ public class TrendingSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             binding.imageViewNoPreviewGallery.setColorFilter(customThemeWrapper.getNoPreviewPostTypeIconTint(), android.graphics.PorterDuff.Mode.SRC_IN);
             binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(customThemeWrapper.getColorAccent()));
             binding.loadImageErrorTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
-
-            if (activity.typeface != null) {
-                binding.titleTextView.setTypeface(activity.typeface);
-                binding.loadImageErrorTextView.setTypeface(activity.typeface);
-            }
 
             itemView.setOnClickListener(view -> {
                 itemClickListener.onClick(trendingSearches.get(getBindingAdapterPosition()));

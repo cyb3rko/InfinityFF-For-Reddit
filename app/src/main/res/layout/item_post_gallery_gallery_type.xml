@@ -28,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:textSize="?attr/font_12"
-            android:fontFamily="?attr/font_family"
             android:padding="4dp"
             app:lib_setRadius="6dp"
             app:lib_setRoundedView="true"

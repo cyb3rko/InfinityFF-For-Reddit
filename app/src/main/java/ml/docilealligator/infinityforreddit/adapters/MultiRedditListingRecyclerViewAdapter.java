@@ -369,9 +369,6 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
         MultiRedditViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemMultiRedditBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.multiRedditNameTextView.setTypeface(mActivity.typeface);
-            }
             binding.multiRedditNameTextView.setTextColor(mPrimaryTextColor);
         }
     }
@@ -382,9 +379,6 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
         FavoriteMultiRedditViewHolder(View itemView) {
             super(itemView);
             binding = ItemMultiRedditBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.multiRedditNameTextView.setTypeface(mActivity.typeface);
-            }
             binding.multiRedditNameTextView.setTextColor(mPrimaryTextColor);
         }
     }
@@ -394,9 +388,6 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
             super(itemView);
             ItemFavoriteThingDividerBinding binding =
                     ItemFavoriteThingDividerBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.dividerTextView.setTypeface(mActivity.typeface);
-            }
             binding.dividerTextView.setText(R.string.favorites);
             binding.dividerTextView.setTextColor(mSecondaryTextColor);
         }
@@ -407,9 +398,6 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
             super(itemView);
             ItemFavoriteThingDividerBinding binding =
                     ItemFavoriteThingDividerBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.dividerTextView.setTypeface(mActivity.typeface);
-            }
             binding.dividerTextView.setText(R.string.all);
             binding.dividerTextView.setTextColor(mSecondaryTextColor);
         }

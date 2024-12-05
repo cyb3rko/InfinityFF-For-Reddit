@@ -10,7 +10,6 @@
         android:layout_margin="24dp"
         android:background="#00000000"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
 </LinearLayout>

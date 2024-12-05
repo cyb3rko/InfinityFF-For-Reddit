@@ -35,7 +35,6 @@
                     android:hint="@string/search"
                     android:maxLines="1"
                     android:textSize="?attr/font_20"
-                    android:fontFamily="?attr/font_family"
                     android:inputType="textNoSuggestions"
                     android:imeOptions="actionSearch" />
 
@@ -90,8 +89,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/search_in"
                     android:textColor="?attr/colorAccent"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
                 <TextView
                     android:id="@+id/subreddit_name_text_view"
@@ -103,8 +101,7 @@
                     android:layout_toEndOf="@id/search_in_text_view"
                     android:text="@string/all_subreddits"
                     android:textColor="?attr/primaryTextColor"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
             </RelativeLayout>
 

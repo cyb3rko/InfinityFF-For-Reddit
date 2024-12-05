@@ -29,7 +29,6 @@ import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentFlairBottomSheetBinding;
 import ml.docilealligator.infinityforreddit.events.FlairSelectedEvent;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 import retrofit2.Retrofit;
 
 
@@ -67,10 +66,6 @@ public class FlairBottomSheetFragment extends LandscapeExpandedBottomSheetDialog
         View rootView = binding.getRoot();
 
         ((Infinity) mActivity.getApplication()).getAppComponent().inject(this);
-
-        if (mActivity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, mActivity.typeface);
-        }
 
         long viewPostFragmentId = getArguments().getLong(EXTRA_VIEW_POST_DETAIL_FRAGMENT_ID, -1);
         mAdapter = new FlairBottomSheetRecyclerViewAdapter(mActivity, mCustomThemeWrapper, flair -> {

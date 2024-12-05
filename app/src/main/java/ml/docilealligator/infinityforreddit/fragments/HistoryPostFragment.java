@@ -594,7 +594,7 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
             return null;
         });
 
-        binding.recyclerView.setAdapter(mAdapter.withLoadStateFooter(new Paging3LoadingStateAdapter(activity, mCustomThemeWrapper, R.string.load_more_posts_error,
+        binding.recyclerView.setAdapter(mAdapter.withLoadStateFooter(new Paging3LoadingStateAdapter(mCustomThemeWrapper, R.string.load_more_posts_error,
                 view -> mAdapter.retry())));
     }
 
@@ -718,9 +718,6 @@ public class HistoryPostFragment extends Fragment implements FragmentCommunicato
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
         binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
         binding.fetchPostInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (activity.typeface != null) {
-            binding.fetchPostInfoTextView.setTypeface(activity.typeface);
-        }
     }
 
     @Nullable

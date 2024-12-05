@@ -6,11 +6,9 @@ import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.evernote.android.state.StateSaver;
 import com.livefront.bridge.Bridge;
@@ -42,9 +40,6 @@ import ml.docilealligator.infinityforreddit.broadcastreceivers.WallpaperChangeRe
 import ml.docilealligator.infinityforreddit.events.ChangeAppLockEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeNetworkStatusEvent;
 import ml.docilealligator.infinityforreddit.events.ToggleSecureModeEvent;
-import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
-import ml.docilealligator.infinityforreddit.font.FontFamily;
-import ml.docilealligator.infinityforreddit.font.TitleFontFamily;
 import ml.docilealligator.infinityforreddit.utils.MatrixItemDisplayNameFallbackProviderImpl;
 import ml.docilealligator.infinityforreddit.utils.RoomDisplayNameFallbackProviderImpl;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
@@ -52,9 +47,6 @@ import ml.docilealligator.infinityforreddit.utils.Utils;
 import okhttp3.ConnectionSpec;
 
 public class Infinity extends Application implements LifecycleObserver {
-    public Typeface typeface;
-    public Typeface titleTypeface;
-    public Typeface contentTypeface;
     private AppComponent mAppComponent;
     private NetworkWifiStatusReceiver mNetworkWifiStatusReceiver;
     private boolean appLock;
@@ -98,29 +90,7 @@ public class Infinity extends Application implements LifecycleObserver {
             mAnonymousAccountSharedPreferences.edit().putString(SharedPreferencesUtils.DEVICE_ID, UUID.randomUUID().toString().toLowerCase()).apply();
         }
 
-        try {
-            if (mSharedPreferences.getString(SharedPreferencesUtils.FONT_FAMILY_KEY, FontFamily.Default.name()).equals(FontFamily.Custom.name())) {
-                typeface = Typeface.createFromFile(getExternalFilesDir("fonts") + "/font_family.ttf");
-            }
-            if (mSharedPreferences.getString(SharedPreferencesUtils.TITLE_FONT_FAMILY_KEY, TitleFontFamily.Default.name()).equals(TitleFontFamily.Custom.name())) {
-                titleTypeface = Typeface.createFromFile(getExternalFilesDir("fonts") + "/title_font_family.ttf");
-            }
-            if (mSharedPreferences.getString(SharedPreferencesUtils.CONTENT_FONT_FAMILY_KEY, ContentFontFamily.Default.name()).equals(ContentFontFamily.Custom.name())) {
-                contentTypeface = Typeface.createFromFile(getExternalFilesDir("fonts") + "/content_font_family.ttf");
-            }
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            Toast.makeText(this, R.string.unable_to_load_font, Toast.LENGTH_SHORT).show();
-        }
-
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-                if (activity instanceof CustomFontReceiver) {
-                    ((CustomFontReceiver) activity).setCustomFont(typeface, titleTypeface, contentTypeface);
-                }
-            }
-
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
                 if (isSecureMode) {

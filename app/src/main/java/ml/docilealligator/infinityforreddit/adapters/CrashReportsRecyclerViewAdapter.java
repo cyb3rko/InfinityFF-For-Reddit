@@ -45,10 +45,6 @@ public class CrashReportsRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
             crashReportTextView = (TextView) itemView;
 
             crashReportTextView.setTextColor(activity.customThemeWrapper.getPrimaryTextColor());
-
-            if (activity.typeface != null) {
-                crashReportTextView.setTypeface(activity.typeface);
-            }
         }
     }
 }

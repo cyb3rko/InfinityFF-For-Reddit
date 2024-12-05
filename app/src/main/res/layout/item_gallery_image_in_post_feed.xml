@@ -30,7 +30,6 @@
             android:gravity="center"
             android:text="@string/error_loading_image_tap_to_retry"
             android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family"
             android:visibility="gone" />
 
     </FrameLayout>
@@ -49,7 +48,6 @@
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:fontFamily="?attr/content_font_family"
             android:gravity="start"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingHorizontal="8dp"
@@ -67,7 +65,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:fontFamily="?attr/content_font_family"
             android:gravity="end"
             android:maxLines="1"
             android:paddingHorizontal="8dp"

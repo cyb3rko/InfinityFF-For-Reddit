@@ -98,10 +98,6 @@ public class FlairBottomSheetRecyclerViewAdapter extends RecyclerView.Adapter<Fl
             super(itemView);
             binding = ItemFlairBinding.bind(itemView);
             binding.flairTextView.setTextColor(flairTextColor);
-
-            if (activity.typeface != null) {
-                binding.flairTextView.setTypeface(activity.typeface);
-            }
         }
     }
 }

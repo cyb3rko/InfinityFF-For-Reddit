@@ -78,7 +78,6 @@
                     android:id="@+id/search_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/search_comments"
                     android:maxLines="1" />

@@ -90,10 +90,6 @@ public class PostFilterUsageRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
             usageTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
 
-            if (activity.typeface != null) {
-                usageTextView.setTypeface(activity.typeface);
-            }
-
             usageTextView.setOnClickListener(view -> {
                 onItemClickListener.onClick(postFilterUsages.get(getBindingAdapterPosition()));
             });

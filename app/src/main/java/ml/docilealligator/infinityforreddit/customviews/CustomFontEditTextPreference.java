@@ -1,7 +1,6 @@
 package ml.docilealligator.infinityforreddit.customviews;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,13 +9,11 @@ import android.widget.TextView;
 import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceViewHolder;
 
-import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 
-public class CustomFontEditTextPreference extends EditTextPreference implements CustomFontReceiver, CustomThemeWrapperReceiver {
+public class CustomFontEditTextPreference extends EditTextPreference implements CustomThemeWrapperReceiver {
     private CustomThemeWrapper customThemeWrapper;
-    private Typeface typeface;
 
     public CustomFontEditTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -56,20 +53,6 @@ public class CustomFontEditTextPreference extends EditTextPreference implements 
                 ((TextView) summaryTextView).setTextColor(customThemeWrapper.getSecondaryTextColor());
             }
         }
-
-        if (typeface != null) {
-            if (titleTextView instanceof TextView) {
-                ((TextView) titleTextView).setTypeface(typeface);
-            }
-            if (summaryTextView instanceof TextView) {
-                ((TextView) summaryTextView).setTypeface(typeface);
-            }
-        }
-    }
-
-    @Override
-    public void setCustomFont(Typeface typeface, Typeface titleTypeface, Typeface contentTypeface) {
-        this.typeface = typeface;
     }
 
     @Override

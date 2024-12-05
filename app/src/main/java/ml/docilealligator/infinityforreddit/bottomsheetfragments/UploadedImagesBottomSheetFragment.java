@@ -1,6 +1,5 @@
 package ml.docilealligator.infinityforreddit.bottomsheetfragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,10 +13,8 @@ import com.google.android.material.button.MaterialButton;
 
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.UploadImageEnabledActivity;
-import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.adapters.UploadedImagesRecyclerViewAdapter;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class UploadedImagesBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
 
@@ -52,19 +49,12 @@ public class UploadedImagesBottomSheetFragment extends LandscapeExpandedRoundedB
         });
 
         uploadedImagesRecyclerView = rootView.findViewById(R.id.recycler_view_uploaded_images_bottom_sheet);
-        adapter = new UploadedImagesRecyclerViewAdapter(getActivity(),
+        adapter = new UploadedImagesRecyclerViewAdapter(
                 getArguments().getParcelableArrayList(EXTRA_UPLOADED_IMAGES), uploadedImage -> {
             activity.insertImageUrl(uploadedImage);
             dismiss();
         });
         uploadedImagesRecyclerView.setAdapter(adapter);
-
-        Activity baseActivity = getActivity();
-        if (baseActivity instanceof BaseActivity) {
-            if (((BaseActivity) activity).typeface != null) {
-                Utils.setFontToAllTextViews(rootView, ((BaseActivity) activity).typeface);
-            }
-        }
 
         return rootView;
     }

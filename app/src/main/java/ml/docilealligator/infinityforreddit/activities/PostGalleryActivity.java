@@ -407,15 +407,6 @@ public class PostGalleryActivity extends BaseActivity implements FlairBottomShee
         binding.nsfwCustomTextView.setTextColor(primaryTextColor);
         binding.postTitleEditText.setTextColor(primaryTextColor);
         binding.postTitleEditText.setHintTextColor(secondaryTextColor);
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.rulesButton.setTypeface(typeface);
-            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
-            binding.flairCustomTextView.setTypeface(typeface);
-            binding.spoilerCustomTextView.setTypeface(typeface);
-            binding.nsfwCustomTextView.setTypeface(typeface);
-            binding.postTitleEditText.setTypeface(typeface);
-        }
     }
 
     public void selectImage() {

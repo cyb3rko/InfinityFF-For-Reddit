@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -41,7 +40,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.AppBarStateChangeListener;
-import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.customtheme.CustomTheme;
@@ -55,13 +53,9 @@ import ml.docilealligator.infinityforreddit.font.TitleFontStyle;
 import ml.docilealligator.infinityforreddit.fragments.ThemePreviewCommentsFragment;
 import ml.docilealligator.infinityforreddit.fragments.ThemePreviewPostsFragment;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
-public class CustomThemePreviewActivity extends AppCompatActivity implements CustomFontReceiver {
+public class CustomThemePreviewActivity extends AppCompatActivity {
     public static final String EXTRA_CUSTOM_THEME_SETTINGS_ITEMS = "ECTSI";
-    public Typeface typeface;
-    public Typeface titleTypeface;
-    public Typeface contentTypeface;
 
     private ActivityThemePreviewBinding binding;
 
@@ -299,13 +293,6 @@ public class CustomThemePreviewActivity extends AppCompatActivity implements Cus
         applyFABTheme(binding.fab);
         unsubscribedColor = customTheme.unsubscribed;
         subscribedColor = customTheme.subscribed;
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.userNameTextView.setTypeface(typeface);
-            binding.primaryTextTextView.setTypeface(typeface);
-            binding.secondaryTextTextView.setTypeface(typeface);
-            binding.subscribeSubredditChip.setTypeface(typeface);
-        }
     }
 
     private int getStatusBarHeight() {
@@ -326,15 +313,6 @@ public class CustomThemePreviewActivity extends AppCompatActivity implements Cus
         }
         if (toolbar.getOverflowIcon() != null) {
             toolbar.getOverflowIcon().setColorFilter(customTheme.toolbarPrimaryTextAndIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-        if (typeface != null) {
-            toolbar.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
-                for (int j = 0; j < toolbar.getChildCount(); j++) {
-                    if (toolbar.getChildAt(j) instanceof TextView) {
-                        ((TextView) toolbar.getChildAt(j)).setTypeface(typeface);
-                    }
-                }
-            });
         }
     }
 
@@ -391,13 +369,6 @@ public class CustomThemePreviewActivity extends AppCompatActivity implements Cus
         }
     }
 
-    @Override
-    public void setCustomFont(Typeface typeface, Typeface titleTypeface, Typeface contentTypeface) {
-        this.typeface = typeface;
-        this.titleTypeface = titleTypeface;
-        this.contentTypeface = contentTypeface;
-    }
-
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
         private ThemePreviewPostsFragment themePreviewPostsFragment;
         private ThemePreviewCommentsFragment themePreviewCommentsFragment;
@@ -424,9 +395,9 @@ public class CustomThemePreviewActivity extends AppCompatActivity implements Cus
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return Utils.getTabTextWithCustomFont(typeface, "Posts");
+                    return "Posts";
                 case 1:
-                    return Utils.getTabTextWithCustomFont(typeface, "Comments");
+                    return "Comments";
             }
             return null;
         }

@@ -16,21 +16,17 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.account.Account;
-import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.databinding.ItemNavDrawerAccountBinding;
 
 public class AccountChooserRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private BaseActivity baseActivity;
     private ArrayList<Account> accounts;
     private RequestManager glide;
     private int primaryTextColor;
     private ItemClickListener itemClickListener;
 
-    public AccountChooserRecyclerViewAdapter(BaseActivity baseActivity, CustomThemeWrapper customThemeWrapper,
+    public AccountChooserRecyclerViewAdapter(CustomThemeWrapper customThemeWrapper,
                                              RequestManager glide, ItemClickListener itemClickListener) {
-        this.baseActivity = baseActivity;
         this.glide = glide;
         primaryTextColor = customThemeWrapper.getPrimaryTextColor();
         this.itemClickListener = itemClickListener;
@@ -72,9 +68,6 @@ public class AccountChooserRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         AccountViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNavDrawerAccountBinding.bind(itemView);
-            if (baseActivity.typeface != null) {
-                binding.usernameTextView.setTypeface(baseActivity.typeface);
-            }
             binding.usernameTextView.setTextColor(primaryTextColor);
         }
     }

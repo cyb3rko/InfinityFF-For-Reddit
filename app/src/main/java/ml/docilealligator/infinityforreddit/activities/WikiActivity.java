@@ -120,9 +120,6 @@ public class WikiActivity extends BaseActivity {
         MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
             @Override
             public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                if (contentTypeface != null) {
-                    textView.setTypeface(contentTypeface);
-                }
                 textView.setTextColor(markdownColor);
             }
 
@@ -273,9 +270,6 @@ public class WikiActivity extends BaseActivity {
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
         binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
         binding.fetchWikiTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (typeface != null) {
-            binding.fetchWikiTextView.setTypeface(typeface);
-        }
     }
 
     @Subscribe

@@ -14,7 +14,6 @@ import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.activities.CustomizeThemeActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentCustomThemeOptionsBottomSheetBinding;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,11 +65,6 @@ public class CustomThemeOptionsBottomSheetFragment extends LandscapeExpandedRoun
             ((CustomThemeOptionsBottomSheetFragmentListener) activity).delete(themeName);
             dismiss();
         });
-
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         return rootView;
     }
 

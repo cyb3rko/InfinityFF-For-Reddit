@@ -15,8 +15,7 @@
         android:paddingEnd="32dp"
         android:text="@string/post_karma"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
     <TextView
         android:id="@+id/post_karma_karma_info_bottom_sheet_fragment"
@@ -27,8 +26,7 @@
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_20"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_20" />
 
     <TextView
         android:layout_width="match_parent"
@@ -39,8 +37,7 @@
         android:paddingEnd="32dp"
         android:text="@string/comment_karma"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
     <TextView
         android:id="@+id/comment_karma_karma_info_bottom_sheet_fragment"
@@ -51,8 +48,7 @@
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_20"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_20" />
 
     <TextView
         android:layout_width="match_parent"
@@ -63,8 +59,7 @@
         android:paddingEnd="32dp"
         android:text="@string/awarder_karma"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
     <TextView
         android:id="@+id/awarder_karma_karma_info_bottom_sheet_fragment"
@@ -75,8 +70,7 @@
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_20"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_20" />
 
     <TextView
         android:layout_width="match_parent"
@@ -87,8 +81,7 @@
         android:paddingEnd="32dp"
         android:text="@string/awardee_karma"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
     <TextView
         android:id="@+id/awardee_karma_karma_info_bottom_sheet_fragment"
@@ -99,7 +92,6 @@
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_20"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_20" />
 
 </LinearLayout>

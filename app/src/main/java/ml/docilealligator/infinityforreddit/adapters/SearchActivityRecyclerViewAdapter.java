@@ -18,7 +18,6 @@ import ml.docilealligator.infinityforreddit.recentsearchquery.RecentSearchQuery;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class SearchActivityRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private BaseActivity activity;
     private List<RecentSearchQuery> recentSearchQueries;
     private int primaryTextColor;
     private Drawable historyIcon;
@@ -32,7 +31,6 @@ public class SearchActivityRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
     public SearchActivityRecyclerViewAdapter(BaseActivity activity, CustomThemeWrapper customThemeWrapper,
                                              ItemOnClickListener itemOnClickListener) {
-        this.activity = activity;
         this.primaryTextColor = customThemeWrapper.getPrimaryTextColor();
         this.historyIcon = Utils.getTintedDrawable(activity, R.drawable.ic_history_24dp, customThemeWrapper.getPrimaryIconColor());
         this.deleteIcon = Utils.getTintedDrawable(activity, R.drawable.ic_delete_24dp, customThemeWrapper.getPrimaryIconColor());
@@ -74,10 +72,6 @@ public class SearchActivityRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             binding.recentSearchQueryTextView.setTextColor(primaryTextColor);
             binding.recentSearchQueryTextView.setCompoundDrawablesWithIntrinsicBounds(historyIcon, null, null, null);
             binding.deleteImageView.setImageDrawable(deleteIcon);
-
-            if (activity.typeface != null) {
-                binding.recentSearchQueryTextView.setTypeface(activity.typeface);
-            }
 
             itemView.setOnClickListener(view -> {
                 if (recentSearchQueries != null && !recentSearchQueries.isEmpty()) {

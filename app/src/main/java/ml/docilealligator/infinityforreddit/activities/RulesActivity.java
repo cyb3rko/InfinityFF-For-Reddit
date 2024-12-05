@@ -147,9 +147,6 @@ public class RulesActivity extends BaseActivity {
                 binding.appBarLayout, binding.collapsingToolbarLayout, binding.toolbar);
         binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(mCustomThemeWrapper.getColorAccent()));
         binding.errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (typeface != null) {
-            binding.errorTextView.setTypeface(typeface);
-        }
     }
 
     private void displayError() {

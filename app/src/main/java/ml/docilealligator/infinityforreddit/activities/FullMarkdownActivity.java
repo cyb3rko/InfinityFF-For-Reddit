@@ -96,9 +96,6 @@ public class FullMarkdownActivity extends BaseActivity {
         MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
             @Override
             public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                if (typeface != null) {
-                    textView.setTypeface(typeface);
-                }
                 textView.setTextColor(markdownColor);
             }
 

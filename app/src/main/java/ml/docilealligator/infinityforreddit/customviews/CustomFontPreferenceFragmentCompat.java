@@ -10,7 +10,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
-import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
 import ml.docilealligator.infinityforreddit.activities.SettingsActivity;
 
@@ -30,9 +29,6 @@ public abstract class CustomFontPreferenceFragmentCompat extends PreferenceFragm
             Preference preference = preferenceScreen.getPreference(i);
             if (preference instanceof CustomThemeWrapperReceiver) {
                 ((CustomThemeWrapperReceiver) preference).setCustomThemeWrapper(activity.customThemeWrapper);
-            }
-            if (preference instanceof CustomFontReceiver) {
-                ((CustomFontReceiver) preference).setCustomFont(activity.typeface, null, null);
             }
         }
 

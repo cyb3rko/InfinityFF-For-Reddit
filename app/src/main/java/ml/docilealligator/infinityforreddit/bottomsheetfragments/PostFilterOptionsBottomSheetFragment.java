@@ -12,7 +12,6 @@ import ml.docilealligator.infinityforreddit.activities.PostFilterPreferenceActiv
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentPostFilterOptionsBottomSheetBinding;
 import ml.docilealligator.infinityforreddit.postfilter.PostFilter;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class PostFilterOptionsBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
     public static final String EXTRA_POST_FILTER = "EPF";
@@ -46,11 +45,6 @@ public class PostFilterOptionsBottomSheetFragment extends LandscapeExpandedRound
             activity.deletePostFilter(postFilter);
             dismiss();
         });
-
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         return rootView;
     }
 

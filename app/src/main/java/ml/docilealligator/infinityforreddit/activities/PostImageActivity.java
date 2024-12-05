@@ -404,16 +404,6 @@ public class PostImageActivity extends BaseActivity implements FlairBottomSheetF
         applyFABTheme(binding.captureFab);
         applyFABTheme(binding.selectFromLibraryFab);
         binding.selectAgainTextView.setTextColor(mCustomThemeWrapper.getColorAccent());
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.rulesButton.setTypeface(typeface);
-            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
-            binding.flairCustomTextView.setTypeface(typeface);
-            binding.spoilerCustomTextView.setTypeface(typeface);
-            binding.nsfwCustomTextView.setTypeface(typeface);
-            binding.postTitleEditText.setTypeface(typeface);
-            binding.selectAgainTextView.setTypeface(typeface);
-        }
     }
 
     private void loadImage() {

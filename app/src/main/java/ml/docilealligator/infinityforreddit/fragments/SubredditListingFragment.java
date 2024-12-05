@@ -231,9 +231,6 @@ public class SubredditListingFragment extends Fragment implements FragmentCommun
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
         binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
         binding.listingInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (mActivity.typeface != null) {
-            binding.listingInfoTextView.setTypeface(mActivity.contentTypeface);
-        }
     }
 
     public void goBackToTop() {

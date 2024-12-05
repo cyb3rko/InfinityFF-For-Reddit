@@ -7,7 +7,6 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -34,7 +33,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import app.futured.hauler.DragDirection;
-import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.SetAsWallpaperCallback;
@@ -50,9 +48,8 @@ import ml.docilealligator.infinityforreddit.fragments.ViewRedditGalleryImageOrGi
 import ml.docilealligator.infinityforreddit.fragments.ViewRedditGalleryVideoFragment;
 import ml.docilealligator.infinityforreddit.post.Post;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
-public class ViewRedditGalleryActivity extends AppCompatActivity implements SetAsWallpaperCallback, CustomFontReceiver {
+public class ViewRedditGalleryActivity extends AppCompatActivity implements SetAsWallpaperCallback {
     public static final String EXTRA_REDDIT_GALLERY = "ERG";
     public static final String EXTRA_SUBREDDIT_NAME = "ESN";
     public static final String EXTRA_IS_NSFW = "EIN";
@@ -65,7 +62,6 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
     SharedPreferences sharedPreferences;
     @Inject
     Executor executor;
-    public Typeface typeface;
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ArrayList<Post.Gallery> gallery;
     private String subredditName;
@@ -190,11 +186,11 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
     private void setToolbarTitle(int position) {
         if (gallery != null && position >= 0 && position < gallery.size()) {
             if (gallery.get(position).mediaType == Post.Gallery.TYPE_IMAGE) {
-                setTitle(Utils.getTabTextWithCustomFont(typeface, Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_reddit_gallery_activity_image_label, position + 1, gallery.size()) + "</font>")));
+                setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_reddit_gallery_activity_image_label, position + 1, gallery.size()) + "</font>"));
             } else if (gallery.get(position).mediaType == Post.Gallery.TYPE_GIF) {
-                setTitle(Utils.getTabTextWithCustomFont(typeface, Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_reddit_gallery_activity_gif_label, position + 1, gallery.size()) + "</font>")));
+                setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_reddit_gallery_activity_gif_label, position + 1, gallery.size()) + "</font>"));
             } else {
-                setTitle(Utils.getTabTextWithCustomFont(typeface, Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_reddit_gallery_activity_video_label, position + 1, gallery.size()) + "</font>")));
+                setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_reddit_gallery_activity_video_label, position + 1, gallery.size()) + "</font>"));
             }
         }
     }
@@ -270,11 +266,6 @@ public class ViewRedditGalleryActivity extends AppCompatActivity implements SetA
 
     public int getCurrentPagePosition() {
         return binding.viewPager.getCurrentItem();
-    }
-
-    @Override
-    public void setCustomFont(Typeface typeface, Typeface titleTypeface, Typeface contentTypeface) {
-        this.typeface = typeface;
     }
 
     public boolean isActionBarHidden() {

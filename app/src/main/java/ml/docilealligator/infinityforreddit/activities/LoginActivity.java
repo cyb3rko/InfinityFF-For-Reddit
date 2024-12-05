@@ -336,9 +336,6 @@ public class LoginActivity extends BaseActivity {
         Drawable infoDrawable = Utils.getTintedDrawable(this, R.drawable.ic_info_preference_24dp, mCustomThemeWrapper.getPrimaryIconColor());
         twoFaInfoTextView.setCompoundDrawablesWithIntrinsicBounds(infoDrawable, null, null, null);
         applyFABTheme(binding.fab);
-        if (typeface != null) {
-            twoFaInfoTextView.setTypeface(typeface);
-        }
         binding.textUsername.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
         binding.textPassword.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
         binding.loginButton.setBackgroundColor(customThemeWrapper.getColorAccent());

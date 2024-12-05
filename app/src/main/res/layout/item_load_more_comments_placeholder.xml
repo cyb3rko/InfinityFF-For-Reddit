@@ -21,8 +21,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <View
             android:id="@+id/divider_placeholder"

@@ -65,10 +65,6 @@ public class CustomizeBottomAppBarFragment extends Fragment {
 
         applyCustomTheme();
 
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         String accountName = getArguments().getString(EXTRA_ACCOUNT_NAME);
 
         Resources resources = activity.getResources();

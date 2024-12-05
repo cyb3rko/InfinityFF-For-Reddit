@@ -42,8 +42,7 @@
                     android:gravity="center"
                     android:textColor="@android:color/white"
                     android:text="@string/error_fetching_imgur_media"
-                    android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family" />
+                    android:textSize="?attr/font_default" />
 
             </LinearLayout>
 

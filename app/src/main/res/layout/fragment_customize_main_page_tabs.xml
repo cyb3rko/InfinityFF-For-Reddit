@@ -19,8 +19,7 @@
             android:drawablePadding="32dp"
             android:text="@string/restart_app_see_changes"
             android:gravity="center_vertical"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <View
             android:layout_width="match_parent"
@@ -47,8 +46,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_tab_count"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/tab_count_text_view"
@@ -56,8 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -81,8 +78,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_show_tab_names"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/show_tab_names_switch"
@@ -106,8 +102,7 @@
             android:paddingStart="72dp"
             android:paddingEnd="16dp"
             android:text="@string/settings_tab_1_summary"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <LinearLayout
             android:id="@+id/tab_1_title_linear_layout"
@@ -127,15 +122,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_title"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/tab_1_title_summary_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -157,15 +150,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_post_type"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/tab_1_type_summary_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -187,7 +178,6 @@
                 android:id="@+id/tab_1_name_title_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="?attr/font_family"
                 android:textSize="?attr/font_16"
                 app:layout_constraintEnd_toStartOf="@id/tab_1_name_add_image_view"
                 app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +187,6 @@
                 android:id="@+id/tab_1_name_summary_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="?attr/font_family"
                 android:textSize="?attr/font_default"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tab_1_name_add_image_view"
@@ -233,8 +222,7 @@
             android:paddingStart="72dp"
             android:paddingEnd="16dp"
             android:text="@string/settings_tab_2_summary"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <LinearLayout
             android:id="@+id/tab_2_title_linear_layout"
@@ -254,15 +242,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_title"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/tab_2_title_summary_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -284,15 +270,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_post_type"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/tab_2_type_summary_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -315,7 +299,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tab_2_name_add_image_view" />
@@ -325,7 +308,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family"
                 app:layout_constraintTop_toBottomOf="@id/tab_2_name_title_text_view"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -360,8 +342,7 @@
             android:paddingStart="72dp"
             android:paddingEnd="16dp"
             android:text="@string/settings_tab_3_summary"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <LinearLayout
             android:id="@+id/tab_3_title_linear_layout"
@@ -381,15 +362,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_title"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/tab_3_title_summary_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -411,15 +390,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_post_type"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <TextView
                 android:id="@+id/tab_3_type_summary_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 
@@ -442,7 +419,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tab_3_name_add_image_view" />
@@ -452,7 +428,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family"
                 app:layout_constraintTop_toBottomOf="@id/tab_3_name_title_text_view"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -487,8 +462,7 @@
             android:paddingStart="72dp"
             android:paddingEnd="16dp"
             android:text="@string/settings_more_tabs_summary"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <TextView
             android:id="@+id/more_tabs_info_text_view"
@@ -498,8 +472,7 @@
             android:drawablePadding="32dp"
             android:text="@string/settings_more_tabs_info_summary"
             android:gravity="center_vertical"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <LinearLayout
             android:id="@+id/show_favorite_multireddits_linear_layout"
@@ -521,8 +494,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_more_tabs_show_favorite_multireddits_title"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/show_favorite_multireddits_switch"
@@ -552,8 +524,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_more_tabs_show_multireddits_title"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/show_multireddits_switch"
@@ -583,8 +554,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_more_tabs_show_favorite_subscribed_subreddits_title"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/show_favorite_subscribed_subreddits_switch"
@@ -614,8 +584,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_more_tabs_show_subscribed_subreddits_title"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/show_subscribed_subreddits_switch"

@@ -308,10 +308,6 @@ public class ViewPostDetailActivity extends BaseActivity implements SortTypeSele
         binding.previousResultImageView.setColorFilter(searchPanelTextAndIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
         binding.nextResultImageView.setColorFilter(searchPanelTextAndIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
         binding.closeSearchPanelImageView.setColorFilter(searchPanelTextAndIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
-        if (typeface != null) {
-            binding.searchTextInputLayout.setTypeface(typeface);
-            binding.searchTextInputEditText.setTypeface(typeface);
-        }
     }
 
     private void checkNewAccountAndBindView(Bundle savedInstanceState) {

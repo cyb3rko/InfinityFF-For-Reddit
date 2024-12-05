@@ -89,7 +89,6 @@
             android:textColor="#FFFFFF"
             android:textSize="?attr/font_default"
             android:textStyle="bold"
-            android:fontFamily="?attr/font_family"
             app:layout_constraintBottom_toTopOf="@id/exo_progress"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -101,7 +100,6 @@
             android:textColor="#FFFFFF"
             android:textSize="?attr/font_default"
             android:textStyle="bold"
-            android:fontFamily="?attr/font_family"
             app:layout_constraintBottom_toTopOf="@id/exo_progress"
             app:layout_constraintEnd_toEndOf="parent" />
 

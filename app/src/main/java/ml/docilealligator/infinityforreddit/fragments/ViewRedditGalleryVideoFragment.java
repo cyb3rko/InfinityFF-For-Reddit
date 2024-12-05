@@ -92,10 +92,6 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        if (activity.typeface != null) {
-            //titleTextView.setTypeface(activity.typeface);
-        }
-
         activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         galleryVideo = getArguments().getParcelable(EXTRA_REDDIT_GALLERY_VIDEO);
@@ -171,8 +167,7 @@ public class ViewRedditGalleryVideoFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.view_reddit_gallery_video_fragment, menu);
         for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            Utils.setTitleWithCustomFontToMenuItem(activity.typeface, item, null);
+            Utils.setTitleToMenuItem(menu.getItem(i), null);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }

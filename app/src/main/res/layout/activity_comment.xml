@@ -47,7 +47,6 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="16dp"
                     android:textSize="?attr/title_font_16"
-                    android:fontFamily="?attr/title_font_family"
                     android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -86,8 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="32dp"
-                        android:textSize="?attr/font_default"
-                        android:fontFamily="?attr/font_family" />
+                        android:textSize="?attr/font_default" />
 
                 </LinearLayout>
 
@@ -101,8 +99,7 @@
                     android:inputType="textCapSentences|textMultiLine"
                     android:padding="16dp"
                     android:textColor="?attr/primaryTextColor"
-                    android:textSize="?attr/content_font_18"
-                    android:fontFamily="?attr/content_font_family" />
+                    android:textSize="?attr/content_font_18" />
 
             </LinearLayout>
 

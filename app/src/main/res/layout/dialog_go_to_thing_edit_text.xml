@@ -20,7 +20,6 @@
             android:id="@+id/text_input_edit_text_go_to_thing_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="?attr/font_family"
             android:hint="@string/go_to_thing_hint"
             android:textColor="?attr/primaryTextColor"
             android:textSize="?attr/font_default"

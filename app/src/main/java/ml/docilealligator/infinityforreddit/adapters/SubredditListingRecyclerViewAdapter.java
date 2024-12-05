@@ -261,11 +261,6 @@ public class SubredditListingRecyclerViewAdapter extends PagedListAdapter<Subred
             if (isMultiSelection) {
                 binding.checkbox.setVisibility(View.VISIBLE);
             }
-
-            if (activity.typeface != null) {
-                binding.subredditNameTextView.setTypeface(activity.typeface);
-                binding.subscriberCountTextView.setTypeface(activity.typeface);
-            }
         }
     }
 
@@ -278,11 +273,6 @@ public class SubredditListingRecyclerViewAdapter extends PagedListAdapter<Subred
             binding.errorTextView.setTextColor(secondaryTextColor);
             binding.retryButton.setBackgroundTintList(ColorStateList.valueOf(colorPrimaryLightTheme));
             binding.retryButton.setTextColor(buttonTextColor);
-
-            if (activity.typeface != null) {
-                binding.retryButton.setTypeface(activity.typeface);
-                binding.errorTextView.setTypeface(activity.typeface);
-            }
         }
     }
 

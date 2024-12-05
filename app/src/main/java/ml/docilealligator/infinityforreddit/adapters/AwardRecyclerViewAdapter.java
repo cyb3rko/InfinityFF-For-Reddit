@@ -20,7 +20,6 @@ import ml.docilealligator.infinityforreddit.databinding.ItemAwardBinding;
 
 public class AwardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Award> awards;
-    private BaseActivity activity;
     private RequestManager glide;
     private ItemOnClickListener itemOnClickListener;
     private int primaryTextColor;
@@ -33,7 +32,6 @@ public class AwardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public AwardRecyclerViewAdapter(BaseActivity activity, CustomThemeWrapper customThemeWrapper,
                                     ItemOnClickListener itemOnClickListener) {
         awards = Award.getAvailableAwards();
-        this.activity = activity;
         this.glide = Glide.with(activity);
         primaryTextColor = customThemeWrapper.getPrimaryTextColor();
         secondaryTextColor = customThemeWrapper.getSecondaryTextColor();
@@ -79,11 +77,6 @@ public class AwardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             super(itemView);
             binding = ItemAwardBinding.bind(itemView);
 
-            if (activity.typeface != null) {
-                binding.nameTextView.setTypeface(activity.typeface);
-                binding.descriptionTextView.setTypeface(activity.typeface);
-                binding.coinTextView.setTypeface(activity.typeface);
-            }
             binding.nameTextView.setTextColor(primaryTextColor);
             binding.descriptionTextView.setTextColor(secondaryTextColor);
             binding.coinTextView.setTextColor(primaryTextColor);

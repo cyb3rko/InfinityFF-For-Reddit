@@ -70,10 +70,6 @@ public class CustomizeMainPageTabsFragment extends Fragment {
         rootView.setBackgroundColor(activity.customThemeWrapper.getBackgroundColor());
         applyCustomTheme();
 
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         accountName = getArguments().getString(EXTRA_ACCOUNT_NAME);
 
         String[] typeValues;

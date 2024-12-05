@@ -12,20 +12,16 @@ import java.util.ArrayList;
 
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.ReportReason;
-import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.databinding.ItemReportReasonBinding;
 
 public class ReportReasonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private BaseActivity activity;
     private ArrayList<ReportReason> generalReasons;
     private ArrayList<ReportReason> rules;
     private int primaryTextColor;
     private int colorAccent;
 
-    public ReportReasonRecyclerViewAdapter(BaseActivity activity, CustomThemeWrapper customThemeWrapper, ArrayList<ReportReason> generalReasons) {
-        this.activity = activity;
+    public ReportReasonRecyclerViewAdapter(CustomThemeWrapper customThemeWrapper, ArrayList<ReportReason> generalReasons) {
         this.generalReasons = generalReasons;
         primaryTextColor = customThemeWrapper.getPrimaryTextColor();
         colorAccent = customThemeWrapper.getColorAccent();
@@ -96,10 +92,6 @@ public class ReportReasonRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
 
             binding.reasonTextView.setTextColor(primaryTextColor);
             binding.checkBox.setButtonTintList(ColorStateList.valueOf(colorAccent));
-
-            if (activity.typeface != null) {
-                binding.reasonTextView.setTypeface(activity.typeface);
-            }
 
             binding.checkBox.setOnClickListener(view -> {
                 for (int i = 0; i < generalReasons.size(); i++) {

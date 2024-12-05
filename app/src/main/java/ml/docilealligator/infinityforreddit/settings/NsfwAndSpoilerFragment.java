@@ -61,10 +61,6 @@ public class NsfwAndSpoilerFragment extends Fragment {
 
         rootView.setBackgroundColor(activity.customThemeWrapper.getBackgroundColor());
 
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         String accountName = getArguments().getString(EXTRA_ACCOUNT_NAME);
 
         boolean enableNsfw = nsfwAndBlurringSharedPreferences.getBoolean((accountName == null ? "" : accountName) + SharedPreferencesUtils.NSFW_BASE, false);

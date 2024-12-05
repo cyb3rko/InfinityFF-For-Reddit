@@ -46,10 +46,6 @@ public class PostHistoryFragment extends Fragment {
         rootView.setBackgroundColor(activity.customThemeWrapper.getBackgroundColor());
         applyCustomTheme();
 
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         String accountName = getArguments().getString(EXTRA_ACCOUNT_NAME);
         if (accountName == null) {
             binding.infoTextView.setText(R.string.only_for_logged_in_user);

@@ -61,11 +61,6 @@ public class AcknowledgementRecyclerViewAdapter extends RecyclerView.Adapter<Ack
 
             binding.nameTextView.setTextColor(activity.customThemeWrapper.getPrimaryTextColor());
             binding.introductionTextView.setTextColor(activity.customThemeWrapper.getSecondaryTextColor());
-
-            if (activity.typeface != null) {
-                binding.nameTextView.setTypeface(activity.typeface);
-                binding.introductionTextView.setTypeface(activity.typeface);
-            }
         }
     }
 }

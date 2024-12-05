@@ -42,7 +42,6 @@
                     android:layout_marginEnd="8dp"
                     android:text="@string/subreddit_preview"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     app:layout_constraintBottom_toTopOf="@id/user_text_view"
                     app:layout_constraintEnd_toStartOf="@id/stickied_post_image_view"
                     app:layout_constraintStart_toEndOf="@id/icon_gif_image_view"
@@ -58,7 +57,6 @@
                     android:maxLines="2"
                     android:text="@string/username_preview"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/stickied_post_image_view"
                     app:layout_constraintHorizontal_bias="0"
@@ -82,7 +80,6 @@
                     android:gravity="end"
                     android:text="2 Hours"
                     android:textSize="?attr/font_default"
-                    android:fontFamily="?attr/font_family"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/guideline2"
@@ -104,8 +101,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/post_title_preview"
-                android:textSize="?attr/title_font_18"
-                android:fontFamily="?attr/title_font_family" />
+                android:textSize="?attr/title_font_18" />
 
             <TextView
                 android:id="@+id/content_text_view"
@@ -117,7 +113,6 @@
                 android:maxLines="4"
                 android:text="@string/post_content_preview"
                 android:textSize="?attr/content_font_default"
-                android:fontFamily="?attr/content_font_family"
                 android:ellipsize="end" />
 
             <com.nex3z.flowlayout.FlowLayout
@@ -135,7 +130,6 @@
                     android:padding="4dp"
                     android:text="@string/post_type_preview"
                     android:textSize="?attr/font_12"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -148,7 +142,6 @@
                     android:padding="4dp"
                     android:text="@string/spoiler"
                     android:textSize="?attr/font_12"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -160,7 +153,6 @@
                     android:padding="4dp"
                     android:text="@string/nsfw"
                     android:textSize="?attr/font_12"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -173,7 +165,6 @@
                     android:padding="4dp"
                     android:text="@string/flair_preview"
                     android:textSize="?attr/font_12"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -185,7 +176,6 @@
                     android:padding="4dp"
                     android:text="@string/awards_preview"
                     android:textSize="?attr/font_12"
-                    android:fontFamily="?attr/font_family"
                     app:lib_setRadius="6dp"
                     app:lib_setRoundedView="true"
                     app:lib_setShape="rectangle" />
@@ -218,8 +208,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="abcd.efg"
-                android:textSize="?attr/font_12"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_12" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -261,7 +250,6 @@
                     android:text="1234"
                     android:textSize="?attr/font_12"
                     android:textStyle="bold"
-                    android:fontFamily="?attr/font_family"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/plus_button"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -290,7 +278,6 @@
                     android:text="567"
                     android:textSize="?attr/font_12"
                     android:textStyle="bold"
-                    android:fontFamily="?attr/font_family"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/minus_button"
                     app:layout_constraintTop_toTopOf="parent" />

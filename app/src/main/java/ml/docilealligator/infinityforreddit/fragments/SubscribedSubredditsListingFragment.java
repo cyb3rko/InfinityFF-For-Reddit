@@ -173,9 +173,6 @@ public class SubscribedSubredditsListingFragment extends Fragment implements Fra
             swipeRefreshLayout.setEnabled(false);
         }
         binding.errorTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (mActivity.typeface != null) {
-            binding.errorTextView.setTypeface(mActivity.contentTypeface);
-        }
     }
 
     public void goBackToTop() {

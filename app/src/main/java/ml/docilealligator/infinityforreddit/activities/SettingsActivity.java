@@ -30,7 +30,6 @@ import ml.docilealligator.infinityforreddit.settings.AboutPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.AdvancedPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.CustomizeBottomAppBarFragment;
 import ml.docilealligator.infinityforreddit.settings.CustomizeMainPageTabsFragment;
-import ml.docilealligator.infinityforreddit.settings.FontPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.GesturesAndButtonsPreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.InterfacePreferenceFragment;
 import ml.docilealligator.infinityforreddit.settings.MainPreferenceFragment;
@@ -97,8 +96,6 @@ public class SettingsActivity extends BaseActivity implements
                 setTitle(R.string.settings_about_master_title);
             } else if (fragment instanceof InterfacePreferenceFragment) {
                 setTitle(R.string.settings_interface_title);
-            } else if (fragment instanceof FontPreferenceFragment) {
-                setTitle(R.string.settings_font_title);
             } else if (fragment instanceof GesturesAndButtonsPreferenceFragment) {
                 setTitle(R.string.settings_gestures_and_buttons_title);
             } else if (fragment instanceof PostPreferenceFragment) {

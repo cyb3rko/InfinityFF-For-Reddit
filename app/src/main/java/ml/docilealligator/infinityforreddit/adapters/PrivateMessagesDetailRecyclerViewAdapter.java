@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.text.Spanned;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,13 +85,6 @@ public class PrivateMessagesDetailRecyclerViewAdapter extends RecyclerView.Adapt
                     plugin.excludeInlineProcessor(BangInlineProcessor.class);
                 }))
                 .usePlugin(new AbstractMarkwonPlugin() {
-                    @Override
-                    public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                        if (mViewPrivateMessagesActivity.contentTypeface != null) {
-                            textView.setTypeface(mViewPrivateMessagesActivity.contentTypeface);
-                        }
-                    }
-
                     @Override
                     public void configureConfiguration(@NonNull MarkwonConfiguration.Builder builder) {
                         builder.linkResolver((view, link) -> {

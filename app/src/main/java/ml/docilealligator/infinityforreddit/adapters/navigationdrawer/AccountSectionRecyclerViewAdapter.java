@@ -167,9 +167,6 @@ public class AccountSectionRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         MenuGroupTitleViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNavDrawerMenuGroupTitleBinding.bind(itemView);
-            if (baseActivity.typeface != null) {
-                binding.titleTextView.setTypeface(baseActivity.typeface);
-            }
             binding.titleTextView.setTextColor(secondaryTextColor);
             binding.collapseIndicatorImageView.setColorFilter(secondaryTextColor, android.graphics.PorterDuff.Mode.SRC_IN);
         }
@@ -181,9 +178,6 @@ public class AccountSectionRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         MenuItemViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNavDrawerMenuItemBinding.bind(itemView);
-            if (baseActivity.typeface != null) {
-                binding.textView.setTypeface(baseActivity.typeface);
-            }
             binding.textView.setTextColor(primaryTextColor);
             binding.imageView.setColorFilter(primaryIconColor, android.graphics.PorterDuff.Mode.SRC_IN);
         }

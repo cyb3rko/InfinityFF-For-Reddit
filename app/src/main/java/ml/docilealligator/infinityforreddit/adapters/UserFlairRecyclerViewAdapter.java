@@ -11,20 +11,17 @@ import java.util.ArrayList;
 
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.UserFlair;
-import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.databinding.ItemUserFlairBinding;
 import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class UserFlairRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private BaseActivity activity;
     private CustomThemeWrapper customThemeWrapper;
     private ArrayList<UserFlair> userFlairs;
     private ItemClickListener itemClickListener;
 
-    public UserFlairRecyclerViewAdapter(BaseActivity activity, CustomThemeWrapper customThemeWrapper, ArrayList<UserFlair> userFlairs,
+    public UserFlairRecyclerViewAdapter(CustomThemeWrapper customThemeWrapper, ArrayList<UserFlair> userFlairs,
                                         ItemClickListener itemClickListener) {
-        this.activity = activity;
         this.customThemeWrapper = customThemeWrapper;
         this.userFlairs = userFlairs;
         this.itemClickListener = itemClickListener;
@@ -76,10 +73,6 @@ public class UserFlairRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
             binding.userFlairHtmlTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
             binding.editUserFlairImageView.setColorFilter(customThemeWrapper.getPrimaryTextColor(), android.graphics.PorterDuff.Mode.SRC_IN);
-
-            if (activity.typeface != null) {
-                binding.userFlairHtmlTextView.setTypeface(activity.typeface);
-            }
 
             itemView.setOnClickListener(view -> {
                 if (getBindingAdapterPosition() == 0) {

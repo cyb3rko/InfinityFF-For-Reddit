@@ -1,6 +1,5 @@
 package ml.docilealligator.infinityforreddit.bottomsheetfragments;
 
-
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -26,8 +25,6 @@ import ml.docilealligator.infinityforreddit.activities.ViewUserDetailActivity;
 import ml.docilealligator.infinityforreddit.comment.Comment;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentCommentMoreBottomSheetBinding;
-import ml.docilealligator.infinityforreddit.utils.Utils;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -191,11 +188,6 @@ public class CommentMoreBottomSheetFragment extends LandscapeExpandedRoundedBott
                 }
             });
         }
-
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         return rootView;
     }
 

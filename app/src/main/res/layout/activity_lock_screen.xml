@@ -24,7 +24,6 @@
         android:layout_marginBottom="16dp"
         android:text="@string/lock_screen_text"
         android:textSize="?attr/font_20"
-        android:fontFamily="?attr/font_family"
         app:layout_constraintBottom_toTopOf="@id/unlock_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

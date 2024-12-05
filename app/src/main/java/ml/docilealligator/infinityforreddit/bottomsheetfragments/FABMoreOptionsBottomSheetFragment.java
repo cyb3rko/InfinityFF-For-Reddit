@@ -1,6 +1,5 @@
 package ml.docilealligator.infinityforreddit.bottomsheetfragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentFabMoreOptionsBottomSheetBinding;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class FABMoreOptionsBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
 
@@ -100,14 +97,6 @@ public class FABMoreOptionsBottomSheetFragment extends LandscapeExpandedRoundedB
             activity.fabOptionSelected(FAB_GO_TO_TOP);
             dismiss();
         });
-
-        Activity baseActivity = getActivity();
-        if (baseActivity instanceof BaseActivity) {
-            if (((BaseActivity) baseActivity).typeface != null) {
-                Utils.setFontToAllTextViews(binding.getRoot(), ((BaseActivity) baseActivity).typeface);
-            }
-        }
-
         return binding.getRoot();
     }
 

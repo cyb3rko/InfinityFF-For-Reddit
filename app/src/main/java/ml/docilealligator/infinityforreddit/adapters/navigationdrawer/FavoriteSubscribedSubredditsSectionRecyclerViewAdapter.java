@@ -16,7 +16,6 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.databinding.ItemNavDrawerMenuGroupTitleBinding;
 import ml.docilealligator.infinityforreddit.databinding.ItemNavDrawerSubscribedThingBinding;
@@ -24,11 +23,9 @@ import ml.docilealligator.infinityforreddit.subscribedsubreddit.SubscribedSubred
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 public class FavoriteSubscribedSubredditsSectionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private static final int VIEW_TYPE_MENU_GROUP_TITLE = 1;
     private static final int VIEW_TYPE_FAVORITE_SUBSCRIBED_SUBREDDIT = 2;
 
-    private BaseActivity baseActivity;
     private RequestManager glide;
     private int primaryTextColor;
     private int secondaryTextColor;
@@ -37,11 +34,10 @@ public class FavoriteSubscribedSubredditsSectionRecyclerViewAdapter extends Recy
     private NavigationDrawerRecyclerViewMergedAdapter.ItemClickListener itemClickListener;
     private ArrayList<SubscribedSubredditData> favoriteSubscribedSubreddits = new ArrayList<>();
 
-    public FavoriteSubscribedSubredditsSectionRecyclerViewAdapter(BaseActivity baseActivity, RequestManager glide,
+    public FavoriteSubscribedSubredditsSectionRecyclerViewAdapter(RequestManager glide,
                                                                   CustomThemeWrapper customThemeWrapper,
                                                                   SharedPreferences navigationDrawerSharedPreferences,
                                                                   NavigationDrawerRecyclerViewMergedAdapter.ItemClickListener itemClickListener) {
-        this.baseActivity = baseActivity;
         this.glide = glide;
         primaryTextColor = customThemeWrapper.getPrimaryTextColor();
         secondaryTextColor = customThemeWrapper.getSecondaryTextColor();
@@ -137,9 +133,6 @@ public class FavoriteSubscribedSubredditsSectionRecyclerViewAdapter extends Recy
         MenuGroupTitleViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNavDrawerMenuGroupTitleBinding.bind(itemView);
-            if (baseActivity.typeface != null) {
-                binding.titleTextView.setTypeface(baseActivity.typeface);
-            }
             binding.titleTextView.setTextColor(secondaryTextColor);
             binding.collapseIndicatorImageView.setColorFilter(secondaryTextColor, android.graphics.PorterDuff.Mode.SRC_IN);
         }
@@ -151,9 +144,6 @@ public class FavoriteSubscribedSubredditsSectionRecyclerViewAdapter extends Recy
         FavoriteSubscribedThingViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ItemNavDrawerSubscribedThingBinding.bind(itemView);
-            if (baseActivity.typeface != null) {
-                binding.thingNameTextView.setTypeface(baseActivity.typeface);
-            }
             binding.thingNameTextView.setTextColor(primaryTextColor);
         }
     }

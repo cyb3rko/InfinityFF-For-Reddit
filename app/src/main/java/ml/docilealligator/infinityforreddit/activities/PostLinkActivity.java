@@ -389,19 +389,6 @@ public class PostLinkActivity extends BaseActivity implements FlairBottomSheetFr
         binding.suggestTitleButton.setTextColor(mCustomThemeWrapper.getButtonTextColor());
         binding.postLinkEditText.setTextColor(primaryTextColor);
         binding.postLinkEditText.setHintTextColor(secondaryTextColor);
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.rulesButton.setTypeface(typeface);
-            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
-            binding.flairCustomTextView.setTypeface(typeface);
-            binding.spoilerCustomTextView.setTypeface(typeface);
-            binding.nsfwCustomTextView.setTypeface(typeface);
-            binding.postTitleEditText.setTypeface(typeface);
-            binding.suggestTitleButton.setTypeface(typeface);
-        }
-        if (contentTypeface != null) {
-            binding.postLinkEditText.setTypeface(contentTypeface);
-        }
     }
 
     private void displaySubredditIcon() {

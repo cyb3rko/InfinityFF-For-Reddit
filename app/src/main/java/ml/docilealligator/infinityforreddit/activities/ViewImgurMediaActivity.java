@@ -1,7 +1,6 @@
 package ml.docilealligator.infinityforreddit.activities;
 
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -33,7 +32,6 @@ import javax.inject.Named;
 
 import app.futured.hauler.DragDirection;
 
-import ml.docilealligator.infinityforreddit.CustomFontReceiver;
 import ml.docilealligator.infinityforreddit.ImgurMedia;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
@@ -52,13 +50,12 @@ import ml.docilealligator.infinityforreddit.fragments.ViewImgurVideoFragment;
 import ml.docilealligator.infinityforreddit.utils.APIUtils;
 import ml.docilealligator.infinityforreddit.utils.JSONUtils;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWallpaperCallback, CustomFontReceiver {
+public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWallpaperCallback {
     public static final String EXTRA_IMGUR_TYPE = "EIT";
     public static final String EXTRA_IMGUR_ID = "EII";
     public static final int IMGUR_TYPE_GALLERY = 0;
@@ -68,7 +65,6 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
 
     private ActivityViewImgurMediaBinding binding;
 
-    public Typeface typeface;
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ArrayList<ImgurMedia> images;
     private boolean useBottomAppBar;
@@ -289,9 +285,9 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
     private void setToolbarTitle(int position) {
         if (images != null && position >= 0 && position < images.size()) {
             if (images.get(position).getType() == ImgurMedia.TYPE_VIDEO) {
-                setTitle(Utils.getTabTextWithCustomFont(typeface, Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_imgur_media_activity_video_label, position + 1, images.size()) + "</font>")));
+                setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_imgur_media_activity_video_label, position + 1, images.size()) + "</font>"));
             } else {
-                setTitle(Utils.getTabTextWithCustomFont(typeface, Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_imgur_media_activity_image_label, position + 1, images.size()) + "</font>")));
+                setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.view_imgur_media_activity_image_label, position + 1, images.size()) + "</font>"));
             }
         }
     }
@@ -373,11 +369,6 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
 
     public int getCurrentPagePosition() {
         return binding.viewPager.getCurrentItem();
-    }
-
-    @Override
-    public void setCustomFont(Typeface typeface, Typeface titleTypeface, Typeface contentTypeface) {
-        this.typeface = typeface;
     }
 
     private class SectionsPagerAdapter extends FragmentStatePagerAdapter {

@@ -5,13 +5,10 @@ import ml.docilealligator.infinityforreddit.R;
 public enum ContentFontStyle {
     XSmall(R.style.ContentFontStyle_XSmall, "XSmall"),
     Small(R.style.ContentFontStyle_Small, "Small"),
-    Normal(R.style.ContentFontStyle_Normal, "Normal"),
-    Large(R.style.ContentFontStyle_Large, "Large"),
-    XLarge(R.style.ContentFontStyle_XLarge, "XLarge"),
-    XXLarge(R.style.ContentFontStyle_XXLarge, "XXLarge");
+    Normal(R.style.ContentFontStyle_Normal, "Normal");
 
-    private int resId;
-    private String title;
+    private final int resId;
+    private final String title;
 
     ContentFontStyle(int resId, String title) {
         this.resId = resId;

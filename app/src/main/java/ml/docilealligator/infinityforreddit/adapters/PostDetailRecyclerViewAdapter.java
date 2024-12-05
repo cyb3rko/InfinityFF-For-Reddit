@@ -243,9 +243,6 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
             @Override
             public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                if (mActivity.contentTypeface != null) {
-                    textView.setTypeface(mActivity.contentTypeface);
-                }
                 textView.setTextColor(markdownColor);
                 textView.setHighlightColor(Color.TRANSPARENT);
                 textView.setOnLongClickListener(view -> {
@@ -1474,23 +1471,6 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 constraintSet.applyTo(mBottomConstraintLayout);
             }
 
-            if (mActivity.typeface != null) {
-                mSubredditTextView.setTypeface(mActivity.typeface);
-                mUserTextView.setTypeface(mActivity.typeface);
-                mAuthorFlairTextView.setTypeface(mActivity.typeface);
-                mPostTimeTextView.setTypeface(mActivity.typeface);
-                mTypeTextView.setTypeface(mActivity.typeface);
-                mSpoilerTextView.setTypeface(mActivity.typeface);
-                mNSFWTextView.setTypeface(mActivity.typeface);
-                mFlairTextView.setTypeface(mActivity.typeface);
-                mAwardsTextView.setTypeface(mActivity.typeface);
-                mUpvoteRatioTextView.setTypeface(mActivity.typeface);
-                mScoreTextView.setTypeface(mActivity.typeface);
-                commentsCountTextView.setTypeface(mActivity.typeface);
-            }
-            if (mActivity.titleTypeface != null) {
-                mTitleTextView.setTypeface(mActivity.typeface);
-            }
             itemView.setBackgroundColor(mCardViewColor);
             mSubredditTextView.setTextColor(mSubredditColor);
             mUserTextView.setTextColor(mUsernameColor);
@@ -1942,9 +1922,6 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                     binding.saveButton,
                     binding.shareButton);
 
-            if (mActivity.typeface != null) {
-                binding.linkTextView.setTypeface(mActivity.typeface);
-            }
             binding.linkTextView.setTextColor(mSecondaryTextColor);
             binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
             binding.loadImageErrorTextView.setTextColor(mPrimaryTextColor);
@@ -1990,9 +1967,6 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                     binding.saveButton,
                     binding.shareButton);
 
-            if (mActivity.typeface != null) {
-                binding.linkTextView.setTypeface(mActivity.typeface);
-            }
             binding.linkTextView.setTextColor(mSecondaryTextColor);
             binding.imageViewNoPreviewPostType.setBackgroundColor(mNoPreviewPostTypeBackgroundColor);
             binding.imageViewNoPreviewPostType.setColorFilter(mNoPreviewPostTypeIconTint, PorterDuff.Mode.SRC_IN);
@@ -2084,17 +2058,13 @@ public class PostDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                     binding.saveButton,
                     binding.shareButton);
 
-            if (mActivity.typeface != null) {
-                binding.imageIndexTextView.setTypeface(mActivity.typeface);
-            }
-
             binding.imageIndexTextView.setTextColor(mMediaIndicatorIconTint);
             binding.imageIndexTextView.setBackgroundColor(mMediaIndicatorBackgroundColor);
             binding.imageIndexTextView.setBorderColor(mMediaIndicatorBackgroundColor);
             binding.imageViewNoPreviewLink.setBackgroundColor(mNoPreviewPostTypeBackgroundColor);
             binding.imageViewNoPreviewLink.setColorFilter(mNoPreviewPostTypeIconTint, PorterDuff.Mode.SRC_IN);
 
-            adapter = new PostGalleryTypeImageRecyclerViewAdapter(mGlide, mActivity.typeface, mPostDetailMarkwon,
+            adapter = new PostGalleryTypeImageRecyclerViewAdapter(mGlide, mPostDetailMarkwon,
                     mSaveMemoryCenterInsideDownsampleStrategy, mColorAccent, mPrimaryTextColor,
                     mCardViewColor, mCommentColor, mScale);
             binding.galleryRecyclerView.setAdapter(adapter);

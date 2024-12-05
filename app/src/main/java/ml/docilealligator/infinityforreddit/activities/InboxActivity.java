@@ -249,10 +249,10 @@ public class InboxActivity extends BaseActivity implements ActivityToolbarInterf
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    Utils.setTitleWithCustomFontToTab(typeface, tab, getString(R.string.notifications));
+                    Utils.setTitleToTab(tab, getString(R.string.notifications));
                     break;
                 case 1:
-                    Utils.setTitleWithCustomFontToTab(typeface, tab, getString(R.string.messages));
+                    Utils.setTitleToTab(tab, getString(R.string.messages));
                     break;
             }
         }).attach();

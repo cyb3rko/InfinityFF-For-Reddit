@@ -170,10 +170,6 @@ public class EditCommentActivity extends BaseActivity implements UploadImageEnab
         applyAppBarLayoutAndCollapsingToolbarLayoutAndToolbarTheme(
                 binding.appBarLayout, null, binding.toolbar);
         binding.commentEditText.setTextColor(mCustomThemeWrapper.getCommentColor());
-
-        if (contentTypeface != null) {
-            binding.commentEditText.setTypeface(contentTypeface);
-        }
     }
 
     @Override

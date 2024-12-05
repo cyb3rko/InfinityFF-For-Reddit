@@ -8,5 +8,4 @@
     android:clickable="true"
     android:focusable="true"
     android:text="@string/view_all_comments"
-    android:textSize="?attr/font_default"
-    android:fontFamily="?attr/font_family" />
+    android:textSize="?attr/font_default" />

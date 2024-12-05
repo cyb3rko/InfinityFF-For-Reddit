@@ -260,9 +260,5 @@ public class EditMultiRedditActivity extends BaseActivity {
         binding.descriptionEditText.setHintTextColor(secondaryTextColor);
         binding.visibilityTextView.setTextColor(primaryTextColor);
         binding.selectSubredditTextView.setTextColor(primaryTextColor);
-
-        if (typeface != null) {
-            Utils.setFontToAllTextViews(binding.coordinatorLayout, typeface);
-        }
     }
 }

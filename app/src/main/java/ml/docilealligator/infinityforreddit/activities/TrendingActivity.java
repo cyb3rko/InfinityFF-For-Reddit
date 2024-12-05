@@ -300,9 +300,6 @@ public class TrendingActivity extends BaseActivity {
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
         binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
         binding.fetchTrendingSearchTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (typeface != null) {
-            binding.fetchTrendingSearchTextView.setTypeface(typeface);
-        }
     }
 
     @Subscribe

@@ -483,15 +483,6 @@ public class ViewSubredditDetailActivity extends BaseActivity implements SortTyp
         navigationWrapper.applyCustomTheme(mCustomThemeWrapper.getBottomAppBarIconColor(), mCustomThemeWrapper.getBottomAppBarBackgroundColor());
         applyTabLayoutTheme(binding.tabLayout);
         applyFABTheme(navigationWrapper.floatingActionButton);
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.subscribeSubredditChip.setTypeface(typeface);
-            binding.subscriberCountTextView.setTypeface(typeface);
-            binding.onlineSubscriberCountTextView.setTypeface(typeface);
-            binding.sinceTextView.setTypeface(typeface);
-            binding.creationTimeTextView.setTypeface(typeface);
-            binding.descriptionTextView.setTypeface(typeface);
-        }
         unsubscribedColor = mCustomThemeWrapper.getUnsubscribed();
         subscribedColor = mCustomThemeWrapper.getSubscribed();
     }

@@ -65,7 +65,7 @@ public class AccountChooserBottomSheetFragment extends LandscapeExpandedBottomSh
         Utils.hideKeyboard(activity);
 
         recyclerView = rootView.findViewById(R.id.recycler_view_account_chooser_bottom_sheet_fragment);
-        adapter = new AccountChooserRecyclerViewAdapter(activity, customThemeWrapper, Glide.with(this),
+        adapter = new AccountChooserRecyclerViewAdapter(customThemeWrapper, Glide.with(this),
                 account -> {
                     if (activity instanceof AccountChooserListener) {
                         ((AccountChooserListener) activity).onAccountSelected(account);

@@ -85,11 +85,6 @@ public class SubredditAutocompleteRecyclerViewAdapter extends RecyclerView.Adapt
             binding.subredditNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
             binding.subscriberCountTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
 
-            if (activity.typeface != null) {
-                binding.subredditNameTextView.setTypeface(activity.typeface);
-                binding.subscriberCountTextView.setTypeface(activity.typeface);
-            }
-
             itemView.setOnClickListener(view -> {
                 itemOnClickListener.onClick(subreddits.get(getBindingAdapterPosition()));
             });

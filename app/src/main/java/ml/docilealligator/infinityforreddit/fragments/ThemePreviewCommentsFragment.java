@@ -66,24 +66,6 @@ public class ThemePreviewCommentsFragment extends Fragment {
         binding.authorTextViewFullyCollapsed.setTextColor(customTheme.username);
         binding.scoreTextViewFullyCollapsed.setTextColor(customTheme.secondaryTextColor);
         binding.timeTextViewFullyCollapsed.setTextColor(customTheme.secondaryTextColor);
-
-        if (activity.typeface != null) {
-            binding.authorTextView.setTypeface(activity.typeface);
-            binding.commentTimeTextView.setTypeface(activity.typeface);
-            binding.authorFlairTextView.setTypeface(activity.typeface);
-            binding.scoreTextView.setTypeface(activity.typeface);
-            binding.authorTextViewAwardBackground.setTypeface(activity.typeface);
-            binding.commentTimeTextViewAwardBackground.setTypeface(activity.typeface);
-            binding.authorFlairTextViewAwardBackground.setTypeface(activity.typeface);
-            binding.scoreTextViewAwardBackground.setTypeface(activity.typeface);
-            binding.authorTextViewFullyCollapsed.setTypeface(activity.typeface);
-            binding.scoreTextViewFullyCollapsed.setTypeface(activity.typeface);
-            binding.timeTextViewFullyCollapsed.setTypeface(activity.typeface);
-        }
-        if (activity.contentTypeface != null) {
-            binding.commentMarkdownView.setTypeface(activity.contentTypeface);
-            binding.commentMarkdownViewAwardBackground.setTypeface(activity.contentTypeface);
-        }
         return rootView;
     }
 

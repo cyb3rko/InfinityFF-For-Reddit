@@ -27,7 +27,6 @@
         android:text="@string/large"
         android:textColor="?attr/primaryTextColor"
         android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family"
         app:layout_constraintTop_toBottomOf="@+id/seek_bar_dialog_select_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -39,7 +38,6 @@
         android:text="@string/small"
         android:textColor="?attr/primaryTextColor"
         android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family"
         app:layout_constraintTop_toBottomOf="@+id/seek_bar_dialog_select_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

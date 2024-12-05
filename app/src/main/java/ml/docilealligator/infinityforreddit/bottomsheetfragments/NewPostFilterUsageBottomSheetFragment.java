@@ -12,7 +12,6 @@ import ml.docilealligator.infinityforreddit.activities.PostFilterUsageListingAct
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentNewPostFilterUsageBottomSheetBinding;
 import ml.docilealligator.infinityforreddit.postfilter.PostFilterUsage;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 public class NewPostFilterUsageBottomSheetFragment extends LandscapeExpandedRoundedBottomSheetDialogFragment {
     private PostFilterUsageListingActivity activity;
@@ -52,11 +51,6 @@ public class NewPostFilterUsageBottomSheetFragment extends LandscapeExpandedRoun
             activity.newPostFilterUsage(PostFilterUsage.SEARCH_TYPE);
             dismiss();
         });
-
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         return rootView;
     }
 

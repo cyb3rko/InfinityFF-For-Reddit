@@ -233,10 +233,6 @@ public class UserListingRecyclerViewAdapter extends PagedListAdapter<UserData, R
             binding.userNameTextView.setTextColor(primaryTextColor);
             binding.subscribeImageView.setColorFilter(unsubscribedColor, android.graphics.PorterDuff.Mode.SRC_IN);
 
-            if (activity.typeface != null) {
-                binding.userNameTextView.setTypeface(activity.typeface);
-            }
-
             if (isMultiSelection) {
                 binding.checkbox.setVisibility(View.VISIBLE);
             }
@@ -252,11 +248,6 @@ public class UserListingRecyclerViewAdapter extends PagedListAdapter<UserData, R
             binding.errorTextView.setTextColor(primaryTextColor);
             binding.retryButton.setTextColor(buttonTextColor);
             binding.retryButton.setBackgroundTintList(ColorStateList.valueOf(colorPrimaryLightTheme));
-
-            if (activity.typeface != null) {
-                binding.retryButton.setTypeface(activity.typeface);
-                binding.errorTextView.setTypeface(activity.typeface);
-            }
         }
     }
 

@@ -53,7 +53,6 @@
                         android:maxLines="2"
                         android:text="@string/username_preview"
                         android:textSize="?attr/font_default"
-                        android:fontFamily="?attr/font_family"
                         app:layout_constraintBottom_toTopOf="@id/author_flair_text_view"
                         app:layout_constraintEnd_toStartOf="@+id/comment_time_text_view"
                         app:layout_constraintStart_toEndOf="@id/author_type_image_view"
@@ -68,7 +67,6 @@
                         android:maxLines="2"
                         android:text="@string/author_flair_preview"
                         android:textSize="?attr/font_12"
-                        android:fontFamily="?attr/font_family"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/comment_time_text_view"
                         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +79,6 @@
                         android:gravity="end"
                         android:text="2 Hours"
                         android:textSize="?attr/font_default"
-                        android:fontFamily="?attr/font_family"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -97,8 +94,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/comment_content_preview"
-                    android:textSize="?attr/content_font_default"
-                    android:fontFamily="?attr/content_font_family" />
+                    android:textSize="?attr/content_font_default" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/bottom_constraint_layout"
@@ -130,7 +126,6 @@
                         android:text="1234"
                         android:textSize="?attr/font_12"
                         android:textStyle="bold"
-                        android:fontFamily="?attr/font_family"
                         app:layout_constraintStart_toEndOf="@+id/upvote_button"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -260,7 +255,6 @@
                         android:maxLines="2"
                         android:text="@string/username_preview"
                         android:textSize="?attr/font_default"
-                        android:fontFamily="?attr/font_family"
                         app:layout_constraintBottom_toTopOf="@id/author_flair_text_view_award_background"
                         app:layout_constraintEnd_toStartOf="@+id/comment_time_text_view_award_background"
                         app:layout_constraintStart_toEndOf="@id/author_type_image_view_award_background"
@@ -275,7 +269,6 @@
                         android:maxLines="2"
                         android:text="@string/author_flair_preview"
                         android:textSize="?attr/font_12"
-                        android:fontFamily="?attr/font_family"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/comment_time_text_view_award_background"
                         app:layout_constraintStart_toStartOf="parent"
@@ -288,7 +281,6 @@
                         android:gravity="end"
                         android:text="2 Hours"
                         android:textSize="?attr/font_default"
-                        android:fontFamily="?attr/font_family"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -304,8 +296,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/comment_content_preview"
-                    android:textSize="?attr/content_font_default"
-                    android:fontFamily="?attr/content_font_family" />
+                    android:textSize="?attr/content_font_default" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/bottom_constraint_layout_award_background"
@@ -337,8 +328,7 @@
                         android:text="1234"
                         android:textSize="?attr/font_12"
                         android:textStyle="bold"
-                        android:fontFamily="?attr/font_family"
-                        app:layout_constraintStart_toEndOf="@+id/up_vote_button_award_background"
+                        app:layout_constraintStart_toEndOf="@+id/upvote_button_award_background"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -445,8 +435,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="8dp"
                 android:text="u/Hostilenemy"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
             <TextView
                 android:id="@+id/score_text_view_fully_collapsed"
@@ -457,8 +446,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="1234 pts"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
             <TextView
                 android:id="@+id/time_text_view_fully_collapsed"
@@ -470,8 +458,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="16dp"
                 android:text="2 Hours"
-                android:textSize="?attr/font_default"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_default" />
 
         </LinearLayout>
 

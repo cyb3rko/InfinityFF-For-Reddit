@@ -872,32 +872,32 @@ public class MainActivity extends BaseActivity implements SortTypeSelectionCallb
             new TabLayoutMediator(binding.appBarMain.tabLayout, binding.appBarMain.viewPager, (tab, position) -> {
                 switch (position) {
                     case 0:
-                        Utils.setTitleWithCustomFontToTab(typeface, tab, mMainActivityTabsSharedPreferences.getString((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_1_TITLE, getString(R.string.home)));
+                        Utils.setTitleToTab(tab, mMainActivityTabsSharedPreferences.getString((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_1_TITLE, getString(R.string.home)));
                         break;
                     case 1:
-                        Utils.setTitleWithCustomFontToTab(typeface, tab, mMainActivityTabsSharedPreferences.getString((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_2_TITLE, getString(R.string.popular)));
+                        Utils.setTitleToTab(tab, mMainActivityTabsSharedPreferences.getString((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_2_TITLE, getString(R.string.popular)));
                         break;
                     case 2:
-                        Utils.setTitleWithCustomFontToTab(typeface, tab, mMainActivityTabsSharedPreferences.getString((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_3_TITLE, getString(R.string.all)));
+                        Utils.setTitleToTab(tab, mMainActivityTabsSharedPreferences.getString((mAccountName == null ? "" : mAccountName) + SharedPreferencesUtils.MAIN_PAGE_TAB_3_TITLE, getString(R.string.all)));
                         break;
                 }
                 if (position >= tabCount && (mShowFavoriteMultiReddits || mShowMultiReddits ||
                         mShowFavoriteSubscribedSubreddits || mShowSubscribedSubreddits)
                         && sectionsPagerAdapter != null) {
                     if (position - tabCount < sectionsPagerAdapter.favoriteMultiReddits.size()) {
-                        Utils.setTitleWithCustomFontToTab(typeface, tab, sectionsPagerAdapter.favoriteMultiReddits.get(position - tabCount).getDisplayName());
+                        Utils.setTitleToTab(tab, sectionsPagerAdapter.favoriteMultiReddits.get(position - tabCount).getDisplayName());
                     } else if (position - tabCount - sectionsPagerAdapter.favoriteMultiReddits.size() < sectionsPagerAdapter.multiReddits.size()) {
-                        Utils.setTitleWithCustomFontToTab(typeface, tab, sectionsPagerAdapter.multiReddits.get(position - tabCount
+                        Utils.setTitleToTab(tab, sectionsPagerAdapter.multiReddits.get(position - tabCount
                                 - sectionsPagerAdapter.favoriteMultiReddits.size()).getDisplayName());
                     } else if (position - tabCount - sectionsPagerAdapter.favoriteMultiReddits.size()
                             - sectionsPagerAdapter.multiReddits.size() < sectionsPagerAdapter.favoriteSubscribedSubreddits.size()) {
-                        Utils.setTitleWithCustomFontToTab(typeface, tab, sectionsPagerAdapter.favoriteSubscribedSubreddits.get(position - tabCount
+                        Utils.setTitleToTab(tab, sectionsPagerAdapter.favoriteSubscribedSubreddits.get(position - tabCount
                                 - sectionsPagerAdapter.favoriteMultiReddits.size()
                                 - sectionsPagerAdapter.multiReddits.size()).getName());
                     } else if (position - tabCount - sectionsPagerAdapter.favoriteMultiReddits.size()
                             - sectionsPagerAdapter.multiReddits.size()
                             - sectionsPagerAdapter.favoriteSubscribedSubreddits.size() < sectionsPagerAdapter.subscribedSubreddits.size()) {
-                        Utils.setTitleWithCustomFontToTab(typeface, tab, sectionsPagerAdapter.subscribedSubreddits.get(position - tabCount
+                        Utils.setTitleToTab(tab, sectionsPagerAdapter.subscribedSubreddits.get(position - tabCount
                                 - sectionsPagerAdapter.favoriteMultiReddits.size()
                                 - sectionsPagerAdapter.multiReddits.size()
                                 - sectionsPagerAdapter.favoriteSubscribedSubreddits.size()).getName());

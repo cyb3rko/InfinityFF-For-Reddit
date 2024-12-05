@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import ml.docilealligator.infinityforreddit.activities.BaseActivity;
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentPostTypeBottomSheetBinding;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 
 /**
@@ -74,11 +73,6 @@ public class PostTypeBottomSheetFragment extends LandscapeExpandedRoundedBottomS
             ((PostTypeSelectionCallback) activity).postTypeSelected(TYPE_POLL);
             dismiss();
         });
-
-        if (activity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, activity.typeface);
-        }
-
         return rootView;
     }
 

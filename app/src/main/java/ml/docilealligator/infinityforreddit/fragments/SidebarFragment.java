@@ -103,9 +103,6 @@ public class SidebarFragment extends Fragment {
         MarkwonPlugin miscPlugin = new AbstractMarkwonPlugin() {
             @Override
             public void beforeSetText(@NonNull TextView textView, @NonNull Spanned markdown) {
-                if (activity.contentTypeface != null) {
-                    textView.setTypeface(activity.contentTypeface);
-                }
                 textView.setTextColor(markdownColor);
                 textView.setOnLongClickListener(view -> {
                     if (sidebarDescription != null && !sidebarDescription.equals("") && textView.getSelectionStart() == -1 && textView.getSelectionEnd() == -1) {

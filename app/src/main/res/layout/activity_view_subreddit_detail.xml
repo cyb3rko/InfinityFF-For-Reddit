@@ -58,8 +58,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:textSize="?attr/font_18"
-                        android:layout_gravity="center_horizontal"
-                        android:fontFamily="?attr/font_family" />
+                        android:layout_gravity="center_horizontal" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/subscribe_subreddit_chip"
@@ -79,7 +78,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="?attr/font_default"
-                            android:fontFamily="?attr/font_family"
                             app:layout_constraintBottom_toTopOf="@id/online_subscriber_count_text_view"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/barrier"
@@ -91,7 +89,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="?attr/font_default"
-                            android:fontFamily="?attr/font_family"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/barrier"
@@ -103,7 +100,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/since"
-                            android:fontFamily="?attr/font_family"
                             app:layout_constraintBottom_toTopOf="@id/creation_time_text_view"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -114,7 +110,6 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:textSize="?attr/font_default"
-                            android:fontFamily="?attr/font_family"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/since_text_view" />
@@ -134,7 +129,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:textSize="?attr/font_default"
-                        android:fontFamily="?attr/font_family"
                         android:visibility="gone"/>
 
                 </LinearLayout>

@@ -83,26 +83,6 @@ public class ThemePreviewPostsFragment extends Fragment {
         binding.commentsCount.setCompoundDrawablesWithIntrinsicBounds(commentIcon, null, null, null);
         binding.saveButton.setColorFilter(customTheme.postIconAndInfoColor, android.graphics.PorterDuff.Mode.SRC_IN);
         binding.shareButton.setColorFilter(customTheme.postIconAndInfoColor, android.graphics.PorterDuff.Mode.SRC_IN);
-
-        if (activity.typeface != null) {
-            binding.subredditNameTextView.setTypeface(activity.typeface);
-            binding.userTextView.setTypeface(activity.typeface);
-            binding.postTimeTextViewBest.setTypeface(activity.typeface);
-            binding.typeTextView.setTypeface(activity.typeface);
-            binding.spoilerCustomTextView.setTypeface(activity.typeface);
-            binding.nsfwTextView.setTypeface(activity.typeface);
-            binding.flairCustomTextView.setTypeface(activity.typeface);
-            binding.awardsTextView.setTypeface(activity.typeface);
-            binding.linkTextView.setTypeface(activity.typeface);
-            binding.scoreTextView.setTypeface(activity.typeface);
-            binding.commentsCount.setTypeface(activity.typeface);
-        }
-        if (activity.titleTypeface != null) {
-            binding.titleTextViewBest.setTypeface(activity.titleTypeface);
-        }
-        if (activity.contentTypeface != null) {
-            binding.contentTextView.setTypeface(activity.contentTypeface);
-        }
         return rootView;
     }
 

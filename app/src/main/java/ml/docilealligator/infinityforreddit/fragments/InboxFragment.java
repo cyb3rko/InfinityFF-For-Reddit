@@ -165,9 +165,6 @@ public class InboxFragment extends Fragment implements FragmentCommunicator {
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(mCustomThemeWrapper.getCircularProgressBarBackground());
         binding.swipeRefreshLayout.setColorSchemeColors(mCustomThemeWrapper.getColorAccent());
         binding.fetchMessagesInfoTextView.setTextColor(mCustomThemeWrapper.getSecondaryTextColor());
-        if (mActivity.typeface != null) {
-            binding.fetchMessagesInfoTextView.setTypeface(mActivity.typeface);
-        }
     }
 
     public void goBackToTop() {

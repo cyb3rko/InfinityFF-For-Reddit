@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/font_default" />
 
     <TextView
         android:id="@+id/subject_text_view"
@@ -20,8 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textSize="?attr/font_16"
-        android:textColor="?attr/primaryTextColor"
-        android:fontFamily="?attr/font_family" />
+        android:textColor="?attr/primaryTextColor" />
 
     <TextView
         android:id="@+id/title_text_view"
@@ -29,14 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/title_font_family" />
+        android:textSize="?attr/font_default" />
 
     <TextView
         android:id="@+id/content_custom_markwon_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="?attr/font_default"
-        android:fontFamily="?attr/content_font_family" />
+        android:textSize="?attr/font_default" />
 
 </LinearLayout>

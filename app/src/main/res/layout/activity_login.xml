@@ -82,7 +82,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:drawablePadding="32dp"
-            android:fontFamily="?attr/font_family"
             android:padding="16dp"
             android:text="@string/login_activity_2fa_prompt"
             android:textSize="?attr/font_default"

@@ -2,11 +2,6 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
-        app:title="@string/settings_font_title"
-        app:icon="@drawable/ic_font_size_24dp"
-        app:fragment="ml.docilealligator.infinityforreddit.settings.FontPreferenceFragment" />
-
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
         app:key="immersive_interface_entry"
         app:title="@string/settings_immersive_interface_title"
         app:fragment="ml.docilealligator.infinityforreddit.settings.ImmersiveInterfacePreferenceFragment"

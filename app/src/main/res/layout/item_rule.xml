@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:textSize="?attr/title_font_16"
-        android:fontFamily="?attr/font_family" />
+        android:textSize="?attr/title_font_16" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/description_markwon_view"

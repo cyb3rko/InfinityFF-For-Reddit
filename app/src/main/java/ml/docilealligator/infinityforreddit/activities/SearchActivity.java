@@ -372,9 +372,6 @@ public class SearchActivity extends BaseActivity {
         binding.searchInTextView.setTextColor(colorAccent);
         binding.subredditNameTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
         binding.divider.setBackgroundColor(mCustomThemeWrapper.getDividerColor());
-        if (typeface != null) {
-            Utils.setFontToAllTextViews(binding.coordinatorLayout, typeface);
-        }
     }
 
     @Override

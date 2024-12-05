@@ -136,11 +136,6 @@ public class CustomizeThemeRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
             binding.themeItemNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
             binding.themeItemInfoTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
-
-            if (activity.typeface != null) {
-                binding.themeItemNameTextView.setTypeface(activity.typeface);
-                binding.themeItemInfoTextView.setTypeface(activity.typeface);
-            }
         }
     }
 
@@ -153,11 +148,6 @@ public class CustomizeThemeRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
             binding.themeItemNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
             binding.themeItemInfoTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
-
-            if (activity.typeface != null) {
-                binding.themeItemNameTextView.setTypeface(activity.typeface);
-                binding.themeItemInfoTextView.setTypeface(activity.typeface);
-            }
         }
     }
 
@@ -170,11 +160,6 @@ public class CustomizeThemeRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
             binding.themeNameTextView.setTextColor(customThemeWrapper.getPrimaryTextColor());
             binding.descriptionTextView.setTextColor(customThemeWrapper.getSecondaryTextColor());
-
-            if (activity.typeface != null) {
-                binding.themeNameTextView.setTypeface(activity.typeface);
-                binding.descriptionTextView.setTypeface(activity.typeface);
-            }
         }
     }
 }

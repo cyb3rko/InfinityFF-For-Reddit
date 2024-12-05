@@ -57,7 +57,6 @@
                     android:id="@+id/name_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/post_filter_name_hint"
                     android:maxLines="10" />
@@ -83,7 +82,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/bottom_sheet_post_text"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -113,7 +111,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/bottom_sheet_post_link"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -143,7 +140,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/bottom_sheet_post_image"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -173,7 +169,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/post_type_gif"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -203,7 +198,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/bottom_sheet_post_video"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -233,7 +227,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/post_type_gallery"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -263,7 +256,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/only_nsfw"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -293,7 +285,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:text="@string/only_spoiler"
-                    android:fontFamily="?attr/font_default"
                     android:textSize="?attr/font_default" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -318,7 +309,6 @@
                     android:id="@+id/title_excludes_strings_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/title_excludes_strings_hint"
                     android:maxLines="10" />
@@ -339,7 +329,6 @@
                     android:id="@+id/title_contains_strings_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/title_contains_strings_hint"
                     android:maxLines="10" />
@@ -360,7 +349,6 @@
                     android:id="@+id/title_excludes_regex_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/title_excludes_regex_hint"
                     android:maxLines="10" />
@@ -381,7 +369,6 @@
                     android:id="@+id/title_contains_regex_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/title_contains_regex_hint"
                     android:maxLines="10" />
@@ -407,8 +394,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="?attr/font_family"
-                        android:textSize="?attr/font_default"
+                            android:textSize="?attr/font_default"
                         android:hint="@string/exclude_subreddits_hint"
                         android:maxLines="10" />
 
@@ -444,7 +430,6 @@
                         android:id="@+id/excludes_users_text_input_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="?attr/font_family"
                         android:textSize="?attr/font_default"
                         android:hint="@string/exclude_users_hint"
                         android:maxLines="10" />
@@ -477,7 +462,6 @@
                     android:id="@+id/excludes_flairs_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/exclude_flairs_hint"
                     android:maxLines="10" />
@@ -498,7 +482,6 @@
                     android:id="@+id/contains_flairs_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/contain_flairs_hint"
                     android:maxLines="10" />
@@ -519,7 +502,6 @@
                     android:id="@+id/exclude_domains_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/exclude_domains_hint"
                     android:maxLines="10" />
@@ -540,7 +522,6 @@
                     android:id="@+id/contain_domains_text_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/contain_domains_hint"
                     android:maxLines="10" />
@@ -562,7 +543,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/min_vote_hint"
                     android:maxLines="1" />
@@ -584,7 +564,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/max_vote_hint"
                     android:maxLines="1" />
@@ -606,7 +585,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/min_comments_hint"
                     android:maxLines="1" />
@@ -628,7 +606,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/max_comments_hint"
                     android:maxLines="1" />
@@ -650,7 +627,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/min_awards_hint"
                     android:maxLines="1" />
@@ -672,7 +648,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
-                    android:fontFamily="?attr/font_family"
                     android:textSize="?attr/font_default"
                     android:hint="@string/max_awards_hint"
                     android:maxLines="1" />

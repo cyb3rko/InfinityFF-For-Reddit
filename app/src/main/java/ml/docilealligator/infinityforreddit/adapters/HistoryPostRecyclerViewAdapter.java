@@ -2175,22 +2175,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
                 itemView.setBackgroundTintList(ColorStateList.valueOf(mCardViewBackgroundColor));
             }
 
-            if (mActivity.typeface != null) {
-                subredditTextView.setTypeface(mActivity.typeface);
-                userTextView.setTypeface(mActivity.typeface);
-                postTimeTextView.setTypeface(mActivity.typeface);
-                typeTextView.setTypeface(mActivity.typeface);
-                spoilerTextView.setTypeface(mActivity.typeface);
-                nsfwTextView.setTypeface(mActivity.typeface);
-                flairTextView.setTypeface(mActivity.typeface);
-                awardsTextView.setTypeface(mActivity.typeface);
-                scoreTextView.setTypeface(mActivity.typeface);
-                commentsCountTextView.setTypeface(mActivity.typeface);
-            }
-            if (mActivity.titleTypeface != null) {
-                titleTextView.setTypeface(mActivity.titleTypeface);
-            }
-
             subredditTextView.setTextColor(mSubredditColor);
             userTextView.setTextColor(mUsernameColor);
             postTimeTextView.setTextColor(mSecondaryTextColor);
@@ -2930,10 +2914,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
                     binding.saveButton,
                     binding.shareButton);
 
-            if (mActivity.typeface != null) {
-                binding.linkTextView.setTypeface(mActivity.typeface);
-                binding.loadImageErrorTextView.setTypeface(mActivity.typeface);
-            }
             binding.linkTextView.setTextColor(mSecondaryTextColor);
             binding.imageViewNoPreviewGallery.setBackgroundColor(mNoPreviewPostTypeBackgroundColor);
             binding.imageViewNoPreviewGallery.setColorFilter(mNoPreviewPostTypeIconTint, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -3050,14 +3030,11 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             imageIndexTextView.setTextColor(mMediaIndicatorIconTint);
             imageIndexTextView.setBackgroundColor(mMediaIndicatorBackgroundColor);
             imageIndexTextView.setBorderColor(mMediaIndicatorBackgroundColor);
-            if (mActivity.typeface != null) {
-                imageIndexTextView.setTypeface(mActivity.typeface);
-            }
 
             noPreviewImageView.setBackgroundColor(mNoPreviewPostTypeBackgroundColor);
             noPreviewImageView.setColorFilter(mNoPreviewPostTypeIconTint, android.graphics.PorterDuff.Mode.SRC_IN);
 
-            adapter = new PostGalleryTypeImageRecyclerViewAdapter(mGlide, mActivity.typeface,
+            adapter = new PostGalleryTypeImageRecyclerViewAdapter(mGlide,
                     mSaveMemoryCenterInsideDownsampleStrategy, mColorAccent, mPrimaryTextColor, mScale);
             galleryRecyclerView.setOnTouchListener((v, motionEvent) -> {
                 if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP || motionEvent.getActionMasked() == MotionEvent.ACTION_CANCEL) {
@@ -3225,9 +3202,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
                     binding.saveButton,
                     binding.shareButton);
 
-            if (mActivity.contentTypeface != null) {
-                binding.contentTextView.setTypeface(mActivity.titleTypeface);
-            }
             binding.contentTextView.setTextColor(mPostContentColor);
         }
     }
@@ -3340,22 +3314,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
 
             if (((ViewGroup) itemView).getLayoutTransition() != null) {
                 ((ViewGroup) itemView).getLayoutTransition().setAnimateParentHierarchy(false);
-            }
-
-            if (mActivity.typeface != null) {
-                nameTextView.setTypeface(mActivity.typeface);
-                postTimeTextView.setTypeface(mActivity.typeface);
-                typeTextView.setTypeface(mActivity.typeface);
-                spoilerTextView.setTypeface(mActivity.typeface);
-                nsfwTextView.setTypeface(mActivity.typeface);
-                flairTextView.setTypeface(mActivity.typeface);
-                awardsTextView.setTypeface(mActivity.typeface);
-                linkTextView.setTypeface(mActivity.typeface);
-                scoreTextView.setTypeface(mActivity.typeface);
-                commentsCountTextView.setTypeface(mActivity.typeface);
-            }
-            if (mActivity.titleTypeface != null) {
-                titleTextView.setTypeface(mActivity.titleTypeface);
             }
 
             itemView.setBackgroundColor(mCardViewBackgroundColor);
@@ -3888,12 +3846,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             super(itemView);
             binding = ItemPostGalleryBinding.bind(itemView);
 
-            if (mActivity.typeface != null) {
-                binding.loadImageErrorTextView.setTypeface(mActivity.typeface);
-            }
-            if (mActivity.titleTypeface != null) {
-                binding.titleTextView.setTypeface(mActivity.titleTypeface);
-            }
             itemView.setBackgroundTintList(ColorStateList.valueOf(mCardViewBackgroundColor));
             binding.titleTextView.setTextColor(mPostTitleColor);
             binding.progressBar.setIndeterminateTintList(ColorStateList.valueOf(mColorAccent));
@@ -3988,10 +3940,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             this.imageIndexTextView = imageIndexTextView;
             this.noPreviewImageView = noPreviewImageView;
 
-            if (mActivity.typeface != null) {
-                imageIndexTextView.setTypeface(mActivity.typeface);
-            }
-
             itemView.setBackgroundTintList(ColorStateList.valueOf(mCardViewBackgroundColor));
             noPreviewImageView.setBackgroundColor(mNoPreviewPostTypeBackgroundColor);
             noPreviewImageView.setColorFilter(mNoPreviewPostTypeIconTint, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -4000,7 +3948,7 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
             imageIndexTextView.setBackgroundColor(mMediaIndicatorBackgroundColor);
             imageIndexTextView.setBorderColor(mMediaIndicatorBackgroundColor);
 
-            adapter = new PostGalleryTypeImageRecyclerViewAdapter(mGlide, mActivity.typeface,
+            adapter = new PostGalleryTypeImageRecyclerViewAdapter(mGlide,
                     mSaveMemoryCenterInsideDownsampleStrategy, mColorAccent, mPrimaryTextColor, mScale);
             recyclerView.setOnTouchListener((v, motionEvent) -> {
                 if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP || motionEvent.getActionMasked() == MotionEvent.ACTION_CANCEL) {
@@ -4432,10 +4380,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
                     binding.shareButton,
                     true);
 
-            if (mActivity.typeface != null) {
-                binding.linkTextView.setTypeface(mActivity.typeface);
-                binding.loadImageErrorTextView.setTypeface(mActivity.typeface);
-            }
             binding.linkTextView.setTextColor(mSecondaryTextColor);
             binding.imageViewNoPreviewGallery.setBackgroundColor(mNoPreviewPostTypeBackgroundColor);
             binding.imageViewNoPreviewGallery.setColorFilter(mNoPreviewPostTypeIconTint, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -4549,9 +4493,6 @@ public class HistoryPostRecyclerViewAdapter extends PagingDataAdapter<Post, Recy
                     binding.shareButton,
                     true);
 
-            if (mActivity.contentTypeface != null) {
-                binding.contentTextView.setTypeface(mActivity.contentTypeface);
-            }
             binding.contentTextView.setTextColor(mPostContentColor);
             binding.divider.setBackgroundColor(mDividerColor);
         }

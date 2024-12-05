@@ -407,18 +407,6 @@ public class PostTextActivity extends BaseActivity implements FlairBottomSheetFr
         binding.postTitleEditText.setHintTextColor(secondaryTextColor);
         binding.postTextContentEditText.setTextColor(primaryTextColor);
         binding.postTextContentEditText.setHintTextColor(secondaryTextColor);
-        if (typeface != null) {
-            binding.subredditNameTextView.setTypeface(typeface);
-            binding.rulesButton.setTypeface(typeface);
-            binding.receivePostReplyNotificationsTextView.setTypeface(typeface);
-            binding.flairCustomTextView.setTypeface(typeface);
-            binding.spoilerCustomTextView.setTypeface(typeface);
-            binding.nsfwCustomTextView.setTypeface(typeface);
-            binding.postTitleEditText.setTypeface(typeface);
-        }
-        if (contentTypeface != null) {
-            binding.postTextContentEditText.setTypeface(typeface);
-        }
     }
 
     private void displaySubredditIcon() {

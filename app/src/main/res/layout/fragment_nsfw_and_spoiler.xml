@@ -35,8 +35,7 @@
                 android:drawablePadding="32dp"
                 android:text="@string/settings_enable_nsfw_title"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/enable_nsfw_switch"
@@ -68,8 +67,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_blur_nsfw_title"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/blur_nsfw_switch"
@@ -101,8 +99,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_do_not_blur_nsfw_in_nsfw_subreddits_title"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/do_not_blur_nsfw_in_nsfw_subreddits_switch"
@@ -133,8 +130,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_blur_spoiler_title"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/blur_spoiler_switch"
@@ -158,8 +154,7 @@
             android:paddingEnd="16dp"
             android:text="@string/settings_nsfw_and_spoiler_dangerous_group_title"
             android:textColor="@color/colorAccent"
-            android:textSize="?attr/font_default"
-            android:fontFamily="?attr/font_family" />
+            android:textSize="?attr/font_default" />
 
         <LinearLayout
             android:id="@+id/disable_nsfw_forever_linear_layout"
@@ -182,8 +177,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/settings_disable_nsfw_forever_title"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="?attr/font_16"
-                android:fontFamily="?attr/font_family" />
+                android:textSize="?attr/font_16" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/disable_nsfw_forever_switch"

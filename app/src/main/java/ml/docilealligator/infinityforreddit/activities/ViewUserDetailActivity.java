@@ -582,13 +582,6 @@ public class ViewUserDetailActivity extends BaseActivity implements SortTypeSele
         binding.descriptionTextView.setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
         binding.subscribeUserChip.setTextColor(mCustomThemeWrapper.getChipTextColor());
         applyTabLayoutTheme(binding.tabLayout);
-        if (typeface != null) {
-            binding.userNameTextView.setTypeface(typeface);
-            binding.karmaTextView.setTypeface(typeface);
-            binding.cakedayTextView.setTypeface(typeface);
-            binding.subscribeUserChip.setTypeface(typeface);
-            binding.descriptionTextView.setTypeface(typeface);
-        }
     }
 
     private void checkNewAccountAndInitializeViewPager() {

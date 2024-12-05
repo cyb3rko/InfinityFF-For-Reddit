@@ -12,7 +12,6 @@
         android:id="@+id/image_name_item_uploaded_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="?attr/font_family"
         android:textSize="?attr/font_16"
         android:textColor="?attr/primaryTextColor" />
 
@@ -21,7 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:fontFamily="?attr/font_family"
         android:textSize="?attr/font_12"
         android:textColor="?attr/secondaryTextColor" />
 

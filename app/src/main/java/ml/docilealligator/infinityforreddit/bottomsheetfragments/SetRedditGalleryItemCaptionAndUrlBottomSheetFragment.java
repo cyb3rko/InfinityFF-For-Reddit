@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.lang.reflect.Field;
 
@@ -33,9 +32,7 @@ public class SetRedditGalleryItemCaptionAndUrlBottomSheetFragment extends Landsc
     public static final String EXTRA_URL = "EU";
 
     private PostGalleryActivity mActivity;
-    private TextInputLayout captionTextInputLayout;
     private TextInputEditText captionTextInputEditText;
-    private TextInputLayout urlTextInputLayout;
     private TextInputEditText urlTextInputEditText;
     private MaterialButton okButton;
 
@@ -48,9 +45,7 @@ public class SetRedditGalleryItemCaptionAndUrlBottomSheetFragment extends Landsc
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_set_reddit_gallery_item_caption_and_url_bottom_sheet, container, false);
 
-        captionTextInputLayout = rootView.findViewById(R.id.caption_text_input_layout_set_reddit_gallery_item_caption_and_url_bottom_sheet_fragment);
         captionTextInputEditText = rootView.findViewById(R.id.caption_text_input_edit_text_set_reddit_gallery_item_caption_and_url_bottom_sheet_fragment);
-        urlTextInputLayout = rootView.findViewById(R.id.url_text_input_layout_set_reddit_gallery_item_caption_and_url_bottom_sheet_fragment);
         urlTextInputEditText = rootView.findViewById(R.id.url_text_input_edit_text_set_reddit_gallery_item_caption_and_url_bottom_sheet_fragment);
         okButton = rootView.findViewById(R.id.ok_button_set_reddit_gallery_item_caption_and_url_bottom_sheet_fragment);
 
@@ -76,11 +71,6 @@ public class SetRedditGalleryItemCaptionAndUrlBottomSheetFragment extends Landsc
             mActivity.setCaptionAndUrl(position, captionTextInputEditText.getText().toString(), urlTextInputEditText.getText().toString());
             dismiss();
         });
-
-        if (mActivity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, mActivity.typeface);
-        }
-
         return rootView;
     }
 

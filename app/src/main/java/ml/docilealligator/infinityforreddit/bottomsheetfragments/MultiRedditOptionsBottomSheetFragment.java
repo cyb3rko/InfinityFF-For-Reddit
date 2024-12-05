@@ -19,7 +19,6 @@ import ml.docilealligator.infinityforreddit.activities.SubscribedThingListingAct
 import ml.docilealligator.infinityforreddit.customviews.LandscapeExpandedRoundedBottomSheetDialogFragment;
 import ml.docilealligator.infinityforreddit.databinding.FragmentMultiRedditOptionsBottomSheetBinding;
 import ml.docilealligator.infinityforreddit.multireddit.MultiReddit;
-import ml.docilealligator.infinityforreddit.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +31,6 @@ public class MultiRedditOptionsBottomSheetFragment extends LandscapeExpandedRoun
     public MultiRedditOptionsBottomSheetFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -70,11 +68,6 @@ public class MultiRedditOptionsBottomSheetFragment extends LandscapeExpandedRoun
             subscribedThingListingActivity.deleteMultiReddit(multiReddit);
             dismiss();
         });
-
-        if (subscribedThingListingActivity.typeface != null) {
-            Utils.setFontToAllTextViews(rootView, subscribedThingListingActivity.typeface);
-        }
-
         return rootView;
     }
 

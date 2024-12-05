@@ -58,7 +58,6 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:textSize="?attr/font_18"
-                        android:fontFamily="?attr/font_family"
                         android:layout_gravity="center_horizontal"/>
 
                     <com.google.android.material.chip.Chip
@@ -81,8 +80,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_toStartOf="@id/cakeday_text_view"
-                            android:textSize="?attr/font_default"
-                            android:fontFamily="?attr/font_family" />
+                            android:textSize="?attr/font_default" />
 
                         <TextView
                             android:id="@+id/cakeday_text_view"
@@ -90,8 +88,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:layout_alignParentEnd="true"
-                            android:textSize="?attr/font_default"
-                            android:fontFamily="?attr/font_family" />
+                            android:textSize="?attr/font_default" />
 
                     </RelativeLayout>
 
@@ -101,7 +98,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:textSize="?attr/font_default"
-                        android:fontFamily="?attr/font_family"
                         android:visibility="gone" />
 
                 </LinearLayout>

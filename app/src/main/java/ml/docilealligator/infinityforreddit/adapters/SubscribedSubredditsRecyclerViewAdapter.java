@@ -475,9 +475,6 @@ public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapte
         SubredditViewHolder(View itemView) {
             super(itemView);
             binding = ItemSubscribedThingBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.thingNameTextView.setTypeface(mActivity.typeface);
-            }
             binding.thingNameTextView.setTextColor(primaryTextColor);
         }
     }
@@ -488,9 +485,6 @@ public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapte
         FavoriteSubredditViewHolder(View itemView) {
             super(itemView);
             binding = ItemSubscribedThingBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.thingNameTextView.setTypeface(mActivity.typeface);
-            }
             binding.thingNameTextView.setTextColor(primaryTextColor);
         }
     }
@@ -500,9 +494,6 @@ public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapte
             super(itemView);
             ItemFavoriteThingDividerBinding binding =
                     ItemFavoriteThingDividerBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.dividerTextView.setTypeface(mActivity.typeface);
-            }
             binding.dividerTextView.setText(R.string.favorites);
             binding.dividerTextView.setTextColor(secondaryTextColor);
         }
@@ -513,9 +504,6 @@ public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapte
             super(itemView);
             ItemFavoriteThingDividerBinding binding =
                     ItemFavoriteThingDividerBinding.bind(itemView);
-            if (mActivity.typeface != null) {
-                binding.dividerTextView.setTypeface(mActivity.typeface);
-            }
             binding.dividerTextView.setText(R.string.all);
             binding.dividerTextView.setTextColor(secondaryTextColor);
         }
