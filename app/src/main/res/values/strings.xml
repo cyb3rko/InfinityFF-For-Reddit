@@ -452,19 +452,9 @@
     <string name="settings_credits_best_rocket_icon_summary">Icon made by Freepik from www.flaticon.com</string>
     <string name="settings_credits_material_icons_title">Material Icons</string>
     <string name="settings_open_source_title">Open Source</string>
-    <string name="settings_open_source_summary">Star it on Github if you like this app</string>
-    <string name="settings_rate_title">Rate on Google Play</string>
-    <string name="settings_rate_summary">Give me a 5-star rating and I will be really happy</string>
-    <string name="settings_email_title">Email</string>
-    <string name="settings_email_summary">docilealligator.app@gmail.com</string>
-    <string name="settings_reddit_account_title">Reddit Account</string>
-    <string name="settings_reddit_account_summary">u/Hostilenemy</string>
-    <string name="settings_subreddit_title">Subreddit</string>
-    <string name="settings_subreddit_summary">r/Infinity_For_Reddit</string>
-    <string name="settings_share_title">Share</string>
-    <string name="settings_share_summary">Share this app to other people if you enjoy it</string>
+    <string name="settings_open_source_summary">Star it on GitHub if you like this app</string>
     <string name="settings_privacy_policy_title">Privacy Policy</string>
-    <string name="settings_version_title">Infinity For Reddit</string>
+    <string name="settings_version_title">InfinityFF For Reddit</string>
     <string name="settings_version_summary">Version %s</string>
     <string name="settings_category_customization_title">Customization</string>
     <string name="settings_customize_light_theme_title">Light Theme</string>
@@ -504,7 +494,7 @@
     <string name="settings_tab_subreddit_name">Subreddit Name (Without r/ prefix)</string>
     <string name="settings_tab_multi_reddit_name">MultiReddit Path (/user/yourusername/m/yourmultiredditname) (only lowercase characters)</string>
     <string name="settings_tab_username">Username (Without u/ prefix)</string>
-    <string name="no_developer_easter_egg">There\'s no developer options here</string>
+    <string name="no_developer_easter_egg">There are no developer options here</string>
     <string name="settings_download_location_title">Download Location</string>
     <string name="settings_image_download_location_title">Image Download Location</string>
     <string name="settings_gif_download_location_title">Gif Download Location</string>
@@ -679,8 +669,6 @@
     <string name="error_getting_multi_reddit_data">Error getting multireddit data</string>
     <string name="error_loading_multi_reddit_list">Cannot sync multireddits</string>
     <string name="error_loading_subscriptions">Cannot sync subscriptions</string>
-
-    <string name="share_this_app">Check out Infinity for Reddit, an awesome Reddit client!\nhttps://play.google.com/store/apps/details?id=ml.docilealligator.infinityforreddit</string>
 
     <string name="error_getting_subreddit_name">Error getting subreddit name</string>
 
