@@ -31,12 +31,12 @@
             style="@style/ExoMediaButton.FastForward" />
 
         <ImageButton
-            android:id="@+id/mute"
+            android:id="@+id/mute_button"
             style="@style/ExoMediaButton"
             android:visibility="gone" />
 
         <ImageButton
-            android:id="@+id/hd"
+            android:id="@+id/quality_button"
             android:src="@drawable/ic_video_quality_24dp"
             style="@style/ExoMediaButton"
             android:visibility="gone" />

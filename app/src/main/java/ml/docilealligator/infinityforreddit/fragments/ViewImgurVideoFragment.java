@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -62,7 +61,7 @@ public class ViewImgurVideoFragment extends Fragment {
     private static final String PLAYBACK_SPEED_STATE = "PSS";
 
     private FragmentViewImgurVideoBinding binding;
-    private ExoPlaybackControlViewBinding controlBinding;
+    private ExoPlaybackControlViewBinding exoBinding;
 
     private ViewImgurMediaActivity activity;
     private ImgurMedia imgurMedia;
@@ -82,13 +81,12 @@ public class ViewImgurVideoFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentViewImgurVideoBinding.inflate(inflater, container, false);
-        controlBinding = ExoPlaybackControlViewBinding.bind(binding.videoPlayerView.getVideoSurfaceView());
         View rootView = binding.getRoot();
+        exoBinding = ExoPlaybackControlViewBinding.bind(rootView.findViewById(R.id.linear_layout));
 
         ((Infinity) activity.getApplication()).getAppComponent().inject(this);
 
@@ -102,14 +100,12 @@ public class ViewImgurVideoFragment extends Fragment {
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || getResources().getBoolean(R.bool.isTablet)) {
                 //Set player controller bottom margin in order to display it above the navbar
                 int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-                LinearLayout controllerLinearLayout = rootView.findViewById(R.id.linear_layout_exo_playback_control_view);
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) controllerLinearLayout.getLayoutParams();
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) exoBinding.linearLayout.getLayoutParams();
                 params.bottomMargin = getResources().getDimensionPixelSize(resourceId);
             } else {
                 //Set player controller right margin in order to display it above the navbar
                 int resourceId = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-                LinearLayout controllerLinearLayout = rootView.findViewById(R.id.linear_layout_exo_playback_control_view);
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) controllerLinearLayout.getLayoutParams();
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) exoBinding.linearLayout.getLayoutParams();
                 params.rightMargin = getResources().getDimensionPixelSize(resourceId);
             }
         }
@@ -148,10 +144,10 @@ public class ViewImgurVideoFragment extends Fragment {
         preparePlayer(savedInstanceState);
 
         if (activity.isUseBottomAppBar()) {
-            controlBinding.bottomNavigation.setVisibility(View.VISIBLE);
-            controlBinding.titleTextView.setText(getString(R.string.view_imgur_media_activity_video_label,
+            exoBinding.bottomNavigation.setVisibility(View.VISIBLE);
+            exoBinding.titleTextView.setText(getString(R.string.view_imgur_media_activity_video_label,
                     getArguments().getInt(EXTRA_INDEX) + 1, getArguments().getInt(EXTRA_MEDIA_COUNT)));
-            controlBinding.downloadImageView.setOnClickListener(view -> {
+            exoBinding.downloadImageView.setOnClickListener(view -> {
                 if (isDownloading) {
                     return;
                 }
@@ -246,7 +242,7 @@ public class ViewImgurVideoFragment extends Fragment {
 
         boolean muteVideo = mSharedPreferences.getBoolean(SharedPreferencesUtils.MUTE_VIDEO, false);
 
-        ImageButton muteButton = controlBinding.mute;
+        ImageButton muteButton = exoBinding.muteButton;
         if (savedInstanceState != null) {
             long position = savedInstanceState.getLong(POSITION_STATE);
             if (position > 0) {
@@ -325,14 +321,15 @@ public class ViewImgurVideoFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        controlBinding = null;
+        exoBinding = null;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         player.seekToDefaultPosition();
-        player.stop(true);
+        player.stop();
+        player.clearMediaItems();
         player.release();
     }
 

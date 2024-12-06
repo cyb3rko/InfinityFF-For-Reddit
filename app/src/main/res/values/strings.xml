@@ -597,8 +597,6 @@
     <string name="settings_link_handler_value_custom_tab">Custom Tab</string>
     <string name="settings_link_handler_value_internal_browser">Internal Browser</string>
     <string name="settings_legacy_autoplay_video_controller_ui_title">Legacy Video Controller UI</string>
-    <string name="settings_pinch_to_zoom_video_title">Pinch to Zoom Video</string>
-    <string name="settings_experimental_feature">Experimental feature</string>
     <string name="settings_fixed_height_preview_in_card_title">Fixed Height in Card</string>
     <string name="settings_hide_text_post_content">Hide Text Post Content</string>
     <string name="settings_hide_comment_awards_title">Hide Comment Awards</string>

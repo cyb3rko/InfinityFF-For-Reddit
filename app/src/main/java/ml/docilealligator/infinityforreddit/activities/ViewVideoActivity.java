@@ -6,6 +6,7 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -27,11 +28,11 @@ import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
@@ -54,7 +55,7 @@ import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.ui.PlayerControlView;
-import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.ui.TrackSelectionDialogBuilder;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
@@ -86,6 +87,7 @@ import ml.docilealligator.infinityforreddit.apis.VReddIt;
 import ml.docilealligator.infinityforreddit.bottomsheetfragments.PlaybackSpeedBottomSheetFragment;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 import ml.docilealligator.infinityforreddit.databinding.ActivityViewVideoZoomableBinding;
+import ml.docilealligator.infinityforreddit.databinding.ExoPlaybackControlViewBinding;
 import ml.docilealligator.infinityforreddit.font.ContentFontFamily;
 import ml.docilealligator.infinityforreddit.font.ContentFontStyle;
 import ml.docilealligator.infinityforreddit.font.FontFamily;
@@ -104,7 +106,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-// TODO fix exoplay integration
 public class ViewVideoActivity extends AppCompatActivity {
     public static final int PLAYBACK_SPEED_25 = 25;
     public static final int PLAYBACK_SPEED_50 = 50;
@@ -142,6 +143,7 @@ public class ViewVideoActivity extends AppCompatActivity {
     private static final String PLAYBACK_SPEED_STATE = "PSS";
 
     private ActivityViewVideoZoomableBinding binding;
+    private ExoPlaybackControlViewBinding exoBinding;
 
     private Uri mVideoUri;
     private ExoPlayer player;
@@ -256,16 +258,9 @@ public class ViewVideoActivity extends AppCompatActivity {
         getTheme().applyStyle(ContentFontFamily.valueOf(mSharedPreferences
                 .getString(SharedPreferencesUtils.CONTENT_FONT_FAMILY_KEY, ContentFontFamily.Default.name())).getResId(), true);
 
-        // TODO remove zoomable layout
-        boolean zoomable = mSharedPreferences.getBoolean(SharedPreferencesUtils.PINCH_TO_ZOOM_VIDEO, false);
-        //if (zoomable) {
-        //    setContentView(R.layout.activity_view_video_zoomable);
-        //} else {
-        //    setContentView(R.layout.activity_view_video);
-        //}
-
         binding = ActivityViewVideoZoomableBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        exoBinding = ExoPlaybackControlViewBinding.bind(findViewById(R.id.linear_layout));
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -279,29 +274,29 @@ public class ViewVideoActivity extends AppCompatActivity {
         useBottomAppBar = mSharedPreferences.getBoolean(SharedPreferencesUtils.USE_BOTTOM_TOOLBAR_IN_MEDIA_VIEWER, false);
         if (useBottomAppBar) {
             // TODO remove bottomAppBar support for videos
-//            getSupportActionBar().hide();
-//            bottomAppBar.setVisibility(View.VISIBLE);
-//            downloadImageView.setOnClickListener(view -> {
-//                if (isDownloading) {
-//                    return;
-//                }
-//
-//                if (videoDownloadUrl == null) {
-//                    Toast.makeText(this, R.string.fetching_video_info_please_wait, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                isDownloading = true;
-//                requestPermissionAndDownload();
-//            });
-//
-//            playbackSpeedImageView.setOnClickListener(view -> {
-//                PlaybackSpeedBottomSheetFragment playbackSpeedBottomSheetFragment = new PlaybackSpeedBottomSheetFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(PlaybackSpeedBottomSheetFragment.EXTRA_PLAYBACK_SPEED, playbackSpeed);
-//                playbackSpeedBottomSheetFragment.setArguments(bundle);
-//                playbackSpeedBottomSheetFragment.show(getSupportFragmentManager(), playbackSpeedBottomSheetFragment.getTag());
-//            });
+            getSupportActionBar().hide();
+            exoBinding.bottomNavigation.setVisibility(View.VISIBLE);
+            exoBinding.downloadImageView.setOnClickListener(view -> {
+                if (isDownloading) {
+                    return;
+                }
+
+                if (videoDownloadUrl == null) {
+                    Toast.makeText(this, R.string.fetching_video_info_please_wait, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                isDownloading = true;
+                requestPermissionAndDownload();
+            });
+
+            exoBinding.playbackSpeedImageView.setOnClickListener(view -> {
+                PlaybackSpeedBottomSheetFragment playbackSpeedBottomSheetFragment = new PlaybackSpeedBottomSheetFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt(PlaybackSpeedBottomSheetFragment.EXTRA_PLAYBACK_SPEED, playbackSpeed);
+                playbackSpeedBottomSheetFragment.setArguments(bundle);
+                playbackSpeedBottomSheetFragment.show(getSupportFragmentManager(), playbackSpeedBottomSheetFragment.getTag());
+            });
         } else {
             ActionBar actionBar = getSupportActionBar();
             Drawable upArrow = resources.getDrawable(R.drawable.ic_arrow_back_white_24dp);
@@ -319,13 +314,12 @@ public class ViewVideoActivity extends AppCompatActivity {
         dataSavingModeDefaultResolution = Integer.parseInt(mSharedPreferences.getString(SharedPreferencesUtils.REDDIT_VIDEO_DEFAULT_RESOLUTION, "360"));
 
         if (!mSharedPreferences.getBoolean(SharedPreferencesUtils.VIDEO_PLAYER_IGNORE_NAV_BAR, false)) {
-            LinearLayout controllerLinearLayout = findViewById(R.id.linear_layout_exo_playback_control_view);
-            ViewCompat.setOnApplyWindowInsetsListener(controllerLinearLayout, new OnApplyWindowInsetsListener() {
+            ViewCompat.setOnApplyWindowInsetsListener(binding.coordinatorLayout, new OnApplyWindowInsetsListener() {
                 @NonNull
                 @Override
                 public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
                     Insets navigationBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
-                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) controllerLinearLayout.getLayoutParams();
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.coordinatorLayout.getLayoutParams();
                     params.bottomMargin = navigationBars.bottom;
                     params.rightMargin = navigationBars.right;
                     return WindowInsetsCompat.CONSUMED;
@@ -386,92 +380,69 @@ public class ViewVideoActivity extends AppCompatActivity {
         }
         player = new ExoPlayer.Builder(this).setTrackSelector(trackSelector).build();
 
-        if (zoomable) {
-            PlayerControlView playerControlView = findViewById(R.id.player_control_view);
-            playerControlView.addVisibilityListener(visibility -> {
-                switch (visibility) {
-                    case View.GONE:
-                        getWindow().getDecorView().setSystemUiVisibility(
-                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
-                        break;
-                    case View.VISIBLE:
-                        getWindow().getDecorView().setSystemUiVisibility(
-                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                }
-            });
-            playerControlView.setPlayer(player);
+        PlayerControlView playerControlView = findViewById(R.id.player_control_view);
+        playerControlView.addVisibilityListener(visibility -> {
+            switch (visibility) {
+                case View.GONE:
+                    getWindow().getDecorView().setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
+                    break;
+                case View.VISIBLE:
+                    getWindow().getDecorView().setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            }
+        });
+        playerControlView.setPlayer(player);
 
-            ZoomSurfaceView zoomSurfaceView = findViewById(R.id.zoom_surface_view);
-            player.addListener(new Player.Listener() {
-                @Override
-                public void onVideoSizeChanged(VideoSize videoSize) {
-                    zoomSurfaceView.setContentSize(videoSize.width, videoSize.height);
-                }
-            });
-            zoomSurfaceView.addCallback(new ZoomSurfaceView.Callback() {
-                @Override
-                public void onZoomSurfaceCreated(@NonNull ZoomSurfaceView zoomSurfaceView) {
-                    player.setVideoSurface(zoomSurfaceView.getSurface());
-                }
+        ZoomSurfaceView zoomSurfaceView = findViewById(R.id.zoom_surface_view);
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
+                zoomSurfaceView.setContentSize(videoSize.width, videoSize.height);
+            }
+        });
+        zoomSurfaceView.addCallback(new ZoomSurfaceView.Callback() {
+            @Override
+            public void onZoomSurfaceCreated(@NonNull ZoomSurfaceView zoomSurfaceView) {
+                player.setVideoSurface(zoomSurfaceView.getSurface());
+            }
 
-                @Override
-                public void onZoomSurfaceDestroyed(@NonNull ZoomSurfaceView zoomSurfaceView) {
+            @Override
+            public void onZoomSurfaceDestroyed(@NonNull ZoomSurfaceView zoomSurfaceView) {
 
-                }
-            });
-            zoomSurfaceView.getEngine().addListener(new ZoomEngine.Listener() {
-                @Override
-                public void onUpdate(@NonNull ZoomEngine zoomEngine, @NonNull Matrix matrix) {
-                    if (zoomEngine.getZoom() < 1.00001) {
-                        binding.haulerView.setDragEnabled(true);
-                        binding.lockableNestedScrollView.setScrollEnabled(true);
-                    } else {
-                        binding.haulerView.setDragEnabled(false);
-                        binding.lockableNestedScrollView.setScrollEnabled(false);
-                    }
-                }
-
-                @Override
-                public void onIdle(@NonNull ZoomEngine zoomEngine) {
-
-                }
-            });
-            zoomSurfaceView.setOnClickListener(view -> {
-                if (playerControlView.isVisible()) {
-                    playerControlView.hide();
+            }
+        });
+        zoomSurfaceView.getEngine().addListener(new ZoomEngine.Listener() {
+            @Override
+            public void onUpdate(@NonNull ZoomEngine zoomEngine, @NonNull Matrix matrix) {
+                if (zoomEngine.getZoom() < 1.00001) {
+                    binding.haulerView.setDragEnabled(true);
+                    binding.lockableNestedScrollView.setScrollEnabled(true);
                 } else {
-                    playerControlView.show();
+                    binding.haulerView.setDragEnabled(false);
+                    binding.lockableNestedScrollView.setScrollEnabled(false);
                 }
-            });
-        } else {
-            PlayerView videoPlayerView = findViewById(R.id.player_view);
-            videoPlayerView.setPlayer(player);
-            videoPlayerView.setControllerVisibilityListener(visibility -> {
-                switch (visibility) {
-                    case View.GONE:
-                        getWindow().getDecorView().setSystemUiVisibility(
-                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
-                        break;
-                    case View.VISIBLE:
-                        getWindow().getDecorView().setSystemUiVisibility(
-                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-                }
-            });
-        }
+            }
+
+            @Override
+            public void onIdle(@NonNull ZoomEngine zoomEngine) {
+
+            }
+        });
+        zoomSurfaceView.setOnClickListener(view -> {
+            if (playerControlView.isVisible()) {
+                playerControlView.hide();
+            } else {
+                playerControlView.show();
+            }
+        });
 
         if (savedInstanceState == null) {
             mVideoUri = intent.getData();
@@ -578,7 +549,7 @@ public class ViewVideoActivity extends AppCompatActivity {
     private void setSmallTitle(String title) {
         if (title != null) {
             if (useBottomAppBar) {
-                //titleTextView.setText(Html.fromHtml(String.format("<font color=\"#FFFFFF\"><small>%s</small></font>", title)));
+                exoBinding.titleTextView.setText(Html.fromHtml(String.format("<font color=\"#FFFFFF\"><small>%s</small></font>", title)));
             } else {
                 setTitle(Html.fromHtml(String.format("<font color=\"#FFFFFF\"><small>%s</small></font>", title)));
             }
@@ -608,17 +579,17 @@ public class ViewVideoActivity extends AppCompatActivity {
             isMute = savedInstanceState.getBoolean(IS_MUTE_STATE);
             if (isMute) {
                 player.setVolume(0f);
-                //muteButton.setImageResource(R.drawable.ic_mute_24dp);
+                exoBinding.muteButton.setImageResource(R.drawable.ic_mute_24dp);
             } else {
                 player.setVolume(1f);
-                //muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+                exoBinding.muteButton.setImageResource(R.drawable.ic_unmute_24dp);
             }
         } else if (muteVideo) {
             isMute = true;
             player.setVolume(0f);
-            //muteButton.setImageResource(R.drawable.ic_mute_24dp);
+            exoBinding.muteButton.setImageResource(R.drawable.ic_mute_24dp);
         } else {
-            //muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+            exoBinding.muteButton.setImageResource(R.drawable.ic_unmute_24dp);
         }
 
         player.addListener(new Player.Listener() {
@@ -627,18 +598,18 @@ public class ViewVideoActivity extends AppCompatActivity {
                 ImmutableList<Tracks.Group> trackGroups = tracks.getGroups();
                 if (!trackGroups.isEmpty()) {
                     if (videoType == VIDEO_TYPE_NORMAL) {
-                        //hdButton.setVisibility(View.VISIBLE);
-//                        hdButton.setOnClickListener(view -> {
-//                            TrackSelectionDialogBuilder builder = new TrackSelectionDialogBuilder(ViewVideoActivity.this, getString(R.string.select_video_quality), player, C.TRACK_TYPE_VIDEO);
-//                            builder.setShowDisableOption(true);
-//                            builder.setAllowAdaptiveSelections(false);
-//                            Dialog dialog = builder.setTheme(R.style.MaterialAlertDialogTheme).build();
-//                            dialog.show();
-//                            if (dialog instanceof AlertDialog) {
-//                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-//                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
-//                            }
-//                        });
+                        exoBinding.qualityButton.setVisibility(View.VISIBLE);
+                        exoBinding.qualityButton.setOnClickListener(view -> {
+                            TrackSelectionDialogBuilder builder = new TrackSelectionDialogBuilder(ViewVideoActivity.this, getString(R.string.select_video_quality), player, C.TRACK_TYPE_VIDEO);
+                            builder.setShowDisableOption(true);
+                            builder.setAllowAdaptiveSelections(false);
+                            Dialog dialog = builder.setTheme(R.style.MaterialAlertDialogTheme).build();
+                            dialog.show();
+                            if (dialog instanceof AlertDialog) {
+                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+                                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(mCustomThemeWrapper.getPrimaryTextColor());
+                            }
+                        });
                     }
 
                     for (Tracks.Group trackGroup : tracks.getGroups()) {
@@ -656,24 +627,24 @@ public class ViewVideoActivity extends AppCompatActivity {
                                                 )
                                 );
                             }
-//                            if (muteButton.getVisibility() != View.VISIBLE) {
-//                                muteButton.setVisibility(View.VISIBLE);
-//                                muteButton.setOnClickListener(view -> {
-//                                    if (isMute) {
-//                                        isMute = false;
-//                                        player.setVolume(1f);
-//                                        muteButton.setImageResource(R.drawable.ic_unmute_24dp);
-//                                    } else {
-//                                        isMute = true;
-//                                        player.setVolume(0f);
-//                                        muteButton.setImageResource(R.drawable.ic_mute_24dp);
-//                                    }
-//                                });
-//                            }
+                            if (exoBinding.muteButton.getVisibility() != View.VISIBLE) {
+                                exoBinding.muteButton.setVisibility(View.VISIBLE);
+                                exoBinding.muteButton.setOnClickListener(view -> {
+                                    if (isMute) {
+                                        isMute = false;
+                                        player.setVolume(1f);
+                                        exoBinding.muteButton.setImageResource(R.drawable.ic_unmute_24dp);
+                                    } else {
+                                        isMute = true;
+                                        player.setVolume(0f);
+                                        exoBinding.muteButton.setImageResource(R.drawable.ic_mute_24dp);
+                                    }
+                                });
+                            }
                         }
                     }
                 } else {
-                    //muteButton.setVisibility(View.GONE);
+                    exoBinding.muteButton.setVisibility(View.GONE);
                 }
             }
         });
