@@ -123,11 +123,12 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
             getSupportActionBar().hide();
         }
 
-        String imgurId = getIntent().getStringExtra(EXTRA_IMGUR_ID);
-        if (imgurId == null) {
+        String fullId = getIntent().getStringExtra(EXTRA_IMGUR_ID);
+        if (fullId == null) {
             finish();
             return;
         }
+        String shortId = extractId(fullId);
 
         if (savedInstanceState != null) {
             images = savedInstanceState.getParcelableArrayList(IMGUR_IMAGES_STATE);
@@ -144,13 +145,21 @@ public class ViewImgurMediaActivity extends AppCompatActivity implements SetAsWa
         }
 
         if (images == null) {
-            fetchImgurMedia(imgurId);
+            fetchImgurMedia(shortId);
         } else {
             binding.progressBar.setVisibility(View.GONE);
             setupViewPager();
         }
 
-        binding.loadImageErrorLinearLayout.setOnClickListener(view -> fetchImgurMedia(imgurId));
+        binding.loadImageErrorLinearLayout.setOnClickListener(view -> fetchImgurMedia(shortId));
+    }
+
+    private String extractId(String fullId) {
+        if (fullId.contains("-")) {
+            return fullId.substring(fullId.lastIndexOf("-") + 1);
+        } else {
+            return fullId;
+        }
     }
 
     public boolean isUseBottomAppBar() {

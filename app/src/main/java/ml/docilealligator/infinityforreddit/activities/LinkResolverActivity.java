@@ -46,8 +46,8 @@ public class LinkResolverActivity extends AppCompatActivity {
     private static final String REDD_IT_POST_PATTERN = "/\\w+/?";
     private static final String GFYCAT_PATTERN = "(/i?fr)?/[\\w-]+$";
     private static final String REDGIFS_PATTERN = "/watch/[\\w-]+$";
-    private static final String IMGUR_GALLERY_PATTERN = "/gallery/\\w+/?";
-    private static final String IMGUR_ALBUM_PATTERN = "/(album|a)/\\w+/?";
+    private static final String IMGUR_GALLERY_PATTERN = "/gallery/[\\w-]+/?";
+    private static final String IMGUR_ALBUM_PATTERN = "/(album|a)/[\\w-]+/?";
     private static final String IMGUR_IMAGE_PATTERN = "/\\w+/?";
     private static final String WIKI_PATTERN = "/[rR]/[\\w-]+/(wiki|w)(?:/[\\w-]+)*";
     private static final String GOOGLE_AMP_PATTERN = "/amp/s/amp.reddit.com/.*";
