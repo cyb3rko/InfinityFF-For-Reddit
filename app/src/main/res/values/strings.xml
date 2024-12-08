@@ -95,6 +95,7 @@
     <string name="action_playback_speed">Playback Speed</string>
     <string name="action_contact_mods">Contact Mods</string>
     <string name="action_more_options">More Options</string>
+    <string name="action_add_to_home_screen">Add to Home screen</string>
 
     <string name="parse_json_response_error">Error occurred when parsing the JSON response</string>
     <string name="retrieve_token_error">Error Retrieving the token</string>
@@ -259,6 +260,9 @@
 
     <string name="search_in">Search in</string>
     <string name="all_subreddits">All subreddits</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="confirm_delete_all_recent_searches">Are you sure you want to delete all recent search queries?</string>
 
     <string name="sort_best">Best</string>
     <string name="sort_hot">Hot</string>

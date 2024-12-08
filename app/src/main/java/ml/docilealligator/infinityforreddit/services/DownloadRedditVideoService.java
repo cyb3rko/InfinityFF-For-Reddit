@@ -26,6 +26,8 @@ import android.os.Message;
 import android.os.Process;
 import android.provider.MediaStore;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -95,6 +97,12 @@ public class DownloadRedditVideoService extends Service {
     private ServiceHandler serviceHandler;
     private NotificationManagerCompat notificationManager;
     private NotificationCompat.Builder builder;
+    private final String[] possibleAudioUrlSuffices = new String[]{
+        "/DASH_AUDIO_128.mp4",
+        "/DASH_audio.mp4",
+        "/DASH_audio",
+        "/audio.mp4",
+        "/audio"};
 
     public DownloadRedditVideoService() {
     }
@@ -107,6 +115,7 @@ public class DownloadRedditVideoService extends Service {
         public void handleMessage(Message msg) {
             Bundle intent = msg.getData();
             String videoUrl = intent.getString(EXTRA_VIDEO_URL);
+            String audioUrlPrefix = videoUrl.substring(0, videoUrl.lastIndexOf('/'));
             String subredditName = intent.getString(EXTRA_SUBREDDIT);
             String fileNameWithoutExtension = subredditName + "-" + intent.getString(EXTRA_POST_ID);
             boolean isNsfw = intent.getBoolean(EXTRA_IS_NSFW, false);
@@ -140,8 +149,7 @@ public class DownloadRedditVideoService extends Service {
                     .build();
 
             retrofit = retrofit.newBuilder().client(client).build();
-
-            DownloadFile downloadFile = retrofit.create(DownloadFile.class);
+            DownloadFile downloadFileRetrofit = retrofit.create(DownloadFile.class);
 
             boolean separateDownloadFolder = sharedPreferences.getBoolean(SharedPreferencesUtils.SEPARATE_FOLDER_FOR_EACH_SUBREDDIT, false);
 
@@ -166,7 +174,7 @@ public class DownloadRedditVideoService extends Service {
                         }
                     }
 
-                    Response<ResponseBody> videoResponse = downloadFile.downloadFile(videoUrl).execute();
+                    Response<ResponseBody> videoResponse = downloadFileRetrofit.downloadFile(videoUrl).execute();
                     if (videoResponse.isSuccessful() && videoResponse.body() != null) {
                         String externalCacheDirectoryPath = externalCacheDirectory.getAbsolutePath() + "/";
                         String destinationFileDirectory;
@@ -246,16 +254,59 @@ public class DownloadRedditVideoService extends Service {
                             return;
                         }
 
-                        // do not remux video on <= Android N, just save video
-                        updateNotification(R.string.downloading_reddit_video_save_file_to_public_dir, -1,
+                        ResponseBody audioResponse = getAudioResponse(downloadFileRetrofit, audioUrlPrefix, 0);
+                        String outputFilePath = externalCacheDirectoryPath + fileNameWithoutExtension + ".mp4";
+                        if (audioResponse != null) {
+                            String audioFilePath = externalCacheDirectoryPath + fileNameWithoutExtension + "-cache.mp3";
+
+                            String savedAudioFilePath = writeResponseBodyToDisk(audioResponse, audioFilePath);
+                            if (savedAudioFilePath == null) {
+                                downloadFinished(null, ERROR_AUDIO_FILE_CANNOT_SAVE, randomNotificationIdOffset);
+                                return;
+                            }
+
+                            updateNotification(R.string.downloading_reddit_video_muxing, -1,
                                 randomNotificationIdOffset, null);
-                        try {
-                            Uri destinationFileUri = copyToDestination(videoFilePath, destinationFileUriString, destinationFileName, isDefaultDestination);
-                            new File(videoFilePath).delete();
-                            downloadFinished(destinationFileUri, NO_ERROR, randomNotificationIdOffset);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            downloadFinished(null, ERROR_MUXED_VIDEO_FILE_CANNOT_SAVE, randomNotificationIdOffset);
+                            if (!muxVideoAndAudio(videoFilePath, audioFilePath, outputFilePath)) {
+                                downloadFinished(null, ERROR_MUX_FAILED, randomNotificationIdOffset);
+                                return;
+                            }
+
+                            updateNotification(R.string.downloading_reddit_video_save_file_to_public_dir, -1,
+                                randomNotificationIdOffset, null);
+                            try {
+                                Uri destinationFileUri = copyToDestination(outputFilePath, destinationFileUriString, destinationFileName, isDefaultDestination);
+
+                                new File(videoFilePath).delete();
+                                new File(audioFilePath).delete();
+                                new File(outputFilePath).delete();
+
+                                downloadFinished(destinationFileUri, NO_ERROR, randomNotificationIdOffset);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                downloadFinished(null, ERROR_MUXED_VIDEO_FILE_CANNOT_SAVE, randomNotificationIdOffset);
+                            }
+                        } else {
+                            updateNotification(R.string.downloading_reddit_video_muxing, -1,
+                                randomNotificationIdOffset, null);
+                            if (!muxVideoAndAudio(videoFilePath, null, outputFilePath)) {
+                                downloadFinished(null, ERROR_MUX_FAILED, randomNotificationIdOffset);
+                                return;
+                            }
+
+                            updateNotification(R.string.downloading_reddit_video_save_file_to_public_dir, -1,
+                                randomNotificationIdOffset, null);
+                            try {
+                                Uri destinationFileUri = copyToDestination(outputFilePath, destinationFileUriString, destinationFileName, isDefaultDestination);
+
+                                new File(videoFilePath).delete();
+                                new File(outputFilePath).delete();
+
+                                downloadFinished(destinationFileUri, NO_ERROR, randomNotificationIdOffset);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                downloadFinished(null, ERROR_MUXED_VIDEO_FILE_CANNOT_SAVE, randomNotificationIdOffset);
+                            }
                         }
                     } else {
                         downloadFinished(null, ERROR_VIDEO_FILE_CANNOT_DOWNLOAD, randomNotificationIdOffset);
@@ -271,6 +322,20 @@ public class DownloadRedditVideoService extends Service {
             }
         }
 
+        @Nullable
+        private ResponseBody getAudioResponse(DownloadFile downloadFileRetrofit, @NonNull String audioUrlPrefix, int audioSuffixIndex) throws IOException {
+            if (audioSuffixIndex >= possibleAudioUrlSuffices.length) {
+                return null;
+            }
+            String audioUrl = audioUrlPrefix + possibleAudioUrlSuffices[audioSuffixIndex];
+            Response<ResponseBody> audioResponse = downloadFileRetrofit.downloadFile(audioUrl).execute();
+            ResponseBody responseBody = audioResponse.body();
+            if (audioResponse.isSuccessful() && responseBody != null) {
+                return responseBody;
+            }
+            return getAudioResponse(downloadFileRetrofit, audioUrlPrefix, audioSuffixIndex + 1);
+        }
+
         private String writeResponseBodyToDisk(ResponseBody body, String filePath) {
             try {
                 File file = new File(filePath);
@@ -280,10 +345,6 @@ public class DownloadRedditVideoService extends Service {
 
                 try {
                     byte[] fileReader = new byte[4096];
-
-                    long fileSize = body.contentLength();
-                    long fileSizeDownloaded = 0;
-
                     inputStream = body.byteStream();
                     outputStream = new FileOutputStream(file);
 
@@ -295,12 +356,8 @@ public class DownloadRedditVideoService extends Service {
                         }
 
                         outputStream.write(fileReader, 0, read);
-
-                        fileSizeDownloaded += read;
                     }
-
                     outputStream.flush();
-
                     return file.getPath();
                 } catch (IOException e) {
                     return null;

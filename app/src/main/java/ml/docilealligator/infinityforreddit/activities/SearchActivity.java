@@ -18,10 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.core.view.inputmethod.EditorInfoCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -96,6 +99,8 @@ public class SearchActivity extends BaseActivity {
     SharedPreferences mAnonymousAccountSharedPreferences;
     @Inject
     CustomThemeWrapper mCustomThemeWrapper;
+    @Inject
+    Executor executor;
     private String mAccountName;
     private String mAccessToken;
     private String query;
@@ -128,7 +133,8 @@ public class SearchActivity extends BaseActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        binding.clearSearchEditView.setVisibility(View.GONE);
+        binding.clearSearchImageView.setVisibility(View.GONE);
+        binding.deleteAllRecentSearchesImageView.setVisibility(View.GONE);
 
         searchOnlySubreddits = getIntent().getBooleanExtra(EXTRA_SEARCH_ONLY_SUBREDDITS, false);
         searchOnlyUsers = getIntent().getBooleanExtra(EXTRA_SEARCH_ONLY_USERS, false);
@@ -217,9 +223,9 @@ public class SearchActivity extends BaseActivity {
 
                         }
                     });
-                    binding.clearSearchEditView.setVisibility(View.VISIBLE);
+                    binding.clearSearchImageView.setVisibility(View.VISIBLE);
                 } else {
-                    binding.clearSearchEditView.setVisibility(View.GONE);
+                    binding.clearSearchImageView.setVisibility(View.GONE);
                 }
             }
         });
@@ -234,7 +240,7 @@ public class SearchActivity extends BaseActivity {
             return false;
         });
 
-        binding.clearSearchEditView.setOnClickListener(view -> {
+        binding.clearSearchImageView.setOnClickListener(view -> {
             binding.searchEditText.getText().clear();
         });
 
@@ -246,6 +252,16 @@ public class SearchActivity extends BaseActivity {
                 finish();
             }
         });
+
+        binding.deleteAllRecentSearchesImageView.setOnClickListener(view ->
+            new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogTheme)
+                .setTitle(R.string.confirm)
+                .setMessage(R.string.confirm_delete_all_recent_searches)
+                .setPositiveButton(R.string.yes, (dialogInterface, i) ->
+                    executor.execute(() -> mRedditDataRoomDatabase.recentSearchQueryDao().deleteAllRecentSearchQueries(mAccountName)))
+                .setNegativeButton(R.string.no, null)
+                .show()
+        );
 
         if (savedInstanceState != null) {
             subredditName = savedInstanceState.getString(SUBREDDIT_NAME_STATE);
@@ -304,8 +320,10 @@ public class SearchActivity extends BaseActivity {
             mRecentSearchQueryViewModel.getAllRecentSearchQueries().observe(this, recentSearchQueries -> {
                 if (recentSearchQueries != null && !recentSearchQueries.isEmpty()) {
                     binding.divider.setVisibility(View.VISIBLE);
+                    binding.deleteAllRecentSearchesImageView.setVisibility(View.VISIBLE);
                 } else {
                     binding.divider.setVisibility(View.GONE);
+                    binding.deleteAllRecentSearchesImageView.setVisibility(View.GONE);
                 }
                 adapter.setRecentSearchQueries(recentSearchQueries);
             });
@@ -366,7 +384,7 @@ public class SearchActivity extends BaseActivity {
         int toolbarPrimaryTextAndIconColorColor = mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor();
         binding.searchEditText.setTextColor(toolbarPrimaryTextAndIconColorColor);
         binding.searchEditText.setHintTextColor(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor());
-        binding.clearSearchEditView.setColorFilter(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
+        binding.clearSearchImageView.setColorFilter(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
         binding.linkHandlerImageView.setColorFilter(mCustomThemeWrapper.getToolbarPrimaryTextAndIconColor(), android.graphics.PorterDuff.Mode.SRC_IN);
         int colorAccent = mCustomThemeWrapper.getColorAccent();
         binding.searchInTextView.setTextColor(colorAccent);
