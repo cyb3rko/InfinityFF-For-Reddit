@@ -860,7 +860,8 @@ public class ViewVideoActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         player.seekToDefaultPosition();
-        player.stop(true);
+        player.stop();
+        player.clearMediaItems();
         player.release();
     }
 
