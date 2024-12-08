@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontSwitchPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeSwitchPreference
         app:defaultValue="true"
         app:key="save_sort_type"
         app:title="@string/settings_save_sort_type_title" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeListPreference
         app:defaultValue="HOT"
         app:entries="@array/settings_subreddit_default_sort_type"
         app:entryValues="@array/settings_subreddit_default_sort_type_values"
@@ -15,7 +15,7 @@
         app:title="@string/settings_subreddit_default_sort_type_title"
         app:useSimpleSummaryProvider="true" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeListPreference
         app:defaultValue="ALL"
         app:entries="@array/settings_default_sort_time"
         app:entryValues="@array/settings_default_sort_time_values"
@@ -23,7 +23,7 @@
         app:title="@string/settings_subreddit_default_sort_time_title"
         app:useSimpleSummaryProvider="true" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeListPreference
         app:defaultValue="NEW"
         app:entries="@array/settings_user_default_sort_type"
         app:entryValues="@array/settings_user_default_sort_type_values"
@@ -31,7 +31,7 @@
         app:title="@string/settings_user_default_sort_type_title"
         app:useSimpleSummaryProvider="true" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeListPreference
         app:defaultValue="ALL"
         app:entries="@array/settings_default_sort_time"
         app:entryValues="@array/settings_default_sort_time_values"
@@ -39,10 +39,10 @@
         app:title="@string/settings_user_default_sort_time_title"
         app:useSimpleSummaryProvider="true" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontSwitchPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeSwitchPreference
         app:defaultValue="false"
         app:key="respect_subreddit_recommended_comment_sort_type"
-        app:title="@string/settings_respect_subreddit_recommended_comment_sort_type_title"
-        app:summary="@string/settings_respect_subreddit_recommended_comment_sort_type_summary" />
+        app:summary="@string/settings_respect_subreddit_recommended_comment_sort_type_summary"
+        app:title="@string/settings_respect_subreddit_recommended_comment_sort_type_title" />
 
 </PreferenceScreen>

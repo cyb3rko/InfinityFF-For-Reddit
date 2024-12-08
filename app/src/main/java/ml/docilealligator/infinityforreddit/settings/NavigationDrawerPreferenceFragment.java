@@ -8,12 +8,12 @@ import androidx.preference.SwitchPreference;
 import org.greenrobot.eventbus.EventBus;
 
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.events.ChangeHideKarmaEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeShowAvatarOnTheRightInTheNavigationDrawerEvent;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
-public class NavigationDrawerPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class NavigationDrawerPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

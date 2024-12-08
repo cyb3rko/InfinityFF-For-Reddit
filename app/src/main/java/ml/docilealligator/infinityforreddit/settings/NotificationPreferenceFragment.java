@@ -31,13 +31,13 @@ import javax.inject.Named;
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.PullNotificationWorker;
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotificationPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class NotificationPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Inject
     @Named("default")
@@ -143,7 +143,7 @@ public class NotificationPreferenceFragment extends CustomFontPreferenceFragment
                     });
                 }
             });
-            
+
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }

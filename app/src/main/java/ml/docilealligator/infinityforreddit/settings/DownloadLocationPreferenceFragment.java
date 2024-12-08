@@ -15,10 +15,10 @@ import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
-public class DownloadLocationPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class DownloadLocationPreferenceFragment extends CustomThemePreferenceFragmentCompat {
     private static final int IMAGE_DOWNLOAD_LOCATION_REQUEST_CODE = 10;
     private static final int GIF_DOWNLOAD_LOCATION_REQUEST_CODE = 11;
     private static final int VIDEO_DOWNLOAD_LOCATION_REQUEST_CODE = 12;

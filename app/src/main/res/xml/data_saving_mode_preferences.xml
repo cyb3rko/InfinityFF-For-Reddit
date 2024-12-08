@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemePreference
+        app:enabled="false"
         app:icon="@drawable/ic_info_preference_24dp"
-        app:summary="@string/settings_data_saving_mode_info_summary"
-        app:enabled="false" />
+        app:summary="@string/settings_data_saving_mode_info_summary" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
-        app:defaultValue="0"
-        app:key="data_saving_mode"
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeListPreference
         android:title="@string/settings_data_saving_mode"
+        app:defaultValue="0"
         app:entries="@array/settings_data_saving_mode"
         app:entryValues="@array/settings_data_saving_mode_values"
+        app:key="data_saving_mode"
         app:useSimpleSummaryProvider="true" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontSwitchPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeSwitchPreference
+        android:title="@string/settings_disable_image_preview_title"
         app:defaultValue="false"
-        app:key="disable_image_preview"
-        android:title="@string/settings_disable_image_preview_title" />
+        app:key="disable_image_preview" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontSwitchPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeSwitchPreference
+        android:title="@string/settings_only_disable_preview_in_video_and_gif_posts_title"
         app:defaultValue="false"
-        app:key="only_disable_preview_in_video_and_gif_posts"
-        android:title="@string/settings_only_disable_preview_in_video_and_gif_posts_title" />
+        app:key="only_disable_preview_in_video_and_gif_posts" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontListPreference
-        app:defaultValue="360"
-        app:key="reddit_video_default_resolution"
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemeListPreference
         android:title="@string/settings_reddit_video_default_resolution"
+        app:defaultValue="360"
         app:entries="@array/settings_reddit_video_default_resolution"
         app:entryValues="@array/settings_reddit_video_default_resolution_values"
+        app:key="reddit_video_default_resolution"
         app:useSimpleSummaryProvider="true" />
 
 </PreferenceScreen>

@@ -15,7 +15,7 @@ import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.events.ChangeLockBottomAppBarEvent;
 import ml.docilealligator.infinityforreddit.events.ChangePullToRefreshEvent;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
@@ -23,7 +23,7 @@ import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GesturesAndButtonsPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class GesturesAndButtonsPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Inject
     @Named("default")

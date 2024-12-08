@@ -16,7 +16,7 @@ import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.events.ChangeAutoplayNsfwVideosEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeEasierToWatchInFullScreenEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeMuteAutoplayingVideosEvent;
@@ -26,7 +26,7 @@ import ml.docilealligator.infinityforreddit.events.ChangeStartAutoplayVisibleAre
 import ml.docilealligator.infinityforreddit.events.ChangeVideoAutoplayEvent;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
-public class VideoPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class VideoPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Inject
     @Named("default")

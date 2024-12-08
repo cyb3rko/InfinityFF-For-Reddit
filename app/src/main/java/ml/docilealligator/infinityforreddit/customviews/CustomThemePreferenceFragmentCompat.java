@@ -13,7 +13,7 @@ import androidx.preference.PreferenceScreen;
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
 import ml.docilealligator.infinityforreddit.activities.SettingsActivity;
 
-public abstract class CustomFontPreferenceFragmentCompat extends PreferenceFragmentCompat {
+public abstract class CustomThemePreferenceFragmentCompat extends PreferenceFragmentCompat {
     protected SettingsActivity activity;
 
     @Override

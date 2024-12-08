@@ -15,13 +15,13 @@ import javax.inject.Named;
 
 import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.events.ChangePostFeedMaxResolutionEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeSavePostFeedScrolledPositionEvent;
 import ml.docilealligator.infinityforreddit.events.RecreateActivityEvent;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
-public class MiscellaneousPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class MiscellaneousPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Inject
     @Named("post_feed_scrolled_position_cache")

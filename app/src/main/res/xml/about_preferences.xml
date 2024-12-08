@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
-        app:title="@string/settings_acknowledgement_master_title"
-        app:fragment="ml.docilealligator.infinityforreddit.settings.AcknowledgementFragment" />
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemePreference
+        app:fragment="ml.docilealligator.infinityforreddit.settings.AcknowledgementFragment"
+        app:title="@string/settings_acknowledgement_master_title" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
-        app:title="@string/settings_credits_master_title"
-        app:fragment="ml.docilealligator.infinityforreddit.settings.CreditsPreferenceFragment" />
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemePreference
+        app:fragment="ml.docilealligator.infinityforreddit.settings.CreditsPreferenceFragment"
+        app:title="@string/settings_credits_master_title" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemePreference
         android:key="open_source"
-        app:title="@string/settings_open_source_title"
-        app:summary="@string/settings_open_source_summary" />
+        app:summary="@string/settings_open_source_summary"
+        app:title="@string/settings_open_source_title" />
 
-    <ml.docilealligator.infinityforreddit.customviews.CustomFontPreference
+    <ml.docilealligator.infinityforreddit.customviews.CustomThemePreference
         android:key="version"
-        app:title="@string/settings_version_title"
-        app:summary="@string/settings_version_summary" />
+        app:summary="@string/settings_version_summary"
+        app:title="@string/settings_version_title" />
 
 </PreferenceScreen>

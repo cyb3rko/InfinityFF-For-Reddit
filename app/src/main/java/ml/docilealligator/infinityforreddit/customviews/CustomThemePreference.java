@@ -6,28 +6,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 
-public class CustomFontListPreference extends ListPreference implements CustomThemeWrapperReceiver {
+public class CustomThemePreference extends Preference implements CustomThemeWrapperReceiver {
     private CustomThemeWrapper customThemeWrapper;
 
-    public CustomFontListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomThemePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public CustomFontListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomThemePreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public CustomFontListPreference(Context context, AttributeSet attrs) {
+    public CustomThemePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomFontListPreference(Context context) {
+    public CustomThemePreference(Context context) {
         super(context);
     }
 

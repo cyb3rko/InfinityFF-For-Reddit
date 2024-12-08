@@ -19,10 +19,10 @@ import ml.docilealligator.infinityforreddit.Infinity;
 import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.activities.LinkResolverActivity;
 import ml.docilealligator.infinityforreddit.activities.PostFilterPreferenceActivity;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
-public class MainPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class MainPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Inject
     @Named("default")

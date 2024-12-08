@@ -3,9 +3,9 @@ package ml.docilealligator.infinityforreddit.settings;
 import android.os.Bundle;
 
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 
-public class SortTypePreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class SortTypePreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

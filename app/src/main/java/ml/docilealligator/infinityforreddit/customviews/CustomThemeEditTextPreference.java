@@ -6,60 +6,37 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceViewHolder;
-import androidx.preference.SwitchPreference;
-
-import com.google.android.material.materialswitch.MaterialSwitch;
 
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
-import ml.docilealligator.infinityforreddit.R;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 
-public class CustomFontSwitchPreference extends SwitchPreference implements CustomThemeWrapperReceiver {
+public class CustomThemeEditTextPreference extends EditTextPreference implements CustomThemeWrapperReceiver {
     private CustomThemeWrapper customThemeWrapper;
-    private MaterialSwitch materialSwitch;
 
-    public CustomFontSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomThemeEditTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        setWidgetLayoutResource(R.layout.preference_switch);
-
     }
 
-    public CustomFontSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomThemeEditTextPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setWidgetLayoutResource(R.layout.preference_switch);
     }
 
-    public CustomFontSwitchPreference(Context context, AttributeSet attrs) {
+    public CustomThemeEditTextPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setWidgetLayoutResource(R.layout.preference_switch);
     }
 
-    public CustomFontSwitchPreference(Context context) {
+    public CustomThemeEditTextPreference(Context context) {
         super(context);
-        setWidgetLayoutResource(R.layout.preference_switch);
     }
 
     @Override
-    public void setChecked(boolean checked) {
-        super.setChecked(checked);
-        if (materialSwitch != null) {
-            materialSwitch.setChecked(checked);
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
+    public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         View iconImageView = holder.findViewById(android.R.id.icon);
         View titleTextView = holder.findViewById(android.R.id.title);
         View summaryTextView = holder.findViewById(android.R.id.summary);
-        materialSwitch = (MaterialSwitch) holder.findViewById(R.id.material_switch_switch_preference);
-        materialSwitch.setChecked(isChecked());
-        materialSwitch.setOnClickListener(view -> {
-            onClick();
-        });
 
         if (customThemeWrapper != null) {
             if (iconImageView instanceof ImageView) {

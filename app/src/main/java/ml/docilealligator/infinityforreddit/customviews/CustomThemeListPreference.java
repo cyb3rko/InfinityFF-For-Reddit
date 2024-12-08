@@ -6,28 +6,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceViewHolder;
-import androidx.preference.SeekBarPreference;
 
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 
-public class CustomFontSeekBarPreference extends SeekBarPreference implements CustomThemeWrapperReceiver {
+public class CustomThemeListPreference extends ListPreference implements CustomThemeWrapperReceiver {
     private CustomThemeWrapper customThemeWrapper;
 
-    public CustomFontSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomThemeListPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public CustomFontSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomThemeListPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public CustomFontSeekBarPreference(Context context, AttributeSet attrs) {
+    public CustomThemeListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomFontSeekBarPreference(Context context) {
+    public CustomThemeListPreference(Context context) {
         super(context);
     }
 

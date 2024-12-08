@@ -11,22 +11,22 @@ import androidx.preference.PreferenceViewHolder;
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 
-public class CustomFontPreferenceCategory extends PreferenceCategory implements CustomThemeWrapperReceiver {
+public class CustomThemePreferenceCategory extends PreferenceCategory implements CustomThemeWrapperReceiver {
     private CustomThemeWrapper customThemeWrapper;
 
-    public CustomFontPreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomThemePreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public CustomFontPreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomThemePreferenceCategory(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public CustomFontPreferenceCategory(Context context, AttributeSet attrs) {
+    public CustomThemePreferenceCategory(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomFontPreferenceCategory(Context context) {
+    public CustomThemePreferenceCategory(Context context) {
         super(context);
     }
 

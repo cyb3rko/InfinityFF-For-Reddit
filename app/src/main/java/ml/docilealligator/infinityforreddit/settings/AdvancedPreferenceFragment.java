@@ -34,14 +34,14 @@ import ml.docilealligator.infinityforreddit.asynctasks.DeleteAllSubreddits;
 import ml.docilealligator.infinityforreddit.asynctasks.DeleteAllThemes;
 import ml.docilealligator.infinityforreddit.asynctasks.DeleteAllUsers;
 import ml.docilealligator.infinityforreddit.asynctasks.RestoreSettings;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.events.RecreateActivityEvent;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdvancedPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class AdvancedPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     private static final int SELECT_BACKUP_SETTINGS_DIRECTORY_REQUEST_CODE = 1;
     private static final int SELECT_RESTORE_SETTINGS_DIRECTORY_REQUEST_CODE = 2;

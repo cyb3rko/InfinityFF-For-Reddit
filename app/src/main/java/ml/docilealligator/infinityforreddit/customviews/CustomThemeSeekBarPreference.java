@@ -6,28 +6,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceViewHolder;
+import androidx.preference.SeekBarPreference;
 
 import ml.docilealligator.infinityforreddit.CustomThemeWrapperReceiver;
 import ml.docilealligator.infinityforreddit.customtheme.CustomThemeWrapper;
 
-public class CustomFontEditTextPreference extends EditTextPreference implements CustomThemeWrapperReceiver {
+public class CustomThemeSeekBarPreference extends SeekBarPreference implements CustomThemeWrapperReceiver {
     private CustomThemeWrapper customThemeWrapper;
 
-    public CustomFontEditTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomThemeSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public CustomFontEditTextPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomThemeSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public CustomFontEditTextPreference(Context context, AttributeSet attrs) {
+    public CustomThemeSeekBarPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomFontEditTextPreference(Context context) {
+    public CustomThemeSeekBarPreference(Context context) {
         super(context);
     }
 

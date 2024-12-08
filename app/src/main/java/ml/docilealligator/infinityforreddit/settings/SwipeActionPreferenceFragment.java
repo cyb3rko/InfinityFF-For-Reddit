@@ -8,7 +8,7 @@ import androidx.preference.SwitchPreference;
 import org.greenrobot.eventbus.EventBus;
 
 import ml.docilealligator.infinityforreddit.R;
-import ml.docilealligator.infinityforreddit.customviews.CustomFontPreferenceFragmentCompat;
+import ml.docilealligator.infinityforreddit.customviews.CustomThemePreferenceFragmentCompat;
 import ml.docilealligator.infinityforreddit.events.ChangeDisableSwipingBetweenTabsEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeEnableSwipeActionSwitchEvent;
 import ml.docilealligator.infinityforreddit.events.ChangeSwipeActionEvent;
@@ -16,7 +16,7 @@ import ml.docilealligator.infinityforreddit.events.ChangeSwipeActionThresholdEve
 import ml.docilealligator.infinityforreddit.events.ChangeVibrateWhenActionTriggeredEvent;
 import ml.docilealligator.infinityforreddit.utils.SharedPreferencesUtils;
 
-public class SwipeActionPreferenceFragment extends CustomFontPreferenceFragmentCompat {
+public class SwipeActionPreferenceFragment extends CustomThemePreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
