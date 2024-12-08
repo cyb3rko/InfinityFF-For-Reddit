@@ -350,7 +350,7 @@ public class MultiRedditListingRecyclerViewAdapter extends RecyclerView.Adapter<
 
     @NonNull
     @Override
-    public String getPopupText(int position) {
+    public String getPopupText(@NonNull View view, int position) {
         switch (getItemViewType(position)) {
             case VIEW_TYPE_MULTI_REDDIT:
                 int offset = (mFavoriteMultiReddits != null && mFavoriteMultiReddits.size() > 0) ?
