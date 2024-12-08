@@ -30,7 +30,7 @@ public class AboutPreferenceFragment extends CustomThemePreferenceFragmentCompat
         if (openSourcePreference != null) {
             openSourcePreference.setOnPreferenceClickListener(preference -> {
                 Intent intent = new Intent(activity, LinkResolverActivity.class);
-                intent.setData(Uri.parse("https://github.com/cyb3rko/InfinityFF-For-Reddit"));
+                intent.setData(Uri.parse(getResources().getString(R.string.github_repo)));
                 activity.startActivity(intent);
                 return true;
             });

@@ -1,4 +1,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="github_repo" translatable="false">https://github.com/Docile-Alligator/Infinity-For-Reddit</string>
     <string name="login_activity_label">Login</string>
     <string name="Chat_activity_label">Chat</string>
     <string name="search_activity_label" translatable="false"> </string>

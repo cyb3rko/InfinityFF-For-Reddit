@@ -105,7 +105,8 @@ public class CrashReportsFragment extends Fragment {
         } catch (UnsupportedEncodingException e) {
             return false;
         }
-        Uri githubIssueUri = Uri.parse(String.format("https://github.com/Docile-Alligator/Infinity-For-Reddit/issues/new?labels=possible-bug&device=%s&version=%s&android_version=%s&logs=%s&&template=BUG_REPORT.yml", model, appVersion, androidVersion, logs));
+        String gitHubUrl = getResources().getString(R.string.github_repo);
+        Uri githubIssueUri = Uri.parse(String.format(gitHubUrl + "/issues/new?labels=possible-bug&device=%s&version=%s&android_version=%s&logs=%s&&template=BUG_REPORT.yml", model, appVersion, androidVersion, logs));
         intent.setData(githubIssueUri);
         startActivity(intent);
         return true;
