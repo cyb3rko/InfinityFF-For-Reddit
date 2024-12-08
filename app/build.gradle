@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 
 
 android {
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId "ml.docilealligator.infinityforreddit"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 1391236
         versionName "2024.04.0"
         resValue("string", "application_name", "InfinityFF Dev")

@@ -16,6 +16,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -128,6 +129,7 @@
 
         <service
             android:name=".services.DownloadMediaService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
 
@@ -145,6 +147,7 @@
 
         <service
             android:name=".services.DownloadRedditVideoService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
 
@@ -438,10 +441,12 @@
 
         <service
             android:name=".services.SubmitPostService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
         <service
             android:name=".services.EditProfileService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
 
