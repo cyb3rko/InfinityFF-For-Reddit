@@ -509,8 +509,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
                 if (mPost.isArchived()) {
                     ((CommentViewHolder) holder).binding.replyButton
-                            .setColorFilter(mVoteAndReplyUnavailableVoteButtonColor,
-                                    PorterDuff.Mode.SRC_IN);
+                            .setIconTint(ColorStateList.valueOf(mVoteAndReplyUnavailableVoteButtonColor));
                     ((CommentViewHolder) holder).binding.upvoteButton
                             .setColorFilter(mVoteAndReplyUnavailableVoteButtonColor,
                                     PorterDuff.Mode.SRC_IN);
@@ -521,14 +520,13 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
                 if (mPost.isLocked()) {
                     ((CommentViewHolder) holder).binding.replyButton
-                            .setColorFilter(mVoteAndReplyUnavailableVoteButtonColor,
-                                    PorterDuff.Mode.SRC_IN);
+                        .setIconTint(ColorStateList.valueOf(mVoteAndReplyUnavailableVoteButtonColor));
                 }
 
                 if (comment.isSaved()) {
-                    ((CommentViewHolder) holder).binding.saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
+                    ((CommentViewHolder) holder).binding.saveButton.setIconResource(R.drawable.ic_bookmark_grey_24dp);
                 } else {
-                    ((CommentViewHolder) holder).binding.saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
+                    ((CommentViewHolder) holder).binding.saveButton.setIconResource(R.drawable.ic_bookmark_border_grey_24dp);
                 }
 
                 if (position == mSearchCommentIndex) {
@@ -1139,7 +1137,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             ((CommentViewHolder) holder).binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
             ((CommentViewHolder) holder).binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
             ((CommentViewHolder) holder).binding.expandButton.setText("");
-            ((CommentViewHolder) holder).binding.replyButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            ((CommentViewHolder) holder).binding.replyButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
             params.setMargins(0, 0, 0, 0);
         }
@@ -1263,10 +1261,10 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             binding.upvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
             binding.scoreTextView.setTextColor(mCommentIconAndInfoColor);
             binding.downvoteButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            binding.moreButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            binding.moreButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
             binding.expandButton.setTextColor(mCommentIconAndInfoColor);
-            binding.saveButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
-            binding.replyButton.setColorFilter(mCommentIconAndInfoColor, PorterDuff.Mode.SRC_IN);
+            binding.saveButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
+            binding.replyButton.setIconTint(ColorStateList.valueOf(mCommentIconAndInfoColor));
 
             binding.authorFlairTextView.setOnClickListener(view -> binding.authorTextView.performClick());
 
@@ -1510,7 +1508,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void success() {
                                 comment.setSaved(false);
                                 if (getBindingAdapterPosition() == position) {
-                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
+                                    binding.saveButton.setIconResource(R.drawable.ic_bookmark_border_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_unsaved_success, Toast.LENGTH_SHORT).show();
                             }
@@ -1519,7 +1517,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void failed() {
                                 comment.setSaved(true);
                                 if (getBindingAdapterPosition() == position) {
-                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
+                                    binding.saveButton.setIconResource(R.drawable.ic_bookmark_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_unsaved_failed, Toast.LENGTH_SHORT).show();
                             }
@@ -1531,7 +1529,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void success() {
                                 comment.setSaved(true);
                                 if (getBindingAdapterPosition() == position) {
-                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_grey_24dp);
+                                    binding.saveButton.setIconResource(R.drawable.ic_bookmark_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_saved_success, Toast.LENGTH_SHORT).show();
                             }
@@ -1540,7 +1538,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             public void failed() {
                                 comment.setSaved(false);
                                 if (getBindingAdapterPosition() == position) {
-                                    binding.saveButton.setImageResource(R.drawable.ic_bookmark_border_grey_24dp);
+                                    binding.saveButton.setIconResource(R.drawable.ic_bookmark_border_grey_24dp);
                                 }
                                 Toast.makeText(mActivity, R.string.comment_saved_failed, Toast.LENGTH_SHORT).show();
                             }

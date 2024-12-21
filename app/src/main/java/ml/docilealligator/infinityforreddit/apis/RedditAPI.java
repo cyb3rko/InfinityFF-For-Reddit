@@ -54,14 +54,14 @@ public interface RedditAPI {
     @GET("user/{username}/about.json?raw_json=1")
     Call<String> getUserData(@Path("username") String username);
 
-    @GET("user/{username}/about.json?raw_json=1")
+    @GET("user/{username}/about.json?raw_json=1&limit=25")
     Call<String> getUserDataOauth(@HeaderMap Map<String, String> headers, @Path("username") String username);
 
-    @GET("user/{username}/comments.json?raw_json=1&raw_media_syntax=1")
+    @GET("user/{username}/comments.json?raw_json=1&raw_media_syntax=1&limit=25")
     Call<String> getUserComments(@Path("username") String username, @Query("after") String after,
                                  @Query("sort") SortType.Type sortType, @Query("t") SortType.Time sortTime);
 
-    @GET("user/{username}/comments.json?raw_json=1&raw_media_syntax=1")
+    @GET("user/{username}/comments.json?raw_json=1&raw_media_syntax=1&limit=25")
     Call<String> getUserCommentsOauth(@HeaderMap Map<String, String> headers, @Path("username") String username,
                                       @Query("after") String after, @Query("sort") SortType.Type sortType,
                                       @Query("t") SortType.Time sortTime);
@@ -273,7 +273,7 @@ public interface RedditAPI {
     @GET("/r/{subredditName}/wiki/{wikiPage}.json?raw_json=1")
     Call<String> getWikiPage(@Path("subredditName") String subredditName, @Path("wikiPage") String wikiPage);
 
-    @GET("{sortType}?raw_json=1")
+    @GET("{sortType}?raw_json=1&limit=25")
     ListenableFuture<Response<String>> getBestPostsListenableFuture(@Path("sortType") SortType.Type sortType, @Query("t") SortType.Time sortTime,
                                                                    @Query("after") String lastItem, @HeaderMap Map<String, String> headers);
 
@@ -295,38 +295,38 @@ public interface RedditAPI {
     ListenableFuture<Response<String>> getUserPostsListenableFuture(@Path("username") String username, @Query("after") String lastItem,
                               @Query("sort") SortType.Type sortType, @Query("t") SortType.Time sortTime);
 
-    @GET("search.json?include_over_18=1&raw_json=1&type=link")
+    @GET("search.json?include_over_18=1&raw_json=1&limit=25&type=link")
     ListenableFuture<Response<String>> searchPostsOauthListenableFuture(@Query("q") String query, @Query("after") String after,
                                   @Query("sort") SortType.Type sort, @Query("t") SortType.Time sortTime,
                                   @Query("source") String source,
                                   @HeaderMap Map<String, String> headers);
 
-    @GET("search.json?include_over_18=1&raw_json=1&type=link")
+    @GET("search.json?include_over_18=1&raw_json=1&limit=25&type=link")
     ListenableFuture<Response<String>> searchPostsListenableFuture(@Query("q") String query, @Query("after") String after,
                              @Query("sort") SortType.Type sort, @Query("t") SortType.Time sortTime,
                              @Query("source") String source);
 
-    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&type=link&restrict_sr=true")
+    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&limit=25&type=link&restrict_sr=true")
     ListenableFuture<Response<String>> searchPostsInSpecificSubredditOauthListenableFuture(@Path("subredditName") String subredditName,
                                                      @Query("q") String query, @Query("sort") SortType.Type sort,
                                                      @Query("t") SortType.Time sortTime, @Query("after") String after,
                                                      @HeaderMap Map<String, String> headers);
 
-    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&type=link&restrict_sr=true")
+    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&limit=25&type=link&restrict_sr=true")
     ListenableFuture<Response<String>> searchPostsInSpecificSubredditListenableFuture(@Path("subredditName") String subredditName,
                                                 @Query("q") String query, @Query("sort") SortType.Type sort,
                                                 @Query("t") SortType.Time sortTime, @Query("after") String after);
 
-    @GET("{multipath}?raw_json=1")
+    @GET("{multipath}?raw_json=1&limit=25")
     ListenableFuture<Response<String>> getMultiRedditPostsListenableFuture(@Path(value = "multipath", encoded = true) String multiPath,
                                      @Query("after") String after, @Query("t") SortType.Time sortTime);
 
-    @GET("{multipath}.json?raw_json=1")
+    @GET("{multipath}.json?raw_json=1&limit=25")
     ListenableFuture<Response<String>> getMultiRedditPostsOauthListenableFuture(@Path(value = "multipath", encoded = true) String multiPath,
                                           @Query("after") String after, @Query("t") SortType.Time sortTime,
                                           @HeaderMap Map<String, String> headers);
 
-    @GET("{sortType}?raw_json=1")
+    @GET("{sortType}?raw_json=1&limit=25")
     Call<String> getBestPosts(@Path("sortType") SortType.Type sortType, @Query("t") SortType.Time sortTime,
                                                                     @Query("after") String lastItem, @HeaderMap Map<String, String> headers);
 
@@ -348,33 +348,33 @@ public interface RedditAPI {
     Call<String> getUserPosts(@Path("username") String username, @Query("after") String lastItem,
                                                                     @Query("sort") SortType.Type sortType, @Query("t") SortType.Time sortTime);
 
-    @GET("search.json?include_over_18=1&raw_json=1&type=link")
+    @GET("search.json?include_over_18=1&raw_json=1&limit=25&type=link")
     Call<String> searchPostsOauth(@Query("q") String query, @Query("after") String after,
                                                                         @Query("sort") SortType.Type sort, @Query("t") SortType.Time sortTime,
                                                                         @Query("source") String source,
                                                                         @HeaderMap Map<String, String> headers);
 
-    @GET("search.json?include_over_18=1&raw_json=1&type=link")
+    @GET("search.json?include_over_18=1&raw_json=1&limit=25&type=link")
     Call<String> searchPosts(@Query("q") String query, @Query("after") String after,
                                                                    @Query("sort") SortType.Type sort, @Query("t") SortType.Time sortTime,
                                                                    @Query("source") String source);
 
-    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&type=link&restrict_sr=true")
+    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&limit=25&type=link&restrict_sr=true")
     Call<String> searchPostsInSpecificSubredditOauth(@Path("subredditName") String subredditName,
                                                                                            @Query("q") String query, @Query("sort") SortType.Type sort,
                                                                                            @Query("t") SortType.Time sortTime, @Query("after") String after,
                                                                                            @HeaderMap Map<String, String> headers);
 
-    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&type=link&restrict_sr=true")
+    @GET("r/{subredditName}/search.json?include_over_18=1&raw_json=1&limit=25&type=link&restrict_sr=true")
     Call<String> searchPostsInSpecificSubreddit(@Path("subredditName") String subredditName,
                                                                                       @Query("q") String query, @Query("sort") SortType.Type sort,
                                                                                       @Query("t") SortType.Time sortTime, @Query("after") String after);
 
-    @GET("{multipath}?raw_json=1")
+    @GET("{multipath}?raw_json=1&limit=25")
     Call<String> getMultiRedditPosts(@Path(value = "multipath", encoded = true) String multiPath,
                                                                            @Query("after") String after, @Query("t") SortType.Time sortTime);
 
-    @GET("{multipath}.json?raw_json=1")
+    @GET("{multipath}.json?raw_json=1&limit=25")
     Call<String> getMultiRedditPostsOauth(@Path(value = "multipath", encoded = true) String multiPath,
                                                                                 @Query("after") String after, @Query("t") SortType.Time sortTime,
                                                                                 @HeaderMap Map<String, String> headers);
